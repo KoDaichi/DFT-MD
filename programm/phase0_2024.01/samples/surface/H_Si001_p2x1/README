@@ -1,0 +1,5 @@
+
+SCF
+1. do "mpirun -np 1 ../../../bin/phase &"
+2. after 2 minutes, SCF calculation will end.
+

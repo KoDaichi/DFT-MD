@@ -1,0 +1,77 @@
+structure{
+    atom_list{
+        atoms{
+            #default element = C, weight = 1
+            #tag rx ry rz
+             0.33333333333333 0.666666666666666 0.0
+             -0.33333333333333 -0.666666666666666 0.0
+        }
+    }
+    element_list{
+        #tag element atomicnumber
+         C 6
+    }
+    unit_cell{
+        a = 4.76 
+        b = 4.76
+        c = 22.6767 
+        alpha = 90.00 
+        beta = 90.00 
+        gamma = 119.9999999998 
+    }
+    unit_cell_type = Bravais 
+   symmetry{
+        tspace{
+            generators{
+                #tag rotation tx ty tz
+                 IE 0 0 0
+                 C6+ 0 0 0
+                 C211 0 0 0
+            }
+            lattice_system = hexagonal 
+            num_generators = 3 
+        }
+    }
+}
+accuracy{
+    ksampling{
+        method = file 
+    }
+    xctype = ldapw91 
+    cutoff_wf = 25.00 Rydberg
+    cutoff_cd = 225.00 Rydberg
+    num_bands = 12
+
+    initial_charge_density = file
+
+    ek_convergence{
+        num_max_iteration = 500 
+        sw_eval_eig_diff = on 
+        delta_eigenvalue = 1.e-5 
+        succession = 2 
+        num_extra_bands = 2 
+    }
+}
+control{
+    cpumax = 6 hour
+    max_iteration = 100000 
+    condition = fixed_charge
+}
+printoutlevel{
+    base = 1 
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n dts dte itr var prec cmix submat
+         lm+msd -1 * * * tanh on 1 on
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs rmxe itr var prec istr nbmix update
+         1 broyden2 0.30 0.30 500 linear on 3 5 RENEW
+    }
+}
+postprocessing{
+	sw_band_symmetry_analysis = ON
+}

@@ -1,0 +1,15 @@
+ &fnames
+ F_INP    = './nfinp1.data'
+ !F_POT(1) = '../../../../pp/Si_ggapbe_paw_nc_01m.pp'
+ !F_POT(2) = '../../../../pp/C_ggapbe_paw_us_01.pp'
+ F_POT(1) = '../../pseudo/Si_ggapbe_paw_002_nocorehole.gncpp2'
+ F_POT(2) = '../../pseudo/C_ggapbe_paw_001_nocorehole.gncpp2'
+ F_KPOINT = './kpoint.data'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = './nfchgt.data'
+ F_CNST   = './nfinp.cnst.data'
+ F_ENF    = './nfefn.data'
+ F_ENERG  = './nfenergy.data'
+ F_CNTN   = './continue.data'
+ F_BERRY  = './berry.data'
+ /

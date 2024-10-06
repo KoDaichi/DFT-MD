@@ -1,0 +1,4 @@
+scf_initial: initial state
+scf_final  : final   state
+eps        : spectrum calculation
+pp         : pseudopotentials

@@ -1,0 +1,89 @@
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz mobile proj_group
+             Bi 0.0375157487 0.00 0.0605388874 1 1
+             Bi 0.4624921257 0.50 0.0875011404 1 1
+             Bi -0.0375078742 0.00 -0.0875011404 1 1
+             Bi -0.4624842512 -0.50 -0.0605388874 1 1
+        }
+        coordinate_system = internal 
+    }
+    element_list{
+        #tag element atomicnumber
+         Bi 83
+    }
+    unit_cell{
+        #units angstrom
+        a = 4.879997713 
+        b = 4.4099979333 
+        c = 19.999990627 
+        alpha = 90 
+        gamma = 90 
+        beta = 90 
+    }
+    symmetry{
+        method = automatic 
+    }
+    unit_cell_type = Bravais 
+    magnetic_state = noncollinear 
+}
+accuracy{
+    ksampling{
+        method = mesh 
+        mesh{
+            nz = 1 
+            nx = 15 
+            ny = 15 
+        }
+    }
+    scf_convergence{
+        delta_total_energy = 1.E-8 Hartree
+    }
+    force_convergence{
+        max_force = 1.E-3 Hartree/Bohr
+    }
+    initial_wavefunction = atomic_orbitals 
+    initial_charge_density = atomic_charge_density 
+    xctype = ggapbe 
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+    paw = on 
+    spinorbit{
+        mode = pawpot 
+    }
+    num_bands = 54 
+    projector_list{
+        projectors{
+            #tag no group radius l
+             1 1 1.00 0
+             2 1 2.00 1
+        }
+    }
+}
+control{
+    condition = automatic 
+!    cpumax = 2 hour
+}
+printoutlevel{
+    base = 1 
+}
+charge_mixing{
+    sw_mix_charge_hardpart = on 
+}
+postprocessing{
+    dos{
+        method = tetrahedral 
+        sw_dos = on 
+    }
+    charge{
+        sw_charge_rspace = on 
+        filetype = cube 
+    }
+    pdos{
+          sw_pdos = on
+    }
+}
+structure_evolution{
+    method = cg 
+}

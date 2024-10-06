@@ -1,0 +1,77 @@
+Control{
+        condition = initial
+        sw_fef = off
+}
+
+accuracy{
+	cutoff_wf =   25.00  rydberg
+	cutoff_cd =  225.00  rydberg
+	num_bands = 60
+	initial_wavefunctions = atomic_orbitals
+	initial_charge_density = atomic_charge_density
+        ksampling{
+          method = monk
+           mesh{  nx = 6, ny =  6, nz =  6 }
+           base_reduction_for_GAMMA = OFF
+           kshift{ k1=0, k2=0, k3=0 }
+        }
+        fef{
+          electric_field{
+            ex = 1.e-4
+            ey = 1.e-4
+            ez = 1.e-4
+          }
+        }
+        scf_convergence{
+          delta_total_energy = 1e-11
+        }
+}
+
+structure{
+    element_list{
+        #tag element atomicnumber mass zeta deviation
+         O 8 29164.9435 0.0 1.83
+         Zr 40 166290.161 0.0 1.83
+    }
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz
+            Zr    0.277315790391    0.0414825752617    0.209613182754
+            Zr    -0.277315717576    0.541482477341    0.290386366835
+            Zr    -0.277315695758    -0.0414820925934    -0.209613642829
+            Zr    0.277315727436    0.458517935894    0.709613189091
+            O    0.075260383652    0.345361525091    0.333980715448
+            O    -0.0752600553527    0.845361266112    0.166018568057
+            O    -0.0752601545246    -0.345361231832    -0.333981354997
+            O    0.0752605396415    0.154638443342    0.833980541002
+            O    0.446208849265    0.758651116102    0.48094762697
+            O    -0.446208756758    1.25865117274    0.0190517578664
+            O    -0.446208749636    -0.758650751001    -0.48094829838
+            O    0.446208965711    -0.258650705138    0.980947633912
+        }
+    }
+    unit_cell_type = Bravais
+    unit_cell{
+        #units angstrom
+        !a_vector = 5.2 0.0 0.0
+        !b_vector = 0.0 5.2 0.0
+        !c_vector = 0.0 0.0 5.2
+        a_vector = 5.1501 0.00 0.00
+        b_vector = 0.00 5.2077 0.00
+        c_vector = -0.8523027597 0.00 5.2483456837
+        !c_vector = 0.00 0.00 5.2483456837
+    }
+    !symmetry{
+    !    method = automatic
+    !}
+}
+
+printoutlevel{
+        base = 1
+}
+postprocessing{
+  dos{
+    sw_dos = on
+  }
+}

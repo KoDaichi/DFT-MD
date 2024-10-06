@@ -1,0 +1,53 @@
+Control{
+    cpumax = 1 day
+    condition = initial
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 8
+            ny = 8
+            nz = 8
+        }
+        method = monk
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+    num_bands = 8
+}
+printoutlevel{
+    base = 1
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         Pt 78 355606.909
+    }
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz
+             Pt 0.0 0.0 0.0
+        }
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 4.00 0.00 0.00
+        b_vector = 0.00 4.00 0.00
+        c_vector = 0.00 0.00 4.00
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = facecentered
+        }
+        sw_inversion = on
+    }
+    unit_cell_type = bravais
+}

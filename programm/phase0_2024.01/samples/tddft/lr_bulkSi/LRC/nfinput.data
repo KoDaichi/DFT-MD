@@ -1,0 +1,133 @@
+Control{
+	condition = fixed_charge
+	cpumax = 10 day    
+	max_iteration = 600000
+        use_additional_projector=on
+}
+accuracy{
+	cke_wavefunctions =  9.0       rydberg  ! cke_wf
+	cke_chargedensity = 36.0       rydberg  ! cke_cd
+	num_bands = 10
+	ksampling{
+		method = monk ! {mesh|file|directin|gamma|monk}
+		mesh{  nx= 10,  ny = 10, nz = 10   }
+	}
+	smearing{
+		method = parabolic   ! parabolic ! {parabolic|tetrahedral}
+		width  = 0.001 hartree
+	}
+	xctype = ldapw91  ! ldapw91
+	scf_convergence{
+		delta_total_energy = 1.e-12  hartree
+		succession   = 3   !default value = 3
+	}
+	force_convergence{
+		delta_force = 0.1e-3
+	}
+	ek_convergence{
+		num_extra_bands = 0
+		num_max_iteration = 2000
+		sw_eval_eig_diff = on
+		delta_eigenvalue = 1.e-6 rydberg
+		succession   = 3
+	}
+
+	initial_wavefunctions = matrix_diagon  ! matrix_diagon  !{random_numbers|matrix_diagion}
+            matrix_diagon{
+               cke_wf =  20.00  rydberg  ! cke_wf
+            }
+}
+
+structure{
+        unit_cell_type = primitive
+    unit_cell{
+       a_vector =  0.0000000000        5.1300000000        5.1300000000
+       b_vector =  5.1300000000        0.0000000000        5.1300000000
+       c_vector =  5.1300000000        5.1300000000        0.0000000000
+    }
+        symmetry{
+           method = manual
+           tspace{
+              lattice_system = primitive
+              generators {
+                #tag rotation tx  ty  tz
+                      E         0   0   0
+              }
+           }
+        }
+    atom_list{
+         atoms{
+         #tag  rx       ry         rz     element 
+             0.125     0.125     0.125     Si    
+            -0.125    -0.125    -0.125     Si    
+        }
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+    }
+}
+wavefunction_solver{
+	solvers{
+     #tag   sol  till_n     dts  dte   itr   var  prec submat cmix
+           lm+MSD   +2     0.2  1.0    200  tanh    on  on    1
+           rmm3     -1     0.2  1.0    200  tanh    on  on    1
+	}
+
+	line_minimization{
+	     dt_lower_critical = 0.1
+	     dt_upper_critical = 3.0
+	}
+
+	rmm{
+	     edelta_change_to_rmm = 1.0e-2
+	}
+        submat{
+             before_renewal=on
+        }
+}
+
+charge_mixing{
+	mixing_methods{
+	#tag no   method   rmxs   rmxe   itr  var    prec istr  nbmix  update
+	       1  broyden2  0.80   0.80   40     *     on    3    20    RENEW
+	}
+}
+
+spectrum{
+  type = optics
+
+  momentum_transfer{
+     deltaq = 1.0E-3
+     nx = 1.1, ny = 1.2, nz = 0.9
+     LongWaveApprox = ON
+  }
+
+  tddft{
+     sw_tddft = ON
+     solver{
+       equation = DYSON
+     }
+     XC_Kernel{
+        kernel_type = LRC
+        LRC_alpha = 0.2
+     }
+     Coulomb_Kernel{
+         sw_NLF = OFF
+     }
+     Expansion{
+         NumGVec = 80
+     }
+  }
+  energy{
+      low = 0.0 eV
+      high = 10.0 eV
+      step = 0.05 eV
+  }
+  BZ_integration{
+    method = l
+    width =  0.15 eV
+  }
+  band_gap_correction{
+     scissor_operator = 0.6d0 eV
+  }
+}

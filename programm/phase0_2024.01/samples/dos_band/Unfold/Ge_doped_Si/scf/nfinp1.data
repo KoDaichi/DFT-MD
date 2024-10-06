@@ -1,0 +1,58 @@
+control{
+    condition = initial
+}
+accuracy{
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{
+              nx = 4, ny =  4, nz =  4
+        }
+    }
+    cutoff_wf = 25.0 Rydberg
+    cutoff_cd = 225.0 Rydberg
+
+      smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.05 eV
+        }
+   scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 2
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 24
+!
+    paw = on
+}
+
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+   a_vector =        10.4756796490        0.0000000000        0.0000000000
+   b_vector =         0.0000000000       10.4756796490        0.0000000000
+   c_vector =         0.0000000000        0.0000000000       10.4756796490
+    }
+    symmetry{
+         method = automatic
+    }
+
+    atom_list{
+         atoms{
+         #tag  element rx       ry         rz
+Si  0.3330902694445356D-02  0.3322178985772961D-02 -0.3322178985772975D-02
+Si  0.2533221789857730D+00  0.2466778210142270D+00  0.2466690973055546D+00
+Si  0.4966778210142271D+00  0.4966690973055547D+00 -0.3322178985772975D-02
+Ge  0.7465736103659490D+00  0.7534263896340510D+00  0.2465736103659492D+00
+Si  0.4966778210142271D+00  0.3322178985772961D-02  0.5033309026944455D+00
+Si  0.7466690973055546D+00  0.2466778210142270D+00  0.7533221789857731D+00
+Ge  0.3426389634050778D-02  0.4965736103659493D+00  0.5034263896340507D+00
+Si  0.2533221789857730D+00  0.7533309026944454D+00  0.7533221789857731D+00
+        }
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+                          Ge        32
+    }
+}

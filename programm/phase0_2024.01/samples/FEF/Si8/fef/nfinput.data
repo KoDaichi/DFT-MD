@@ -1,0 +1,75 @@
+Control{
+        condition = initial
+        sw_fef = on
+}
+
+accuracy{
+	cutoff_wf =  20.0  rydberg
+	cutoff_cd =  80.0  rydberg
+	num_bands = 20
+	initial_wavefunctions = file
+        initial_charge_density = file
+        ksampling{
+          method = monk
+           mesh{  nx = 4, ny =  4, nz =  4 }
+           base_reduction_for_GAMMA = OFF
+           kshift{ k1=0, k2=0, k3=0 }
+        }
+        scf_convergence{
+          delta_total_energy = 1e-14
+        }
+        fef{
+          electric_field{
+            ex = 1.e-4
+            ey = 1.e-4
+            ez = 1.e-4
+          }
+        }
+}
+
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+            a_vector =  10.26    0.00    0.00
+            b_vector =   0.00   10.26    0.00
+            c_vector =   0.00    0.00   10.26
+    }
+        atom_list{
+                coordinate_system = internal ! {cartesian|internal}
+                atoms{
+                #default element = Si, mobile = 1
+                #tag   rx       ry       rz
+                       0.125    0.125    0.125
+                      -0.125   -0.125   -0.125
+                       0.125    0.625    0.625
+                      -0.125   -0.625   -0.625
+                       0.625    0.125    0.625
+                      -0.625   -0.125   -0.625
+                       0.625    0.625    0.125
+                      -0.625   -0.625   -0.125
+                }
+        }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+    }
+}
+
+wavefunction_solver{
+        solvers{
+            #tag    sol    till_n  dts  dte   itr   var  prec cmix submat
+                    !!SD    -1    0.2   *     *     *    on   1   off
+                    CG    -1    0.2   *     *     *    on   1   off
+        }
+}
+
+charge_mixing{
+        mixing_methods{
+        #tag no   method   rmxs   rmxe   itr  var    prec
+              1   pulay   0.80   0.80   40  linear  on
+        }
+}
+
+printoutlevel{
+        base = 1
+}
+

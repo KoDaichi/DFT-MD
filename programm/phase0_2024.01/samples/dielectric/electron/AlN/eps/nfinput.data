@@ -1,0 +1,153 @@
+Control{
+	condition = fixed_charge
+	cpumax = 1 hour    ! {sec|min|hour|day}
+	max_iteration = 6000
+        use_additional_projector=on
+}
+
+accuracy{
+	cutoff_wf =  25  rydberg
+	cutoff_cd = 230  rydberg
+	num_bands = 70
+	ksampling{
+          method = mesh
+	  mesh { nx = 6, ny = 6, nz = 4 }
+	}
+	smearing{
+		method = tetrahedral ! {parabolic|tetrahedral}
+		width  = 0.001 hartree
+	}
+        ek_convergence{
+                num_extra_bands = 3
+                num_max_iteration = 300
+                sw_eval_eig_diff = on
+                delta_eigenvalue = 1.e-4 rydberg
+                succession   = 3
+        }
+	scf_convergence{
+		delta_total_energy = 1.e-10  hartree
+	}
+
+	force_convergence{
+		max_force = 0.1e-3
+	}
+
+	initial_wavefunctions = matrix_diagon !{random_numbers|matrix_diagion}
+            matrix_diagon{
+               cutoff_wf = 15.00  rydberg
+            }
+
+        precalculation{
+           nel_Ylm = 9
+        }
+
+        initial_charge_density = Gauss
+
+}
+
+structure{
+        unit_cell_type = Bravais
+        unit_cell{
+           a= 5.80638 , b= 5.80638 , c= 9.296014
+           alpha=90, beta=90, gamma=120
+        }
+
+	symmetry{
+             tspace{
+                lattice_system = hexagonal
+                generators{
+                  #tag rotation tx ty tz
+                        2       0  0  1/2
+                       19       0  0  1/2
+                }
+             }
+	     sw_inversion = off
+	}
+
+	atom_list{
+	     coordinate_system = internal ! {cartesian|internal}
+	     atoms{
+              #default mobile = off
+             #tag   rx            ry            rz            element
+                     0.3333333333  0.6666666666  0.0000000000  Al
+                     0.6666666666  0.3333333333  0.5000000000  Al
+                     0.3333333333  0.6666666666  0.3821867004754  N
+                     0.6666666666  0.3333333333  0.8821867004754  N
+	     }
+	}
+	element_list{ #tag  element  atomicnumber dev
+			      Al        13          1.825741858
+			      N          7          1.825741858
+		    }
+}
+
+structure_evolution{
+     method = gdiis
+     dt  = 100.0
+     gdiis{
+       gdiis_box_size = 4
+       gdiis_update = RENEW
+       c_forc2gdiis = 0.0050
+       c_iteration2GDIIS = 3
+     }
+     stress{
+       sw_stress = off
+     }
+}
+
+epsilon {
+        sw_epsilon = on
+        crystal_type = single ! {single|poly}
+        fermi_energy{
+               read_efermi = off
+               efermi = 0.0000
+        }
+        photon{
+               polar    {ux=0.00, uy=0.00, uz=0.00}
+               Poynting {px=0.00, py=0.00, pz=0.00}
+               energy   {low=0.000, high=2.000, step=0.002}
+        }
+        transition_moment{
+                type = ks ! {l|rn|ks}
+                delq = 0.001
+                symmetry = on
+        }
+        mass{
+             sw_mass = off     ! {on|off}
+        }
+        BZ_integration {
+                method = t !{parabolic(p)|gaussian(g)|tetrahedron(t)}
+        }
+        band_gap_correction{
+                scissor_operator=0.0d0
+        }
+        drude_term {
+                drude = off
+                   }
+        nonlinear_optics{
+                process = off           ! {off|shg}
+                excitation = all        ! {all|electron|hole}
+                term = all              ! {all|omega|2omega}
+                dres_cut_off = 1.0d-3
+        }
+        ipriepsilon = 1
+}
+
+printlevel{
+	base = 1
+	timing = 1
+	solver = 3
+	evdff  = 1
+	rmm    = 0
+	snl    = 0
+	gdiis  = 1
+	eigenvalue = 1
+	spg    = 1
+	kp     = 2
+	pulay  = 0
+        matdiagon = 1
+	vlhxcq = 0
+	totalcharge = 1
+	submat = 1
+	strcfctr = 0
+}

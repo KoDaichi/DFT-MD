@@ -1,0 +1,78 @@
+control{
+    condition = initial
+}
+accuracy{
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+
+    ksampling{
+        method = monk
+        mesh{
+            nx = 4
+            ny = 4
+            nz = 4
+        }
+    }
+    num_bands = 20
+
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+
+    smearing{
+               method = parabolic      ! {parabolic|tetrahedral}
+               width  = 0.05 eV
+    }
+    paw = on
+}
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz mobile
+ Mg         0.00     0.00     0.00
+ Mg         0.50     0.50     0.00
+ Mg         0.50     0.00     0.50
+ Mg         0.00     0.50     0.50
+  O         0.50     0.00     0.00
+  O         0.00     0.50     0.00
+  O         0.00     0.00     0.50
+  O         0.50     0.50     0.50
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber moment
+             Mg         12        0.0
+              O          8        0.0
+    }
+    magnetic_state = ferro
+    charged_state{
+       additional_charge = 1.0
+    }
+
+  unit_cell_type = Bravais
+  unit_cell{
+    #units angstrom
+    a = 4.275240130508789
+    b = 4.275240130508789
+    c = 4.275240130508789
+    alpha = 90.0
+    beta  = 90.0
+    gamma = 90.0
+   }
+
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+    }
+}
+postprocessing{
+   corelevels{
+     sw_calc_core_energy = on
+   }
+}

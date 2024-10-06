@@ -1,0 +1,3564 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>7. 高度な電子状態計算 &mdash; PHASE/0 Manual 2024.01 ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/phase0.css?v=84baaed2" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=df52f328"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="8. 解析機能" href="../analysis/analysis.html" />
+    <link rel="prev" title="6. 電子状態解析：バンド構造と状態密度" href="../electronic_structure/electronic_structure.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PHASE/0 Manual
+              <img src="../_static/image1.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">1. はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">2. PHASE/0のインストール</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_step/first_step.html">3. PHASE/0の基本的な利用方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_parameters/input_parameters.html">4. 入力パラメータファイル：nfinp.data（詳細版）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/basics.html">5. 基本機能を利用した計算例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../electronic_structure/electronic_structure.html">6. 電子状態解析：バンド構造と状態密度</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. 高度な電子状態計算</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#paw">7.1. PAW法による計算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">7.1.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">7.1.2. 入力パラメータ、計算の実行方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">7.1.3. 計算例：体心立方構造クロム</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paw-gloption-section">7.1.4. PAW法の精度を向上させる方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">7.1.5. PAW法で有効な計算機能一覧</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dft-u">7.2. DFT+U 法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">7.2.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">7.2.2. 入力パラメータ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">7.2.3. 計算結果の出力</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">7.2.4. 計算例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-hybrid-section">7.3. ハイブリッド汎関数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id21">7.3.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">7.3.2. 入力パラメータ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id43">7.3.3. 計算例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-hybrid-band-section">7.3.4. ハイブリッド汎関数法によるバンド計算（バージョン2019.02以降）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id47">7.3.5. 使用における注意点</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sc-dft">7.4. SC-DFT法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id50">7.4.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">7.4.2. 理論</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54">7.4.3. 使い方</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id56">7.4.4. 計算例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-vdwdf-section">7.5. ファンデルワールス相互作用（非局所相関項）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id59">7.5.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">7.5.2. 非局所相関項を含めた全エネルギー計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id66">7.5.3. 計算例1：積層グラファイトの全エネルギー計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#h-mos2">7.5.4. 計算例2：積層2H-MoS<sub>2</sub>の全エネルギー計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id71">7.5.5. 制限事項</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-vdwcorr-section">7.6. ファンデルワールス相互作用補正機能</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id74">7.6.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id79">7.6.2. 入力パラメータ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id81">7.6.3. 計算例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#esm">7.7. 有効遮蔽体法（ESM法）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id83">7.7.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id87">7.7.2. 入力パラメータ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id89">7.7.3. 計算の実行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id91">7.7.4. 計算例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id94">7.7.5. 使用における注意点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id97">7.7.6. ライセンス</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dipole">7.8. Dipole補正</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id100">7.8.1. 入力パラメーターファイルの書き方</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id102">7.8.2. ログファイルの見方</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id103">7.8.3. 計算例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pbesol-2019-02">7.9. PBEsol汎関数（バージョン2019.02以降）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id106">7.9.1. 概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id108">7.9.2. 入力</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id109">7.9.3. 出力</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id110">7.9.4. 計算例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#meta-gga-2019-02">7.10. meta-gga（バージョン2019.02以降）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id111">7.10.1. 概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id115">7.10.2. 入力</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id116">7.10.3. 出力</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id117">7.10.4. 計算例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#libxc-2023-01">7.11. Libxcライブラリー(バージョン2023.01以降)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id123">7.11.1. 概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id125">7.11.2. コンパイルする方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id126">7.11.3. 入力パラメータ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id127">7.11.4. 出力</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id128">7.11.5. 例題</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id129">7.11.6. 制限事項</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#open-core-2020-01">7.12. Open core法（バージョン2020.01以降）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id130">7.12.1. 概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id133">7.12.2. 計算理論</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id134">7.12.3. 入力パラメーター</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id136">7.12.4. 例題</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-noncollinear-section">7.13. ノンコリニア系の計算、スピン軌道相互作用計算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id141">7.13.1. ノンコリニア系の計算</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id142">7.13.1.1. 機能の概要</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id144">7.13.1.2. 入力パラメータ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id146">7.13.1.3. 計算結果の出力</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id148">7.13.2. スピン軌道相互作用計算</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id149">7.13.2.1. 機能の概要</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id151">7.13.2.2. 入力パラメータ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id153">7.13.2.3. 計算結果の出力</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-advanced-spin-orbit-from-postproc">7.13.2.4. スピン軌道相互作用の事後処理による取り込み（バージョン2022.01以降）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#o2pt2">7.13.2.5. 計算例：O<sub>2</sub>分子、Pt<sub>2</sub>分子</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#si">7.13.2.6. Si 結晶のバンド</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id156">7.13.2.7. 計算例：2H-MoS<sub>2</sub></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id157">7.13.2.8. 使用上の注意</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rttddft">7.14. 実時間処理型の時間依存密度汎関数理論（RTTDDFT）による光学スペクトル計算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id159">7.14.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id161">7.14.2. 入力パラメータ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id163">7.14.3. 計算の実行方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id165">7.14.4. 計算結果</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id167">7.14.5. 例題</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id169">7.14.6. 使用上の注意</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis/analysis.html">8. 解析機能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supplement/supplement.html">11. 補遺</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PHASE/0 Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">7. </span>高度な電子状態計算</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/advanced_electronic_structure/advanced_electronic_structure.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="advestructure-chapter">
+<span id="id1"></span><h1><span class="section-number">7. </span>高度な電子状態計算<a class="headerlink" href="#advestructure-chapter" title="この見出しへのパーマリンク"></a></h1>
+<section id="paw">
+<span id="paw-section"></span><h2><span class="section-number">7.1. </span>PAW法による計算<a class="headerlink" href="#paw" title="この見出しへのパーマリンク"></a></h2>
+<section id="id2">
+<h3><span class="section-number">7.1.1. </span>機能の概要<a class="headerlink" href="#id2" title="この見出しへのパーマリンク"></a></h3>
+<p>PAW法 <a class="reference internal" href="#blochl94" id="id3"><span>[Blochl94]</span></a> <a class="reference internal" href="../first_step/first_step.html#kresse99" id="id4"><span>[Kresse99]</span></a> とは、projector-augmented wave 法の略称です。ウルトラソフト擬ポテンシャル法と深い関係のある計算手法ですが、ウルトラソフト擬ポテンシャル法と比較すると、特に磁性を考慮する場合や電荷移動の大きな系において高精度な計算が行えるとされている計算手法です。ここでは、PAW法による計算をPHASE で実行する方法を説明します。</p>
+</section>
+<section id="id5">
+<h3><span class="section-number">7.1.2. </span>入力パラメータ、計算の実行方法<a class="headerlink" href="#id5" title="この見出しへのパーマリンク"></a></h3>
+<p>PAW法を利用するためには、PAWポテンシャルを利用する必要があります。PAWポテンシャルは、擬ポテンシャル格納ディレクトリーに</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>元素名_ggapbe_paw_us.pp
+元素名_ggapbe_paw_nc.pp
+</pre></div>
+</div>
+<p>というファイル名で存在します。通常のノルム保存およびウルトラソフトポテンシャルと同様、file_names.dataファイルにおいてF_POT識別子で対応する元素名のファイルを指定します。さらに、以下のようにpaw を利用するような指定を入力ファイルに記述します。</p>
+<p>PAWポテンシャルを指定しても、デフォルトの状態ではPAWの計算は行われません。PAW法の計算を行うには、入力ファイルのaccuracyブロックで変数paw を定義し、その値をonにする必要があります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+    paw = on
+}
+</pre></div>
+</div>
+<p>PAW法の場合、欠損電荷の扱い方を変更することによって収束性を向上させることができる場合があります。以下の設定を 施すことにより、多くの場合収束が加速されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_mixing{
+    ...
+    sw_mix_charge_hardpart = on
+}
+</pre></div>
+</div>
+<p>固定電荷の計算を行う場合、さらにfile_names.dataにF_CNTN_BIN_PAW識別子を利用してPAW計算用のデータを指定し、読み込ませる必要があります。このファイルの既定のファイル名はcontinue_bin_paw.dataです。たとえばSCF計算を行ったディレクトリが1階層上のディレクトリだった場合、下記のような記述が必要です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+...
+...
+F_CNTN_BIN_PAW=&#39;../continue_bin_paw.data&#39;
+/
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3><span class="section-number">7.1.3. </span>計算例：体心立方構造クロム<a class="headerlink" href="#id6" title="この見出しへのパーマリンク"></a></h3>
+<p>PAW法を利用した計算例として、体心立方構造クロムの格子定数の計算例を紹介します。クロムは、ウルトラソフト擬ポテンシャルで計算すると格子定数が過大評価され、また体積弾性率が過小評価されます。この点がどのように改善されるか確認します。</p>
+<p>計算に利用したデータは、 <code class="code docutils literal notranslate"><span class="pre">samples/paw_Cr</span></code> にあります。 <code class="code docutils literal notranslate"><span class="pre">samples/paw_Cr</span></code> には、以下のファイルとディレクトリがあります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>paw/
+us/
+</pre></div>
+</div>
+<p>ディレクトリpawにPAW用の入力データが、usにウルトラソフト用の入力データが格納されています。さらにpaw,
+usの各ディレクトリにも次のファイルとディレクトリがあります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>vol20/
+vol21/
+......
+</pre></div>
+</div>
+<p>vol20, vol21, ...はそれぞれ体積20Å<sup>3</sup>, 21Å<sup>3</sup>,...の入力データに対応します。</p>
+<p>paw, usディレクトリー以下のサブディレクトリーの入力ファイルはほとんど違いはりませんが、以下のようにaccuracyブロックにおける指定が異なります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  paw = on (ディレクトリーpawの下のファイルの場合)
+}
+accuracy{
+  paw = off (ディレクトリーusの下のファイルの場合)
+}
+</pre></div>
+</div>
+<p>計算の結果得られたEV曲線を <a class="reference internal" href="#ev-cr-paw"><span class="std std-numref">図 7.1</span></a> に示します。
+一見して明らかなように、PAW法とUS法とでは異なるEV曲線が得られます。
+さらに、このEV曲線をもとに格子定数、体積弾性率、凝集エネルギーをもとめた結果を実測値とともに <a class="reference internal" href="#paw-cr-result"><span class="std std-numref">表 7.1</span></a> にまとめました。
+PAW法は格子定数、体積弾性率がUS法よりも改善している（実験値との一致がよい）ことが分かります。</p>
+<figure class="align-default" id="ev-cr-paw">
+<a class="reference internal image-reference" href="../_images/paw_image1.svg"><img alt="../_images/paw_image1.svg" src="../_images/paw_image1.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 7.1 </span><span class="caption-text">クロムのEV 曲線。赤線がPAW の結果、緑線がUS の結果。各手法で得られた最も低いエネルギーをエネルギーの原点としている。</span><a class="headerlink" href="#ev-cr-paw" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default" id="paw-cr-result">
+<caption><span class="caption-number">表 7.1 </span><span class="caption-text">PAW 法およびUS 法によってもとめた格子定数、体積弾性率、凝集エネルギー</span><a class="headerlink" href="#paw-cr-result" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>US</p></th>
+<th class="head"><p>PAW</p></th>
+<th class="head"><p>実測</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>a (Å)</p></td>
+<td><p>2.994</p></td>
+<td><p>2.886</p></td>
+<td><p>2.88</p></td>
+</tr>
+<tr class="row-odd"><td><p>B (GPa)</p></td>
+<td><p>89.2</p></td>
+<td><p>150.5</p></td>
+<td><p>190.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Ecoh (eV/atom)</p></td>
+<td><p>4.01</p></td>
+<td><p>3.065</p></td>
+<td><p>4.10</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="paw-gloption-section">
+<span id="id7"></span><h3><span class="section-number">7.1.4. </span>PAW法の精度を向上させる方法<a class="headerlink" href="#paw-gloption-section" title="この見出しへのパーマリンク"></a></h3>
+<p>PAW法で実施される球面積分は、デフォルトでは球面調和関数を利用した近似による高速化がなされます。この積分を、近似をせずに計算するオプションも用意されています。入力パラメーターファイルに以下のような記述を加えるとこのオプションを利用することができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>paw_one_center_integral{
+  element_list{
+    #tag element surface_integral_method
+          Fe gl
+          O gl
+  }
+}
+</pre></div>
+</div>
+<p>この例では、FeとOという二種類の元素が定義されていることを仮定しました。利用する場合元素数分定義する必要があります。</p>
+<p>この方法を使うと交換相関相互作用の処理時間が長くなってしまいますが、精度が向上し（数値的により厳密に解けるようになり）、SCF計算の収束性が向上する場合があります。</p>
+</section>
+<section id="id8">
+<h3><span class="section-number">7.1.5. </span>PAW法で有効な計算機能一覧<a class="headerlink" href="#id8" title="この見出しへのパーマリンク"></a></h3>
+<p>PAW法で利用可能な機能です。</p>
+<ul class="simple">
+<li><p>全エネルギー</p></li>
+<li><p>対称性</p></li>
+<li><p>スピン分極</p></li>
+<li><p>構造最適化</p></li>
+<li><p>全電荷密度・部分電荷密度の出力</p></li>
+<li><p>各種状態密度の計算</p></li>
+<li><p>バンド構造</p></li>
+<li><p>ストレステンソルの計算</p></li>
+<li><p>仕事関数</p></li>
+<li><p>振動解析</p></li>
+<li><p>分子動力学</p></li>
+<li><p>DFT+U</p></li>
+<li><p>ESM法</p></li>
+<li><p>拘束条件付きダイナミクス</p></li>
+<li><p>メタダイナミクス</p></li>
+<li><p>NEB</p></li>
+<li><p>単位胞最適化</p></li>
+<li><p>ノンコリニア磁性</p></li>
+<li><p>スピン軌道相互作用</p></li>
+<li><p>UVSOR-Epsilonの各機能</p></li>
+<li><p>UVSOR-Berry-Phononの各機能</p></li>
+</ul>
+<p><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="blochl94" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Blochl94</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="16">
+<li><ol class="upperalpha simple" start="5">
+<li><p>Blöchl,  Phys. Rev. B 50 vol. 24 17953–17978 (1994).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="dft-u">
+<span id="advanced-dftu-section"></span><h2><span class="section-number">7.2. </span>DFT+U 法<a class="headerlink" href="#dft-u" title="この見出しへのパーマリンク"></a></h2>
+<section id="id9">
+<span id="id10"></span><h3><span class="section-number">7.2.1. </span>機能の概要<a class="headerlink" href="#id9" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEは、密度汎関数理論に基づき、ほとんどの物質の電子状態を高精度に計算することができますが、強相関電子系に対しては不正確な電子状態を与えることがあります。この原因として、密度汎関数法を適用する際に導入した局所密度近似の限界が知られています。この欠点を補う手段として、PHASEはLDA+U法またはDFT+U法を実装しています。これは、局在電子間の斥力相互作用をオンサイトクーロン相互作用として取り込む手法です。</p>
+<p>DFT+U法にはいくつかの方法がありますが、PHASEでは単純化された回転不変モデルを採用しています <a class="reference internal" href="#liechtenstein95" id="id11"><span>[Liechtenstein95]</span></a> 。このモデルでは、DFT+Uのエネルギー汎関数(<span class="math notranslate nohighlight">\(E_{\text{DFT} + U}\)</span>)は、局所密度近似のエネルギー汎関数(<span class="math notranslate nohighlight">\(E_{\text{DFT}}\)</span>)と
+”+U”による補正エネルギー項の和として表されます。(後者の補正項は、ハバード補正項とも呼ばれます。)
+また、ハバード補正項は、各サイトにて計算された占有行列 <span class="math notranslate nohighlight">\(\rho\)</span>
+の関数です。</p>
+<div class="math notranslate nohighlight">
+\[E_{\text{DFT} + U} = E_{\text{DFT}} + \frac{U_{\text{eff}}}{2}\sum_{I,m,\sigma}^{}\left\{ \rho_{m,m}^{\text{Iσ}} - \sum_{m^{'}}^{}\rho_{m,m^{'}}^{\text{Iσ}}\rho_{m^{'},m}^{\text{Iσ}} \right\}\]</div>
+<p>ここで、I、m(m’)、及び <span class="math notranslate nohighlight">\(\sigma\)</span>
+は、原子サイト、磁気量子数、及びスピン指標に対応します。<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>は、有効的クーロン相互作用の大きさです。</p>
+<p>占有行列は、局在軌道 （原子軌道）に電子波動関数
+を射影することにより計算します。</p>
+<div class="math notranslate nohighlight">
+\[\rho_{m,m^{'}}^{\text{Iσ}} = \sum_{k,n}^{}f_{\text{kn}}^{\sigma} &lt; \Psi_{\text{kn}}^{\sigma}|\phi_{m}^{I} &gt; &lt; \phi_{m^{'}}^{I}|\Psi_{\text{kn}}^{\sigma} &gt;\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(k\)</span> 及び
+<span class="math notranslate nohighlight">\(n\)</span>は、それぞれ波数ベクトル及びバンド指標です。また、<span class="math notranslate nohighlight">\(f_{\text{kn}}^{\sigma}\)</span>は電子状態<span class="math notranslate nohighlight">\(\text{knσ}\)</span>の占有数です。</p>
+<p>ハバード補正は、局在した軌道の縮退したエネルギー準位の分裂をもたらします。特に、軌道が完全に占有
+(非占有)の場合、そのエネルギー準位は<span class="math notranslate nohighlight">\(\frac{U_{\text{eff}}}{2}\)</span>
+だけ低下(上昇）します。なお、<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>の値は、実験に一致するように取るか、或いは文献値をもとに決めます。</p>
+<figure class="align-default" id="id171">
+<img alt="../_images/image100.svg" src="../_images/image100.svg" /><figcaption>
+<p><span class="caption-number">図 7.2 </span><span class="caption-text">ハバード補正による軌道エネルギーの変化</span><a class="headerlink" href="#id171" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>バージョン2020.01以降：</p>
+<p>Around Mean Field (AMF) として、文献 <a class="reference internal" href="#petukhov03" id="id12"><span>[Petukhov03]</span></a> の手法が利用できます。この定式化では、軌道角運動量の軌道にDFT+Uを適用する場合、ハバードエネルギーは</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}E_{\rm HUB} = -\frac{U_{\rm eff}}{2} \sum_{\sigma=\uparrow, \downarrow} {\rm Tr} \left( \Delta \rho^{\sigma} \cdot \Delta \rho^{\sigma} \right), \\ \Delta \rho_{m,m'}^{\sigma} = \rho_{m,m'}^{\sigma} - \frac{1}{2l+1} {\rm Tr} \left( \rho^{\sigma} \right) \delta_{m,m'}\end{split}\]</div>
+<p>で表されます。ここで、 <span class="math notranslate nohighlight">\(\rho_{m,m'}^{\sigma}\)</span> はDFT+U法で評価する占有行列です。また、ハバードポテンシャルは、</p>
+<div class="math notranslate nohighlight">
+\[V_{m,m'}^{\sigma} = -U_{\rm eff} \Delta \rho_{m,m'}^{\sigma}\]</div>
+<p>です。</p>
+</section>
+<section id="id13">
+<span id="id14"></span><h3><span class="section-number">7.2.2. </span>入力パラメータ<a class="headerlink" href="#id13" title="この見出しへのパーマリンク"></a></h3>
+<p>DFT+U法を使用するには、以下の手順が必要です。始めに、accuracy
+ブロック内にhubbardブロックとprojector_listブロックを書き加えます。前者では有効クーロン相互作用エネルギーの値(ueff)を指定します。なお、sw_hubbard
+=on
+は、ハバード補正を行うことを宣言するために記述します。後者では、占有行列の計算で使用する原子軌道の有効半径を指定します。noはプロジェクター番号、groupはプロジェクターのグループ番号、radiusは有効原子半径、lは方位量子数です。hubbardブロックで指定したプロジェクター番号は、projector_listブロックで指定したプロジェクター番号に対応することにご留意ください。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+        ...
+        hubbard{
+           sw_hubbard = on
+           projectors{
+             #units eV
+             #tag no ueff
+                  1  10.0
+           }
+        }
+        projector_list{
+          projectors{
+            #tag no group radius l
+                 1  1     2.75   2
+          }
+        }
+        ...
+}
+</pre></div>
+</div>
+<p>次に、structure
+ブロックにて、ハバード補正を適用する原子を指定します。proj_group　で指定する番号は、accuracyブロックで定義したプロジェクター番号に対応しています。ハバード補正を行わない原子には、proj_group
+として0を割り当てます。なお、異種元素に対して、同一のproj_group
+値を割り当てることは出来ません。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  ...
+  atom_list{
+    coordinate_system = internal
+    atoms{
+      !#default mobile=no
+      !#tag  rx   ry   rz  element proj_group
+            0.0  0.0  0.0 Sr      0
+            0.5  0.5  0.5 Ti      1
+            0.0  0.5  0.5 O       0
+            0.5  0.0  0.5 O       0
+            0.5  0.5  0.0 O       0
+      }
+  }
+  ...
+}
+</pre></div>
+</div>
+<p>DFT+U法による計算は、しばしば局所極小へ電子状態が収束してしまいます。異なる波動関数ソルバーや電荷密度ミキサーによる計算を複数回行い、このような状況に陥っていないことを確認することを推奨します。</p>
+<p>初期の占有行列の設定が不適切な場合、収束しづらかったり局所極小の電子状態へ至ってしまう場合があります。このようなことを避けるため、占有行列データファイル（後述のoccmat.dataファイル）を介して初期占有行列を手動で指定することも可能です。occmat.dataファイルを用意し、入力パラメータファイルに以下のような記述を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+        ...
+        hubbard{
+           initial_occmat = file
+        }
+        ...
+}
+</pre></div>
+</div>
+<p>occmat.dataファイルの書き方については、次節で説明します。</p>
+<p>バージョン2020.01以降：</p>
+<p>DFT+U (AMF) 計算機能を利用するには、hubbard ブロックで、dftu_type = AMFと指定します。</p>
+<p>AMFによるDFT+U計算の入力例</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  hubbard{
+    sw_hubbard = on
+    dftu_type = AMF
+  }
+}
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<span id="id16"></span><h3><span class="section-number">7.2.3. </span>計算結果の出力<a class="headerlink" href="#id15" title="この見出しへのパーマリンク"></a></h3>
+<p>phaseを実行します。</p>
+<p>全エネルギーの出力とその成分の出力のあとにハバードエネルギー(HE)とハバードポテンシャルエネルギー(HP)が追加で出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>TOTAL ENERGY FOR     2 -TH ITER=    -79.756461901287   edel =   0.482992D+01
+KI=     45.2522902 HA=    125.6089055 XC=    -43.2979227 LO=   -147.0597534
+NL=     19.3280980 EW=    -92.0686823 PC=     12.2272681 EN=      0.0000000
+HE=      0.2533348 HP=      0.6709743
+</pre></div>
+</div>
+<p>また、ハバード補正を行った原子上の占有行列の各要素が出力されます。isはスピンの番号、iaは原子の番号、lは方位量子数を意味します。なお、占有行列の次元は
+(2l+1) x (2l+1)です。この行列の (m,m’) 成分は、磁気量子数 m及びm’　( 1
+&lt;= m,m’ &lt;= 2l+1 )
+の原子軌道間における占有行列の要素に対応します。なお、各軌道の性格は、表5.1
+に表記しています。Printoutブロックでiprihubbardを2以上に設定している場合、占有行列を対角化することにより得られる、各原子軌道の占有数が出力されます。占有数は&quot;:&quot;の左側に、対応する固有ベクトルは右側に表示されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Occupation Mattrix: is,ia,l=    1    2    2
+   0.583   0.000   0.000   0.000   0.000
+   0.000   0.583   0.000   0.000   0.000
+   0.000   0.000   0.529   0.000   0.000
+   0.000   0.000   0.000   0.529   0.000
+   0.000   0.000   0.000   0.000   0.529
+Diagonalizing Occupation Mattrix: is,ia,l=    1    2    2
+   0.529:   0.000   0.000   0.000  -1.000   0.000
+   0.529:   0.000   0.000   1.000   0.000   0.000
+   0.529:   0.000   0.000   0.000   0.000   1.000
+   0.583:   0.000   1.000   0.000   0.000   0.000
+   0.583:  -1.000   0.000   0.000   0.000   0.000
+</pre></div>
+</div>
+<p>Occmat.data というファイルには、計算が終了する直前の SCF iteration
+における占有行列の要素が出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>16 : num_om
+…….
+1 3 1 3 1 : is, ia, iproj; it, l
+0.17441054E+01 -0.20464246E-02 -0.99899010E-03
+-0.20464246E-02 0.17539484E+01 -0.39442624E-02
+-0.99899010E-03 -0.39442624E-02 0.17529809E+01
+1 4 1 3 1 : is, ia, iproj; it, l
+0.17365161E+01 -0.12145064E-01 -0.11970673E-01
+-0.12145064E-01 0.17903944E+01 -0.85524320E-02
+-0.11970673E-01 -0.85524320E-02 0.17856965E+01
+……
+</pre></div>
+</div>
+<p>1行目のnum_omは、生成された占有行列の数を意味します。2行目以降は、ハバード補正を行った原子における占有行列の要素が出力されます。isはスピンの番号、iaは原子の番号、iprojはプロジェクター番号、itは原子種の番号、lは方位量子数を意味します。出力される占有行列の数は、num_omに一致しています。</p>
+<p>占有行列<span class="math notranslate nohighlight">\(n^{\sigma,i,p}\)</span>は<span class="math notranslate nohighlight">\(2l + 1\)</span>行<span class="math notranslate nohighlight">\(2l + 1\)</span>列の行列形式で記述します。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{matrix}
+n_{1,1}^{\sigma,i,p} &amp; n_{1,2}^{\sigma,i,p} &amp; \cdots &amp; n_{1,2l + 1}^{\sigma,i,p} \\
+n_{2,1}^{\sigma,i,p} &amp; n_{2,2}^{\sigma,i,p} &amp; \cdots &amp; n_{2,2l + 1}^{\sigma,i,p} \\
+ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+n_{2l + 1,1}^{\sigma,i,p} &amp; n_{2l + 1,2}^{\sigma,i,p} &amp; \cdots &amp; n_{2l + 1,2l + 1}^{\sigma,i,p} \\
+\end{matrix}\end{split}\]</div>
+<p>行列の添え字は磁気量子数を表します。各方位量子数<span class="math notranslate nohighlight">\(l\)</span>での添え字と軌道の性格との対応を表
+5‑28に示します。
+occmat.dataは計算を継続する場合や、占有行列の初期値を与える場合必要となります</p>
+<table class="docutils align-default" id="id172">
+<caption><span class="caption-number">表 7.2 </span><span class="caption-text">占有行列の添え字と軌道の性格の対応表</span><a class="headerlink" href="#id172" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>占有行外の添え字</p></td>
+<td><p><span class="math notranslate nohighlight">\(l=0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(l=1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(l=2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(l=3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(s\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(3z^2-r^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(z(5z^2-3r^2)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(y\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x^2-y^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x(5z^2-3r^2)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(z\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(xy\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y(5z^2-3r^2)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(yz\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(z(x^2-y^2)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(zx\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(xyz\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(x(x^2-3y^2)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(y(3x^2-y^2)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id17">
+<span id="id18"></span><h3><span class="section-number">7.2.4. </span>計算例<a class="headerlink" href="#id17" title="この見出しへのパーマリンク"></a></h3>
+<p>立方晶SrTiO3</p>
+<p>立方晶SrTiO3の計算例です。</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/DFT+U/SrTiO3/cubic+u</span></code> (<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>は、Ti 3d軌道に対して10 eV )</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/DFT+U/SrTiO3/cubic</span></code> (<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>は0 eV )</p></li>
+</ul>
+<p>これらの計算結果を <a class="reference internal" href="#advanced-dftu-fig1"><span class="std std-numref">図 7.3</span></a> に示します。</p>
+<figure class="align-default" id="advanced-dftu-fig1">
+<img alt="../_images/image105.svg" src="../_images/image105.svg" /><figcaption>
+<p><span class="caption-number">図 7.3 </span><span class="caption-text">SrTiO3の状態密度</span><a class="headerlink" href="#advanced-dftu-fig1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>立方晶LaVO3</p>
+<p>立方晶LaVO3の計算例です。</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/DFT+U/LaVO3/cubic+u</span></code> (<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>はLa 4f 軌道に対して20 eV )</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/DFT+U/LaVO3/cubic</span></code> (<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>は0 eV )</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>が0 eVのときは、4f軌道によるバンドはフェルミレベルの上1.5eV上に現れますが、<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>を20eVとすると8eV下に現れます。</p>
+<p>立方晶FeO</p>
+<p>立方晶FeOの計算例です。この計算例は、occmat.data
+ファイル内の数字を占有行列の初期値として利用するものです。</p>
+<ul class="simple">
+<li><p>code:<cite>samples/DFT+U/FeO/gga+u</cite> (<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>は Fe 3d軌道に対して5 eV )</p></li>
+<li><p>code:<cite>samples/DFT+U/FeO/gga</cite> (<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>は0 eV )</p></li>
+</ul>
+<p>アップスピンに対しては占有行列の対角要素が1、ダウンスピンに対しては <span class="math notranslate nohighlight">\(3z^2-r^2\)</span> 軌道以外の対角要素が0に設定されています。<span class="math notranslate nohighlight">\(U_{\text{eff}}\)</span>が0
+eVでは <span class="math notranslate nohighlight">\(3z^2-r^2\)</span> 軌道の性格を持つdバンドがフェルミレベルより上に現れますが、ハバード補正では下に現れます。また、ハバード補正によりバンドギャップが開きます。</p>
+<p>DFT+U(AMF)の計算例（バージョン2020.01以降）</p>
+<p id="nio-1">NiO</p>
+<p><a class="reference internal" href="#advanced-dftu-table1"><span class="std std-numref">表 7.3</span></a> に用いた計算条件、 <a class="reference internal" href="#advanced-dftu-table2"><span class="std std-numref">表 7.4</span></a> にバンドギャップ及びNi原子の磁気モーメントのU依存性を示します。格子定数及び原子位置は、既存のサンプルの値を使用しました。AMF
+は、full localized limit
+(FLL)の場合に比べて、バンドギャップ及び磁気モーメントのU依存性が穏やかであることがわかります。</p>
+<table class="docutils align-default" id="advanced-dftu-table1">
+<caption><span class="caption-number">表 7.3 </span><span class="caption-text">NiO (AMF) の計算条件</span><a class="headerlink" href="#advanced-dftu-table1" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>波動関数カットオフ [Ry]</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>270</p></td>
+</tr>
+<tr class="row-odd"><td><p>k点サンプリング</p></td>
+<td><p>Monk (4×4×4)</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>PAW-PBE+U</p>
+<p>( DFT+U on Ni 3d,</p>
+<p>プロジェクタカットオフ：2.5 bohr )</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Ni_ggapbe_paw_01.pp,</p>
+<p>O_ggapbe_paw_02.pp</p>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="advanced-dftu-table2">
+<caption><span class="caption-number">表 7.4 </span><span class="caption-text">NiO のバンドギャップ及びNi原子の磁気モーメントの U 依存性</span><a class="headerlink" href="#advanced-dftu-table2" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Gap [eV]</p></th>
+<th class="head"><p>スピン磁気モーメント</p></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ueff [eV]</p></td>
+<td><p>FLL</p></td>
+<td><p>AMF</p></td>
+<td><p>FLL</p></td>
+<td><p>AMF</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.0</p></td>
+<td><p>0.962</p></td>
+<td><p>0.962</p></td>
+<td><p>1.355</p></td>
+<td><p>1.355</p></td>
+</tr>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>1.561</p></td>
+<td><p>1.478</p></td>
+<td><p>1.457</p></td>
+<td><p>1.444</p></td>
+</tr>
+<tr class="row-odd"><td><p>2.0</p></td>
+<td><p>2.033</p></td>
+<td><p>1.881</p></td>
+<td><p>1.527</p></td>
+<td><p>1.514</p></td>
+</tr>
+<tr class="row-even"><td><p>3.0</p></td>
+<td><p>2.470</p></td>
+<td><p>2.247</p></td>
+<td><p>1.581</p></td>
+<td><p>1.571</p></td>
+</tr>
+<tr class="row-odd"><td><p>4.0</p></td>
+<td><p>2.852</p></td>
+<td><p>2.610</p></td>
+<td><p>1.626</p></td>
+<td><p>1.618</p></td>
+</tr>
+<tr class="row-even"><td><p>5.0</p></td>
+<td><p>3.221</p></td>
+<td><p>2.978</p></td>
+<td><p>1.666</p></td>
+<td><p>1.659</p></td>
+</tr>
+<tr class="row-odd"><td><p>6.0</p></td>
+<td><p>3.584</p></td>
+<td><p>3.351</p></td>
+<td><p>1.703</p></td>
+<td><p>1.693</p></td>
+</tr>
+</tbody>
+</table>
+<p>FeAl</p>
+<p>FeAl は、格子定数 a = 2.91 Åのcubic 結晶 (単位胞内にFe及びAlが1原子ずつ)です <a class="reference internal" href="#makhlouf94" id="id19"><span>[Makhlouf94]</span></a>
+<a class="reference internal" href="#advanced-dftu-table3"><span class="std std-numref">表 7.5</span></a> に用いた計算条件、 <a class="reference internal" href="#advanced-dftu-table4"><span class="std std-numref">表 7.6</span></a> にバンドギャップ及びFe原子の磁気モーメントのU依存性を示します。
+FLLでは磁気モーメントが単調に増加するが、AMFではU=5.0 eV程度まで減少します。</p>
+<table class="docutils align-default" id="advanced-dftu-table3">
+<caption><span class="caption-number">表 7.5 </span><span class="caption-text">FeAl の計算条件</span><a class="headerlink" href="#advanced-dftu-table3" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>波動関数カットオフ [Ry]</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-odd"><td><p>k点サンプリング</p></td>
+<td><p>Monk (8×8×8)</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>PAW-PBE+U</p>
+<p>( DFT+U on Fe 3d,</p>
+<p>プロジェクタカットオフ：2.3 bohr )</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Fe_ggapbe_paw_02.pp,</p>
+<p>Al_ggapbe_paw_01.pp</p>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="advanced-dftu-table4">
+<caption><span class="caption-number">表 7.6 </span><span class="caption-text">FeAl のバンドギャップ及びFe原子の磁気モーメントの U 依存性</span><a class="headerlink" href="#advanced-dftu-table4" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Gap [eV]</p></th>
+<th class="head"><p>スピン磁気モーメント</p></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ueff [eV]</p></td>
+<td><p>FLL</p></td>
+<td><p>AMF</p></td>
+<td><p>FLL</p></td>
+<td><p>AMF</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>1.043</p></td>
+<td><p>1.043</p></td>
+</tr>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>1.092</p></td>
+<td><p>1.034</p></td>
+</tr>
+<tr class="row-odd"><td><p>2.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>1.145</p></td>
+<td><p>1.023</p></td>
+</tr>
+<tr class="row-even"><td><p>3.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>1.206</p></td>
+<td><p>1.008</p></td>
+</tr>
+<tr class="row-odd"><td><p>4.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>2.745</p></td>
+<td><p>0.459</p></td>
+</tr>
+<tr class="row-even"><td><p>5.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>2.817</p></td>
+<td><p>0.456</p></td>
+</tr>
+<tr class="row-odd"><td><p>6.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>2.865</p></td>
+<td><p>0.486</p></td>
+</tr>
+</tbody>
+</table>
+<div role="list" class="citation-list">
+<div class="citation" id="liechtenstein95" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">Liechtenstein95</a><span class="fn-bracket">]</span></span>
+<p>A. I. Liechtenstein, V. I. Anisimov, and J. Zaanen Phys. Rev. B 52 R5467 (1995).</p>
+</div>
+<div class="citation" id="petukhov03" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">Petukhov03</a><span class="fn-bracket">]</span></span>
+<p>A. G. Petukhov, I. I. Mazin, L. Chioncel, and A. I. Lichtenstein, Phys. Rev. B <strong>65</strong>, 153106 (2003).</p>
+</div>
+<div class="citation" id="makhlouf94" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">Makhlouf94</a><span class="fn-bracket">]</span></span>
+<p>S. A. Makhlouf, T. Nakamura, and M. Shiga, J. Magn. Magn. Mater. <strong>135</strong>, 257 (1994).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="advanced-hybrid-section">
+<span id="id20"></span><h2><span class="section-number">7.3. </span>ハイブリッド汎関数<a class="headerlink" href="#advanced-hybrid-section" title="この見出しへのパーマリンク"></a></h2>
+<section id="id21">
+<span id="id22"></span><h3><span class="section-number">7.3.1. </span>機能の概要<a class="headerlink" href="#id21" title="この見出しへのパーマリンク"></a></h3>
+<p>局所密度近似（local density
+approximation=LDA）を改善する手法には一般勾配近似（generalized
+gradientapproxiation=GGA）のほかに、Hartree-Fock交換汎関数を一定量取り入れるハイブリッド汎関数法があります。PHASE/0では、PBE0 <a class="reference internal" href="../first_step/first_step.html#perdew96" id="id23"><span>[Perdew96]</span></a> <a class="reference internal" href="#emzerhof97" id="id24"><span>[Emzerhof97]</span></a> <a class="reference internal" href="#emzerhof99" id="id25"><span>[Emzerhof99]</span></a> <a class="reference internal" href="#adamo99" id="id26"><span>[Adamo99]</span></a> とHSE06 <a class="reference internal" href="#heyd03" id="id27"><span>[Heyd03]</span></a> <a class="reference internal" href="#heyd04a" id="id28"><span>[Heyd04a]</span></a> <a class="reference internal" href="#heyd04b" id="id29"><span>[Heyd04b]</span></a> <a class="reference internal" href="#heyd06" id="id30"><span>[Heyd06]</span></a> の二種類の汎関数が使えます。</p>
+<div class="admonition note">
+<p class="admonition-title">注釈</p>
+<p>2024.01版以降、Gau-PBE <a class="reference internal" href="#song11" id="id31"><span>[Song11]</span></a> <a class="reference internal" href="#song13" id="id32"><span>[Song13]</span></a> も利用できるようになりました。</p>
+</div>
+<p>厳密交換エネルギー（Hartree-Fock交換エネルギー）<span class="math notranslate nohighlight">\(E_{x}^{\text{exact}}\)</span>は、{<span class="math notranslate nohighlight">\(k\)</span>、<span class="math notranslate nohighlight">\(\nu\)</span>、<span class="math notranslate nohighlight">\(\sigma\)</span>}で指定される{サンプリングｋ点、バンド、スピン状態}の波動関数<span class="math notranslate nohighlight">\(\psi_{\text{kνσ}}(\mathbf{r})\)</span>
+を用いて</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-hybrid1">
+<span class="eqno">(7.1)<a class="headerlink" href="#equation-eq-hybrid1" title="この数式へのパーマリンク"></a></span>\[\begin{split}E_{x}^{\text{exact}} &amp;= - \frac{1}{2}\sum_{\sigma}^{}{\sum_{k\nu,k^{'}\nu^{'}}^{\text{occ}}{\int_{}^{}d}}\mathbf{r}_{1}d\mathbf{r}_{2} \\ &amp;\left\lbrack \frac{\psi_{\text{k} \nu \sigma}^{*}\left( \mathbf{r}_{1} \right)\psi_{k^{'}\nu^{'}\sigma}\left( \mathbf{r}_{1} \right)\psi_{k^{'}\nu^{'}\sigma}^{*}\left( \mathbf{r}_{2} \right)\psi_{\text{k} \nu \sigma}\left( \mathbf{r}_{2} \right)}{\left| \mathbf{r}_{1} - \mathbf{r}_{2}\right|} + \sum_{\text{ij}}^{}\frac{Q_{\text{ij}}\left(\mathbf{r}_{1} - \mathbf{r}_{2} \right)\left\langle \psi_{\text{k} \nu \sigma} \middle| \beta_{i} \right\rangle\left\langle \beta_{j} \middle| \psi_{k^{'}\nu^{'}\sigma} \right\rangle}{|\mathbf{r}_{1} - \mathbf{r}_{2}|} \right\rbrack\end{split}\]</div>
+</div></blockquote>
+<p>で与えられます。ここで、<span class="math notranslate nohighlight">\(\nu 、\nu'\)</span>に関する和は占有状態に限られます。また、2行目の<span class="math notranslate nohighlight">\(Q_{\text{ij}}\)</span>を含む項は欠損電荷に由来し、ウルトラソフト擬ポテンシャル利用時に現れます。</p>
+<p>PBE0汎関数は<span class="math notranslate nohighlight">\(\alpha\)</span>をパラメータとして</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-hybrid2">
+<span class="eqno">(7.2)<a class="headerlink" href="#equation-eq-hybrid2" title="この数式へのパーマリンク"></a></span>\[E_{\text{xc}}^{\text{PBE0}} = \alpha E_{x}^{\text{exact}} + (1 - \alpha)E_{x}^{\text{PBE}} + E_{c}^{\text{PBE}}\]</div>
+</div></blockquote>
+<p>と定義されます <a class="reference internal" href="../first_step/first_step.html#perdew96" id="id33"><span>[Perdew96]</span></a> <a class="reference internal" href="#emzerhof97" id="id34"><span>[Emzerhof97]</span></a> <a class="reference internal" href="#emzerhof99" id="id35"><span>[Emzerhof99]</span></a> <a class="reference internal" href="#adamo99" id="id36"><span>[Adamo99]</span></a> 。ここで、<span class="math notranslate nohighlight">\(E_{x}^{\text{PBE}}\)</span>はPBE交換汎関数で、<span class="math notranslate nohighlight">\(E_{c}^{\text{PBE}}\)</span>はPBE相関汎関数です。
+<span class="math notranslate nohighlight">\(\alpha = \frac{1}{4}\)</span>がよく使われる値です。ハイブリッド汎関数には、このほかに交換汎関数<span class="math notranslate nohighlight">\(E_{x}^{\text{exact}}\)</span>をスクリーニングして加えるHSE汎関数<span class="math notranslate nohighlight">\(E_{\text{xc}}^{\text{HSE}}\)</span>があります。これは、</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-hybrid3">
+<span class="eqno">(7.3)<a class="headerlink" href="#equation-eq-hybrid3" title="この数式へのパーマリンク"></a></span>\[E_{\text{xc}}^{\text{HSE}} = \alpha E_{x}^{exact,SR}\left( \omega \right) + (1 - \alpha)E_{x}^{PBE,SR}\left( \omega \right) + {E_{x}^{PBE,LR}\left( \omega \right) + E}_{c}^{\text{PBE}}\]</div>
+</div></blockquote>
+<p>の形式で表されます <a class="reference internal" href="#heyd03" id="id37"><span>[Heyd03]</span></a> <a class="reference internal" href="#heyd04a" id="id38"><span>[Heyd04a]</span></a> <a class="reference internal" href="#heyd04b" id="id39"><span>[Heyd04b]</span></a> <a class="reference internal" href="#heyd06" id="id40"><span>[Heyd06]</span></a> 。<span class="math notranslate nohighlight">\(\omega\)</span>は短距離相互作用が働く範囲を制御する調整パラメータで、<span class="math notranslate nohighlight">\(\omega = 0\)</span>で<span class="math notranslate nohighlight">\(E_{\text{xc}}^{\text{PBE0}}\)</span>に等しく、<span class="math notranslate nohighlight">\(\omega \rightarrow \infty\)</span>で漸近的に<span class="math notranslate nohighlight">\(E_{\text{xc}}^{\text{PBE}}\)</span>に近づきます。HSE06汎関数を利用すると、分子の場合はセルサイズ、結晶の場合は<strong>k</strong>点分割数に対する収束性が、PBE0汎関数を利用する場合に比較してよくなります。つまり同じ収束性を得るための計算負荷が相対的に小さくなります。計算精度を保ちながら計算負荷を節約できる値として、<span class="math notranslate nohighlight">\(\omega\)</span>
+には0.1(Bohr<sup>-1</sup>)程度の値がよく使われます。</p>
+</section>
+<section id="id41">
+<span id="id42"></span><h3><span class="section-number">7.3.2. </span>入力パラメータ<a class="headerlink" href="#id41" title="この見出しへのパーマリンク"></a></h3>
+<p>基本的な設定</p>
+<p>Hybrid汎関数で電子状態計算を行うには、以下のように指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  ksampling{
+    method = gamma
+    base_reduction_for_GAMMA = OFF
+    base_symmetrization_for_GAMMA = OFF
+  }
+  xctype = ggapbe
+  hybrid_functional{
+    sw_hybrid_functional = ON
+    functional_type = HSE06
+    alpha = 0.25
+    omega = 0.106
+  }
+}
+</pre></div>
+</div>
+<p>この例の場合は、HSE06汎関数を指定したことになります。HSE06のほか、gaupbe、PBE0、HFを指定することが可能です。例では、sampling
+k点はΓ点（method=gamma）を指定していますが、ほかに格子状sampling（method=mesh）あるいはMonkhorst-Packによるスペシャルk点sampling（method=monk）を指定することもできます。パラメータalphaは <a class="reference internal" href="#equation-eq-hybrid2">(7.2)</a> 、<a class="reference internal" href="#equation-eq-hybrid3">(7.3)</a> 式に現れる厳密交換相互作用の混合率
+<span class="math notranslate nohighlight">\(\alpha\)</span>で、デフォルトの値は0.25です。Omegaは <a class="reference internal" href="#equation-eq-hybrid3">(7.3)</a> 式に現れる遮蔽パラメータ<span class="math notranslate nohighlight">\(\omega\)</span>で、デフォルト値は0.106
+bohr<sup>-1</sup>です。</p>
+<p>相関相互作用を取り除いて、Hartree-Fock計算を行う場合は以下のように設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+    hybrid_functional{
+        sw_hybrid_functional = ON
+        functional_type = HF
+    }
+}
+</pre></div>
+</div>
+<p>ただし、Hartee-Fock計算の収束はPBE0と比べても著しく遅くなります。</p>
+<p>PBE汎関数を使って収束させた波動関数と電荷密度がある場合、これをhybrid汎関数計算の初期波動関数と初期電荷とすることができます。そのための入力例を次に示します。必須ではありませんが、ハイブリッド汎関数法は通常のGGAよりもはるかに多くの計算時間がかかるので、このように設定し少しでも収束回数を減らすことを推奨します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+    initial_wavefunctions = file
+    initial_charge_density = file
+}
+</pre></div>
+</div>
+<p>このように計算を遂行する場合、計算に先だってPBE汎関数計算の波動関数ファイル(zaj.data)と電荷密度ファイル(nfchgt.data)を作業ディレクトリに必ずコピーします。</p>
+<p>ハイブリッド汎関数法は、バンドおよび k 点の 2
+重ループの処理があります。このうち、内側の k
+点に関するループは計算精度にさほど影響がない場合があります。そこで、この内側の
+k 点ループを“間引く”ことによって計算量を減らす機能が PHASE
+には備わっています。この機能を利用するには、以下のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  ksampling{
+    method = mesh
+    mesh{
+      nx = 4
+      ny = 4
+      nz = 4
+    }
+  }
+  hybrid_functional{
+    reduction_factor{
+      f1 = 2
+      f2 = 2
+      f3 = 2
+    }
+  }
+}
+</pre></div>
+</div>
+<p>変数 f1, f2, f3 によって nx, ny, nz
+をそれぞれ何分の一にするかを指定します。この例では、それぞれの方向の内側ループのメッシュ数が
+1/2 になります。f1, f2, f3として対応するnx, ny, nzよりも大きい値を指定した場合正しく動作しないのでご注意ください。</p>
+<p>3軸並列版において並列化軸を入れ替える方法</p>
+<p>3軸並列版でハイブリッド汎関数法を利用する場合、通常の計算と異なる並列化軸を採用することによって大幅な高速化が達成できます。この機能を利用する場合、以下のように設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  hybrid_functional{
+    sw_change_axis = on
+  }
+}
+</pre></div>
+</div>
+<p>この設定は、次に説明する高速化の設定を3軸並列版で利用する場合有効にする必要があります。</p>
+<p>メッシュ調整による高速化</p>
+<p>※ 以下の機能は2軸並列版と3軸並列版においてsw_change_axis =
+onとした場合においてのみ利用可能です</p>
+<p>ウルトラソフト擬ポテンシャルを利用する場合、ハイブリッド汎関数計算の演算時間のほとんどがウルトラソフト擬ポテンシャル特有の電荷密度構成（欠損電荷密度。<a class="reference internal" href="#equation-eq-hybrid1">(7.1)</a> 式中の<span class="math notranslate nohighlight">\(Q_{\text{ij}}\)</span>）に由来する処理に費やされます。ハイブリッド汎関数計算においては、欠損電荷の高周波数成分（Ｇの大きい成分）を省くことによって、計算精度に大きな影響を及ぼさずに高速化することが可能です。PHASE/0でこの機能を利用するには、変数charge_meshを利用します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  hybrid_functional{
+    charge_mesh = fine
+  }
+}
+</pre></div>
+</div>
+<p>変数charge_meshには、exact, fine, moderate,
+coarseのいずれかを指定します。exactを指定すると欠損電荷のすべての波数成分を考慮します。fine,
+moderate,
+coarseの順に考慮する成分が少なくなります。charge_meshのデフォルト値はmoderateです。</p>
+<p>※ 以下の機能は3軸並列版においてsw_change_axis = onとした場合においてのみ利用可能です</p>
+<p>波動関数のFFTメッシュを削減することも可能です。程度にもよりますが、このメッシュもやはりある程度は削減しても計算精度に大きな影響を及ぼしません。この機能を利用するには、以下のような設定を施します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  ...
+  hybrid_functional{
+  sw_change_axis = on
+    cutoff_wf_for_exx = 9 rydberg
+  }
+}
+</pre></div>
+</div>
+<p>accuracyブロックの下のhybrid_functionalブロックにcutoff_wf_for_exxを定義し、そこに採用したいカットオフエネルギーを指定します。ここで指定できるのは通常のカットオフエネルギー以下の値であり、それを超える値を指定した場合通常のカットオフエネルギーで置き換わります。cutoff_wf_for_exxのデフォルト値は通常のカットオフエネルギーと同じ値です。波動関数のFFTは、特にノルム保存型の擬ポテンシャルを採用している場合は計算時間のかなりの割合を占めることになりますので、この設定によって演算量を減らすことは有用です。参考のため、サンプルのSi結晶の場合にcutoff_wf_for_exxを通常のカットオフエネルギーの半分の値にした場合の全エネルギーと計算時間を報告します（時間は、通常のカットオフエネルギーの場合を1としています）。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>cutoff_wf_for_exx =
+cutoff_wf</p></th>
+<th class="head"><p>cutoff_wf_for_exx =
+cutoff_wf/2</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>全エネルギー (ha)</p></td>
+<td><p>-7.8457557283</p></td>
+<td><p>-7.8457499896</p></td>
+</tr>
+<tr class="row-odd"><td><p>計算時間</p></td>
+<td><p>1</p></td>
+<td><p>0.34</p></td>
+</tr>
+</tbody>
+</table>
+<p>実空間法による高速化</p>
+<p>※ 以下の機能は2軸並列版と3軸並列版においてsw_change_axis = onとした場合においてのみ利用可能です</p>
+<p>ウルトラソフト擬ポテンシャルを利用している場合、欠損電荷に由来する処理を実空間で行うことによって高速化することも可能です。それには、次のように設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  hybrid_functional{
+    sw_rspace = on
+  }
+}
+</pre></div>
+</div>
+<p>通常、ハイブリッド汎関数法における欠損電荷の処理は<em>O</em>(<em>N</em><sup>4</sup>)の時間がかかりますが、実空間法を利用することによってこの時間を<em>O</em>(<em>N</em><sup>3</sup>)にすることができるので、
+ある程度大きな系では必須の指定となります。上述のcharge_meshパラメータは、逆空間の場合と同じ様に利用することが可能です。</p>
+<p>sw_rspace = onの場合に、処理を行列－行列積の形に変形し、Level3
+BLASによって処理させることができます。この機能は、以下の要領で利用します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  hybrid_functional{
+    sw_rspace = on
+    sw_rspace_dgemm = on
+  }
+}
+</pre></div>
+</div>
+<p>この設定によってさらなる高速化が実現できる場合があります。</p>
+</section>
+<section id="id43">
+<span id="id44"></span><h3><span class="section-number">7.3.3. </span>計算例<a class="headerlink" href="#id43" title="この見出しへのパーマリンク"></a></h3>
+<p>水素分子</p>
+<p>水素分子のPBE計算、PBE0計算、Hartree-Fock計算の計算例題は、 <code class="code docutils literal notranslate"><span class="pre">samples/hybrid/H2</span></code> 以下のディレクトリPBE、PBE0、HFです。go_h2.shを実行すると、これらの計算を順番に実行します。これらの結果とGausian03の結果との比較を <a class="reference internal" href="#advanced-hybrid-fig1"><span class="std std-numref">図 7.4</span></a> に示します。</p>
+<figure class="align-default" id="advanced-hybrid-fig1">
+<img alt="../_images/image107.svg" src="../_images/image107.svg" /><figcaption>
+<p><span class="caption-number">図 7.4 </span><span class="caption-text">PBE汎関数法,PBE0汎関数法,Hartree-Fock法による水素分子のHOMO準位とLUMO準位のエネルギーがGaussian03（G03）の結果と比較して示されている。</span><a class="headerlink" href="#advanced-hybrid-fig1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>水分子</p>
+<p>水分子のPBE計算、PBE0計算例題は、 <code class="code docutils literal notranslate"><span class="pre">samples/hybrid/H2O</span></code> 以下のディレクトリのPBE、PBE0です。go_h2o.shを実行すると、これらの計算を順番に実行します。これらの結果とGausian03の結果との比較を <a class="reference internal" href="#advanced-hybrid-fig2"><span class="std std-numref">図 7.5</span></a> に示します。</p>
+<figure class="align-default" id="advanced-hybrid-fig2">
+<img alt="../_images/image108.svg" src="../_images/image108.svg" /><figcaption>
+<p><span class="caption-number">図 7.5 </span><span class="caption-text">PBE汎関数法,PBE0汎関数法による水分子のエネルギー準位がGaussian03（G03）の結果と比較して示されている。</span><a class="headerlink" href="#advanced-hybrid-fig2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p id="id45">シリコン結晶</p>
+<p>シリコン結晶の状態密度の計算を、PBE, PBE0, HSE06で実行する例題が <code class="code docutils literal notranslate"><span class="pre">samples/hybrid/Si</span></code> 以下にあります。計算を実行すると得られる状態密度図を <a class="reference internal" href="#advanced-hybrid-fig3"><span class="std std-numref">図 7.6</span></a> に、得られるバンドギャップを <a class="reference internal" href="#advanced-hybrid-table1"><span class="std std-numref">表 7.7</span></a> に示します。</p>
+<figure class="align-default" id="advanced-hybrid-fig3">
+<img alt="../_images/image109.svg" src="../_images/image109.svg" /><figcaption>
+<p><span class="caption-number">図 7.6 </span><span class="caption-text">PBE, PBE0, HSE06汎関数によって得られたSi結晶の状態密度</span><a class="headerlink" href="#advanced-hybrid-fig3" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default" id="advanced-hybrid-table1">
+<caption><span class="caption-number">表 7.7 </span><span class="caption-text">各汎関数によって得られるバンドギャップの比較</span><a class="headerlink" href="#advanced-hybrid-table1" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>汎関数</p></th>
+<th class="head"><p>バンドギャップ (eV)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PBE</p></td>
+<td><p>0.7</p></td>
+</tr>
+<tr class="row-odd"><td><p>PBE0</p></td>
+<td><p>1.9</p></td>
+</tr>
+<tr class="row-even"><td><p>HSE06</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="code docutils literal notranslate"><span class="pre">samples/hybrid/Si_k10</span></code> は、k点メッシュを10×10×10とした例題です。非常に時間のかかる計算ですが、より精密な状態密度図が得られます。</p>
+</section>
+<section id="advanced-hybrid-band-section">
+<span id="id46"></span><h3><span class="section-number">7.3.4. </span>ハイブリッド汎関数法によるバンド計算（バージョン2019.02以降）<a class="headerlink" href="#advanced-hybrid-band-section" title="この見出しへのパーマリンク"></a></h3>
+<p>バージョン2019.02より、ハイブリッド汎関数法を利用したバンド計算が行えるようになりました。バンド計算においては通常SCF計算によって得られた電荷密度データを固定電荷として変化させずに固有値計算を行います。ハイブリッド汎関数法の場合、固定電荷に加え“固定波動関数”のデータと“ハイブリッド汎関数法”のデータが必要です。前者は通常のSCF計算によって得られる波動関数データです。後者は入力パラメーターファイルに以下の設定を施すことによって出力させることができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  hybrid_functional{
+    ....
+    ....
+    sw_output_hybrid_info = on
+  }
+}
+</pre></div>
+</div>
+<p>sw_output_hybrid_infoをonとすると必要な情報がF_HYBRIDINFOファイルに出力されます。sw_output_hybrid_infoのデフォルト値はhybrid_functionalブロックが存在する場合はon,
+そうでない場合はoffです。F_HYBRIDINFOはfile_names.dataファイルのポインターであり、そのデフォルト値は./nfhybridinfo.dataです。</p>
+<p>SCF計算はハイブリッド計算でも通常のPBE計算でもよいです。バンド計算を行うためには、通常のバンド計算の入力にハイブリッド汎関数計算の設定を施し、さらにfile_names.dataファイルを以下のように記述します(SCF計算が行われたディレクトリーを1階層上のscfというディレクトリーだったとして)。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+F_CHGT = ‘../scf/nfchgt.data’
+<span class="hll">F_SCF_ZAJ = ‘../scf/zaj.data’
+</span><span class="hll">F_HYBRIDINFO = ‘../scf/nfhybridinfo.data’
+</span>/
+</pre></div>
+</div>
+<p>ハイライトで示したエントリーが通常のバンド計算と異なる部分です。ファイルポインターF_SCF_ZAJによってSCF計算によって得られた波動関数ファイルのファイル名を指定しています。これは「固定波動関数」として使われるものです。F_HYBRIDINFOにはハイブリッド汎関数法の様々な情報が記録されています。両方ともバンド計算中は純粋に入力として利用され、その内容がバンド計算の前後で変化することはありません。SiおよびCのハイブリッド汎関数法によるバンド構造計算の入力ファイルが <code class="code docutils literal notranslate"><span class="pre">samples/hybrid/Si/band_hse06</span></code> および <code class="code docutils literal notranslate"><span class="pre">samples/hybrid/C/band_hse06</span></code> にあります。</p>
+</section>
+<section id="id47">
+<span id="id48"></span><h3><span class="section-number">7.3.5. </span>使用における注意点<a class="headerlink" href="#id47" title="この見出しへのパーマリンク"></a></h3>
+<ul class="simple">
+<li><p>ハイブリッド汎関数法は反転対称性を利用する高速化機能が使えません。反転対称性を有する系であってもsw_inversionパラメータをonとすると計算が破綻しますので、この設定はしないでください。</p></li>
+</ul>
+<p id="id49"><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="emzerhof97" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Emzerhof97<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id24">1</a>,<a role="doc-backlink" href="#id34">2</a>)</span>
+<p>M. Emzerhof, J. P. Perdew, and K. Burke, Int J. Quantum Chem. <strong>64</strong> (1997) 285.</p>
+</div>
+<div class="citation" id="emzerhof99" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Emzerhof99<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id25">1</a>,<a role="doc-backlink" href="#id35">2</a>)</span>
+<p>M. Emzerhof and G. E. Scuseria, J. Chem. Phys. <strong>110</strong> (1999) 5029.</p>
+</div>
+<div class="citation" id="song11" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id31">Song11</a><span class="fn-bracket">]</span></span>
+<p>J. Song, K. Yamashita, and K, Hirao, J. Chem. Phys. 135, 071103 (2011).</p>
+</div>
+<div class="citation" id="song13" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id32">Song13</a><span class="fn-bracket">]</span></span>
+<p>J. Song, G. Giorgi, K. Yamashita, and K. Hirao, J. Chem. Phys. 138, 241101 (2013).</p>
+</div>
+<div class="citation" id="adamo99" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Adamo99<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id26">1</a>,<a role="doc-backlink" href="#id36">2</a>)</span>
+<p>C. Adamo and V. Barone, J. Chem. Phys. <strong>110</strong> (1999) 6158.</p>
+</div>
+<div class="citation" id="heyd03" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Heyd03<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id27">1</a>,<a role="doc-backlink" href="#id37">2</a>)</span>
+<p>J. Heyd, G. E. Scuseria, and M. Ernzerhof, J. Chem. Phys. <strong>118</strong> (2003) 8207.</p>
+</div>
+<div class="citation" id="heyd04a" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Heyd04a<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id28">1</a>,<a role="doc-backlink" href="#id38">2</a>)</span>
+<p>J. Heyd and G. E. Scuseria, J. Chem. Phys. <strong>120</strong> (2004) 7274.</p>
+</div>
+<div class="citation" id="heyd04b" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Heyd04b<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id29">1</a>,<a role="doc-backlink" href="#id39">2</a>)</span>
+<p>J. Heyd and G. E. Scuseria, J. Chem. Phys. <strong>121</strong> (2004) 1187.</p>
+</div>
+<div class="citation" id="heyd06" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Heyd06<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id30">1</a>,<a role="doc-backlink" href="#id40">2</a>)</span>
+<p>J. Heyd, G. E. Scuseria and M. Ernzerhof, J. Chem. Phys. <strong>124</strong> (2006) 219906.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sc-dft">
+<span id="advanced-scdft-section"></span><h2><span class="section-number">7.4. </span>SC-DFT法<a class="headerlink" href="#sc-dft" title="この見出しへのパーマリンク"></a></h2>
+<section id="id50">
+<span id="id51"></span><h3><span class="section-number">7.4.1. </span>機能の概要<a class="headerlink" href="#id50" title="この見出しへのパーマリンク"></a></h3>
+<p>ハイブリッド汎関数法とは密度汎関数理論の交換相関相互作用に厳密交換相互作用を混合する計算手法ですが、その混合の仕方については様々な方法が提案されています。最も素朴な手法はPBE0と呼ばれる手法です。PBE0法では、一定の値αで厳密交換相互作用を混合します。通常適用されるαの値は0.25ですが、これを系に応じた最適な割合を第一原理的に導く手法がSC-DFT法 <a class="reference internal" href="#skone14" id="id52"><span>[Skone14]</span></a> です。
+SC-DFT法は、誘電率と混合比を結び付け、得られる誘電率と混合比が自己無撞着になるまで繰り返し計算を行うという計算手法になっています。</p>
+</section>
+<section id="id53">
+<h3><span class="section-number">7.4.2. </span>理論<a class="headerlink" href="#id53" title="この見出しへのパーマリンク"></a></h3>
+<p>ハイブリッド汎関数法においては、最も単純なPBE0法の場合以下のように交換相互作用を計算します。</p>
+<div class="math notranslate nohighlight" id="equation-advanced-scdft-eq1">
+<span class="eqno">(7.4)<a class="headerlink" href="#equation-advanced-scdft-eq1" title="この数式へのパーマリンク"></a></span>\[E_{\rm hybrid}^{x} = \left( 1 - \alpha \right) E_{\rm PBE}^{x} + \alpha E_{\rm exact}^{x}.\]</div>
+<p>ここで <span class="math notranslate nohighlight">\(E_{\rm PBE}^x\)</span> はGGA-PBEの交換相互作用、 <span class="math notranslate nohighlight">\(E_{\rm exact}^x\)</span> は厳密交換相互作用です。 <a class="reference internal" href="#equation-advanced-scdft-eq1">(7.4)</a> のパラメーター <span class="math notranslate nohighlight">\(\alpha\)</span> の妥当な値は自明ではなく、また系によって異なると考えられます。
+このパラメーターを、以下のように近似するのがSC-DFT法です。</p>
+<div class="math notranslate nohighlight" id="equation-advanced-scdft-eq2">
+<span class="eqno">(7.5)<a class="headerlink" href="#equation-advanced-scdft-eq2" title="この数式へのパーマリンク"></a></span>\[\alpha = \frac{1}{\varepsilon}\]</div>
+<p><span class="math notranslate nohighlight">\(\varepsilon\)</span> は誘電率です。SC-DFT法では、自己無撞着な <span class="math notranslate nohighlight">\(\alpha\)</span> と <span class="math notranslate nohighlight">\(\varepsilon\)</span> をもとめるために繰り返し計算を行います。すなわち、初期 <span class="math notranslate nohighlight">\(\alpha\)</span> を設定し、誘電率を計算します。得られた誘電率から <a class="reference internal" href="#equation-advanced-scdft-eq2">(7.5)</a> を利用して <span class="math notranslate nohighlight">\(\varepsilon\)</span> を求め、最初の <span class="math notranslate nohighlight">\(\alpha\)</span> と同じ結果ならば収束したとみなし得られた <span class="math notranslate nohighlight">\(\alpha\)</span> を最適なものとします。収束していない場合は得られた <span class="math notranslate nohighlight">\(\alpha\)</span> を使って誘電率計算を再実行します。このような手続きを、 <span class="math notranslate nohighlight">\(\alpha\)</span> が収束するまで繰り返します。</p>
+</section>
+<section id="id54">
+<span id="id55"></span><h3><span class="section-number">7.4.3. </span>使い方<a class="headerlink" href="#id54" title="この見出しへのパーマリンク"></a></h3>
+<p>SC-DFT法を利用するためには、以下のようにcontrolブロックにおいて変数driverの値をsc_dftとします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  driver = sc_dft
+}
+</pre></div>
+</div>
+<p>SC-DFTの収束判定条件は、以下のように設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  sc_dft{
+    delta_epsilon = 0.01
+  }
+}
+</pre></div>
+</div>
+<p>delta_epsilonのデフォルト値は0.01です。</p>
+<p>SC-DFT計算は誘電率計算を行いますが、デフォルトの設定で問題ないのであればそのための設定は必要ありません。デフォルトの設定を変更する場合はepsilonブロックを挿入し、そこで設定を行います。ただし、SC-DFT法の場合photonブロックにおいてpolar,
+Poyntingベクトルの値はゼロにする必要があります。すなわち、以下のように設定する必要があります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>epsilon{
+  ...
+  photon{
+    poynting{
+      ux = 0.0,uy = 0.0, uz = 0.0
+    }
+    polar{
+      px = 0.0, py = 0.0, pz = 0.0
+    }
+  }
+}
+</pre></div>
+</div>
+<p>誘電関数計算は、四面体法によって行われます。そのため、以下のようにk点サンプリングを四面体法が利用できるように設定する必要があります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  ksampling{
+    method = mesh
+    ...
+  }
+  smearing{
+    method = tetrahedral
+  }
+}
+</pre></div>
+</div>
+<p>このように設定しないと不正な誘電率が得られてしまいます。
+また、ハイブリッド汎関数法による計算を行いますが、これは前節で説明したように設定してください。ただし、functional_typeには何も指定しないか、PBE0を指定するようにしてください。
+計算の実行は、通常通り行います。通常の計算と違い収束する度に新しい計算が行われます。混合比はログファイルに記録されます。以下の要領でその値を調べることができます。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>grep<span class="w"> </span>alpha_exx<span class="w"> </span>output000
+!!**<span class="w"> </span><span class="nv">alpha_exx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.1425
+!!**<span class="w"> </span><span class="nv">alpha_exx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.1208
+!!**<span class="w"> </span><span class="nv">alpha_exx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.1113
+!!**<span class="w"> </span><span class="nv">alpha_exx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.1081
+!!**<span class="w"> </span><span class="nv">alpha_exx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.1080
+</pre></div>
+</div>
+<p>また、nfefn.dataファイルには以下のように各SC-DFTステップにおけるエネルギーの履歴が記録されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>iter_scdft, iter_ion, iter_total, etotal, forcmx
+1 1  9 -7.8461877466 0.0000000000
+2 1 12 -7.8443931212 0.0000000000
+3 1 15 -7.8437399027 0.0000000000
+4 1 18 -7.8434571365 0.0000000000
+5 1 21 -7.8433616238 0.0000000000
+</pre></div>
+</div>
+<p>ハイブリッド汎関数法は計算時間が膨大になりえるので、継続計算をする必要がでてくる場合もあるでしょう。継続計算を行うにあたって、特別なことを考慮する必要はありません。通常通りcontrolブロックのcondition
+を continuationもしくはautomaticとした上でPHASE/0を再実行してください。</p>
+</section>
+<section id="id56">
+<span id="id57"></span><h3><span class="section-number">7.4.4. </span>計算例<a class="headerlink" href="#id56" title="この見出しへのパーマリンク"></a></h3>
+<p>Si結晶にSC-DFT法を適用した例を紹介します。入力データ <code class="code docutils literal notranslate"><span class="pre">samples/hybrid/scdft/Si</span></code> 以下にあります。
+Si結晶は、通常のPBE計算の場合バンドギャップが0.6 eV程度と過小評価されることが知られています。また、PBE0 ( <span class="math notranslate nohighlight">\(\alpha=0.25\)</span> )を用いると1.94 eV程度と過大評価されます。</p>
+<p>まず、 <a class="reference internal" href="#advanced-hybrid-fig4"><span class="std std-numref">図 7.7</span></a> に混合比と誘電率の履歴を報告します。図から明らかなように、SC-DFT iteration 4回目ではやくも収束しています。Si結晶に限らず、SC-DFT法の収束は速い場合が多いようです。得られた <span class="math notranslate nohighlight">\(\alpha\)</span> の値は0.108, 対応する誘電率は9.26です。</p>
+<figure class="align-default" id="advanced-hybrid-fig4">
+<img alt="../_images/image127.png" src="../_images/image127.png" />
+<figcaption>
+<p><span class="caption-number">図 7.7 </span><span class="caption-text">Si結晶に対してSC-DFT法を適用した例。左図：<span class="math notranslate nohighlight">\(\alpha\)</span> の値の履歴、右図：誘電率の履歴。</span><a class="headerlink" href="#advanced-hybrid-fig4" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>つぎに、得られた <span class="math notranslate nohighlight">\(\alpha\)</span> を利用して、状態密度の計算を行ってみました。結果を <a class="reference internal" href="#advanced-hybrid-fig5"><span class="std std-numref">図 7.8</span></a> に報告します。比較のためPBEで求めた場合とで求めた場合の結果も同時にプロットしました。</p>
+<figure class="align-default" id="advanced-hybrid-fig5">
+<img alt="../_images/image132.png" src="../_images/image132.png" />
+<figcaption>
+<p><span class="caption-number">図 7.8 </span><span class="caption-text">Si結晶の状態密度</span><a class="headerlink" href="#advanced-hybrid-fig5" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>この状態密度より得られるバンドギャップは1.23 eVです。これは、実測値の1.17 eVに極めて近い値であるといえます。</p>
+<p><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="skone14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id52">Skone14</a><span class="fn-bracket">]</span></span>
+<p>Jonathan H. Skone, 1 Marco Govoni, and Giulia Galli, “Self-consistent hybrid functional for condensed systems”, Phys. Rev. B <strong>89</strong> (2014) 195112.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="advanced-vdwdf-section">
+<span id="id58"></span><h2><span class="section-number">7.5. </span>ファンデルワールス相互作用（非局所相関項）<a class="headerlink" href="#advanced-vdwdf-section" title="この見出しへのパーマリンク"></a></h2>
+<section id="id59">
+<span id="id60"></span><h3><span class="section-number">7.5.1. </span>機能の概要<a class="headerlink" href="#id59" title="この見出しへのパーマリンク"></a></h3>
+<p>非局所相関項を第一原理的に計算する手法（van der Waals density functional
+(vdW-DF)）を利用した計算機能について説明します．PHASEでも採用されている一般化された密度勾配近似：Generalized
+Gradient Approximation
+(GGA)では非局所相関項が考慮されていないために、例えば積層グラファイトの層間凝集エネルギーなどを正確に計算することができません．本節で取り上げる計算機能はGGAのこの欠点を補うために用意されたもので、これを用いることでvan
+der
+Waals相互作用が大きく寄与する系の全エネルギーや電子状態もより正確に計算できるようになります．また、このvdWDFは第一原理的な手法を利用していて経験的なパラメータ等を用いていないので、任意の形状の系に対して簡単に適用することができます．</p>
+</section>
+<section id="id61">
+<h3><span class="section-number">7.5.2. </span>非局所相関項を含めた全エネルギー計算<a class="headerlink" href="#id61" title="この見出しへのパーマリンク"></a></h3>
+<p>理論概要</p>
+<ul class="simple">
+<li><p>基本理論</p></li>
+</ul>
+<p>プログラムvdW.F90では非局所相関項<span class="math notranslate nohighlight">\(E_{c}^{\text{nl}}\)</span>を計算します．この<span class="math notranslate nohighlight">\(E_{c}^{\text{nl}}\)</span>に、GGAで得られる交換項<span class="math notranslate nohighlight">\(E_{x}^{\text{GGA}}\)</span>とLDAから得られる交換項<span class="math notranslate nohighlight">\(E_{c}^{\text{LDA}}\)</span>を足し合わせることで「非局所相関項も考慮した交換相関項」を導出します．すなわち、交換相関エネルギー<span class="math notranslate nohighlight">\(E_{\text{xc}}\)</span>は</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-vdw1">
+<span class="eqno">(7.6)<a class="headerlink" href="#equation-eq-vdw1" title="この数式へのパーマリンク"></a></span>\[E_{\text{xc}} = E_{x}^{\text{GGA}} + E_{c}^{\text{LDA}} + E_{c}^{\text{nl}}\]</div>
+</div></blockquote>
+<p>となります．このうち右辺第３項の計算が最も困難で、vdWではDionら <a class="reference internal" href="#dion06" id="id62"><span>[Dion06]</span></a> によって開発された理論手法に習って数値計算されます．この理論手法では非局所相関項を</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-vdw2">
+<span class="eqno">(7.7)<a class="headerlink" href="#equation-eq-vdw2" title="この数式へのパーマリンク"></a></span>\[E_{c}^{\text{nl}} = \frac{1}{2}\int_{}^{}d\mathbf{r}_{i}\mathbf{r}_{k}\rho\left( \mathbf{r}_{i} \right)\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\rho\left( \mathbf{r}_{k} \right)\]</div>
+</div></blockquote>
+<p>として計算します．被積分関数に位置変数が２つ（<span class="math notranslate nohighlight">\(\mathbf{r}_{i}\)</span>と<span class="math notranslate nohighlight">\(\mathbf{r}_{k}\)</span>）あるこの式では、GGAやLDAと違って、離れた位置にある電荷密度同士（<span class="math notranslate nohighlight">\(\rho\left( \mathbf{r}_{i} \right)\)</span>と<span class="math notranslate nohighlight">\(\rho\left( \mathbf{r}_{k} \right)\)</span>
+）の相互作用も考慮しています．２変数関数<span class="math notranslate nohighlight">\(\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\)</span>は</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-vdw3">
+<span class="eqno">(7.8)<a class="headerlink" href="#equation-eq-vdw3" title="この数式へのパーマリンク"></a></span>\[\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right) = \frac{2}{\pi^{2}}\int_{0}^{\infty}d\text{adb}a^{2}b^{2}\text{WT}\]</div>
+</div></blockquote>
+<p>のように書けます．ここで、</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-vdw4">
+<span class="eqno">(7.9)<a class="headerlink" href="#equation-eq-vdw4" title="この数式へのパーマリンク"></a></span>\[W\left( a,b \right) = \frac{2}{a^{3}b^{3}}\left\lbrack \left( 3 - a^{2} \right)b{\cos\ }b{\sin\ }a+ \left( 3 - b^{3} \right)a{\cos\ }a{\sin\ }b \right. + \left. \ \left( a^{2} - b^{2} - 3 \right){\sin\ }a{\sin\ }b - 3ab{\cos\ }a{\cos\ }b \right\rbrack\]</div>
+</div></blockquote>
+<p>です．また、</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[T\left\lbrack x_{i}\left( a \right),x_{i}\left( b \right),x_{k}\left( a \right),x_{k}\left( b \right)\right\rbrack = \frac{1}{2}\left\lbrack \frac{1}{x_{i}\left( a \right) + x_{i}\left( b \right)} + \frac{1}{x_{k}\left( a \right) + x_{k}\left( b \right)} \right\rbrack\]</div>
+<div class="math notranslate nohighlight">
+\[\times \left\lbrack \frac{1}{\left( x_{i}\left(a \right) + x_{k}\left( a \right) \right)\left( x_{i}\left( b \right) + x_{k}\left( b \right) \right)} \right.\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-vdw5">
+<span class="eqno">(7.10)<a class="headerlink" href="#equation-eq-vdw5" title="この数式へのパーマリンク"></a></span>\[+ \left. \ \frac{1}{\left( x_{i}\left( a \right) + x_{k}\left( b \right) \right)\left( x_{i}\left(b \right) + x_{k}\left( a \right) \right)} \right\rbrack\]</div>
+</div></blockquote>
+<p>と定義されます．さらに各変数は</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[x_{j}\left( a \right) = \frac{a^{2}}{2} \times \frac{1}{1 - \text{exp}\left( - \frac{4\pi a^{2}}{9d_{j}^{2}} \right)},\]</div>
+<div class="math notranslate nohighlight">
+\[d_{j} = \left| \mathbf{r}_{i} - \mathbf{r}_{k} \right|q_{0}\left( \mathbf{r}_{j} \right),\]</div>
+<div class="math notranslate nohighlight">
+\[q_{0}\left( \mathbf{r}_{j} \right) =- \frac{4\pi}{3}\epsilon_{\text{xc}}^{\text{LDA}}\rho\left( \mathbf{r}_{j} \right) - \frac{Z_{\text{ab}}}{9}\left\{ \frac{\nabla\rho\left( \mathbf{r}_{j} \right)}{2k_{F}\left( \mathbf{r}_{j} \right)\rho\left( \mathbf{r}_{j}\right)} \right\}^{2}k_{F}\left( \mathbf{r}_{j} \right),\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-vdw6">
+<span class="eqno">(7.11)<a class="headerlink" href="#equation-eq-vdw6" title="この数式へのパーマリンク"></a></span>\[k_{F}^{3}\left( \mathbf{r}_{j}\right) = 3\pi^{2}\rho\left( \mathbf{r}_{j} \right) \left( j = i \text{ or } k \right)\]</div>
+</div></blockquote>
+<p>となっており、これからわかるように電荷密度分布を唯一の入力情報とした汎関数となるように設計されています．ここで <a class="reference internal" href="#equation-eq-vdw6">(7.11)</a> の定数Z<sub>ab</sub>
+= -0.8491 は第一原理的に決定された係数で、 vdwdf version
+1で採用されています。vdwdf version 2
+では、この値を2.2倍した値が用いられます。局所密度近似による交換相関エネルギー密度<span class="math notranslate nohighlight">\(\epsilon_{\text{xc}}^{\text{LDA}}\)</span>はO.
+Gunnarsson <em>et
+al</em><a class="reference internal" href="#gunnarsson76" id="id63"><span>[Gunnarsson76]</span></a> によるものを用いています．これら一連の式はplasmon-pole
+modelをもとに設計されたものであり、そのためvan der
+Waals相互作用に代表される非局所相関項を含む全エネルギーが比較的低計算コストで非経験的に得られるようになっています．</p>
+<p>さらに効率的に数値計算を行うために、<a class="reference internal" href="#equation-eq-vdw2">(7.7)</a> の２変数関数<span class="math notranslate nohighlight">\(\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\)</span>を計算するアルゴリズムが変更されました．この２変数関数<span class="math notranslate nohighlight">\(\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\)</span>は直接には<em>di</em>と<em>dj</em>にしか依存しないため、
+<em>di</em>=<em>D</em>(1+<em>δ</em>)、<em>dj</em>=<em>D</em>(1-<em>δ</em>)と新たに定義された２変数D、<em>δ</em>を用いて<span class="math notranslate nohighlight">\(\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\)</span>を<span class="math notranslate nohighlight">\(\phi\left( D,\delta \right)\)</span>として予め計算された数値セットを用意するようにしました．これによって用意したグリッド点数に応じて <a class="reference internal" href="#equation-eq-vdw3">(7.8)</a> の2重積分を逐一行う必要がなくなるため数値計算量が大幅に削減されています．</p>
+<ul class="simple">
+<li><p>特異点周辺の数値積分</p></li>
+</ul>
+<p><a class="reference internal" href="#equation-eq-vdw6">(7.11)</a> で変数<span class="math notranslate nohighlight">\(a = 0\)</span>でかつ<span class="math notranslate nohighlight">\(\mathbf{r}_{i} = \mathbf{r}_{k}\)</span>の場合は数値計算によって<span class="math notranslate nohighlight">\(x_{j}\left( a \right)\)</span>を決定するのは困難です．このため <a class="reference internal" href="#equation-eq-vdw2">(7.7)</a> の数値積分も特異点を含むことになるため、難しくなります．そこで<span class="math notranslate nohighlight">\(\left| \mathbf{r}_{i} - \mathbf{r}_{k} \right| \ll 1\)</span>の領域では電荷密度を<span class="math notranslate nohighlight">\(\rho\left( \mathbf{r}_{i} \right) = \rho\left( \mathbf{r}_{k} \right)\)</span>と仮定して<span class="math notranslate nohighlight">\(\mathbf{r}_{k}\)</span>積分の外に出すことにします．これによって <a class="reference internal" href="#equation-eq-vdw2">(7.7)</a> のうち、<span class="math notranslate nohighlight">\(\mathbf{r}_{i}\)</span>を中心にした微少半径<span class="math notranslate nohighlight">\(\eta_{i}\)</span>の球内での<span class="math notranslate nohighlight">\(\mathbf{r}_{k}\)</span>積分を</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\frac{1}{2}\int_{\eta_{i}}^{}d\mathbf{r}_{k}\rho\left(\mathbf{r}_{i} \right)\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\rho\left( \mathbf{r}_{k} \right) \cong\frac{1}{2}\frac{4\pi\eta_{i}^{3}}{3}\rho^{2}\left( \mathbf{r}_{i} \right)\int_{\eta_{i}}^{}d\mathbf{r}_{k}\phi\left( \mathbf{r}_{i},\mathbf{r}_{k}\text{ht} \right)\]</div>
+<div class="math notranslate nohighlight">
+\[= \frac{1}{2}\frac{4\pi\eta_{i}^{3}}{3}\rho^{2}\left( \mathbf{r}_{i} \right) \times 4\pi\int_{0}^{\eta_{i}}dr_{\text{ik}}\phi\left( d_{i},d_{k} \right)\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-vdw7">
+<span class="eqno">(7.12)<a class="headerlink" href="#equation-eq-vdw7" title="この数式へのパーマリンク"></a></span>\[= \frac{1}{2}\frac{4\pi\eta_{i}^{3}}{3}\rho^{2}\left( \mathbf{r}_{i} \right) \times 4\pi\int_{0}^{\eta_{i}q_{0}}d\text{Dϕ}\left( D \right)\frac{D^{2}}{q_{0}^{3}}\]</div>
+</div></blockquote>
+<p>と単純にすることができます．ただし、<span class="math notranslate nohighlight">\(r_{\text{ik}} = \left| \mathbf{r}_{i} - \mathbf{r}_{k} \right|\)</span>としています．ここで２行目から３行目へは、<span class="math notranslate nohighlight">\(D \equiv q_{0}\mathbf{r}_{\text{ik}}\left( = d_{i} = d_{k} \right)\)</span>を定義して変数変換を用いています．３行目の被積分関数は特異点を含まないため、これで数値積分を実行することができます．</p>
+<ul class="simple">
+<li><p>無限周期系への拡張</p></li>
+</ul>
+<p>本手法では電荷密度分布情報を実空間表記で入力し、そのまま計算を進めていくためにこのままでは有限サイズの計算対象に向いた手法となっています．逆に無限周期系を計算するには十分に<span class="math notranslate nohighlight">\(\mathbf{r}_{i}\)</span>と<span class="math notranslate nohighlight">\(\mathbf{r}_{k}\)</span>が離れた場合まで <a class="reference internal" href="#equation-eq-vdw2">(7.7)</a> の数値積分を行わなくてはならず、非常に計算効率が悪くなります．特にvan
+der Waals相互作用は遠距離においてもその寄与はなだらかにしか減衰しません．そこで漸近関数を用いることで、本手法をこの無限周期系にも対応できるようにしました．<a class="reference internal" href="#equation-eq-vdw2">(7.7)</a> の被積分関数にある２変数関数<span class="math notranslate nohighlight">\(\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\)</span>は<span class="math notranslate nohighlight">\(\mathbf{r}_{i}\)</span>と<span class="math notranslate nohighlight">\(\mathbf{r}_{k}\)</span>が十分に離れた場合には</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right) \rightarrow - \frac{12\left( \frac{4\pi}{9} \right)^{3}}{d_{i}^{2}d_{k}^{2}\left( d_{i}^{2} + d_{k}^{2} \right)}\]</div>
+<div class="math notranslate nohighlight">
+\[= - \frac{C}{r_{\text{ik}}^{6}} \times \frac{1}{q_{0}^{2}\left( r_{i} \right)q_{0}^{2}\left( r_{k} \right)\left( q_{0}^{2}\left(r_{i} \right) + q_{0}^{2}\left( r_{k} \right) \right)}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-vdw8">
+<span class="eqno">(7.13)<a class="headerlink" href="#equation-eq-vdw8" title="この数式へのパーマリンク"></a></span>\[= - \frac{C}{r_{\text{ik}}^{6}} \times \psi\left\lbrack \rho\left( \mathbf{r}_{i}\right)\rho\left( \mathbf{r}_{k} \right) \right\rbrack\]</div>
+</div></blockquote>
+<p>のような漸近関数に近似できることがその定義からわかります．ただし<span class="math notranslate nohighlight">\(C = 12\left( 4\pi/9 \right)^{3}\)</span>．この漸近関数には <a class="reference internal" href="#equation-eq-vdw3">(7.8)</a> のような積分演算が含まれていないため非常に簡単に数値計算が行えるという利点があります．
+この式の３行目のうち‘×’の前の分数は<span class="math notranslate nohighlight">\(\mathbf{r}_{k}\)</span>の増加に応じて単純に減衰していく漸近項で、これに対して‘×’の後ろの<span class="math notranslate nohighlight">\(\psi\left\lbrack \rho\left( \mathbf{r}_{i} \right),\rho\left( \mathbf{r}_{k} \right) \right\rbrack\)</span>は式(8)からわかるように直接的には電荷密度しか変数を持たないため、周期系物質においては周期的な項となっています．このことを考慮すると、式(2)のうち、<span class="math notranslate nohighlight">\(\mathbf{r}_{i}\)</span>と<span class="math notranslate nohighlight">\(\mathbf{r}_{k}\)</span>が十分に離れた場合<span class="math notranslate nohighlight">\((r_{\text{ik}} &gt; \eta\)</span>)には次のように積分を単純化できます．すなわち</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\frac{1}{2}\int_{r_{\text{ik}} &gt; \eta}^{}d\mathbf{r}_{i}d\mathbf{r}_{k}\rho\left( \mathbf{r}_{i} \right)\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\rho\left( \mathbf{r}_{k} \right) \cong \frac{1}{2}dv^{2}\sum_{\overset{\mathbf{r}_{i} \in}{\text{unitcell}}}^{}{\sum_{\overset{\mathbf{r}_{k} \in}{\left( r_{\text{ik}} &gt; \eta \right)}}^{}\rho}\left( \mathbf{r}_{i} \right)\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} \right)\rho\left( \mathbf{r}_{k} \right)\]</div>
+<div class="math notranslate nohighlight">
+\[= \frac{1}{2}dv^{2}\sum_{\overset{\mathbf{r}_{i},\mathbf{r}_{k} \in}{\text{unitcell}}}^{}{\sum_{\overset{\mathbf{t}_{\text{xyz}} \in}{\left( \left| \mathbf{r}_{k} + \mathbf{t}_{\text{xyz}} - \mathbf{r}_{i} \right| &gt; \eta \right)}}^{}\rho}\left( \mathbf{r}_{i} \right)\phi\left( \mathbf{r}_{i},\mathbf{r}_{k} + \mathbf{t}_{\text{xyz}} \right)\rho\left( \mathbf{r}_{k} + \mathbf{t}_{\text{xyz}} \right)\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-vdw9">
+<span class="eqno">(7.14)<a class="headerlink" href="#equation-eq-vdw9" title="この数式へのパーマリンク"></a></span>\[= -\frac{C}{2}dv^{2}\sum_{\overset{\mathbf{r}_{i},\mathbf{r}_{k} \in}{\text{unitcell}}}^{}\rho\left( \mathbf{r}_{i} \right)\psi\left\lbrack \rho\left( \mathbf{r}_{i} \right),\rho\left( \mathbf{r}_{k} \right) \right\rbrack\rho\left( \mathbf{r}_{k} \right)\sum_{|\mathbf{r}_{k} +\mathbf{t}_{\text{xyz}} - \mathbf{r}_{i}| &gt; \eta\ }^{\mathbf{t}_{\text{xyz}} \in}\frac{1}{r_{\text{xyz}}^{6}}\]</div>
+</div></blockquote>
+<p>と関数を分けることができます．ここで<span class="math notranslate nohighlight">\(\text{dv}\)</span>は数値計算を行う際のグリッド点に囲まれる最小直方体体積で、<span class="math notranslate nohighlight">\(\mathbf{t}_{\text{xyz}}\)</span>は格子点同士を結ぶ結晶ベクトルです．この式３行目の総和のうち左側は<span class="math notranslate nohighlight">\(\mathbf{r}_{i}\)</span>と<span class="math notranslate nohighlight">\(\mathbf{r}_{k}\)</span>の範囲がユニットセル内に限定されているので、計算コストは限定的です．一方、右側は<span class="math notranslate nohighlight">\(1/r_{\text{xyz}}^{6}\)</span>が実質無視できるほど小さくなるまで広範囲に渡って総和することになります．しかし、そもそも関数型が非常に単純な上に、電荷密度分布<span class="math notranslate nohighlight">\(\rho\left( \mathbf{r} \right)\)</span>とは無関係で、グリッド点の空間配置のみによって決まる値なので予め求めておけばよいものです．</p>
+<p>以上のように漸近関数を使ってさらに式(12)のように積分順序を工夫することによって、実質無限遠の寄与まで効率よく考慮することができ、これによって本手法を無限周期系にも適用できるようにしています．</p>
+<ul class="simple">
+<li><p>3次スプライン補間と畳み込み積分を利用した高速化</p></li>
+</ul>
+<p>Dionらによるもともとの手法では、空間の2重積分を直接行うため膨大な演算量が必要とされます。そこで、Román-PérezとSolerによって
+、スプライン補間と畳み込み積分を利用したより高速なアルゴリズムが開発されました
+<a class="reference internal" href="#roman09" id="id64"><span>[Roman09]</span></a> PHASE/0はこの方法によって実際の計算を行います。</p>
+<p>この方法では、まずカーネル関数を3次のスプライン補間によって展開します。</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-vdw10">
+<span class="eqno">(7.15)<a class="headerlink" href="#equation-eq-vdw10" title="この数式へのパーマリンク"></a></span>\[\phi\left(d,d'\right) = \phi\left(q\left| \mathbf{r}-\mathbf{r}'\right|, q'\left|\mathbf{r}-\mathbf{r}'\right|\right) = \sum_{\alpha\beta}\left(q_{\alpha}\left|\mathbf{r}-\mathbf{r}'\right|,q_{\beta}\left|\mathbf{r}-\mathbf{r}'\right|\right)p_{\alpha}\left(q\right)p_{\beta}\left(q'\right).\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(\theta_\alpha \left(\mathbf{r}\right)\equiv p_{\alpha}(q)\rho(\mathbf{r})\)</span> を導入すると、2重積分は以下のように畳み込み積分に変形することができます。</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-vdw11">
+<span class="eqno">(7.16)<a class="headerlink" href="#equation-eq-vdw11" title="この数式へのパーマリンク"></a></span>\[\begin{split}E_{c}^{\rm nl} = \frac{1}{2} \iint d\mathbf{r}d\mathbf{r}' \theta_{\alpha}\left(\mathbf{r}\right) \theta_{\beta}\left(\mathbf{r}'\right)\phi_{\alpha\beta}\left(\left|\mathbf{r}-\mathbf{r}'\right|\right) \\ = \frac{\Omega}{2} \sum_{\alpha} \sum_{\mathbf{G}} \theta_{\alpha}^{*}\left( \mathbf{G} \right) \theta_{\beta} \left(\mathbf{G}\right) \phi_{\alpha\beta} \left(\left|\mathbf{G}\right|\right), \\ \theta_{\alpha} \left(\mathbf{G}\right) = \int d\mathbf{r} \theta_{\alpha} \left(\mathbf{r}\right) \exp \left[ -i \mathbf{G} \cdot \mathbf{r} \right], \\ \phi_{\alpha\beta} \left( \left|\mathbf{G}\right|\right) = \frac{4\pi}{\left|\mathbf{G}\right|} \int r \phi_{\alpha\beta} \left(r\right) \sin \left[ \left|\mathbf{G}\right| r \right] dr.\end{split}\]</div>
+</div></blockquote>
+<p>このように変形すると、上式から分かるように高速フーリエ変換を利用して処理できるようになり、大幅な高速化が達成できます。</p>
+<p>SCF計算に組み込む場合、通常通りエネルギーを電子密度で汎関数微分します。</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-vdw12">
+<span class="eqno">(7.17)<a class="headerlink" href="#equation-eq-vdw12" title="この数式へのパーマリンク"></a></span>\[\begin{split}v_{\rm c}^{\rm nl} \left(\mathbf{r}\right) = \sum_{\alpha} \left( u_{\alpha} \left(\mathbf{r}\right) \frac{\delta \theta_{\alpha} \left(\mathbf{r}\right)}{\delta \rho \left( \mathbf{r}\right)} + \sum_{\mathbf{r}'} u_{\alpha} \left(\mathbf{r}'\right) \frac{\delta \theta_{\alpha} \left(\mathbf{r}'\right)}{\delta \left|\nabla\rho\left(\mathbf{r}'\right)\right|} \frac{\delta \left|\rho\left(\mathbf{r}'\right)\right|}{\delta \rho\left(\mathbf{r}\right)} \right), \\ u_{\alpha} = \sum_{\beta} \sum_{\mathbf{r}'} \theta_{\beta}^{*} \left(\mathbf{r}'\right) \phi_{\alpha\beta} \left(\left|\mathbf{r}-\mathbf{r}'\right|\right).\end{split}\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(u_{\alpha} \left(\mathbf{r}\right)\)</span> も畳み込み積分になっているので、逆空間で計算し、逆FFTを行うことによって計算することが可能です。</p>
+<ul class="simple">
+<li><p>アルゴリズム</p></li>
+</ul>
+<p>非局所相関項（van der
+Waals項）を含めた全エネルギー計算は、交換相互作用はGGA,
+局所的な相関相互作用はLDA,
+そして非局所的な相関相互作用はここまで説明したvdWDF理論を利用して行われます。計算方法としては、この計算をすべてセルフコンシステントに行う方法と、交換相互作用はGGA,
+相関相互作用はLDAを採用した変則的な汎関数を利用して収束解を得たあとにポスト処理的にvdWDF効果を取り込む、という方法があります。PHASE/0では前者を“SCF版”、後者を“ワンショット版”と呼んでいます。ワンショット版は最後に1度vdWの処理を行うのみなので、SCF版と比較すると高速です。エネルギーを求めることのみが目的の場合ワンショット版でも多くの場合十分な精度が得られます。ただし、vdWエネルギー由来の原子間力も計算したい場合はSCF版を採用する必要があります。</p>
+<p>なお、上記の交換相互作用として、いくつかのGGA汎関数が考えられています。さらに、これとZ<sub>ab</sub>の値
+(vdwdfのバージョン)
+の組み合わせにより、複数のvdWDF汎関数が提案されています。PHASE/0で使用可能な
+vdWDFの一覧を以下に示します。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>名称</p></th>
+<th class="head"><p>vdwdf のバージョン</p></th>
+<th class="head"><p>交換相互作用</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>vdwdf</p></td>
+<td><p>1</p></td>
+<td><p>revpbe</p></td>
+</tr>
+<tr class="row-odd"><td><p>vdwdf2</p></td>
+<td><p>2</p></td>
+<td><p>pw86r</p></td>
+</tr>
+<tr class="row-even"><td><p>vdwdf-c09x</p></td>
+<td><p>1</p></td>
+<td><p>c09x</p></td>
+</tr>
+<tr class="row-odd"><td><p>vdwdf2-c09x</p></td>
+<td><p>2</p></td>
+<td><p>c09x</p></td>
+</tr>
+<tr class="row-even"><td><p>vdwdf-optpbe</p></td>
+<td><p>1</p></td>
+<td><p>optpbe</p></td>
+</tr>
+<tr class="row-odd"><td><p>vdwdf2-b86r</p></td>
+<td><p>2</p></td>
+<td><p>b86r</p></td>
+</tr>
+<tr class="row-even"><td><p>vdwdf-cx</p></td>
+<td><p>1</p></td>
+<td><p>lvpw86r</p></td>
+</tr>
+</tbody>
+</table>
+<p>使用方法</p>
+<p>利用の前提として、GGAPBE汎関数に対応した擬ポテンシャルファイルを用意する必要があります（公開擬ポテンシャルは、ほぼすべてGGAPBEに対応しています）。その上で、以下のような設定を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  xctype = vdwdf2 ! vdwdf, vdwdf2, … ,vdwdf-cxが選択可能。
+  vdwdf{
+    mode = scf
+  }
+}
+</pre></div>
+</div>
+<p>accuracyブロックの下のxctype変数に、使用する
+vdWDF汎関数名を指定します。さらに、vdwdfブロックの下の変数modeにSCF版を利用する場合はscfを、ワンショット版を利用する場合はoneshotを指定します。変数modeのデフォルト値はoneshotです。ただし、xctype
+= vdwdf 以外はワンショット計算には非対応です。</p>
+<p id="id65">出力</p>
+<p>結果は、通常の計算と変わりません。nfefn.dataファイルにはエネルギーの履歴が、nfdynm.dataファイルには原子座標の履歴が記録されます。ワンショット版を利用している場合は、output000ファイルに記録される途中のエネルギーとnfefn.dataファイルで報告されるエネルギーが異なる点には注意が必要です。ワンショット版の場合、途中に記録されるエネルギーは交換相互作用にGGA,
+相関相互作用にLDAを利用した変則的な汎関数による結果だからです。ワンショット版の場合、計算収束し、vdWDFの計算が終わったあと、以下のように結果がoutput000ファイルに報告されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>vdW energy : 0.0668443126 hartree
+--&gt; total energy : -22.8808219651 hartree
+</pre></div>
+</div>
+<p>nfefn.dataファイルに記録されるエネルギー値は、vdWDFのエネルギーも含んだエネルギー値です。</p>
+</section>
+<section id="id66">
+<h3><span class="section-number">7.5.3. </span>計算例1：積層グラファイトの全エネルギー計算<a class="headerlink" href="#id66" title="この見出しへのパーマリンク"></a></h3>
+<p>はじめに</p>
+<p>　ここでは実際に本ルーチン（vdW）を用いたvdW-DF計算の例を挙げます．計算対象はGGAやLDAでは正確に計算できない典型例である、積層グラファイト（A-B
+stacking）の全エネルギーの層間距離依存性としました．通常のGGAの範囲内でこの系の全エネルギー曲線を計算するとエネルギー的に安定な平衡点は現れず、結果的に各グラファイト層は互いに無限遠まで離散するという解釈になってしまいます．本来は適当な層間距離でエネルギー的に明確な安定点が存在するため、GGAによるこの解釈は定性的に間違っています．これは、非局所的な相互作用であるvan
+der
+Waals相互作用をGGAが全く考慮できていないことに主な要因があり、本計算機能を利用することでこの間違いが修正されることを確認します．</p>
+<p>計算条件</p>
+<p>本計算では、実験値や他の理論計算の報告例が豊富にあるA-B
+stacking型の積層グラファイトを対象にしました．ユニットセル内に8個（2層分）の炭素原子を含みます．グラファイトの積層方向にz軸をとってセルサイズは4.3×2.5×<em>z</em>(=<em>x</em>×<em>y</em>×<em>z</em>[Å<sup>3</sup>])とし、<em>z</em>を5から12[Å]まで変化させながら各<em>z</em>値での全エネルギーを計算させました．この計算を通常のGGAとvdW-DF計算
+( xctype=vdwdf、mode=oneshot )
+の2通りで行い、それぞれから得られる全エネルギー曲線を比較します．vdW-DF計算には入力情報として電荷密度分布<span class="math notranslate nohighlight">\(\rho^{\text{GGAx}}\left( \mathbf{r} \right)\)</span>が必要になりますが、このグリッド密度はGGA計算時に設定したcutoff値に依存しており、ここでは32×18×40(to
+96)個のグリッドを採用しています．なお、グリッド点数は整数であるため、z軸の変化に伴って不連続に変化することになります．つまり、結果のエネルギー曲線が不自然に変化する場合はこの不連続性が原因であるため、必要に応じてPHASEのinputfileのcutoff値を上げることでなめらかになります．また、vdWは非局所的な計算になるためGGAよりは大きな計算コストが必要となります．</p>
+<p id="id67">計算結果</p>
+<p>　下図は上記条件で計算した積層グラファイト（A-B
+stacking）の全エネルギーの層間距離依存性を示したものです．赤線は通常のGGAによる結果を、緑線はvdWによるvdW-DF計算の結果をそれぞれ示しています．また、青点は実験 <a class="reference internal" href="#benedict98" id="id68"><span>[Benedict98]</span></a> <a class="reference internal" href="#baskin55" id="id69"><span>[Baskin55]</span></a> による平衡点とそのときの凝集エネルギー（青線は誤差）を、同様に紫点は別の理論計算 <a class="reference internal" href="#rydberg03" id="id70"><span>[Rydberg03]</span></a> によるものです．GGA計算では全く平衡点が確認できないのに対して、vdW-DF計算ではかなり実験値の近くで極小点を迎えているのが確認できます．</p>
+<figure class="align-default" id="advanced-vdwdf-fig1">
+<img alt="../_images/image138.jpeg" src="../_images/image138.jpeg" />
+<figcaption>
+<p><span class="caption-number">図 7.9 </span><span class="caption-text">積層グラファイトの全エネルギーの層間距離依存性．GGA（赤線）とGGA + vdW（緑線）による比較</span><a class="headerlink" href="#advanced-vdwdf-fig1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="h-mos2">
+<h3><span class="section-number">7.5.4. </span>計算例2：積層2H-MoS<sub>2</sub>の全エネルギー計算<a class="headerlink" href="#h-mos2" title="この見出しへのパーマリンク"></a></h3>
+<p>層状物質である 2H-MoS<sub>2</sub> (単位胞6原子) の全エネルギー計算を、c
+軸方向の格子長をパラメーターにして行います。a、b軸の格子長は 3.1612
+Åで固定します。また、mode=scf により
+SCF計算を行い、構造最適化を行います。結果は、以下に示すように、xctype =
+vdwdf よりも vdwdf2-c09x の方が、実験の格子長 12.2985 Åに近い c
+軸長でエネルギーが最小となっています。</p>
+<figure class="align-default" id="advanced-vdwdf-fig2">
+<img alt="../_images/image139.png" src="../_images/image139.png" />
+<figcaption>
+<p><span class="caption-number">図 7.10 </span><span class="caption-text">積層2H-MoS2 の全エネルギーのc 軸長依存性</span><a class="headerlink" href="#advanced-vdwdf-fig2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id71">
+<h3><span class="section-number">7.5.5. </span>制限事項<a class="headerlink" href="#id71" title="この見出しへのパーマリンク"></a></h3>
+<p>　部分電荷補正がある計算や、PAW
+の計算には注意してください。内殻電子による補正項が vdwDF
+に完全対応していないためです。ただし、定性的には大きな影響は与えません。</p>
+<p id="id72"><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="dion06" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id62">Dion06</a><span class="fn-bracket">]</span></span>
+<p>M. Dion, H. Rydberg, E. Schröder, D. C. Langreth, and B. I.  Lundqvist: Phys. Rev. Lett. <strong>92</strong> (2004) 246401: Erratum, ibid, <strong>95</strong> (2005) 109902.</p>
+</div>
+<div class="citation" id="gunnarsson76" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id63">Gunnarsson76</a><span class="fn-bracket">]</span></span>
+<p>O. Gunnarsson and B. I. Lundqvist: Phys. Rev. B <strong>13</strong> (1976) 4274.</p>
+</div>
+<div class="citation" id="roman09" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id64">Roman09</a><span class="fn-bracket">]</span></span>
+<p>Guillermo Román-Pérez and José M. Soler, Phys. Rev. Lett. 103 0 (2009).</p>
+</div>
+<div class="citation" id="benedict98" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id68">Benedict98</a><span class="fn-bracket">]</span></span>
+<p>L. X. Benedict, N. G. Chopra, M. L. Cohen, A. Zettl, S. G. Louie, and V. H. Crespi: Chem. Phys. Lett. <strong>286</strong> (1998) 490.</p>
+</div>
+<div class="citation" id="baskin55" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id69">Baskin55</a><span class="fn-bracket">]</span></span>
+<p>Y. Baskin and L. Mayer: Phys. Rev. <strong>100</strong>, (1955) 544.</p>
+</div>
+<div class="citation" id="rydberg03" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id70">Rydberg03</a><span class="fn-bracket">]</span></span>
+<p>H. Rydberg, M. Dion, N. Jacobson, E. Schröder, P. Hyldgaard, S. I.  Simak, D. C. Langreth, and B. I. Lundqvist: Phys. Rev. Lett. <strong>91</strong> (2003) 126402.</p>
+</div>
+<div class="citation" id="thonhauser07" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Thonhauser07<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="20">
+<li><p>Thonhauser, Valentino R. Cooper, Shen Li, Aaron Puzder, Per Hyldgaard, and David C. Langreth: Phys. Rev. B <strong>76</strong>, 125112 (2007).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="advanced-vdwcorr-section">
+<span id="id73"></span><h2><span class="section-number">7.6. </span>ファンデルワールス相互作用補正機能<a class="headerlink" href="#advanced-vdwcorr-section" title="この見出しへのパーマリンク"></a></h2>
+<section id="id74">
+<span id="id75"></span><h3><span class="section-number">7.6.1. </span>機能の概要<a class="headerlink" href="#id74" title="この見出しへのパーマリンク"></a></h3>
+<ul class="simple">
+<li><p>Williamsの方法 <a class="reference internal" href="#williams06" id="id76"><span>[Williams06]</span></a></p></li>
+</ul>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}E_{\rm vdw} = \sum_{ij} \frac{C_6^{ij}}{R_{ij}^6} f\left( R_{ij}\right) \\ f\left(R\right) = \left( 1-\exp \left[ -d\left(\frac{R_ij}{R_{0}^{ij}}\right)^7\right]\right)^4 \\ C_{6}^{ij} = -S_C \times \frac{2C_6^iC_6^jp_ip_j}{p_i^2C_6^i+p_j^2C_6^j}, R_0^{ij} = S_R \times \frac{\left(R_0^{ii}\right)^3 + \left(R_0^{jj}\right)^3}{\left(R_0^{ii}\right)^2 + \left(R_0^{jj}\right)^2}, R_0^{ii} = 2 \times R_0^i\end{split}\]</div>
+</div></blockquote>
+<p>パラメータ</p>
+<p>vdw radius 20.0 bohr</p>
+<p>scaling factor <span class="math notranslate nohighlight">\(S_C\)</span> 0.8095 (PHASE), <span class="math notranslate nohighlight">\(S_R\)</span> 0.80 文献 PBE <span class="math notranslate nohighlight">\(S_C\)</span> 0.85 <span class="math notranslate nohighlight">\(S_R\)</span> 0.80</p>
+<p>damping factor <span class="math notranslate nohighlight">\(d\)</span> 3.0</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>polarizabilities A <sup>3</sup></p></td>
+<td><p>vde coef C6 Hartree*bohr <sup>6</sup></p></td>
+<td><p>vdw radius</p></td>
+<td></td>
+<td><p>polarizabilities A <sup>3</sup></p></td>
+<td><p>vde coef C6 Hartree*bohr <sup>6</sup></p></td>
+<td><p>vdw radius</p></td>
+</tr>
+<tr class="row-even"><td><p>H</p></td>
+<td><p>0.38</p></td>
+<td><p>2.831179918</p></td>
+<td><p>1.17</p></td>
+<td><p>NTE</p></td>
+<td><p>0.964</p></td>
+<td><p>20.89758657</p></td>
+<td><p>1.50</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>0.296</p></td>
+<td><p>3.94987377</p></td>
+<td></td>
+<td><p>NTR2</p></td>
+<td><p>1.030</p></td>
+<td><p>23.080</p></td>
+<td><p>1.50</p></td>
+</tr>
+<tr class="row-even"><td><p>Cl</p></td>
+<td><p>2.315</p></td>
+<td><p>3.94987377</p></td>
+<td></td>
+<td><p>NPI2</p></td>
+<td><p>1.090</p></td>
+<td><p>25.125</p></td>
+<td><p>1.50</p></td>
+</tr>
+<tr class="row-odd"><td><p>Br</p></td>
+<td><p>3.013</p></td>
+<td><p>128.2756865</p></td>
+<td></td>
+<td><p>NDI</p></td>
+<td><p>0.956</p></td>
+<td><p>20.63799109</p></td>
+<td><p>1.50</p></td>
+</tr>
+<tr class="row-even"><td><p>I</p></td>
+<td><p>5.415</p></td>
+<td><p>309.0603852</p></td>
+<td></td>
+<td><p>OTE</p></td>
+<td><p>0.637</p></td>
+<td><p>11.86370812</p></td>
+<td><p>1.40</p></td>
+</tr>
+<tr class="row-odd"><td><p>CTE</p></td>
+<td><p>1.061</p></td>
+<td><p>22.67403316</p></td>
+<td><p>1.70</p></td>
+<td><p>OTR4</p></td>
+<td><p>0.569</p></td>
+<td><p>10.01566303</p></td>
+<td><p>1.40</p></td>
+</tr>
+<tr class="row-even"><td><p>CTR</p></td>
+<td><p>1.352</p></td>
+<td><p>32.61525204</p></td>
+<td><p>1.70</p></td>
+<td><p>OPI2</p></td>
+<td><p>0.274</p></td>
+<td><p>3.346856941</p></td>
+<td><p>1.40</p></td>
+</tr>
+<tr class="row-odd"><td><p>CAR</p></td>
+<td><p>1.352</p></td>
+<td><p>49.790/Sc</p></td>
+<td><p>1.70</p></td>
+<td><p>STE</p></td>
+<td><p>3.000</p></td>
+<td><p>121.2531939</p></td>
+<td><p>1.80</p></td>
+</tr>
+<tr class="row-even"><td><p>CBR</p></td>
+<td><p>1.896</p></td>
+<td><p>54.16430826</p></td>
+<td><p>1.70</p></td>
+<td><p>STR4</p></td>
+<td><p>3.729</p></td>
+<td><p>168.0350502</p></td>
+<td><p>1.80</p></td>
+</tr>
+<tr class="row-odd"><td><p>CDI</p></td>
+<td><p>1.283</p></td>
+<td><p>30.15058105</p></td>
+<td><p>1.70</p></td>
+<td><p>SPI2</p></td>
+<td><p>2.700</p></td>
+<td><p>103.5277919</p></td>
+<td><p>1.80</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>PTE</p></td>
+<td><p>1.538</p></td>
+<td><p>42.11289383</p></td>
+<td><p>1.80</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>Grimme (DFT-D2)の方法 <a class="reference internal" href="#grimme06" id="id77"><span>[Grimme06]</span></a></p></li>
+</ul>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}E_{\rm disp} = -s_6 \sum_{ij} \frac{C_6^{ij}}{R_{ij}^6} f \left(R_{ij}\right) \\ f\left(R\right) = \frac{1}{1+ \exp \left[ -d \left( \frac{R_{ij}}{R_0^{ij}} -1\right)\right]} \\ C_6^{ij} = \sqrt{C_6^i C_6^j}, R_0^{ij} = R_0^i + R_0^j\end{split}\]</div>
+</div></blockquote>
+<p>パラメータ</p>
+<p>vdw radius 30.0A</p>
+<p>scaling factor 0.75, damping factor 20.0</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>C6</p>
+<p>Jnm<sup>6</sup>/mol</p>
+</th>
+<th class="head"><p>R0</p>
+<p>A</p>
+</th>
+<th class="head"></th>
+<th class="head"><p>C6</p>
+<p>Jnm<sup>6</sup>/mol</p>
+</th>
+<th class="head"><p>R0</p>
+<p>A</p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>H</p></td>
+<td><p>0.14</p></td>
+<td><p>1.001</p></td>
+<td><p>K</p></td>
+<td><p>10.80</p></td>
+<td><p>1.485</p></td>
+</tr>
+<tr class="row-odd"><td><p>He</p></td>
+<td><p>0.08</p></td>
+<td><p>1.012</p></td>
+<td><p>Ca</p></td>
+<td><p>10.80</p></td>
+<td><p>1.474</p></td>
+</tr>
+<tr class="row-even"><td><p>Li</p></td>
+<td><p>1.61</p></td>
+<td><p>0.825</p></td>
+<td><p>Sc-Zn</p></td>
+<td><p>10.80</p></td>
+<td><p>1.562</p></td>
+</tr>
+<tr class="row-odd"><td><p>Be</p></td>
+<td><p>1.61</p></td>
+<td><p>1.408</p></td>
+<td><p>Ga</p></td>
+<td><p>16.99</p></td>
+<td><p>1.650</p></td>
+</tr>
+<tr class="row-even"><td><p>B</p></td>
+<td><p>3.13</p></td>
+<td><p>1.485</p></td>
+<td><p>Ge</p></td>
+<td><p>17.10</p></td>
+<td><p>1.727</p></td>
+</tr>
+<tr class="row-odd"><td><p>C</p></td>
+<td><p>1.75</p></td>
+<td><p>1.452</p></td>
+<td><p>As</p></td>
+<td><p>16.37</p></td>
+<td><p>1.760</p></td>
+</tr>
+<tr class="row-even"><td><p>N</p></td>
+<td><p>1.23</p></td>
+<td><p>1.397</p></td>
+<td><p>Se</p></td>
+<td><p>12.64</p></td>
+<td><p>1.771</p></td>
+</tr>
+<tr class="row-odd"><td><p>O</p></td>
+<td><p>0.70</p></td>
+<td><p>1.342</p></td>
+<td><p>Br</p></td>
+<td><p>12.47</p></td>
+<td><p>1.749</p></td>
+</tr>
+<tr class="row-even"><td><p>F</p></td>
+<td><p>0.75</p></td>
+<td><p>1.287</p></td>
+<td><p>Kr</p></td>
+<td><p>12.01</p></td>
+<td><p>1.727</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ne</p></td>
+<td><p>0.63</p></td>
+<td><p>1.243</p></td>
+<td><p>Rb</p></td>
+<td><p>24.67</p></td>
+<td><p>1.628</p></td>
+</tr>
+<tr class="row-even"><td><p>Na</p></td>
+<td><p>5.71</p></td>
+<td><p>1.144</p></td>
+<td><p>Sr</p></td>
+<td><p>24.67</p></td>
+<td><p>1.606</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mg</p></td>
+<td><p>5.71</p></td>
+<td><p>1.364</p></td>
+<td><p>Y-Cd</p></td>
+<td><p>24.67</p></td>
+<td><p>1.639</p></td>
+</tr>
+<tr class="row-even"><td><p>Al</p></td>
+<td><p>10.79</p></td>
+<td><p>1.716</p></td>
+<td><p>In</p></td>
+<td><p>37.32</p></td>
+<td><p>1.672</p></td>
+</tr>
+<tr class="row-odd"><td><p>Si</p></td>
+<td><p>9.23</p></td>
+<td><p>1.716</p></td>
+<td><p>Sn</p></td>
+<td><p>38.71</p></td>
+<td><p>1.804</p></td>
+</tr>
+<tr class="row-even"><td><p>P</p></td>
+<td><p>7.84</p></td>
+<td><p>1.705</p></td>
+<td><p>Sb</p></td>
+<td><p>38.44</p></td>
+<td><p>1.881</p></td>
+</tr>
+<tr class="row-odd"><td><p>S</p></td>
+<td><p>5.57</p></td>
+<td><p>1.683</p></td>
+<td><p>Te</p></td>
+<td><p>31.74</p></td>
+<td><p>1.892</p></td>
+</tr>
+<tr class="row-even"><td><p>Cl</p></td>
+<td><p>5.07</p></td>
+<td><p>1.639</p></td>
+<td><p>I</p></td>
+<td><p>31.50</p></td>
+<td><p>1.892</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ar</p></td>
+<td><p>4.61</p></td>
+<td><p>1.595</p></td>
+<td><p>Xe</p></td>
+<td><p>29.99</p></td>
+<td><p>1.881</p></td>
+</tr>
+</tbody>
+</table>
+<p>1 J/mol = 3.8088e-7 hartree, 1 bohr = 0.5291772480 A</p>
+<ul class="simple">
+<li><p>Grimme (DFT-D3)の方法 (バージョン2019.01以降)</p></li>
+</ul>
+<p>DFT-D2法のほか、DFT-D3法 <a class="reference internal" href="#grimme10" id="id78"><span>[Grimme10]</span></a> も利用できます</p>
+<p>DFT-D3は、DFT-D2の改良版です。<span class="math notranslate nohighlight">\(\frac{1}{r^{8}}\)</span>に比例する項があることやパラメーターが配位数に依存する点などがDFT-D2と異なる点であり、特に後者の改良によって原子の局所構造の違いを相互作用に反映させることができるようになっています。</p>
+<p>DFT-D3法を利用するためには、DFT-D2機能と同じようにまずcontrolブロックにおいてsw_vdw_correctionの値をonにします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Control{
+  sw_vdw_correction = on
+}
+</pre></div>
+</div>
+<p>さらに、accuracyブロックにおいてvdw_methodとしてdftd3を指定すればよい。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  vdw_method = dftd3
+}
+</pre></div>
+</div>
+<p>DFT-D2法やWilliamsの方法と違い、ファンデルワールス相互作用のために別途元素を定義する必要はありません。</p>
+<p>また、パラメーターファイルが置いてある場所をfile_names.dataのF_DFTD3PARで指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+F_INP = ‘./nfinp.data’
+…
+F_DFTD3PAR = ‘./dftd3par.data’
+/
+</pre></div>
+</div>
+<p>F_DFTD3PARのデフォルト値は./dftd3par.dataです。dftd3par.dataファイルは、PHASE/0インストールディレクトリーの下の以下の場所にあります。</p>
+<p><code class="code docutils literal notranslate"><span class="pre">samples/vdw_correction/dft-d3</span></code></p>
+</section>
+<section id="id79">
+<span id="id80"></span><h3><span class="section-number">7.6.2. </span>入力パラメータ<a class="headerlink" href="#id79" title="この見出しへのパーマリンク"></a></h3>
+<table class="longtable docutils align-default" id="id173">
+<caption><span class="caption-number">表 7.8 </span><span class="caption-text">vdW補正機能関連のタグ一覧</span><a class="headerlink" href="#id173" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>タグ</p></th>
+<th class="head"></th>
+<th class="head"><p>値</p></th>
+<th class="head"><p>備考</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Control</p></td>
+<td><p>sw
+_vdw_correction</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Accuracy</p></td>
+<td><p>vdw_method</p></td>
+<td><p>williams</p>
+<p>grimme or
+dft-d2</p>
+</td>
+<td><p>デフォルト</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>vdw_radius</p></td>
+<td></td>
+<td><p>20 bohr</p>
+<p>30 A (Grimme
+DFT-D2)</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>vdw
+_scaling_factor</p></td>
+<td></td>
+<td><p>0.805
+(Williams)</p>
+<p>0.75 (Grimme
+DFT-D2)</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>vdw_s
+caling_factor_r</p></td>
+<td></td>
+<td><p>0.8 (Williams)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>vdw
+_damping_factor</p></td>
+<td></td>
+<td><p>3.0 (Williams)</p>
+<p>20.0 (Grimme
+DFT-D2)</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Structure</p></td>
+<td><p>atom_list</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>atoms</p></td>
+<td><p>#tag vdw
+でvd
+w補正における元
+素のtypeを指定</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>vdw_list</p></td>
+<td><p>vdw補正におけ
+る各元素異に対
+するパラメータ</p></td>
+<td><p>Williams</p>
+<p>#tag type c6 r0
+p</p>
+<p>Grimme</p>
+<p>#tag type c6 r0</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>赤字は、vDW補正機能を用いる場合の必須の入力項目</p>
+<p><em>vdW補正の各元素のパラメータの指定</em></p>
+<p>Williams法、Grimme(DFT-D2)法の各元素のパラメータをプログラム内で持ち、デフォルト値としている。</p>
+<p>vdw_listのtypeは、atom_listで指定したvdwのtypeと対応している必要がある。</p>
+<p>Williams法</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>vdw_list{
+  #tag type c6 r0 p
+  H 2.831179918 1.17 0.387
+  CTE 22.67403316 1.70 1.061
+}
+</pre></div>
+</div>
+<p>Grimme(DFT-D2)法</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>vdw_list{
+  #tag type c6 r0
+        H 0.14 1.001
+        C 1.75 1.452
+}
+</pre></div>
+</div>
+<p>入力パラメータ例</p>
+<p>vdW補正関連の入力データ例を以下に示す。</p>
+<p>Methane Dimer Williams法</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Control{
+  sw_vdw_correction = ON
+}
+accuracy{
+  vdw_method = williams
+  vdw_radius = 20.0
+  vdw_scaling_factor = 0.8095
+  vdw_scaling_factor_r = 0.8
+  vdw_damping_factor = 3.0
+}
+structure{
+  atom_list{
+    coordinate_system = cartesian ! {cartesian
+    atoms{
+      #units angstrom
+      #default mobile=on
+      #tag element rx ry rz vdw
+          C 0 0 0 CTE
+          H 0 1.093 0 H
+          H 1.030490282 -0.364333333 0 H
+          H -0.515245141 -0.364333333 0.892430763 H
+          H -0.515245141 -0.364333333 -0.892430763 H
+          C 0 -3.7 0 CTE
+          H 0 -4.793 0 H
+          H -1.030490282 -3.335666667 0 H
+          H 0.515245141 -3.335666667 -0.892430763 H
+          H 0.515245141 -3.335666667 0.892430763 H
+    }
+  }
+  vdw_list{
+    #tag type c6 r0 p
+      H 2.831179918 1.17 0.387
+      CTE 22.67403316 1.70 1.061
+  }
+}
+</pre></div>
+</div>
+<p>Methane Dimer Grimme(DFT-D2)法</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Control{
+  sw_vdw_correction = ON
+}
+accuracy{
+  vdw_method = grimme
+  vdw_radius = 30.0
+  vdw_scaling_factor = 0.75
+  vdw_damping_factor = 20.0
+}
+structure{
+  atom_list{
+    coordinate_system = cartesian !
+    atoms{
+      #units angstrom
+      #default mobile=on
+      #tag element rx ry rz vdw
+          C 0 0 0 C
+          H 0 1.093 0 H
+          H 1.030490282 -0.364333333 0 H
+          H -0.515245141 -0.364333333 0.892430763 H
+          H -0.515245141 -0.364333333 -0.892430763 H
+          C 0 -3.7 0 C
+          H 0 -4.793 0 H
+          H -1.030490282 -3.335666667 0 H
+          H 0.515245141 -3.335666667 -0.892430763 H
+          H 0.515245141 -3.335666667 0.892430763 H
+    }
+  }
+  vdw_list{
+    #tag type c6 r0
+          H 0.14 1.001
+          C 1.75 1.452
+  }
+}
+</pre></div>
+</div>
+</section>
+<section id="id81">
+<span id="id82"></span><h3><span class="section-number">7.6.3. </span>計算例<a class="headerlink" href="#id81" title="この見出しへのパーマリンク"></a></h3>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/vdw_correction/Water_Dimer</span></code> (Williams, Grimme(DFT-D2))</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/vdw_correction/Methane_Dimer</span></code> (Williams, Grimme(DFT-D2))</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/vdw_correction/Ethane_Dimer</span></code> (Williams, Grimme(DFT-D2))</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/vdw_correction/ATstack</span></code> (Williams)</p></li>
+</ul>
+<p><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="williams06" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id76">Williams06</a><span class="fn-bracket">]</span></span>
+<p>R.W. Williams, et al.: Chemical Physics 327 (2006) 54-62</p>
+</div>
+<div class="citation" id="grimme06" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id77">Grimme06</a><span class="fn-bracket">]</span></span>
+<p>S. Grimme, J. Comp. Chem. 27, 1787 (2006).</p>
+</div>
+<div class="citation" id="grimme10" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id78">Grimme10</a><span class="fn-bracket">]</span></span>
+<p>Stefan Grimme, Jens Antony, Stephan Ehrlich, and Helge Krieg, “A consistent and accurate ab initio parametrization of density functional dispersion correction (DFT-D) for the 94 elements H-Pu” The Journal of Chemical Physics, <strong>132</strong>, 154104 (2010).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="esm">
+<span id="advanced-section-esm"></span><h2><span class="section-number">7.7. </span>有効遮蔽体法（ESM法）<a class="headerlink" href="#esm" title="この見出しへのパーマリンク"></a></h2>
+<section id="id83">
+<span id="id84"></span><h3><span class="section-number">7.7.1. </span>機能の概要<a class="headerlink" href="#id83" title="この見出しへのパーマリンク"></a></h3>
+<p>ESM (Effective Screening
+Medium)法 <a class="reference internal" href="#otani06" id="id85"><span>[Otani06]</span></a> <a class="reference internal" href="#hamada09" id="id86"><span>[Hamada09]</span></a> とは、表面モデルを精度よく扱うための計算手法です。PHASEは基底関数として平面波を利用するプログラムなので、厳密には周期系のみ取り扱うことが可能です。表面モデルを扱う場合、表面に垂直な方向に“真空層”を設けることによって表面を模擬した系の計算を行います。このような方法の場合、たとえば分極した表面などは正しく扱えないので特殊な補正を施す必要があります。ESM法は、実効的な遮蔽物（effective
+screening
+medium）を真空領域に設定することによって半無限におよぶ表面領域を有限の真空領域で扱うことを可能とする方法です。ここでは、PHASEに組み込まれたESM法の利用方法を説明します。</p>
+</section>
+<section id="id87">
+<span id="id88"></span><h3><span class="section-number">7.7.2. </span>入力パラメータ<a class="headerlink" href="#id87" title="この見出しへのパーマリンク"></a></h3>
+<p>まずは、通常のPHASE計算と同様の入力パラメータファイルを準備します。この際、原子配置の定義の仕方に注意が必要です。ESMプログラムは、系が以下の図のように定義されていることを仮定しています。</p>
+<figure class="align-default" id="id174">
+<img alt="../_images/image153.png" src="../_images/image153.png" />
+<figcaption>
+<p><span class="caption-number">図 7.11 </span><span class="caption-text">ESM法において仮定している原子配置の定義方法の模式図</span><a class="headerlink" href="#id174" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>系は、2方向（aおよびb軸方向）に周期的、1方向（c軸方向）に非周期系であることを仮定しています。<em>c</em>軸の値が0になる場所に系の中心が位置するように必要に応じて系をシフトし、プラスマイナス両側に真空層を設けます。さらに、系の中心から距離z<sub>1</sub>（入力パラメータファイルによって指定する）離れた場所にESMが置かれます。</p>
+<p>accuracyブロックにesmブロックを作成し、ESM用の設定を施します。典型的には、以下のとおり。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>...
+...
+accuracy{
+  esm{
+    sw_esm = on
+    bc = pe1
+    electric_field = 0.001
+  }
+  ...
+  ...
+}
+...
+...
+</pre></div>
+</div>
+<p>esmブロックの下では、以下の変数を定義することが可能です。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>sw_esm</p></td>
+<td><p>ESM法を利用するかどうかを指定するスイッチ。</p>
+<p>onを指定するとESM法を利用します。デフォルト値はoff</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>z1</p></td>
+<td><p>ESMの位置を指定します。指定がない場合、単
+位胞の境界にESMが置かれます（すなわち、z1=c/2）。</p></td>
+</tr>
+<tr class="row-odd"><td><p>bc</p></td>
+<td><p>境界条件(boundary condition)を指定します。BARE,
+PE1,
+PE2のいずれかを指
+定します。BAREは両側のESMが真空（誘電率1）、PE1は
+両側のESMが金属（誘電率∞）PE2はESMの片側が真空、も
+う片側が金属という境界条件です。デフォルト値はBARE</p></td>
+</tr>
+<tr class="row-even"><td><p>electric_field</p></td>
+<td><p>有限電場を指定したい場合に
+、その量を原子単位で指定します。この指定は、bcがP
+E1であった場合のみに意味をもちます。それ以外の場合
+、計算中参照されません。電場の単位は、hartree/bohr
+です（約51.4 V/Å）。</p></td>
+</tr>
+<tr class="row-odd"><td><p>add_elec</p></td>
+<td><p>電子
+を追加/削除したい場合に追加/削除したい電子数を実数
+で指定します。削除したい場合は負の数を指定します。</p></td>
+</tr>
+<tr class="row-even"><td><p>z_wall</p></td>
+<td><p>原子が真空
+層のある領域からはみでないように“壁”を設ける場合に
+、その“ある領域”の指定を実数で行います。このパラメ
+ータの指定があった場合にこの機能が有効となります。</p></td>
+</tr>
+<tr class="row-odd"><td><p>bar_width</p></td>
+<td><p>“壁”ポテンシャ
+ルを設ける場合に、その幅を長さの単位で指定します。</p></td>
+</tr>
+<tr class="row-even"><td><p>bar_height</p></td>
+<td><p>“壁”ポテンシャルを設け
+る場合に、その高さをエネルギーの単位で指定します。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id89">
+<span id="id90"></span><h3><span class="section-number">7.7.3. </span>計算の実行<a class="headerlink" href="#id89" title="この見出しへのパーマリンク"></a></h3>
+<p>計算の実行は、通常のPHASEの計算通り行います。並列の方法や擬ポテンシャルの制限などは特にありません。利用できる計算機能にも特に制約はありません。</p>
+</section>
+<section id="id91">
+<span id="id92"></span><h3><span class="section-number">7.7.4. </span>計算例<a class="headerlink" href="#id91" title="この見出しへのパーマリンク"></a></h3>
+<p id="id93">水分子</p>
+<p>ESM法適用例として、単純な水分子の計算結果を紹介します。この例題の入力ファイルは、 <code class="code docutils literal notranslate"><span class="pre">samples/surface/esm/H2O</span></code> 以下にあります。水分子は、単体で双極子モーメントをもっているので、水分子は通常の周期系の計算の場合全エネルギーに有限の誤差が発生します。ESM法は、1つの方向については無限の計算を行うことになるので、正しい全エネルギーが得られると考えられます。</p>
+<p>このようなことを確認するため、以下のような計算を実施します。</p>
+<ol class="arabic simple">
+<li><p>水分子単体の、周期系における全エネルギー計算</p></li>
+<li><p>水分子単体の、ESM法による全エネルギー計算</p></li>
+<li><p>水分子を互い違いに配置した系の、周期系における全エネルギー計算</p></li>
+</ol>
+<figure class="align-default" id="id175">
+<img alt="../_images/image154.png" src="../_images/image154.png" />
+<figcaption>
+<p><span class="caption-number">図 7.12 </span><span class="caption-text">H<sub>2</sub>O分子を互い違いに配置した系。</span><a class="headerlink" href="#id175" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple" start="3">
+<li><p>のように水分子を互い違いに配置した系を用意することによって、双極子モーメントを打ち消すことが可能です。したがって、3.の計算によって得られた全エネルギーの半分の値は、2.  の計算と結果が一致するはずです。ここでは、このような結果が得られるかどうかを確認します。</p></li>
+</ol>
+<p>計算された全エネルギーの結果は、以下に示します。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>全エネルギー (hartree/
+H<sub>2</sub>O)</p></th>
+<th class="head"><p>参照値との差
+(hartree/H<sub>2</sub>O)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.の計算</p></td>
+<td><p>-17.1855148193</p></td>
+<td><p>－1.8927504×10<sup>-3</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>2.の計算</p></td>
+<td><p>-17.1836307637</p></td>
+<td><p>8.6948×10<sup>-6</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>3.の計算</p></td>
+<td><p>-17.1836220689</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+<p>表から明らかなように、ESM法による計算と3.
+の計算の結果は非常に近く、“無限の系の計算”がESM法によって実現できていることがわかります。</p>
+<p>電場を印加した計算例</p>
+<p>ESM法を利用すると、<em>c</em>軸方向に電場を印加した計算を実施することが可能です。ここでは、簡単な例によってその利用方法を説明します。この例題の入力ファイルは <code class="code docutils literal notranslate"><span class="pre">samples/surface/esm/Al111</span></code> 以下にあります。</p>
+<p>採用した系は、仕事関数の計算例でも利用したAl(111)の系です。以下のような設定によってESMを利用します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  esm{
+    sw_esm = on
+    bc = pe1
+    electric_field = 0.001
+  }
+}
+</pre></div>
+</div>
+<p>電場を印加するには、パラメータbcとしてpe1を指定する必要がある点に注意してください。また、電場の影響をみるために局所ポテンシャルを出力するので、仕事関数に関する設定も有効にしてあります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postprocessing{
+  workfunc{
+    sw_workfunc = on
+  }
+}
+</pre></div>
+</div>
+<p>電場の大きさは、-0.001, 0, +0.001（単位は原子単位）と変化させて計算を行いました（0のケースは通常の計算とほぼ同じです）。最後に、この系には反転対称性がありますが、電場を印加すると反転対称性は損なわれるのでsw_inversionパラメータは指定していません。</p>
+<p>以上の設定のもと、通常通りPHASEを実行します。各ケース計算が終了したら、workfuncプログラムを利用してポスト処理を実施します。この処理の結果得られる局所ポテンシャルの、電場を印加する場合としない場合の差と表面に垂直な軸方向の距離の関係を <a class="reference internal" href="#advanced-esm-al11-lpot"><span class="std std-numref">図 7.13</span></a> に示します。この図においては、距離のちょうど半分の地点が系の境、すなわち <a class="reference internal" href="#advanced-esm-al11-lpot"><span class="std std-numref">図 7.13</span></a> の±<em>c</em>/2の地点になっています。</p>
+<figure class="align-default" id="advanced-esm-al11-lpot">
+<img alt="../_images/image155.svg" src="../_images/image155.svg" /><figcaption>
+<p><span class="caption-number">図 7.13 </span><span class="caption-text">ローカルポテンシャルの差分と表面に垂直な距離との関係。</span><a class="headerlink" href="#advanced-esm-al11-lpot" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>図から明らかなように、電場を印加することによって真空領域の局所ポテンシャルにかたむきが発生しています。また、金属域においてはフラットとなっています。これは、電場は真空域で発生し、金属中では発生していないことを表わしています。</p>
+</section>
+<section id="id94">
+<span id="id95"></span><h3><span class="section-number">7.7.5. </span>使用における注意点<a class="headerlink" href="#id94" title="この見出しへのパーマリンク"></a></h3>
+<ul class="simple">
+<li><p>ESM法を利用する場合、コンパイルの際にフーリエ変換ライブラリーとしてFFTWを利用する必要があります。</p></li>
+<li><p>原子配置の指定においては、反転対称の位置の原子は直接指定するようにし、weightパラメータはつねに1としてください。</p></li>
+<li><p>電場を印加する場合<em>c</em>軸方向の対称性はあったとしても損なわれるので、そのような対称性は無効にするようにしてください。また、sw_inversionパラメータをonにはしないでください。</p></li>
+</ul>
+<p id="id96"><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="otani06" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Otani06<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id85">1</a>,<a role="doc-backlink" href="#id98">2</a>)</span>
+<p>M. Otani and O. Sugino, “First-principles calculations of charged surfaces and interfaces: A plane-wave nonrepeated slab approach”, Physical Review B <strong>73</strong>, 115407 (2006).</p>
+</div>
+<div class="citation" id="hamada09" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Hamada09<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id86">1</a>,<a role="doc-backlink" href="#id99">2</a>)</span>
+<p>I. Hamada, M. Otani, O. Sugino and Y. Morikawa, “Green’s function method for elimination of the spurious multipole interaction in the surface/interface slab model”, Physical Review B <strong>80</strong>, 165411 (2009).</p>
+</div>
+</div>
+</section>
+<section id="id97">
+<h3><span class="section-number">7.7.6. </span>ライセンス<a class="headerlink" href="#id97" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEのESM機能は、EsmPackライブラリーを通じて実現されています。EsmPackライブラリーは、産業技術総合研究所からMITライセンスで公開されている、ESM法を実現するための汎用のライブラリーです。以下のライセンス条項をご理解いただいた上でご利用ください。また、本機能を利用して論文発表などを行う場合、必ず文献 <a class="reference internal" href="#otani06" id="id98"><span>[Otani06]</span></a> <a class="reference internal" href="#hamada09" id="id99"><span>[Hamada09]</span></a> を参考文献に含めてください。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Copyright (c) 2012, Minoru Otani &lt;minoru.otani@aist.go.jp&gt;
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the &quot;Software&quot;), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following
+conditions:
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+</pre></div>
+</div>
+</section>
+</section>
+<section id="dipole">
+<span id="advanced-dipole-section"></span><h2><span class="section-number">7.8. </span>Dipole補正<a class="headerlink" href="#dipole" title="この見出しへのパーマリンク"></a></h2>
+<p>Dipole補正機能とは、系が荷電状態の場合にその影響を打ち消すdipoleを配置することによって補正し、正しい全エネルギーを求めたり、電場を印加した計算を行うことができる機能です。Dipoleの大きさはセルフコンシステントに決まるので、ユーザーが適切なdipoleの大きさを勘案する必要はありません。また、原子間力計算においても考慮されるので、構造最適化に利用することも可能となっています。</p>
+<section id="id100">
+<span id="id101"></span><h3><span class="section-number">7.8.1. </span>入力パラメーターファイルの書き方<a class="headerlink" href="#id100" title="この見出しへのパーマリンク"></a></h3>
+<p>Dipole補正機能を有効にするには、入力パラメーターファイルのcontrolブロックにおいて以下のような記述を行います。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">control</span><span class="p">{</span>
+    <span class="n">sw_dipole_correction</span> <span class="o">=</span> <span class="n">on</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>この指定によって、dipole補正機能が有効になります。さらに、accuracyのdipoleブロックにおいて、dipole補正機能の詳細設定を行います。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>accuracy{
+  …
+  …
+  dipole_correction{
+    direction = 3
+    amix = 1
+    vacuum{
+      rz = -0.5
+    }
+    elec_field{
+      ez = 0.0
+    }
+  }
+}
+</pre></div>
+</div>
+<p>dipole_correctionの下のvacuumブロックでdipoleを配置する位置を、elec_fieldブロックで外部電場を設定することができます。dipole_correctionブロックにおいて利用できるパラメーターは次の表に示す通りです。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメーター名</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>direction</p></td>
+<td><p>双極子の向きを指定します。1が<em>a</em>軸方向
+、2が<em>b</em>軸方向、3が<em>c</em>軸方向に対応します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>amix</p></td>
+<td><p>双極子のミクシングパラメーターです。0よりも大
+きく、1以下の値を指定します。デフォルト値は1です。</p></td>
+</tr>
+<tr class="row-even"><td><p>vacuum</p></td>
+<td><p>双極子位置を指定するブロックです。双極子
+の位置は、単位胞の長さを1とする単位で指定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>rx</p></td>
+<td><p>双極子の、<em>a</em>軸方向の位置です。direction =
+1の場合に設定します。双極子は、真空に配置します。</p></td>
+</tr>
+<tr class="row-even"><td><p>ry</p></td>
+<td><p>双極子の、<em>b</em>軸方向の位置です。direction =
+2の場合に設定します。双極子は、真空に配置します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>rz</p></td>
+<td><p>双極子の、<em>c</em>軸方向の位置です。direction =
+3の場合に設定します。双極子は、真空に配置します。</p></td>
+</tr>
+<tr class="row-even"><td><p>elec_field</p></td>
+<td><p>印加したい外部電場を指定するブロックです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>ex</p></td>
+<td><p>電場の、<em>a</em>軸方向の値です。direction =
+1の場合に設定します。</p></td>
+</tr>
+<tr class="row-even"><td><p>ey</p></td>
+<td><p>電場の、<em>b</em>軸方向の値です。direction =
+2の場合に設定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>ez</p></td>
+<td><p>電場の、<em>c</em>軸方向の値です。direction =
+3の場合に設定します。</p></td>
+</tr>
+</tbody>
+</table>
+<p>Dipoleの位置の指定方法には制限があるので、注意して指定する必要があります。双極子の向きを<em>z</em>方向とすると、「rz+0.5の位置に系の中心が位置するように」、そして「周期境界条件は考慮せずに」指定します。たとえば、 <a class="reference internal" href="#advanced-dipole-schematic"><span class="std std-numref">図 7.14</span></a> のように単位胞の中心に系を置く場合、rz = 0とします。周期境界条件下ではrz = 1としてもよさそうですが、このような指定は不正となります。</p>
+<figure class="align-default" id="advanced-dipole-schematic">
+<img alt="../_images/image156.png" src="../_images/image156.png" />
+<figcaption>
+<p><span class="caption-number">図 7.14 </span><span class="caption-text">Dipole補正を有効にする表面系の模式図</span><a class="headerlink" href="#advanced-dipole-schematic" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>また、dipole補正機能と直接は関係ありませんが、下記のような設定を行うことによって局所ポテンシャルを出力することができます。この設定を施した上で仕事関数を求める際の手続きを踏むことによって、真空層の方向と局所ポテンシャルの関係を解析することが可能です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postprocessing{
+  workfunc{
+    sw_workfunc = on
+  }
+}
+</pre></div>
+</div>
+</section>
+<section id="id102">
+<h3><span class="section-number">7.8.2. </span>ログファイルの見方<a class="headerlink" href="#id102" title="この見出しへのパーマリンク"></a></h3>
+<p>Dipole補正を有効にした状態で計算を実行すると、outputxxxファイルに以下のようにdipoleの履歴がSCFステップごとに出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Dipole: rmin,rmax,idir = -0.50000000 0.50000000 3
+Dipole: Total = -0.22795296 = -0.5795 Debye = -1.9326x10^-30 Cm
+Dipole: Ion = -38.10003241
+Dipole: Elec = -37.87207945
+Dipole: mix dipole and field with amix_dip= 1.00000000
+Dipole: (NOW) dipole,field = -0.00776990 0.00000000
+Dipole: (OLD) dipole,field = -0.00776992 0.00000000
+Dipole: (NEW) dipole,field = -0.00776990 0.00000000
+Dipole: Edip(ion),Eext(ion)= 0.01230 0.00000
+Dipole: potential jump (dip and ext)= -0.09764 0.00000
+</pre></div>
+</div>
+<p>Dipole: Totalで報告されている値はdipoleの大きさそのものです。Dipole:
+(NOW), Dipole (OLD), Dipole
+(NEW)で報告されている値はそれぞれ現ステップのdipoleの値、1ステップ前のdipoleの値、ミクシングの結果得られたdipole値に相当しますが、SCFに足しこめるポテンシャルになるよう体積などで規格化された量となっているため値の大きさはDipole:
+Totalのそれと異なります。</p>
+</section>
+<section id="id103">
+<span id="id104"></span><h3><span class="section-number">7.8.3. </span>計算例<a class="headerlink" href="#id103" title="この見出しへのパーマリンク"></a></h3>
+<p>Dipole補正を利用した計算例として、ESMと同様水分子の例と電場を印加した計算例を挙げます。</p>
+<p id="id105">水分子</p>
+<p>ESM <a class="reference internal" href="#advanced-section-esm"><span class="std std-numref">7.7 章</span></a> の例 と同じセッティングで、Dipole補正を利用した全エネルギー計算を行ってみました。
+入力データは <code class="code docutils literal notranslate"><span class="pre">samples/surface/dipole/H2O</span></code> 以下にあります。</p>
+<p>この例において、Dipoleは以下のように設定しています。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  sw_dipole = on
+}
+accuracy{
+  …
+  dipole_correction{
+    amix = 1
+    direction = 3
+    vacuum{
+      rz = -0.5
+    }
+  }
+}
+…
+</pre></div>
+</div>
+<p>単位胞の一番下に水分子を配置しているので、vacuumブロックの変数rzの値は-0.5となっています。</p>
+<p>結果は次の表に示す通りです（水分子の配向を少し変えたので、ESMの例と全く同じではありません）。</p>
+<p>表 5‑34 水分子の結果の比較</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>補正なし</p></th>
+<th class="head"><p>補正あり</p></th>
+<th class="head"><p>esm</p></th>
+<th class="head"><p>ref</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>エネルギー(ha)</p></td>
+<td><p>-17.201981</p></td>
+<td><p>-17.201719</p></td>
+<td><p>-17.2017015</p></td>
+<td><p>-17.201773</p></td>
+</tr>
+<tr class="row-odd"><td><p>差 (ha)</p></td>
+<td><p>-0.000208</p></td>
+<td><p>0.000054</p></td>
+<td><p>0.000072</p></td>
+<td><p>―</p></td>
+</tr>
+</tbody>
+</table>
+<p>ESMの場合と同様、補正しない場合と比較してより参照値に近いエネルギーを得ることができました。</p>
+<p><a class="reference internal" href="#advanced-dipole-vac-lpot"><span class="std std-numref">図 7.15</span></a> に、<em>c</em>軸方向と局所ポテンシャルの関係を補正なし、補正あり、ESM法の場合についてプロットしました。この図においては、<em>c</em>軸が0および16Å近辺の位置に水分子が配置されています。補正なしの場合、真空層においても局所ポテンシャルが傾きを持っています。これは、周期的に並んだ水分子がクーロン相互作用によって相互作用していることを意味しています。他方、Dipole補正の場合とESM法の場合は真空のちょうど中心において局所ポテンシャルに飛びが現れています。両手法の場合水分子はお互いに相互作用を持たず、その影響を真空層の中心あたりで吸収していることを意味しています。</p>
+<figure class="align-default" id="advanced-dipole-vac-lpot">
+<img alt="../_images/image157.svg" src="../_images/image157.svg" /><figcaption>
+<p><span class="caption-number">図 7.15 </span><span class="caption-text">真空層と局所ポテンシャルの関係</span><a class="headerlink" href="#advanced-dipole-vac-lpot" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>電場を印加した計算</p>
+<p>やはりESM <a class="reference internal" href="#advanced-section-esm"><span class="std std-numref">7.7 章</span></a> の例と同じセッティングで、Dipole補正機能を利用して電場を印加した計算を行ってみました。入力データは <code class="code docutils literal notranslate"><span class="pre">samples/surface/dipole/Al</span></code> 以下にあります。
+その設定は、以下のようになっています。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  sw_dipole = on
+}
+accuracy{
+  …
+  dipole_correction{
+    amix = 1
+    direction = 3
+    vacuum{
+      rz = -0.5
+    }
+    electric_field{
+      ez = 0.001
+    }
+  }
+}
+…
+postprocessing{
+  workfunc{
+    sw_workfunc = on
+  }
+}
+</pre></div>
+</div>
+<p>以上の設定で、通常通りPHASEを実行し、終了後workfuncプログラムを利用してポスト処理を実施します。この処理の結果得られる局所ポテンシャルの、電場を印加する場合としない場合の差と表面に垂直な軸方向の距離の関係を
+<a class="reference internal" href="#advanced-dipole-alpot"><span class="std std-numref">図 7.16</span></a> に示します。</p>
+<figure class="align-default" id="advanced-dipole-alpot">
+<img alt="../_images/image158.svg" src="../_images/image158.svg" /><figcaption>
+<p><span class="caption-number">図 7.16 </span><span class="caption-text">ローカルポテンシャルの差分と表面に垂直な距離との関係。</span><a class="headerlink" href="#advanced-dipole-alpot" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>ESMの場合と同様、ポテンシャルの差分は、真空域においては傾きがあり、金属中においてはフラットになりました。これは金属中では電位差が発生していないことを表しており、基本的な電磁気学の知見と合う結果となっています。</p>
+</section>
+</section>
+<section id="pbesol-2019-02">
+<span id="advanced-pbesol-section"></span><h2><span class="section-number">7.9. </span>PBEsol汎関数（バージョン2019.02以降）<a class="headerlink" href="#pbesol-2019-02" title="この見出しへのパーマリンク"></a></h2>
+<section id="id106">
+<h3><span class="section-number">7.9.1. </span>概要<a class="headerlink" href="#id106" title="この見出しへのパーマリンク"></a></h3>
+<p>PBE汎関数は格子定数を過大評価する傾向にあり、バンド構造やフォノン振動数の実験結果との乖離をまねく場合があります。PBEsol汎関数 <a class="reference internal" href="#perdew08" id="id107"><span>[Perdew08]</span></a> は、PBE汎関数を結晶向けに最適化した汎関数で、格子定数が実験値に近くなり、バンド構造が改善することが知られています。</p>
+<p>PBEsol汎関数では、交換エネルギー及び相関エネルギーは、それぞれ</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-advanced-pbesol-eq1">
+<span class="eqno">(7.18)<a class="headerlink" href="#equation-advanced-pbesol-eq1" title="この数式へのパーマリンク"></a></span>\[\begin{split}E_{x}^{\rm PBEsol} \left[n\right] = \int d\mathbf{r}e_{x}^{\rm unif} \left(n\left(\mathbf{r}\right)\right) F_x^{\rm PBEsol} \left(s\left(\mathbf{r}\right)\right), \\ s = \frac{\left|\nabla n\right|}{2k_F n}, k_F = \left(3\pi^2 n\right)^{1/3} \\ F_x^{\rm PBEsol} \left(s\right) = 1+\mu s^2\end{split}\]</div>
+</div></blockquote>
+<p>及び</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-advanced-pbesol-eq2">
+<span class="eqno">(7.19)<a class="headerlink" href="#equation-advanced-pbesol-eq2" title="この数式へのパーマリンク"></a></span>\[\begin{split}E_c^{\rm PBEsol} \left[n\right] = \int d\mathbf{r} n\left(\mathbf{r}\right) \left\{ e_c^{\rm unif} \left(n\left(\mathbf{r}\right)\right) + \beta t^2 \right\}, \\ t = \frac{\left|\nabla \right|}{2k_{TF}n}, k_{TF} = \sqrt{\frac{4k_F}{\pi}}\end{split}\]</div>
+</div></blockquote>
+<p>で与えられます。ここで、 <span class="math notranslate nohighlight">\(\mu=10 /81\)</span> 及び <span class="math notranslate nohighlight">\(\beta=0.046\)</span> です。</p>
+</section>
+<section id="id108">
+<h3><span class="section-number">7.9.2. </span>入力<a class="headerlink" href="#id108" title="この見出しへのパーマリンク"></a></h3>
+<p>xctypeとして pbesol を指定します。擬ポテンシャルは通常の PBE
+のものを使用することができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  xctype = pbesol
+}
+</pre></div>
+</div>
+<p>擬ポテンシャルは通常のPBEのものを利用してください。</p>
+</section>
+<section id="id109">
+<h3><span class="section-number">7.9.3. </span>出力<a class="headerlink" href="#id109" title="この見出しへのパーマリンク"></a></h3>
+<p>標準出力 (output000) に、以下のような表示がされます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>!PP xctype = pbesol ps_xctype0 = ggapbe
+</pre></div>
+</div>
+<p>この例では、読み込んだ擬ポテンシャルは PBEであるが、計算は PBEsol
+で行うことを意味しています。これ以外に、PBEsol特有の出力はありません。</p>
+</section>
+<section id="id110">
+<h3><span class="section-number">7.9.4. </span>計算例<a class="headerlink" href="#id110" title="この見出しへのパーマリンク"></a></h3>
+<p><code class="code docutils literal notranslate"><span class="pre">samples/pbesol</span></code> ディレクトリー以下のサブディレクトリーに、transition metal dichalcogenide
+(TMDC)の計算の入力ファイルが置かれています。この中には、PBEのほかPBEsolを使う例があります。例題で得られる格子定数を次の表に掲載します。単位はÅです。</p>
+<p>Table 5‑1 TMDCの格子定数。単位はÅ.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>MoS<sub>2</sub></p></th>
+<th class="head"><p>MoSe<sub>2</sub></p></th>
+<th class="head"><p>WS<sub>2</sub></p></th>
+<th class="head"><p>WSe<sub>2</sub></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PBE</p></td>
+<td><p>3.196 (+0.035)</p></td>
+<td><p>3.374 (+0.089)</p></td>
+<td><p>3.189 (+0.036)</p></td>
+<td><p>3.339 (+0.051)</p></td>
+</tr>
+<tr class="row-odd"><td><p>PBEsol</p></td>
+<td><p>3.149 (-0.012)</p></td>
+<td><p>3.293 (+0.008)</p></td>
+<td><p>3.146 (-0.007)</p></td>
+<td><p>3.289 (+0.001)</p></td>
+</tr>
+<tr class="row-even"><td><p>実測値</p></td>
+<td><p>3.161</p></td>
+<td><p>3.285</p></td>
+<td><p>3.153</p></td>
+<td><p>3.288</p></td>
+</tr>
+</tbody>
+</table>
+<p>おおむねPBEsolの方が実測値に近い結果が得られることが確認できました。</p>
+<p><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="perdew08" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id107">Perdew08</a><span class="fn-bracket">]</span></span>
+<p>J.P. Perdew et al, Phys. Rev. Lett. 100 (2008) 136406.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="meta-gga-2019-02">
+<span id="advanced-metagga-section"></span><h2><span class="section-number">7.10. </span>meta-gga（バージョン2019.02以降）<a class="headerlink" href="#meta-gga-2019-02" title="この見出しへのパーマリンク"></a></h2>
+<section id="id111">
+<h3><span class="section-number">7.10.1. </span>概要<a class="headerlink" href="#id111" title="この見出しへのパーマリンク"></a></h3>
+<p>modified Becke Johnson
+交換ポテンシャルは、以下の式で与えられます <a class="reference internal" href="#tran09" id="id112"><span>[Tran09]</span></a> <a class="reference internal" href="#koller12" id="id113"><span>[Koller12]</span></a></p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-advanced-metagga-eq1">
+<span class="eqno">(7.20)<a class="headerlink" href="#equation-advanced-metagga-eq1" title="この数式へのパーマリンク"></a></span>\[\begin{split}v_{x, \sigma}^{\rm mBJ} \left(\mathbf{r}\right) = c v_{x, \sigma}^{\rm BR}\left(\mathbf{r}\right)+\left(3c-2\right) \frac{1}{\pi}\sqrt{\frac{5}{6}}\sqrt{\frac{t_{\sigma}\left(\mathbf{r}\right)}{\rho_{\sigma} \left(\mathbf{r}\right)}}, \\ c = \alpha + \beta \sqrt{g}, \\ g = \frac{1}{V_{\rm cell}} \frac{1}{2} \int_{\rm cell} d\mathbf{r}' \left(\frac{\left|\rho_{\uparrow}\left(\mathbf{r}'\right)\right|}{\rho_{\uparrow}\left(\mathbf{r}'\right)} + \frac{\left|\rho_{\downarrow}\left(\mathbf{r}'\right)\right|}{\rho_{\downarrow} \left(\mathbf{r}'\right)} \right)\end{split}\]</div>
+</div></blockquote>
+<p>ここで、 <span class="math notranslate nohighlight">\(\rho_{\sigma} \left(\mathbf{r}\right)\)</span> 及び <span class="math notranslate nohighlight">\(t_{\sigma} \left(\mathbf{r}\right)\)</span> は、それぞれ座標における電子密度、及び運動エネルギー密度で、</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-advanced-metagga-eq2">
+<span class="eqno">(7.21)<a class="headerlink" href="#equation-advanced-metagga-eq2" title="この数式へのパーマリンク"></a></span>\[\begin{split}\rho_{\sigma} \left(\mathbf{r}\right) = \sum_{nk}^{\rm occ} \left|\psi_{nk\sigma} \left(\mathbf{r}\right)\right|^2, \\ t_{\sigma} = \frac{1}{2} \sum_{nk}^{\rm occ} \left| \nabla \psi_{nk\sigma} \right|^2\end{split}\]</div>
+</div></blockquote>
+<p>により定義されます。また、 <span class="math notranslate nohighlight">\(\alpha=-0.012\)</span> ,  <span class="math notranslate nohighlight">\(\beta=1.023\)</span> は定数です。</p>
+<p>なお、上記で登場したは、</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-advanced-metagga-eq3">
+<span class="eqno">(7.22)<a class="headerlink" href="#equation-advanced-metagga-eq3" title="この数式へのパーマリンク"></a></span>\[\begin{split}v_{x, \sigma}^{\rm BR} \left( \mathbf{r}\right) = - \frac{1}{b_{\sigma} \left(\mathbf{r}\right)} \left[ 1-e^{-x_{\sigma}\left(\mathbf{r}\right)} - \frac{1}{2} x_{\sigma} \left(\mathbf{r}\right) e^{-x_{\sigma}\left(\mathbf{r}\right)a} \right], \\ b_{\sigma} = \frac{x_{\sigma}\left(\mathbf{r}\right)}{2\pi^{1/3}} \left(\frac{e^{-x_{\sigma}\left(\mathbf{r}\right)}}{\rho_{\sigma}\left(\mathbf{r}\right)}\right)^{1/3}\end{split}\]</div>
+</div></blockquote>
+<p>で定義されます。ここで、 <span class="math notranslate nohighlight">\(x_{\sigma}\)</span> は以下の非線形方程式の解です。</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-advanced-metagga-eq4">
+<span class="eqno">(7.23)<a class="headerlink" href="#equation-advanced-metagga-eq4" title="この数式へのパーマリンク"></a></span>\[\begin{split}\frac{x_{\sigma}e^{-2x_{\sigma}/3}}{x_{\sigma}-2} = \frac{2}{3} \pi^{2/3} \frac{\rho_{\sigma}^{5/3}}{Q_{\sigma}}, \\ Q_{\sigma} = \frac{1}{6} \left( \Delta \rho_{\sigma} - 2 D_{\sigma}\right), \\ D_{\sigma} = 2t_{\sigma} - \frac{1}{4} \frac{\left| \nabla \rho_{\sigma}\right|^2}{\rho_{\sigma}}\end{split}\]</div>
+</div></blockquote>
+<p>なお、 <a class="reference internal" href="#equation-advanced-metagga-eq4">(7.23)</a> の解は数値的に解いても得られますが、計算速度の観点から
+Proynovら <a class="reference internal" href="#proynov08" id="id114"><span>[Proynov08]</span></a> の近似解を使用します。</p>
+</section>
+<section id="id115">
+<h3><span class="section-number">7.10.2. </span>入力<a class="headerlink" href="#id115" title="この見出しへのパーマリンク"></a></h3>
+<p>SCF 計算</p>
+<p>modified Becke Johnson 交換ポテンシャルを利用するには、</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  xctype = &quot;tb09&quot;
+}
+</pre></div>
+</div>
+<p>と記入します。 <a class="reference internal" href="#equation-advanced-metagga-eq1">(7.20)</a> のc値はSCF計算で決定しますが、ある値に固定したい場合には、以下のようにします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  xctype = &quot;tb09&quot;
+  metagga{
+    val_c_tb09 = 1.20d0
+  }
+}
+</pre></div>
+</div>
+<p>電荷密度と運動エネルギー密度を同時に混合するには、sw_mix_charge_with_ekindens = onとします。
+デフォルト値は off です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Charge_mixing{
+  sw_mix_charge_with_ekindens = on
+  mixing_methods{
+    !#tag no method rmxs rmxe itr var prec istr nbmix update
+          1 pulay 0.40 0.40 40 * on 3 20 RENEW
+  }
+}
+</pre></div>
+</div>
+<p>バンド計算</p>
+<p>通常の計算と同様に、condition = fixed_charge を指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = fixed_charge
+}
+</pre></div>
+</div>
+<p>ここで、電荷密度及び運動エネルギー密度は、ファイルから読み込む必要があるので、両ファイル名を file_names.data に指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+F_CHGT = &#39;../scf/nfchgt.data&#39;
+F_EKINDENS = &#39;../scf/ekindens_bin.data&#39;
+/
+</pre></div>
+</div>
+<p>k点、xctype、収束条件の指定は SCF計算と同様です。</p>
+</section>
+<section id="id116">
+<h3><span class="section-number">7.10.3. </span>出力<a class="headerlink" href="#id116" title="この見出しへのパーマリンク"></a></h3>
+<p>バンド固有値は、通常のDFT計算と同じく、F_ENERG
+(デフォルトファイル名：nfenergy.data )
+に出力されます。なお、運動エネルギー密度は、電荷密度F_CHGTと同様に、バイナリ―形式で
+F_EKINDENS ( デフォルトファイル名：ekindens_bin.data )に出力されます。</p>
+</section>
+<section id="id117">
+<h3><span class="section-number">7.10.4. </span>計算例<a class="headerlink" href="#id117" title="この見出しへのパーマリンク"></a></h3>
+<p>Meta-ggaを活用した計算例が <code class="code docutils literal notranslate"><span class="pre">samples/meta_gga</span></code> 以下のサブディレクトリーに置かれています。ここでは、SiとGeの計算例を紹介します。</p>
+<p>Siの計算結果</p>
+<table class="docutils align-default" id="id176">
+<caption><span class="caption-number">表 7.9 </span><span class="caption-text">mBJ交換相互作用の計算結果 ( Si, diamond )</span><a class="headerlink" href="#id176" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>xctype</p></th>
+<th class="head"><p>a [Å]</p></th>
+<th class="head"><p>gap [eV]</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PBEsol</p></td>
+<td><p>5.445</p></td>
+<td><p>0.582</p></td>
+</tr>
+<tr class="row-odd"><td><p>TB09</p></td>
+<td><p>同上</p></td>
+<td><p>1.149</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>cf. 実験値</p></td>
+<td><p>5.431<sup>a</sup></p></td>
+<td><p>1.17<sup>b</sup></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p>ref. <a class="reference internal" href="#atdaev87" id="id118"><span>[Atdaev87]</span></a> , b) ref. <a class="reference internal" href="#tran09" id="id119"><span>[Tran09]</span></a></p></li>
+</ol>
+<figure class="align-default" id="id177">
+<img alt="../_images/image174.svg" src="../_images/image174.svg" /><figcaption>
+<p><span class="caption-number">図 7.17 </span><span class="caption-text">mBJ交換相互作用による状態密度及びバンド分散 ( Si, diamond )</span><a class="headerlink" href="#id177" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>Geの計算結果</p>
+<table class="docutils align-default" id="id178">
+<caption><span class="caption-number">表 7.10 </span><span class="caption-text">mBJ交換相互作用の計算結果 ( Ge, diamond )</span><a class="headerlink" href="#id178" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>xctype</p></th>
+<th class="head"><p>a [Å]</p></th>
+<th class="head"><p>gap [eV]</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PBEsol</p></td>
+<td><p>5.733</p></td>
+<td><p>0.000</p></td>
+</tr>
+<tr class="row-odd"><td><p>TB09</p></td>
+<td><p>同上</p></td>
+<td><p>0.496</p></td>
+</tr>
+<tr class="row-even"><td><p>TB09 (格子定数：実験値)</p></td>
+<td><p>5.6512</p></td>
+<td><p>0.638</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>cf. 実験値</p></td>
+<td><p>5.6512<sup>a</sup></p></td>
+<td><p>0.74<sup>b</sup></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p>ref.  <a class="reference internal" href="#oadri83" id="id120"><span>[Oadri83]</span></a> , b) ref. <a class="reference internal" href="#tran09" id="id121"><span>[Tran09]</span></a></p></li>
+</ol>
+<figure class="align-default" id="id179">
+<img alt="../_images/image176.png" src="../_images/image176.png" />
+<figcaption>
+<p><span class="caption-number">図 7.18 </span><span class="caption-text">mBJ交換相互作用によるバンド分散 ( Ge, diamond )</span><a class="headerlink" href="#id179" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p id="id122"><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="tran09" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Tran09<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id112">1</a>,<a role="doc-backlink" href="#id119">2</a>,<a role="doc-backlink" href="#id121">3</a>)</span>
+<p>F. Tran and P. Blaha, Phys. Rev. Lett. <strong>102</strong> (2009) 226401, and references therein.</p>
+</div>
+<div class="citation" id="koller12" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id113">Koller12</a><span class="fn-bracket">]</span></span>
+<p>D. Koller, F. Tran, and P. Blaha, Phys. Rev. B <strong>85</strong> (2012) 155109, and references therein.</p>
+</div>
+<div class="citation" id="proynov08" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id114">Proynov08</a><span class="fn-bracket">]</span></span>
+<p>E. Proynov, Z. Gan, and J. Kong, Chem. Phys. Lett. <strong>455</strong> (2008) 103.</p>
+</div>
+<div class="citation" id="atdaev87" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id118">Atdaev87</a><span class="fn-bracket">]</span></span>
+<p>B. S. Atdaev, V. F. Grin, E. A. Salkov, and V. G. Chalaya, Inorg.  Mater. <strong>23</strong> (1987) 1835.</p>
+</div>
+<div class="citation" id="oadri83" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id120">Oadri83</a><span class="fn-bracket">]</span></span>
+<p>S. B. Oadri, E. F. Skelton, A. W. Webb, J. Appl. Phys. <strong>64</strong> (1983) 3609.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="libxc-2023-01">
+<span id="advanced-libxc-section"></span><h2><span class="section-number">7.11. </span>Libxcライブラリー(バージョン2023.01以降)<a class="headerlink" href="#libxc-2023-01" title="この見出しへのパーマリンク"></a></h2>
+<section id="id123">
+<h3><span class="section-number">7.11.1. </span>概要<a class="headerlink" href="#id123" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE/0は多くの汎関数に対応した交換相関項ライブラリーであるLibxc ( <a class="reference internal" href="#lehtola18" id="id124"><span>[Lehtola18]</span></a> , URL <a class="reference external" href="https://www.tddft.org/programs/libxc/">https://www.tddft.org/programs/libxc/</a> )に対応しています。
+PHASE/0をLibxcにリンクし、実行する方法を説明します。</p>
+</section>
+<section id="id125">
+<h3><span class="section-number">7.11.2. </span>コンパイルする方法<a class="headerlink" href="#id125" title="この見出しへのパーマリンク"></a></h3>
+<p>まずはLibxcをビルドする必要があります。先にあげたウエブサイトからダウンロードすることができますが、環境によってはうまくダウンロードできないようです。その場合 GitHub のページ ( <a class="reference external" href="https://github.com/ElectronicStructureLibrary/libxc">https://github.com/ElectronicStructureLibrary/libxc</a> )から取得することもできるようです。本計算機能はLibxcのバージョン5.1.7を用いて検証を行ったので、このバージョンを利用することが推奨されます。ダウンロードしたら以下の要領でコンパイル/インストールします。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar<span class="w"> </span>-zxvf<span class="w"> </span>libxc-5.1.7.tar.gz
+<span class="nb">cd</span><span class="w"> </span>libxc-5.1.7
+autoreconf<span class="w"> </span>-i
+./configure<span class="w"> </span>--prefix<span class="o">=</span>LIBXC<span class="w"> </span><span class="nv">FC</span><span class="o">=</span>FORTRAN_COMPILER
+make
+make<span class="w"> </span>install
+</pre></div>
+</div>
+<p><code class="code docutils literal notranslate"><span class="pre">LIBXC</span></code> はLibxcライブラリーのインストールディレクトリーです。 <code class="code docutils literal notranslate"><span class="pre">FORTRAN_COMPILER</span></code> にはお使いのFortranコンパイラーを指定します。デフォルト値はgfortranなので、gfortranを用いる場合は指定する必要はありません。うまくいけば <code class="code docutils literal notranslate"><span class="pre">LIBXC</span></code> の下にLibxcがインストールされます。</p>
+<p>つぎにPHASE/0のMakefileの以下の箇所に手を加えます。</p>
+<div class="highlight-make notranslate"><div class="highlight"><pre><span></span><span class="nv">LIBXC</span><span class="o">=</span>
+<span class="cp">ifdef LIBXC</span>
+<span class="w">  </span><span class="nv">LIBXC_PATH</span><span class="o">=</span>
+<span class="w">  </span><span class="nv">LIBXC_INC</span><span class="o">=</span>-I<span class="k">$(</span>LIBXC_PATH<span class="k">)</span>/include
+<span class="w">  </span><span class="nv">LIBXC_LIB</span><span class="o">=</span>-L<span class="k">$(</span>LIBXC_PATH<span class="k">)</span>/lib<span class="w"> </span>-lxcf03<span class="w"> </span>-lxc
+<span class="w">  </span><span class="nv">CPPFLAGS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>-DLIBXC
+<span class="w">  </span><span class="nv">F90FLAGS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>LIBXC_INC<span class="k">)</span>
+<span class="w">  </span><span class="nv">F77FLAGS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>LIBXC_INC<span class="k">)</span>
+<span class="w">  </span><span class="nv">LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>LIBXC_LIB<span class="k">)</span>
+<span class="cp">endif</span>
+</pre></div>
+</div>
+<p><code class="code docutils literal notranslate"><span class="pre">LIBXC=</span></code> のあとに何らかの文字列(たとえばyes)を入力し、さらに <code class="code docutils literal notranslate"><span class="pre">LIBXC_PATH</span></code> のあとにLibxcのインストールディレクトリーを指定します。PHASE/0がすでにコンパイルされた状態の場合以下の要領で関連するソースファイルのタイムスタンプを更新し、makeします。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>grep<span class="w"> </span>-l<span class="w"> </span>LIBXC<span class="w"> </span>*.F90<span class="p">|</span>xargs<span class="w"> </span>touch
+make
+</pre></div>
+</div>
+<p>以上の手続きによってLibxcを組み込んだ状態のPHASE/0のバイナリーを得ることができます。</p>
+</section>
+<section id="id126">
+<h3><span class="section-number">7.11.3. </span>入力パラメータ<a class="headerlink" href="#id126" title="この見出しへのパーマリンク"></a></h3>
+<p>Libxcで定義されている交換相関ポテンシャルを用いるには入力パラメーターファイルに以下のような記述を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  xctype = libxc
+  libxc{
+      exch_id = 116,     corr_id = 133
+或いは
+      exch_name = GGA_X_PBE_SOL,   corr_name = GGA_C_PBE_SOL
+  }
+}
+</pre></div>
+</div>
+<p>まず、xctype として libxc を指定します。次に、libxc ブロックで、交換相互作用を exch_id もしくは exch_name で指定します。同様に、相関相互作用を corr_id 或いは corr_name で指定します。用いることのできるid あるいは name は、 <a class="reference external" href="https://tddft.org/programs/libxc/functionals/">https://tddft.org/programs/libxc/functionals/</a> を参照してください。上記の例では、交換・相関相互作用にPBEsol を指定しています。</p>
+</section>
+<section id="id127">
+<h3><span class="section-number">7.11.4. </span>出力<a class="headerlink" href="#id127" title="この見出しへのパーマリンク"></a></h3>
+<p>実行すると、output000ファイルにLibxcのバージョンおよび交換相関相互作用の名称が出力されるので、意図したポテンシャルを用いているかどうか確認することができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>!** Libxc version  5. 1. 7
+  exchange  : gga_x_pbe_sol
+  correlation : gga_c_pbe_sol
+</pre></div>
+</div>
+</section>
+<section id="id128">
+<h3><span class="section-number">7.11.5. </span>例題<a class="headerlink" href="#id128" title="この見出しへのパーマリンク"></a></h3>
+<p>例題の入力ファイルはPHASE/0のサンプルディレクトリーの下のlibxc以下にあります。 <code class="code docutils literal notranslate"><span class="pre">samples/libxc/Si_2atom</span></code> には2原子からなるSi結晶の例題が、 <code class="code docutils literal notranslate"><span class="pre">samples/libxc/Si6AlP_8atomSi6AlP_8atom</span></code> には8原子からなるSi結晶の内2つの原子をAlおよびPに置換した例題が配置されています。後者の場合は構造最適化も行う設定が施されています。各々さらに汎関数ごとにディレクトリーが準備されています。得られる結果は次の表に報告する通り。</p>
+<table class="docutils align-default" id="id180">
+<caption><span class="caption-number">表 7.11 </span><span class="caption-text">2原子からなるSi結晶の計算結果</span><a class="headerlink" href="#id180" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>交換相関相互作用</p></td>
+<td><p>iter_total</p></td>
+<td><p>エネルギー (Hartree)</p></td>
+<td><p>バンドギャップ (eV)</p></td>
+</tr>
+<tr class="row-even"><td><p>LDAPW91 (LDA)</p></td>
+<td><p>12</p></td>
+<td><p>-7.8646521308</p></td>
+<td><p>0.667</p></td>
+</tr>
+<tr class="row-odd"><td><p>PBEsol (GGA)</p></td>
+<td><p>12</p></td>
+<td><p>-7.8611951084</p></td>
+<td><p>0.687</p></td>
+</tr>
+<tr class="row-even"><td><p>M06-L (meta-GGA)</p></td>
+<td><p>55</p></td>
+<td><p>-7.8508524741</p></td>
+<td><p>1.256</p></td>
+</tr>
+<tr class="row-odd"><td><p>TPSS (meta-GGA)</p></td>
+<td><p>12</p></td>
+<td><p>-7.8667488111</p></td>
+<td><p>0.975</p></td>
+</tr>
+<tr class="row-even"><td><p>SCAN (meta-GGA)</p></td>
+<td><p>13</p></td>
+<td><p>-7.8810471789</p></td>
+<td><p>1.092</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id181">
+<caption><span class="caption-number">表 7.12 </span><span class="caption-text">8原子からなるSi結晶のうち2原子をAl, Pで置換した系の計算結果</span><a class="headerlink" href="#id181" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>交換相関相互作用</p></td>
+<td><p>iter_total</p></td>
+<td><p>エネルギー (Hartree)</p></td>
+<td><p>バンドギャップ (eV)</p></td>
+</tr>
+<tr class="row-even"><td><p>PBEsol (GGA)</p></td>
+<td><p>58</p></td>
+<td><p>-32.2319042482</p></td>
+<td><p>0.402</p></td>
+</tr>
+<tr class="row-odd"><td><p>M06-L (meta-GGA)</p></td>
+<td><p>105</p></td>
+<td><p>-32.1962355376</p></td>
+<td><p>0.930</p></td>
+</tr>
+<tr class="row-even"><td><p>TPSS (meta-GGA)</p></td>
+<td><p>61</p></td>
+<td><p>-32.2619120889</p></td>
+<td><p>0.680</p></td>
+</tr>
+<tr class="row-odd"><td><p>SCAN (meta-GGA)</p></td>
+<td><p>59</p></td>
+<td><p>-32.3154777459</p></td>
+<td><p>0.747</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id129">
+<h3><span class="section-number">7.11.6. </span>制限事項<a class="headerlink" href="#id129" title="この見出しへのパーマリンク"></a></h3>
+<p>本計算機能に関する制限事項を次の表に示します。</p>
+<table class="docutils align-default" id="id182">
+<caption><span class="caption-number">表 7.13 </span><span class="caption-text">Libxcに関する制限事項</span><a class="headerlink" href="#id182" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>汎関数の種類</p></td>
+<td><p>SCF計算</p></td>
+<td><p>内部座標最適化</p></td>
+<td><p>格子最適化</p></td>
+<td><p>PAW</p></td>
+<td><p>擬ポテンシャル</p></td>
+</tr>
+<tr class="row-even"><td><p>LDA</p></td>
+<td><p>対応</p></td>
+<td><p>対応</p></td>
+<td><p>対応</p></td>
+<td><p>対応</p></td>
+<td><p>制限なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>GGA</p></td>
+<td><p>対応</p></td>
+<td><p>対応</p></td>
+<td><p>対応</p></td>
+<td><p>対応</p></td>
+<td><p>制限なし</p></td>
+</tr>
+<tr class="row-even"><td><p>meta-GGA</p></td>
+<td><p>対応</p></td>
+<td><p>対応（例外あり）</p></td>
+<td><p>非対応</p></td>
+<td><p>非対応</p></td>
+<td><p>ノルム保存型のみ</p></td>
+</tr>
+</tbody>
+</table>
+<p>LDA, GGAに関しては特段の制限はありません。</p>
+<p>meta-GGAは、ノルム保存型擬ポテンシャルのみに対応しており、ウルトラソフト型擬ポテンシャルは利用できません。
+また、ストレス計算に対応しておらず、格子の最適化が出来ません。
+さらに、一部のmeta-GGAは力の計算に対応しておらず、その場合は内部座標最適化を実行できません（例：TB09）。
+詳細はLibxcのドキュメント、ならびに各汎関数の原著論文を参照してご確認ください、</p>
+<p><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="lehtola18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id124">Lehtola18</a><span class="fn-bracket">]</span></span>
+<p>Susi Lehtola, Conrad Steigemann, Micael J.T. Oliveira, and Miguel A.L. Marques, SoftwareX, <strong>7</strong> (2018) 1-5.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="open-core-2020-01">
+<span id="advanced-opencore-section"></span><h2><span class="section-number">7.12. </span>Open core法（バージョン2020.01以降）<a class="headerlink" href="#open-core-2020-01" title="この見出しへのパーマリンク"></a></h2>
+<section id="id130">
+<span id="id131"></span><h3><span class="section-number">7.12.1. </span>概要<a class="headerlink" href="#id130" title="この見出しへのパーマリンク"></a></h3>
+<p>通常、擬ポテンシャル法では閉殻系である内殻電子のスピン分極は考慮しません。Opencore法 <a class="reference internal" href="#miyake14" id="id132"><span>[Miyake14]</span></a> では、内殻電子が閉殻系の場合にこのスピン分極を取り入れた計算を行います。ただし、価電子ではないためその電荷密度やスピン分極は固定します。この効果は、PCCがある場合の交換相互作用や、PAWの交換相互作用項を通じて取り入れられます。f電子をもつ磁性材料の計算でしばしば用いられる手法です。</p>
+</section>
+<section id="id133">
+<h3><span class="section-number">7.12.2. </span>計算理論<a class="headerlink" href="#id133" title="この見出しへのパーマリンク"></a></h3>
+<p>通常、PCCが無い場合スピン分極がある系の交換相関相互作用ポテンシャルは</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-advanced-opencore-eq1">
+<span class="eqno">(7.24)<a class="headerlink" href="#equation-advanced-opencore-eq1" title="この数式へのパーマリンク"></a></span>\[V_{\rm XC} \left(\rho_{\rm V}^{\uparrow} \rho_{\rm V}^{\downarrow}\right)\]</div>
+</div></blockquote>
+<p>のように、アップ及びダウンスピンの価電子密度 (それぞれ <span class="math notranslate nohighlight">\(\rho_{\rm V}^{\uparrow}\)</span> 及び <span class="math notranslate nohighlight">\(\rho_{\rm V}^{\downarrow}\)</span> の関数として扱われます。また、PCCがある場合には、</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-advanced-opencore-eq2">
+<span class="eqno">(7.25)<a class="headerlink" href="#equation-advanced-opencore-eq2" title="この数式へのパーマリンク"></a></span>\[V_{\rm XC} \left( \rho_{\rm V}^{\uparrow} + \rho_{\rm PC}, \rho_{\rm V}^{\downarrow} + \rho_{\rm PC} \right)\]</div>
+</div></blockquote>
+<p>のように、(スピンによらない)Parital
+Coreの密度 <span class="math notranslate nohighlight">\(\rho_{\rm PC}\)</span> を、価電子スピン密度に加えて処理されています。これに対し、opencore法は <span class="math notranslate nohighlight">\(\rho_{\rm PC}\)</span> がスピンに依存しても良い方法ですが、スピン依存擬ポテンシャルを作る必要があります。その詳細についてはCIAOのマニュアルをご覧ください。</p>
+</section>
+<section id="id134">
+<span id="id135"></span><h3><span class="section-number">7.12.3. </span>入力パラメーター<a class="headerlink" href="#id134" title="この見出しへのパーマリンク"></a></h3>
+<p>opencore 機能を使用するには、</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  sw_opencore = on
+}
+</pre></div>
+</div>
+<p>と記入します。計算自体は通常のPHASE/0の計算と同様に実行してください。</p>
+</section>
+<section id="id136">
+<span id="id137"></span><h3><span class="section-number">7.12.4. </span>例題<a class="headerlink" href="#id136" title="この見出しへのパーマリンク"></a></h3>
+<figure class="align-default" id="id183">
+<img alt="../_images/image184.png" src="../_images/image184.png" />
+<figcaption>
+<p><span class="caption-number">図 7.19 </span><span class="caption-text">立方晶NdFe<sub>12</sub>の結晶構造</span><a class="headerlink" href="#id183" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>立方晶NdFe<sub>12</sub> を例に
+opencoreの検証を行いました。格子定数及び内部座標は文献値を使用しました。計算条件は以下のとおりです。対応する入出力ファイルは <code class="code docutils literal notranslate"><span class="pre">samples/opencore</span></code> 以下のサブディレクトリーにあります。</p>
+<table class="docutils align-default" id="id184">
+<caption><span class="caption-number">表 7.14 </span><span class="caption-text">NdFe<sub>12</sub>の構造パラメータ( 文献 <a class="reference internal" href="#fukazawa17" id="id138"><span>[Fukazawa17]</span></a> )</span><a class="headerlink" href="#id184" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>格子定数[Å]</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>a</p></td>
+<td><p>8.533</p></td>
+</tr>
+<tr class="row-odd"><td><p>c</p></td>
+<td><p>4.681</p></td>
+</tr>
+<tr class="row-even"><td><p>内部座標</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Nd (2a)</p></td>
+<td><p>( 0.0000, 0.0000, 0.0000 )</p></td>
+</tr>
+<tr class="row-even"><td><p>Fe (8f)</p></td>
+<td><p>( 0.2500, 0.2500, 0.2500 )</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fe (8i)</p></td>
+<td><p>( 0.3594, 0.0000, 0.0000 )</p></td>
+</tr>
+<tr class="row-even"><td><p>Fe (8j)</p></td>
+<td><p>( 0.2676, 0.5000, 0.0000 )</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id185">
+<caption><span class="caption-number">表 7.15 </span><span class="caption-text">NdFe<sub>12</sub>の計算条件</span><a class="headerlink" href="#id185" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>波動関数カットオフ [Ry]</p></th>
+<th class="head"><p>25</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-odd"><td><p>k点サンプリング</p></td>
+<td><p>Monk (6×6×6)</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>paw = on</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>(オリジナル)Nd_ggapbe_paw_01.pp,
+(新) Nd_ggapbe_paw_015_4f_core.gncpp2,
+Fe_ggapbe_paw_02.pp</p></td>
+</tr>
+</tbody>
+</table>
+<p>オリジナルの擬ポテンシャルはNd4f電子を価電子として含みます。同擬ポテンシャルを結晶に適用する場合、4f電子間の強いクーロン斥力を考慮するために、DFT+U法を用いることが多いです。ここでは、U<sub>eff</sub>の値として
+0 と 6 eVの2ケースについて SCF計算を行いました。</p>
+<p>一方、新しい擬ポテンシャルでは、4f電子をコアとして扱っています。opencoreあり・なしの2ケースについて
+SCF計算を行いました。</p>
+<p><a class="reference internal" href="#advanced-opencore-table1"><span class="std std-numref">表 7.16</span></a> に各サイトの磁気モーメントを示します。オリジナルの擬ポテンシャルで
+U<sub>eff</sub> = 6
+eVとした結果と、新しい擬ポテンシャルの計算結果が近いことが分かります。特に、opencore法の場合には、U<sub>eff</sub>=6
+eVと極めて近い結果が得られています。</p>
+<p><a class="reference internal" href="#advanced-opencore-table2"><span class="std std-numref">表 7.17</span></a> にSCFまでのiteration
+数を示します。新しい擬ポテンシャルを用いた計算では、4f電子を含まない分、早く収束することが分かります。</p>
+<table class="docutils align-default" id="advanced-opencore-table1">
+<caption><span class="caption-number">表 7.16 </span><span class="caption-text">NdFe<sub>12</sub>の計算条件</span><a class="headerlink" href="#advanced-opencore-table1" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>擬ポ
+テンシャル</p>
+<p>及び備考</p>
+</th>
+<th class="head"><p>オリジナル,</p>
+<p>U <sub>eff</sub>
+= 0 eV</p>
+</th>
+<th class="head"><p>オリジナル,</p>
+<p>U <sub>eff</sub>
+= 6 eV</p>
+</th>
+<th class="head"><p>新,</p>
+<p>opencoreなし</p>
+</th>
+<th class="head"><p>新,</p>
+<p>opencoreあり</p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Nd (2a)</p></td>
+<td><p>-0.243</p></td>
+<td><p>-3.502</p></td>
+<td><p>※-3.391</p></td>
+<td><p>※-3.499</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fe (8f)</p></td>
+<td><p>1.898</p></td>
+<td><p>1.905</p></td>
+<td><p>1.888</p></td>
+<td><p>1.903</p></td>
+</tr>
+<tr class="row-even"><td><p>Fe (8i)</p></td>
+<td><p>2.603</p></td>
+<td><p>2.599</p></td>
+<td><p>2.595</p></td>
+<td><p>2.602</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fe (8j)</p></td>
+<td><p>2.381</p></td>
+<td><p>2.405</p></td>
+<td><p>2.386</p></td>
+<td><p>2.396</p></td>
+</tr>
+</tbody>
+</table>
+<p>※4f電子のスピン -3を加えた値</p>
+<table class="docutils align-default" id="advanced-opencore-table2">
+<caption><span class="caption-number">表 7.17 </span><span class="caption-text">NdFe<sub>12</sub>の計算における SCFまでに要する iteration 数</span><a class="headerlink" href="#advanced-opencore-table2" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>擬ポ
+テンシャル</p>
+<p>及び備考</p>
+</th>
+<th class="head"><p>オリジナル,</p>
+<p>U <sub>eff</sub>
+= 0 eV</p>
+</th>
+<th class="head"><p>オリジナル,</p>
+<p>U <sub>eff</sub>
+= 6 eV</p>
+</th>
+<th class="head"><p>新,</p>
+<p>opencoreなし</p>
+</th>
+<th class="head"><p>新,</p>
+<p>opencoreあり</p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>iteration
+数</p></td>
+<td><p>223</p></td>
+<td><p>69</p></td>
+<td><p>33</p></td>
+<td><p>34</p></td>
+</tr>
+</tbody>
+</table>
+<p id="id139"><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="miyake14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id132">Miyake14</a><span class="fn-bracket">]</span></span>
+<p>T. Miyake, K. Terakura, Y. Harashima, H. Kino, and S. Ishibashi, J. Phys. Soc. Jpn. <strong>83</strong> (2014) 043702.</p>
+</div>
+<div class="citation" id="fukazawa17" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id138">Fukazawa17</a><span class="fn-bracket">]</span></span>
+<p>T. Fukazawa, H. Akai, Y. Harashima, and T. Miyake, J. Appl. Phys.  <strong>12</strong> (2017) 053901.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="advanced-noncollinear-section">
+<span id="id140"></span><h2><span class="section-number">7.13. </span>ノンコリニア系の計算、スピン軌道相互作用計算<a class="headerlink" href="#advanced-noncollinear-section" title="この見出しへのパーマリンク"></a></h2>
+<section id="id141">
+<h3><span class="section-number">7.13.1. </span>ノンコリニア系の計算<a class="headerlink" href="#id141" title="この見出しへのパーマリンク"></a></h3>
+<section id="id142">
+<span id="id143"></span><h4><span class="section-number">7.13.1.1. </span>機能の概要<a class="headerlink" href="#id142" title="この見出しへのパーマリンク"></a></h4>
+<p>通常の計算では、局所的な磁気モーメントの大きさは、アップ・ダウンスピン電子密度の差で表現され、その向きについては規定されません。向きまで表現するためには、1つの波動関数がアップ及びダウンスピン成分をもつようにする、すなわち2成分スピノールで表す必要があります。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{pmatrix}
+\psi_{nk}^{\uparrow} \\
+\psi_{nk}^{\downarrow}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\psi_{nk}^{\uparrow} \left(G=0\right) \\
+\vdots \\
+\vdots \\
+\psi_{nk}^{\uparrow} \left(G=G_{\rm max}\right) \\
+\psi_{nk}^{\downarrow} \left(G=0\right) \\
+\vdots \\
+\vdots \\
+\psi_{nk}^{\downarrow} \left(G=G_{\rm max}\right) \\
+\end{pmatrix}\end{split}\]</div>
+<p>これに対応して電荷密度は</p>
+<div class="math notranslate nohighlight">
+\[n^{\alpha\beta} \left(\mathbf{r}\right) = \sum_{nk} f_{nk} \left&lt; \psi_{nk}^\alpha | \mathbf{r} \right&gt;\left&lt;\mathbf{r}|\psi_{nk}^\beta\right&gt;\]</div>
+<p>のように、スピン指標に関して2x2行列となります。また、局所的な電荷密度及び磁気モーメントは、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}n_{\rm tot} &amp;= {\rm Tr}\left[n\left(\mathbf{r}\right)\right] = n^{\alpha\alpha} + n^{\beta\beta} \\
+m_x \left(\mathbf{r}\right) &amp;= n^{\alpha\beta}\left(\mathbf{r}\right) + n^{\beta\alpha}\left(\mathbf{r}\right) \\
+m_y \left(\mathbf{r}\right) &amp;= i\left[-n^{\alpha\beta}\left(\mathbf{r}\right) + n^{\beta\alpha}\left(\mathbf{r}\right)\right] \\
+m_z \left(\mathbf{r}\right) &amp;= n^{\alpha\beta}\left(\mathbf{r}\right) - n^{\beta\alpha}\left(\mathbf{r}\right)\end{split}\]</div>
+<p>となります。</p>
+</section>
+<section id="id144">
+<span id="id145"></span><h4><span class="section-number">7.13.1.2. </span>入力パラメータ<a class="headerlink" href="#id144" title="この見出しへのパーマリンク"></a></h4>
+<p>ノンコリニア系の計算、すなわち2成分スピノールでの計算を行うには、structureブロックに
+“magnetic_state = noncollinear “
+と記します。また、各原子種の局所磁気モーメントの方向の初期値を、”mdx mdy
+mdz” に指定します。特に指定しない場合は、z
+方向を向くと判断します。局所磁気モーメントの方向の初期値は、”theta phi”
+(単位：degree) でも指定可能です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  ...
+  magnetic_state = noncollinear
+  element_list{
+    #units atomic_mass
+    #tag element atomicnumber zeta deviation mdx mdy mdz
+          O 　 8 0.166666 1.5 0.0 0.0 1.0
+  }
+  ...
+}
+</pre></div>
+</div>
+</section>
+<section id="id146">
+<span id="id147"></span><h4><span class="section-number">7.13.1.3. </span>計算結果の出力<a class="headerlink" href="#id146" title="この見出しへのパーマリンク"></a></h4>
+<p>標準出力には、以下のような磁気モーメントに関する情報が出力されます。
+Tot, Mx, My, Mzは、それぞれ、局所的な電荷密度及び磁気モーメントを単位胞内で足し合わせた値です。
+これ以外は通常の計算による出力と共通です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>!OLD Chg ** Tot: 40.00000000 Mx: 0.00073742 My: 0.00000000 Mz: 16.17742289
+!NEW Chg ** Tot: 40.00000000 Mx: 0.00075559 My: 0.00000000 Mz:
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id148">
+<h3><span class="section-number">7.13.2. </span>スピン軌道相互作用計算<a class="headerlink" href="#id148" title="この見出しへのパーマリンク"></a></h3>
+<section id="id149">
+<span id="id150"></span><h4><span class="section-number">7.13.2.1. </span>機能の概要<a class="headerlink" href="#id149" title="この見出しへのパーマリンク"></a></h4>
+<p>2成分スピノールが重要になるのは、スピン軌道相互作用を考慮する場合です。スピン軌道相互作用は、</p>
+<p>で表されます。ここで、は原子核周りの球対称なポテンシャルです。このHamiltonianは、波動関数のアップ及びダウンスピン成分の間に相互作用を働かせるため、5.8.1
+で説明した2成分スピノールが必要になります。</p>
+</section>
+<section id="id151">
+<span id="id152"></span><h4><span class="section-number">7.13.2.2. </span>入力パラメータ<a class="headerlink" href="#id151" title="この見出しへのパーマリンク"></a></h4>
+<p>スピン軌道相互作用を利用するには、accuracyブロック内のspin_orbitブロックに
+“mode = pawpot “
+と記します。これ以外は、ノンコリニア系の計算と同様です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  …
+  spinorbit{
+    mode = pawpot
+  }
+  …
+}
+</pre></div>
+</div>
+</section>
+<section id="id153">
+<span id="id154"></span><h4><span class="section-number">7.13.2.3. </span>計算結果の出力<a class="headerlink" href="#id153" title="この見出しへのパーマリンク"></a></h4>
+<p>スピン軌道相互作用によるエネルギーは、標準出力にESpinOrb_old, new
+で表示されます。</p>
+<p>なお、これらの値は、コンパイル時にCPPFLAGに -DUSE_ESPINORB
+をつけた場合にのみ計算されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>TOTAL ENERGY FOR 53 -TH ITER= -41.454944288742 edel = -0.170628D-08 : SOLVER = SUBMAT + RMM3
+KI= 13.204535394898 HA= 32.283599969986 XC= -6.801519951682 LO=
+NL= 7.597059454569 EW= 5.402894293900 PC= 0.000000000000 EN=
+PHYSICALLY CORRECT ENERGY = -41.454944288742
+EOHXC_PAW= -0.4786729 HA_PAW= 0.0218350
+XC_PAW_AE= -15.6619733 XC_PAW_PS= -5.6000049
+!XC_PAW_AE-XC_PAW_PS= -10.0619684
+ESpinOrb_old= -0.0000308 ESpinOrb_now= -0.0000293
+</pre></div>
+</div>
+</section>
+<section id="section-advanced-spin-orbit-from-postproc">
+<span id="id155"></span><h4><span class="section-number">7.13.2.4. </span>スピン軌道相互作用の事後処理による取り込み（バージョン2022.01以降）<a class="headerlink" href="#section-advanced-spin-orbit-from-postproc" title="この見出しへのパーマリンク"></a></h4>
+<p>コリニア計算の事後処理としてスピン軌道相互作用を取り込むことができます。この処理はコリニア計算の入力ファイルにスピン軌道相互作用の設定を施すことによって実現することができます。
+また、入力パラメーターファイルに以下の設定を施すことによって事後処理的にスピン軌道相互作用を取り込んで得られた波動関数を出力させることができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+    sw_write_zaj_socsv = on
+}
+</pre></div>
+</div>
+<p>この指定によって <code class="docutils literal notranslate"><span class="pre">zaj_socsv.data</span></code> ファイルが生成されます。ファイルの書式は、ノンコリニア計算時の <code class="docutils literal notranslate"><span class="pre">zaj.data</span></code> と共通なので、ノンコリニア計算で <code class="docutils literal notranslate"><span class="pre">initial_wavefunctions</span> <span class="pre">=</span> <span class="pre">file</span></code> として読み込むことができます。
+このような使い方をすることによってノンコリニア計算の収束性が向上する場合があります。</p>
+</section>
+<section id="o2pt2">
+<h4><span class="section-number">7.13.2.5. </span>計算例：O<sub>2</sub>分子、Pt<sub>2</sub>分子<a class="headerlink" href="#o2pt2" title="この見出しへのパーマリンク"></a></h4>
+<p>計算例は、 <code class="code docutils literal notranslate"><span class="pre">samples/spin_orbit</span></code> 以下のサブディレクトリーにあります。これらの例では、分子をx軸方向に配置し、磁気モーメントの向き(
+theta )による全エネルギーの違いを計算します。</p>
+<figure class="align-default" id="advanced-noncol-fig1">
+<img alt="../_images/image226.svg" src="../_images/image226.svg" /><figcaption>
+<p><span class="caption-number">図 7.20 </span><span class="caption-text">スピン軌道相互作用計算の計算例の分子配置</span><a class="headerlink" href="#advanced-noncol-fig1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>O<sub>2</sub>分子</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/spin_orbit/O2/Theta_0</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/spin_orbit/O2/Theta_90</span></code></p></li>
+</ul>
+<p>前者の方が、1原子あたり 0.108 meV 安定です。</p>
+<p>Pt<sub>2</sub>分子</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/spin_orbit/Pt2/Theta_0</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">samples/spin_orbit/Pt2/Theta_90</span></code></p></li>
+</ul>
+<p>後者の方が、1原子あたり 17.215 meV 安定です。</p>
+</section>
+<section id="si">
+<h4><span class="section-number">7.13.2.6. </span>Si 結晶のバンド<a class="headerlink" href="#si" title="この見出しへのパーマリンク"></a></h4>
+<p>スピン軌道相互作用を考慮したバンド計算は、通常のコリニア計算と同じ手順で行います。まず、scf
+計算を行い (phase)、得られた電荷密度のもとでバンド計算 (ekcal)
+を行います。</p>
+<p>例として、Si diamond
+結晶のバンド計算を示します。scf及びband計算ともに、以下のキーワードを用います
+( <code class="code docutils literal notranslate"><span class="pre">samples/spin_orbit/Si_band/soc_on</span></code> フォルダ参照 )。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  paw = on
+  spinorbit{
+    mode = pawpot
+  }
+}
+structure{
+  magnetic_state = noncollinear
+}
+</pre></div>
+</div>
+<p><a class="reference internal" href="#advanced-noncol-fig2"><span class="std std-numref">図 7.21</span></a> 左図は上記入力により得られたバンド構造で、右図はスピン軌道相互作用を考慮しないバンド構造です。スピン軌道相互作用によりgamma
+点の縮退が解けていることが分かります。</p>
+<figure class="align-default" id="advanced-noncol-fig2">
+<img alt="../_images/Si_spin_orbit_band.png" src="../_images/Si_spin_orbit_band.png" />
+<figcaption>
+<p><span class="caption-number">図 7.21 </span><span class="caption-text">スピン軌道相互作用を考慮したバンド構造（左）としないバンド構造（右）</span><a class="headerlink" href="#advanced-noncol-fig2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id156">
+<h4><span class="section-number">7.13.2.7. </span>計算例：2H-MoS<sub>2</sub><a class="headerlink" href="#id156" title="この見出しへのパーマリンク"></a></h4>
+<p>2H-MoS<sub>2</sub> のバンド計算をスピン軌道相互作用を考慮して行います。サンプルの入力ファイルは <code class="docutils literal notranslate"><span class="pre">samples/spin_orbit/MoS2</span></code> 以下のサブディレクトリーに配置されています。
+その計算条件は下記の通り。</p>
+<table class="docutils align-default" id="id186">
+<caption><span class="caption-number">表 7.18 </span><span class="caption-text">2H-MoS2の計算条件</span><a class="headerlink" href="#id186" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>平面波カットオフ [Ry]</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>270</p></td>
+</tr>
+<tr class="row-odd"><td><p>k 点サンプリング</p></td>
+<td><p>構造最適化, SCF計算: monk (4×4×1) バンド計算: 55 点</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>PAW, PBEsol</p></td>
+</tr>
+<tr class="row-odd"><td><p>SCF 収束条件 [Ha/atom]</p></td>
+<td><p>1.0E-8</p></td>
+</tr>
+<tr class="row-even"><td><p>力の収束条件 [Hartree/Bohr]</p></td>
+<td><p>2.0E-4</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Mo_ggapbe_paw_us_02.pp  S_ggapbe_paw_us_01.pp</p></td>
+</tr>
+<tr class="row-even"><td><p>（自動最適化後の）格子定数</p></td>
+<td><p>a = 3.173 Å、c = 12.396 Å</p></td>
+</tr>
+</tbody>
+</table>
+<p>スピン軌道相互作用はノンコリニア計算を行って取り入れる方法とコリニア計算の事後処理として取り入れる方法の二種類の方法によって考慮しました。</p>
+<p>格子及び内部座標の最適化後、SCF 計算を行い、最後にバンド計算を行いました。スピン軌道相互作用をコリニア計算の事後処理で取り入れた場合のK点におけるVBM以下の2準位のエネルギー差は、スピン軌道相互作用を考慮したノンコリニア計算と同程度でした。</p>
+<figure class="align-default" id="advanced-mos2-spin-orbit-band-fig">
+<img alt="../_images/MoS2_spin_orbit_band.svg" src="../_images/MoS2_spin_orbit_band.svg" /><figcaption>
+<p><span class="caption-number">図 7.22 </span><span class="caption-text">2H-MoS2 のバンド構造</span><a class="headerlink" href="#advanced-mos2-spin-orbit-band-fig" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id157">
+<span id="id158"></span><h4><span class="section-number">7.13.2.8. </span>使用上の注意<a class="headerlink" href="#id157" title="この見出しへのパーマリンク"></a></h4>
+<ul class="simple">
+<li><p>スピン軌道相互作用を用いてエネルギー比較を行う場合、対称操作をEのみにされることをお勧めします。</p></li>
+<li><p>smearing においてmethod = parabolic のみが使用可能です。</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="rttddft">
+<span id="advanced-tddft-section"></span><h2><span class="section-number">7.14. </span>実時間処理型の時間依存密度汎関数理論（RTTDDFT）による光学スペクトル計算<a class="headerlink" href="#rttddft" title="この見出しへのパーマリンク"></a></h2>
+<section id="id159">
+<span id="id160"></span><h3><span class="section-number">7.14.1. </span>機能の概要<a class="headerlink" href="#id159" title="この見出しへのパーマリンク"></a></h3>
+<p>実時間TDDFT法に基づいて、次式の時間依存一電子方程式を解くことにより、与えられた初期一電子波動関数に対する電子ダイナミクス・シミュレーションを行う。</p>
+<div class="math notranslate nohighlight">
+\[i\hbar \frac{\partial}{\partial t} \phi_n^{\mathbf{k}} \left( \mathbf{r},t\right) = H\left(t\right) \phi_n^{\mathbf{k}} \left( \mathbf{r},t\right)\]</div>
+<p>波数ベクトル<strong>k</strong>とバンド番号<strong>n</strong>を指標とする一電子波動関数を<span class="math notranslate nohighlight">\(\phi_{n}^{\mathbf{k}}\)</span>で、<span class="math notranslate nohighlight">\(\phi_{n}^{k}\)</span><span class="math notranslate nohighlight">\(\phi_{n}^{k}\)</span>有効ハミルトニアンを<strong>H</strong>で表す。時間依存一電子方程式の形式的解から、一電子波動関数の時間発展は以下のように表される。</p>
+<div class="math notranslate nohighlight">
+\[\phi_n^{\mathbf{k}}\left(\mathbf{r},t+\Delta t\right) = \exp \left(-\frac{i}{\hbar} \int_t^{t+\Delta t} dt' H\left(t'\right)\right) \phi_n^{\mathbf{k}} \left(\mathbf{r},t\right)\]</div>
+<p>右辺の時間発展演算子は、時間積分部および指数関数部に対して近似を施して数値計算され、それぞれ様々な近似方法が提案されている。時間積分部は時間間隔∆<em>t</em>が十分に小さければ次式のように近似できる。</p>
+<div class="math notranslate nohighlight">
+\[\phi_n^{\mathbf{k}} \left(\mathbf{r}, t+\Delta t\right) \cong \exp \left( -\frac{i}{\hbar} \Delta t H\left(t\right) \right) \phi_n^{\mathbf{k}} \left(\mathbf{r},t\right)\]</div>
+<p>さらに、指数関数部に対する近似としてテイラー展開法が使用される。</p>
+<div class="math notranslate nohighlight">
+\[\phi_n^{\mathbf{k}} \left(\mathbf{r}, t+\Delta t\right) = \sum_{N=0}^{\infty} \frac{1}{N!} \left(-\frac{i}{\hbar} \delta t H\left(t\right) \right)^N\]</div>
+<p>この近似法の場合、時間間隔∆tと展開最大次数<em>N</em><sub>max</sub>が主要な入力パラメータであり、計算精度と実行時間の兼ね合いを考慮して最適値を設定する必要がある。</p>
+<p>原理的には、各時間においてヘルマン・ファインマン力を計算し、その値に従って原子位置のダイナミクスを実行することも可能である。（ただし、本プログラムには実装されておらず、原子位置は固定した状態で電子ダイナミクス計算を行う。）</p>
+<p>時間t=0<sup>-</sup>の初期一電子波動関数は、プログラムPHASEによって求められる基底状態の一電子波動関数を用いて作成するため、本機能実行前にDFT法による基底状態の計算を終えている必要がある。本プログラムでは、基底状態一電子波動関数φ<sub>n</sub><strong>k</strong>
+(<strong>r</strong>,
+t=0<sup>-</sup>)を以下のように位相シフトさせることができる。</p>
+<div class="math notranslate nohighlight">
+\[\phi\left(\mathbf{r},t=0^+ \right) = e^{-i\varepsilon \mathbf{q} \cdot \mathbf{r}} \phi_n^{\mathbf{k}} \left(\mathbf{r}, t=0^- \right)\]</div>
+<p>これは時間t=0<sup>+</sup>においてパルス電場を系に与えることに相当する。各時刻において双極子モーメント<strong>d</strong>(t)または電流密度<strong>J</strong>(t)を計算し、電子ダイナミクス・シミュレーション終了後に、これらの値を時間の関数から振動数へとフーリエ変換することによって、実験と直接比較可能な双極子強度・光吸収スペクトルなどの光学物性値が求められる。</p>
+</section>
+<section id="id161">
+<span id="id162"></span><h3><span class="section-number">7.14.2. </span>入力パラメータ<a class="headerlink" href="#id161" title="この見出しへのパーマリンク"></a></h3>
+<p>以下の入力タグの例は、初期状態として「x方向へ大きさ0.01原子単位のデルタ関数型パルス電場」を系に与え、「時間刻み0.1原子単位時間/時間ステップで1,000時間ステップ（全シミュレーション時間100原子単位時間）」のRT-TDDFT計算を実行する場合です。ただし、DFT法による基底状態の計算が収束している場合のみRT-TDDFT計算が実行されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postprocessing{
+  rttddft{
+    sw_rttddft = on
+    time_step_delta = 0.1
+    time_step_max = 1000
+    ext_pulse_epsilon = 0.01
+    ext_pulse_kx = 1.0
+    ext_pulse_ky = 0.0
+    ext_pulse_kz = 0.0
+  }
+}
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメータ</p></th>
+<th class="head"><p>デフォルト値</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sw_rttddft</p></td>
+<td><p>OFF</p></td>
+<td><p>ON　：　
+RTTDDFT計算処理を実行する</p>
+<p>OFF　：　
+RTTDDFT計算処理を行わない</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>time_step_delta</p></td>
+<td><p>0.1（原子単位時間）</p></td>
+<td><p>時間更新刻み</p>
+<p>全シミュレー
+ション時間は、time_step_d
+elta×time_step_maxとなる。</p>
+<p>経験的には0.05～0.1原
+子単位時間の値が推奨される</p>
+<p>（
+1原子単位時間はおよそ0.024
+fs）</p>
+<p>大きなtime_step_del
+taを設定した場合には異常値
+が出力されることがあり、そ
+の場合は値をより小さく設定
+して再計算する必要がある。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>time_step_max</p></td>
+<td><p>100（回）</p></td>
+<td><p>計算処理を
+終了するまでの時間更新回数</p>
+<p>［計算途中にジョブを正
+常終了させることはできない
+（nfstop機能は使用不可）］</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>初期状態生成［デルタ関数型パルス電場<span class="math notranslate nohighlight">\(\mathbf{E}(t) = E_{0}\mathbf{e}\delta(t)\)</span>
+］に関するパラメータ</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメータ</p></th>
+<th class="head"><p>デフォルト値</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ext_pulse_epsilon</p></td>
+<td><p>0.0d0</p></td>
+<td><p>電場の大きさ<span class="math notranslate nohighlight">\(E_{0}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>ext_pulse_kx</p></td>
+<td><p>0.0d0</p></td>
+<td><p>電場の向き<span class="math notranslate nohighlight">\(\mathbf{e}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>ext_pulse_ky</p></td>
+<td><p>0.0d0</p></td>
+<td><p>電場の向き<span class="math notranslate nohighlight">\(\mathbf{e}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>ext_pulse_kz</p></td>
+<td><p>0.0d0</p></td>
+<td><p>電場の向き<span class="math notranslate nohighlight">\(\mathbf{e}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id163">
+<span id="id164"></span><h3><span class="section-number">7.14.3. </span>計算の実行方法<a class="headerlink" href="#id163" title="この見出しへのパーマリンク"></a></h3>
+<p>まずは、通常の SCF 計算を行います。この際は、sw_rttddft パラメータは off に設定しておきます。通常のSCF 計算が終了したら、sw_rttddft パラメータを on とし、さらに必要に応じて rttddft ブロックの各種パラメータを編集し、control ブロックの下の condition パラメータを continuation に設定します。このような設定を施したら、通常通り PHASE の計算を実行するとTDDFT 計算が実行されます。途中で終了した RT-TDDFT 計算は、初期電場の設定（ext_pulse_epsilon, ext_pulse_kx, ext_pulse_ky, ext_pulse_kz）をすべて 0 とし、condition=continuation としたままで PHASE を実行すれば行うことができます。</p>
+</section>
+<section id="id165">
+<span id="id166"></span><h3><span class="section-number">7.14.4. </span>計算結果<a class="headerlink" href="#id165" title="この見出しへのパーマリンク"></a></h3>
+<p>計算結果は、ログファイルに記録されます。以下のように、双極子モーメントと電流密度が原子単位で記録されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># time_step= 991 time= 0.9910E+02 au = 0.2397E+01 fs
+...
+P= 0.0285381798 0.0002058360 0.0001702915
+J= -0.0133497494 0.0000068680 -0.0000030064
+</pre></div>
+</div>
+<p>P=のあとの 3 つの数値が双極子モーメントの x, y, z 成分、J=のあとの 3
+つの数値が電流密度の x, y, z 成分です。</p>
+<p>計算終了後、時間空間から周波数空間にフーリエ変換することによってスペクトルをエネルギーの関数として得ることが可能です。このフーリエ変換を実行するプログラムのソースコードがsrc_spectrum
+の下にある spectrum.f90 です。このプログラム自体は、標準的な Fortran90
+コンパイラーによってコンパイルすることが可能です。その利用方法は、以下の通りです（作業ディレクトリーとして、ft
+というディレクトリーを作成して実行する例）。
+まず、以下のようにディレクトリーft
+を作成し、そのディレクトリーの下に電流密度の履歴を抽出した
+j.dataというファイルを作成します。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>%<span class="w"> </span>mkdir<span class="w"> </span>ft
+%<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>ft
+%<span class="w"> </span>grep<span class="w"> </span>”J<span class="o">=</span>”<span class="w"> </span>../output001<span class="w"> </span>&gt;<span class="w"> </span>j.data
+</pre></div>
+</div>
+<p>j.data ファイルに、次のように 1 行目に time_step_delta と
+ext_pulse_epsilon を加え、さらに time_step_maxの値を 2 行目に加えます。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">0</span>.1<span class="w"> </span><span class="m">0</span>.01
+<span class="m">1001</span>
+<span class="nv">J</span><span class="o">=</span><span class="w"> </span>-0.2999128661<span class="w"> </span><span class="m">0</span>.0000002015<span class="w"> </span>-0.0000008972
+<span class="nv">J</span><span class="o">=</span><span class="w"> </span>-0.2970981909<span class="w"> </span>-0.0000022160<span class="w"> </span>-0.0000000155
+…
+…
+</pre></div>
+</div>
+<p>このファイルを作成したら、spectrum.f90
+をコンパイルしたバイナリー（たとえば a.out）を実行します。結果</p>
+<p>としては、以下のファイルが得られます。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>出力ファイル名</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>j.out</p></td>
+<td><p>電流密度と時間の関係、Jx(t) Jy(t) Jz(t)</p></td>
+</tr>
+<tr class="row-odd"><td><p>p.out</p></td>
+<td><p>誘起された双極子モーメントと時間の関係、Px(t) Py(t) Pz(t)</p></td>
+</tr>
+<tr class="row-even"><td><p>pw.out</p></td>
+<td><p>フーリエ変換された双極子モーメント、Re[Px(w)] Im[Px(w)]</p></td>
+</tr>
+<tr class="row-odd"><td><p>abs.out</p></td>
+<td><p>双極子モーメント強度のスペクトル</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id167">
+<span id="id168"></span><h3><span class="section-number">7.14.5. </span>例題<a class="headerlink" href="#id167" title="この見出しへのパーマリンク"></a></h3>
+<p>例として、ベンゼン分子（ <a class="reference internal" href="#advanced-tddft-c6h6"><span class="std std-numref">図 7.23</span></a> ）のRT-TDDFT計算例を紹介します。この例題の入力ファイルは <code class="code docutils literal notranslate"><span class="pre">samples/tddft/rt_benzene</span></code> 以下にあります。</p>
+<figure class="align-default" id="advanced-tddft-c6h6">
+<img alt="../_images/image213.png" src="../_images/image213.png" />
+<figcaption>
+<p><span class="caption-number">図 7.23 </span><span class="caption-text">ベンゼン分子の原子配置</span><a class="headerlink" href="#advanced-tddft-c6h6" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>計算は、まずはSCF計算を実行し、ついでRT-TDDFTを有効にした継続計算を実行しました。RT-TDDFTのステップ数は11,000とし、時間刻みは0.1
+au (約0.0024
+fs)としました。さらに、得られた結果を5.5.1.4で説明した手続きによってフーリエ変換しました。得られる吸収スペクトル(abs.outの結果)は <a class="reference internal" href="#advanced-tddft-c6h6-spectrum"><span class="std std-numref">図 7.24</span></a> で示す通りです。</p>
+<figure class="align-default" id="advanced-tddft-c6h6-spectrum">
+<img alt="../_images/image214.svg" src="../_images/image214.svg" /><figcaption>
+<p><span class="caption-number">図 7.24 </span><span class="caption-text">本例題によって得られる吸収スペクトル</span><a class="headerlink" href="#advanced-tddft-c6h6-spectrum" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>最初のピークが、約6.8 eVに表れています。通常のSCF計算によって得られるHOMO-LUMOギャップは約5.1 eVですが、この値よりも大きな値が吸収端として得られており、もっともらしい結果と考えられます。</p>
+</section>
+<section id="id169">
+<span id="id170"></span><h3><span class="section-number">7.14.6. </span>使用上の注意<a class="headerlink" href="#id169" title="この見出しへのパーマリンク"></a></h3>
+<ul class="simple">
+<li><p>ノルム保存型擬ポテンシャルを使用してください。ウルトラソフト型擬ポテンシャルには対応していません。</p></li>
+<li><p>分子の重心がユニットセル中心に位置するように原子座標を設定し、分子が充分な真空領域に囲まれたユニットセルサイズを設定して下さい。（分子がセル境界をまたいで存在する場合には、双極子モーメントが正しく計算されません。）</p></li>
+<li><p>ksampling{ }タグ内で「base_reduction_for_GAMMA =
+off」と「base_symmetrization_for_GAMMA = off」を明示して下さい。</p></li>
+<li><p>symmetry{ }タグ内で「method = manual」と「sw_inversion =
+off」を明示して下さい。</p></li>
+<li><p>バルク系の計算には対応していません。</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../electronic_structure/electronic_structure.html" class="btn btn-neutral float-left" title="6. 電子状態解析：バンド構造と状態密度" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../analysis/analysis.html" class="btn btn-neutral float-right" title="8. 解析機能" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, PHASEシステム研究会.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

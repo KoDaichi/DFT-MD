@@ -1,0 +1,79 @@
+Control{
+    cpumax = 100000 day
+    condition = initial
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 4
+            ny = 4
+            nz = 1
+        }
+        method = monk
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-10 Hartree
+    }
+
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 100 Rydberg
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+    num_bands = 52
+}
+printoutlevel{
+    base = 1
+    parallel_debug = 0
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         Al 13 49184.0375
+    }
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz weight
+             Al 3.056683215822629E-24 1.5088463052816055E-24 1.7320508075677386E-8 1
+             Al 7.15839549935 2.4797409411 1.7320507845246858E-8 1
+             Al 2.863358199749999 3.4647668783887736E-16 1.7320507585685354E-8 1
+             Al 4.2950372996 2.4797409411 1.7320507715466104E-8 1
+             Al 5.726716399466666 3.3063212548000007 2.3379221973754416 2
+             Al 4.2950372996166655 0.8265803137000001 2.3379221973754416 2
+             Al 2.863358199716667 3.3063212548000007 2.3379221973754403 2
+             Al 1.4316790998666673 0.8265803137000001 2.3379221973754416 2
+             Al 2.8633581997333346 1.6531606274000006 4.675844377430375 2
+             Al 4.295037299583335 4.1329015685 4.675844377430375 2
+             Al 5.726716399483333 1.6531606274000006 4.675844377430375 2
+             Al 7.158395499333334 4.1329015685 4.675844377430375 2
+             Al 1.5989950508488576E-15 1.8902942625757518E-16 7.013766557485308 2
+             Al 1.4316790998500026 2.4797409411000007 7.013766557485306 2
+             Al 2.8633581997500013 1.8902942625757513E-16 7.013766557485306 2
+             Al 4.295037299600002 2.4797409411000007 7.013766557485306 2
+        }
+        coordinate_system = cartesian
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 5.7267163995 0.00 0.00
+        b_vector = 2.8633581997 4.9594818822 0.00
+        c_vector = 0.00 0.00 50
+    }
+    symmetry{
+        tspace{
+            lattice_system = primitive
+        }
+        method = automatic
+        sw_inversion = on
+    }
+    unit_cell_type = Bravais
+}
+postprocessing{
+    workfunc{
+        sw_workfunc = on
+        sw_add_xc_to_vloc = off
+    }
+}

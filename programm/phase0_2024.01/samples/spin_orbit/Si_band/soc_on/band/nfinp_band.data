@@ -1,0 +1,56 @@
+Control{
+    condition = fixed_charge
+}
+accuracy{
+    ksampling{
+       method = file
+    }
+    cutoff_wf = 20.0 Rydberg
+    cutoff_cd = 80.0 Rydberg
+
+      smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.05 eV
+        }
+   scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 20
+!
+     paw = on
+       spinorbit{
+           mode = pawpot
+       }
+
+     ek_convergence{
+		sw_eval_eig_diff = on
+		delta_eigenvalue = 1.e-5 hartree
+    }
+}
+
+structure{
+        unit_cell_type = primitive
+    unit_cell{
+       a_vector =  0.0000000000        5.1300000000        5.1300000000
+       b_vector =  5.1300000000        0.0000000000        5.1300000000
+       c_vector =  5.1300000000        5.1300000000        0.0000000000
+    }
+    symmetry{
+         crystal_structure = diamond
+    }
+    magnetic_state = noncollinear
+
+    atom_list{
+         atoms{
+         #tag  rx       ry         rz     element
+             0.125     0.125     0.125     Si
+            -0.125    -0.125    -0.125     Si
+        }
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+    }
+}

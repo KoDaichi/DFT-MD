@@ -1,0 +1,135 @@
+Control{
+	condition = 0      ! {0|1|2|3}|{initial|continuation|fixed_charge|fixed_charge_continuation}
+	cpumax = 11.5 hour    ! {sec|min|hour|day}
+	max_iteration = 60000
+}
+
+accuracy{
+	cke_wavefunctions =  36.00  rydberg  ! cke_wf
+	cke_chargedensity = 300.00  rydberg  ! cke_cd
+	num_bands = 32
+	ksampling{
+		method = monk ! {monk|mesh|file|directin|gamma}
+		mesh{ nx=2, ny=2, nz=2}
+	}
+	smearing{
+		method = parabolic ! {parabolic|tetrahedral}
+		width  = 0.002 hartree
+	}
+	scf_convergence{
+		delta_total_energy = 1.e-10 hartree
+		succession   = 3   !default value = 3
+	}
+	force_convergence{
+		delta_force = 0.1e+3
+	}
+
+}
+
+structure{
+        unit_cell_type=bravis
+        unit_cell{
+          #units bohr degree
+          a = 9.2, b= 9.2, c= 10.12, alpha=90.0, beta=90.0, gamma=120.0
+        }
+
+	symmetry{
+		tspace{
+		  system = h 
+                  generators {
+		    #tag rotation tx  ty  tz
+			  E        0   0   0
+                  }
+		}
+	        sw_inversion = 0
+	}
+	magnetic_state = para  !{para|af|ferro}
+
+	atom_list{
+	     coordinate_system = cartesian ! {cartesian|internal}
+	     atoms{
+	     #default mobile=no
+#tag   rx                ry                 rz            element
+       -2.136349214   -3.700265381    3.373333567   Si
+        4.272698428    0.000000000    0.000000000   Si
+       -2.136349214    3.700265381    6.746667135   Si
+        2.511045782    2.203258231    1.129569348   O
+        0.652554710   -3.276258553    4.502902914   O
+       -3.163600490    1.073000321    7.876236482   O
+        2.511045781   -2.203258231   -1.129569348   O
+        0.652554708    3.276258553    5.617097788   O
+       -3.163600489   -1.073000321    2.243764219   O
+         	}
+             displacement{
+                sw_displace_atom = on
+                displaced_atom = <ATOM_ID>
+                ux =  <Ux>
+                uy =  <Uy>
+                uz =  <Uz>
+             }
+        }
+	element_list{ #units atomic_mass
+		   #tag element  atomicnumber  zeta  dev     mass
+			 Si        14              0.00  3.5  28.0855
+			 O          8              0.00  2.0  15.9994
+        }
+}
+
+structure_evolution{
+     method = gdiis
+     dt  = 200.0
+     gdiis{
+       gdiis_box_size = 4
+       gdiis_update = RENEW
+       c_forc2gdiis = 0.0050
+       c_iteration2GDIIS = 3
+     }
+     stress{
+       sw_stress = 0
+       iconstpw  = 0
+     }
+}
+
+Phonon{
+   sw_phonon = off
+   sw_calc_force = on
+   force_calc{
+      start = 1, end = 0
+   }
+   displacement = 0.1
+   norder = 1
+   sw_polynomial_fit = ON
+   sw_vibrational_modes = on
+   point_group = D3
+   electronic_dielectric_constant{
+     exx =  0.0, eyy =  0.0, ezz =  0.0, exy = 0.0, eyz = 0.0, ezx = 0.0
+   }
+   k_vector{ kx = 0.0, ky = 0.0, kz = 0.0 }
+   sw_lattice_dielectric_tensor = off
+   sw_dielectric_function = off
+   energy_range{
+     min_energy = 0.0
+     max_energy = 0.01
+     division_number = 100
+   }
+}
+
+printlevel{
+	base = 1
+	timing = 1
+	solver = 1
+	evdff  = 1
+	rmm    = 0
+	snl    = 0
+	gdiis  = 1
+	eigenvalue = 1
+	spg    = 1
+	kp     = 2
+	pulay  = 0
+      matdiagon = 0
+	vlhxcq = 0
+	totalcharge = 1
+	submat = 0
+	strcfctr = 0
+	inputfile = 2
+}

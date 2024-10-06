@@ -1,0 +1,108 @@
+Control{
+    condition = initial
+    cpumax = 10 day
+    max_iteration = 1000000
+    max_mdstep = 5000
+    checkpoint_file { iteration_ionic = 0 }
+}
+accuracy{
+    cutoff_wf = 20.0 rydberg
+    cutoff_cd = 80.0 rydberg
+    num_bands = 20
+    ksampling{
+        method = monk
+        mesh{
+            nx = 2
+            ny = 2
+            nz = 2
+        }
+    }
+    smearing{
+        method = parabolic
+        width = 0.001 hartree
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-10 hartree
+        succession = 1
+    }
+    force_convergence{
+        max_force = 0.1e-04
+    }
+    initial_wavefunctions = atomic_orbitals
+}
+structure{
+    unit_cell{
+        #units bohr
+        a = 10.05
+        b = 10.05
+        c = 10.05
+        alpha = 90.0
+        beta = 90.0
+        gamma = 90.0
+    }
+    symmetry{
+        sw_inversion = off
+    }
+    magnetic_state = para
+    atom_list{
+        atoms{
+          #default mobile = on
+            #tag element rx ry rz weight thermo_group
+             Si 0.1159672611 0.1235205209 0.1215156388 1 1
+             Si -0.1329067626 -0.1264216714 -0.1225370484 1 1
+             Si 0.1273740089 0.6305999369 0.6247606249 1 1
+             Si -0.1152089939 -0.6164829779 -0.6221565128 1 1
+             Si 0.6299472943 0.1341313888 0.6253193197 1 1
+             Si -0.6305720382 -0.1290073650 -0.6187967685 1 1
+             Si 0.6151271805 0.6206113965 0.1333834419 1 1
+             Si -0.6276524003 -0.6268549639 -0.1175099372 1 1
+        }
+        coordinate_system = internal
+    }
+    element_list{
+        #tag element atomicnumber mass
+         Si 14 51577.50
+    }
+}
+structure_evolution{
+    method = temperature_pressure_control
+    dt = 1 fs
+    pressure_control{
+        pressure = 5 GPa
+        mass_baro = 5
+        m11 = 1
+        m22 = 1
+        m33 = 1
+        m12 = 1
+        m13 = 1
+        m23 = 1
+    }
+    stress{
+        sw_smear_ke = on
+    }
+    temperature_control{
+        num_thermostat = 1
+        set_initial_velocity = on
+!        method = velocity_scaling
+        thermostat{
+            #tag temp qmass
+                  300 8000
+            }
+    }
+}
+wavefunction_solver{
+    submat{
+        scalapack{
+          sw_scalapack = off
+        }
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs
+         1 pulay 0.60
+    }
+}
+printoutlevel{
+    base = 1
+}

@@ -1,0 +1,15 @@
+# for intel compiler
+FF        = mpif90
+FC        = mpif90
+CC        = mpicc
+CCFLAG    = -O3 -openmp
+CPPFLAG   = -fpp
+INCFLAG   = -I./
+MODFLAG   = 
+BLAS      = -L/opt/intel/composerxe/mkl/lib/intel64 -lmkl_rt
+BLAS      = -L/opt/intel/composerxe/mkl/lib/intel64 -lmkl_gnu_thread -lmkl_core -lmkl_avx -lmkl_intel_lp64
+LAPACK    = 
+SCALAPACK = -L$(HOME)/lib64 -lscalapack
+SCALAPACK = -L$(HOME)/lib64 -lscalapack_intel_mpich3.0.2
+LDFLAG    = -openmp $(SCALAPACK) $(LAPACK) $(BLAS) 
+

@@ -1,0 +1,69 @@
+Control{
+        condition = 0
+        cpumax = 12 hour  ! maximum cpu time
+}
+
+accuracy{
+	cutoff_wf =  25.00  rydberg  ! cke_wf
+	cutoff_cd = 250.00  rydberg  ! cke_cd
+	num_bands = 15
+	xctype = ldapw91
+        ksampling{
+	  method = monk
+          mp_index{  n1 = 4, n2 =  4, n3 =  4  }
+        }
+        scf_convergence{
+          delta_total_energy = 1.0e-9
+        }
+}
+
+structure{
+	unit_cell{
+              a = 10.57637, b = 10.57637,  c = 10.57637 
+              alpha = 90, beta = 90, gamma = 90
+	}
+	symmetry{
+          tspace {
+            system = fcc
+            generators {
+            #tag rotation tx  ty  tz
+                  C31+     0   0   0   
+                  IC4x+    0   0   0   
+            }
+          }
+	}
+
+	atom_list{
+	     coordinate_system = cartesian ! {cartesian|internal}
+	     atoms{
+	 	 #tag  rx        ry        rz         element
+		       0.000     0.000     0.000      Ga
+		       2.6440925 2.6440925 2.6440925  As
+	     }
+	}
+	element_list{ #units atomic_mass
+	              #tag element  atomicnumber dev mass
+			   Ga       31           1.5 69.723
+			   As       33           1.5 74.92160    }
+}
+
+Phonon{
+   sw_phonon = on
+   sw_calc_force = on
+   displacement = 0.05
+   sw_polynomial_fit = on
+   sw_vibrational_modes = on
+   point_group = Td
+   sw_lattice_dielectric_tensor = off
+}
+
+Postprocessing{
+        Polarization{
+            sw_bp_property = off
+            property = effective_charge
+        }
+}
+
+printoutlevel{
+  base = 1
+}

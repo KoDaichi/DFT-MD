@@ -1,0 +1,76 @@
+control{
+  condition = initial
+  max_iteration = 1000000000
+}
+accuracy{
+  num_bands = 30
+  ksampling{
+    mesh{
+      nx = 4
+      ny = 4
+      nz = 3
+    }
+  }
+  cutoff_wf = 12.5 hartree
+  cutoff_cd = 112.5 hartree
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-10 hartree
+    succession = 1
+  }
+  force_convergence{
+    max_force = 0.0001 hartree/bohr
+  }
+}
+structure{
+  atom_list{
+    atoms{
+      #tag    element    rx    ry    rz    mobile    weight
+            O    0.413100000054    0.145400000108    0.11893    on    1
+            O    0.854599999943    0.267699999886    0.452263333333    on    1
+            O    0.732300000003    0.586900000006    0.785596666667    on    1
+            O    0.267699999946    0.854599999892    0.547736666667    on    1
+            O    0.145399999997    0.413099999994    0.88107    on    1
+            O    0.586899999939    0.732299999879    0.214403333333    on    1
+            Si    0.53    0    0.333333    on    1
+            Si    -7.2e-11    0.529999999857    0.666666333333    on    1
+            Si    0.469999999954    0.469999999908    0.999999666667    on    1
+    }
+  }
+  unit_cell{
+    a_vector = 9.28630249802 0.0 0.0
+    b_vector = -4.64315124901 8.04217387101 0.0
+    c_vector = 0.0 0.0 10.2158587136
+  }
+  element_list{
+    #tag    element    atomicnumber    mass
+          O    8    29164.9435988
+          Si    14    51196.4213311
+  }
+  symmetry{
+    method = automatic
+  }
+}
+structure_evolution{
+  method = quench
+}
+wavefunction_solver{
+  solvers{
+    #tag    sol    till_n
+          mddavidson    2
+          rmm3    -1
+  }
+  rmm{
+    edelta_change_to_rmm = 0.005 hartree
+  }
+}
+charge_mixing{
+  mixing_methods{
+    #tag    no    method    rmxs
+          1    pulay    0.4
+  }
+}
+printoutlevel{
+  base = 1
+}

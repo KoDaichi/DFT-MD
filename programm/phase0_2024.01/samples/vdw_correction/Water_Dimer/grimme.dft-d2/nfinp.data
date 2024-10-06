@@ -1,0 +1,92 @@
+
+control{
+        condition = initial
+	max_iteration = 60000
+        sw_vdw_correction = on
+}
+
+accuracy{
+	cutoff_wf =  25.00  rydberg
+	cutoff_cd = 225.00  rydberg
+	num_bands = 20
+	xctype = ggapbe
+	initial_wavefunctions = atomic_orbitals
+	initial_charge_density = atomic_charge_density
+        ksampling{
+	  method = gamma
+        }
+!        smearing{
+!          method = parabolic ! {parabolic|tetrahedral}
+!          width  = 0.002 hartree
+!        }
+        scf_convergence{
+          delta_total_energy = 1.0e-10
+        }
+	vdw_method = grimme
+	vdw_correction = 30.0
+	vdw_scaling_factor = 0.75
+	vdw_damping_factor = 20.0
+}
+
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+       #units angstrom
+       a_vector = 20.0000000000       0.0000000000        0.0000000000
+       b_vector =  0.0000000000      12.0000000000        0.0000000000
+       c_vector =  0.0000000000       0.0000000000       12.0000000000
+    }
+    atom_list{
+         atoms{
+         #tag  element  rx        ry        rz   vdw mobile
+  O      0.30000000     0.50000000     0.50000000       O  on
+  H      0.28800000     0.57722000     0.50000000       H  on
+  H      0.34786000     0.50000000     0.50000000       H  on
+  O      0.45000000     0.50000000     0.50000000       O  on
+  H      0.46465000     0.45772000     0.56308000       H  on
+  H      0.46465000     0.45772000     0.43692000       H  on
+         }
+    }
+    element_list{ #tag element  atomicnumber  zeta  dev
+                          H        1          1.00  0.5
+                          O        8          0.17  1.0
+    }
+!    vdw_list{
+!          #tag type  c6     r0
+!           H    0.14   1.001
+!           O    0.70   1.342
+!   }
+}
+
+wavefunction_solver{
+        solvers {
+        #tag    sol    till_n
+                mddavidson    1
+                rmm3       -1
+        }
+        rmm {
+          edelta_change_to_rmm = 1.d-3
+        }
+}
+
+charge_mixing{
+        mixing_methods {
+        #tag no   method    rmxs
+              1   pulay   0.40
+        }
+        sw_mix_charge_hardpart = OFF
+}
+
+!structure_evolution{
+!   method = cg
+!}
+
+Postprocessing{
+    dos{
+         sw_dos = off
+    }
+}
+
+printlevel{
+        base = 1
+}

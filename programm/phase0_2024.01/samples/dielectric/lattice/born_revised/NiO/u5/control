@@ -1,0 +1,21 @@
+property=zeff
+
+length_unit = angstrom
+
+atom_list = 1 2 3
+mesh1 = 6 6 15
+mesh2 = 6 6 15
+mesh3 = 6 6 15
+
+scf_command = mpiexec -n NP ../../../../../../bin/phase ne=NE nk=NK
+berry_command = mpiexec -n NP ../../../../../../bin/ekcal ne=NE_B nk=1
+np   = 2
+ndir = 1
+ne   = 1
+nk   = 2
+ne_b = 2
+
+a_vector =  4.1770 2.0885 2.0885
+b_vector =  2.0885 4.1770 2.0885
+c_vector =  2.0885 2.0885 4.1770
+

@@ -1,0 +1,38 @@
+Control{
+        cpumax = 3600 sec  ! maximum cpu time
+}
+
+accuracy{
+    cutoff_wf =  20.0 rydberg
+    cutoff_cd =  80.0 rydberg
+    num_bands = 8
+    ksampling{
+        mesh{  nx = 4, ny =  4, nz =  4   }
+    }
+}
+
+structure{
+    unit_cell_type = bravais
+    unit_cell{
+       a_vector =  10.75779135902474148531 0 0
+       b_vector =  0 10.75779135902474148531 0
+       c_vector =  0 0 10.75779135902474148531
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = facecentered
+        }
+    }
+    atom_list{
+         atoms{
+         #tag  rx       ry         rz     element
+             0.125     0.125     0.125     Si
+            -0.125    -0.125    -0.125     Si
+        }
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+    }
+}
+

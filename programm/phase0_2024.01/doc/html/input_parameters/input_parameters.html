@@ -1,0 +1,3386 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. 入力パラメータファイル：nfinp.data（詳細版） &mdash; PHASE/0 Manual 2024.01 ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/phase0.css?v=84baaed2" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=df52f328"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="5. 基本機能を利用した計算例" href="../basics/basics.html" />
+    <link rel="prev" title="3. PHASE/0の基本的な利用方法" href="../first_step/first_step.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PHASE/0 Manual
+              <img src="../_static/image1.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">1. はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">2. PHASE/0のインストール</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_step/first_step.html">3. PHASE/0の基本的な利用方法</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. 入力パラメータファイル：nfinp.data（詳細版）</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#f-inp">4.1. 入力パラメータファイルの形式(F_INP ファイル)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">4.1.1. パラメータ設定形式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">4.1.2. 単位の指定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">4.1.3. 表形式データを含むブロック</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">4.1.4. コメント</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-parameters-binaryop-section">4.1.5. 二項演算子を用いた実数指定（バージョン2020.01以降）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">4.1.6. 入力パラメータファイル例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">4.2. 入力パラメータファイル nfinp.dataのタグ（キーワード）の一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#control">4.3. 全体的な計算条件設定（Control）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#control-blocksize-section">4.3.1. ブロックサイズ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#control-speedup-options-section">4.3.2. 高速計算のオプション (2023.01以降)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accuracy">4.4. 計算精度の指定（Accuracy）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#input-parameters-cutoff">4.4.1. カットオフエネルギー</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">4.4.2. バンド数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#k">4.4.3. k点サンプリングとスメアリング</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">4.4.3.1. 基本の設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#k-2020-01">4.4.3.2. <strong>k</strong>点サンプリングを“密度”で指定する方法（バージョン2020.01以降）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">4.4.3.3. <strong>k</strong>点サンプリング指定のデフォルトの振る舞いの変更（バージョン2020.01以降）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methfessel-paxton-2021-01">4.4.3.4. Methfessel-Paxton法によるスメアリング (バージョン2021.01以降)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">4.4.4. 交換相関エネルギー</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">4.4.5. 収束判定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-initial-wf-and-chg">4.4.6. 初期波動関数と初期電荷密度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-parameters-differenet-wfcut">4.4.7. カットオフ/格子定数の異なる計算から出力された波動関数/電荷密度を読み込む方法（バージョン2020.01以降）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-parameters-rspace-section">4.4.8. 実空間法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#structure">4.5. 原子構造（Structure）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id23">4.5.1. ユニットセル</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">4.5.2. 原子座標</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-parameters-atomtyp">4.5.3. 原子種の指定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">4.5.4. 原子種の指定（バージョン2020.01以降）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">4.5.5. 系全体への電荷の付加</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">4.5.6. 磁気モーメントの初期値の指定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">4.5.7. 対称性の指定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-param-coord-from-file">4.5.8. 原子配置を別ファイルで指定する方法（バージョン2019.02以降）</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#wavefunction-solver">4.6. 波動関数ソルバー（Wavefunction_Solver）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#phase">4.6.1. PHASE における計算フロー</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-param-wfsol1">4.6.2. 波動関数ソルバー</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pkosugi-pdavidson-2023-01">4.6.2.1. pkosugi, pdavidsonソルバーの高速化オプション (バージョン2023.01以降)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#charge-mixing">4.7. 電荷密度混合法（Charge_Mixing）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#input-param-cmix1">4.7.1. 電荷密度混合法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">4.7.2. 収束を加速させるテクニック</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#input-param-wfsol2">4.8. 波動関数ソルバーおよび電荷密度混合法の自動設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structure-evolution">4.9. 構造最適化 (Structure_evolution)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id35">4.9.1. 構造最適化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#limited-memory-bfgs-2021-01">4.9.1.1. limited-memory BFGS法による構造最適化 (バージョン2021.01以降)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id37">4.9.2. 分子動力学法計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-param-wfpred">4.9.3. 構造更新時の電荷密度、波動関数の予測更新（収束性の向上）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">4.9.4. ストレステンソル計算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#postproccesing">4.10. 後処理（Postproccesing）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dos">4.10.1. 状態密度（DOS）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">4.10.2. 電荷密度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id42">4.10.3. 構造最適化/分子動力学シミュレーションの最中に後処理を行う方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#printlevel">4.11. ログレベル（PrintLevel）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/basics.html">5. 基本機能を利用した計算例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../electronic_structure/electronic_structure.html">6. 電子状態解析：バンド構造と状態密度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html">7. 高度な電子状態計算</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis/analysis.html">8. 解析機能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supplement/supplement.html">11. 補遺</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PHASE/0 Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">4. </span>入力パラメータファイル：nfinp.data（詳細版）</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/input_parameters/input_parameters.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nfinp-data">
+<span id="input-parameters"></span><h1><span class="section-number">4. </span>入力パラメータファイル：nfinp.data（詳細版）<a class="headerlink" href="#nfinp-data" title="この見出しへのパーマリンク"></a></h1>
+<section id="f-inp">
+<h2><span class="section-number">4.1. </span>入力パラメータファイルの形式(F_INP ファイル)<a class="headerlink" href="#f-inp" title="この見出しへのパーマリンク"></a></h2>
+<p>入力パラメータファイルnfinp.dataは、どのようなモデル（原子配置など）に対し、どのような条件で計算するかという情報を記述するファイルです。</p>
+<p>デフォルトのファイル名はnfinp.data
+ですが、file_names.dataにおいて、F_INPキーワードを使って自由に名前を指定できます。例えば、計算する系に関連した名前をつけることも可能です。</p>
+<section id="id1">
+<h3><span class="section-number">4.1.1. </span>パラメータ設定形式<a class="headerlink" href="#id1" title="この見出しへのパーマリンク"></a></h3>
+<p>このファイルは、タグ名と中括弧{}で囲まれたブロックの階層構造で記述します。計算パラメータの設定は、タグ形式になっており、各タグに、結晶構造、計算精度、計算の制御などの情報を記入します。以下に,
+入力パラメータファイルの記述方法を簡単に説明します。</p>
+<p>関連のある入力データはまとめて一つの「ブロック」内に記述します。ブロックは,
+ブロック名{ ... } という形式で階層的に記述します。たとえば,
+以下のようになります。基本的に計算パラメータは、タグ=値の形で指定します。ただし、パラメータごとに指定形式が異なります。各計算パラメータの指定方法の説明を参照ください。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Upper_block{
+  Lower_block{
+    ...
+    tag_keyword = value
+  }
+}
+</pre></div>
+</div>
+<p>入力パラメータファイルの作成・編集において、以下の点に注意ください。</p>
+<ul class="simple">
+<li><p>同じ階層に同じ名前のブロックを記述することはできません。</p></li>
+<li><p>ブロック名の大文字・小文字を区別することはありません。</p></li>
+<li><p>ブロック名が間違っている場合には、そのブロック全体が記述されていないものとみなされます（無視されます）。その場合は、デフォルト値が採用されます。エラーメッセージは表示されません。</p></li>
+<li><p>変数は、改行で区切るほかカンマ(,) で区切ることもできます。</p></li>
+<li><p>文字列型の変数に空白文字を含めたい場合、半角の2 重引用符(”)で囲みます。</p></li>
+<li><p>全角文字は使用しないでください。</p></li>
+</ul>
+<p>最上位のブロックは、以下のものがあります。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>control ブロック</p></td>
+<td><p>全体的な計算条件の設定</p></td>
+</tr>
+<tr class="row-even"><td><p>accracy ブロック</p></td>
+<td><p>計算精度の設定</p></td>
+</tr>
+<tr class="row-odd"><td><p>structure ブロック</p></td>
+<td><p>原子構造の設定</p></td>
+</tr>
+<tr class="row-even"><td><p>wavefunction_solver ブロック</p></td>
+<td><p>波動関数ソルバーの設定</p></td>
+</tr>
+<tr class="row-odd"><td><p>charge_mixing ブロック</p></td>
+<td><p>電荷密度混合法の設定</p></td>
+</tr>
+<tr class="row-even"><td><p>structure_evolution ブロック</p></td>
+<td><p>構造最適化、分子動力学法計算の設定</p></td>
+</tr>
+<tr class="row-odd"><td><p>postproccesingブロック</p></td>
+<td><p>後処理の設定</p></td>
+</tr>
+<tr class="row-even"><td><p>printlevelブロック</p></td>
+<td><p>ログ出力の設定</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id2">
+<h3><span class="section-number">4.1.2. </span>単位の指定<a class="headerlink" href="#id2" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE の入力ファイルのデフォルトの単位は原子単位ですが, 単位を明示的に指定することも可能です。<a class="reference internal" href="#input-parameters-units"><span class="std std-numref">表 4.1</span></a> の単位を利用することができます(デフォルトの単位は太字で表示されています)。</p>
+<table class="docutils align-default" id="input-parameters-units">
+<caption><span class="caption-number">表 4.1 </span><span class="caption-text">PHASEで利用可能な単位</span><a class="headerlink" href="#input-parameters-units" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>長さ</p></td>
+<td><p><strong>bohr</strong>, angstrom, nm</p></td>
+</tr>
+<tr class="row-even"><td><p>エネルギー</p></td>
+<td><p><strong>hartree</strong>, eV, rydberg</p></td>
+</tr>
+<tr class="row-odd"><td><p>時間</p></td>
+<td><p><strong>au_time</strong>, fs, ps, ns, s, sec, min, hour, day</p></td>
+</tr>
+<tr class="row-even"><td><p>速度</p></td>
+<td><p><strong>bohr/au_time</strong>, bohr/fs, angstrom/fs,
+angstrom/au_time, nm/fs, nm/au_time</p></td>
+</tr>
+<tr class="row-odd"><td><p>力</p></td>
+<td><p><strong>hartree/bohr</strong>, hartree/angstrom, hartree/nm,
+eV/angstrom, eV/bohr, ev/nm,
+rydberg/bohr, rydberg/angstrom, rydberg/nm</p></td>
+</tr>
+<tr class="row-even"><td><p>圧力</p></td>
+<td><p><strong>hartree/bohr3</strong>, hartree/angstrom3, hartree/nm3,
+eV/angstrom3, eV/bohr3,
+eV/nm3, rydberg/angstrom3, rydberg/bohr3, rydberg/nm3</p></td>
+</tr>
+<tr class="row-odd"><td><p>質量</p></td>
+<td><p><strong>au_mass</strong>, atomic_mass</p></td>
+</tr>
+</tbody>
+</table>
+<p>単位は, 実数型のデータに直接指定する方法だけでなく,
+ブロック単位のデフォルト値を指定することもできます。ブロック単位でデフォルトの単位を指定するには,
+次のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>block{
+   #units angstrom
+   ...
+   ...
+}
+</pre></div>
+</div>
+<p>この例では, block の長さの単位のデフォルトがÅ単位になります。
+複数指定する場合（長さ、エネルギーなど）, 空白で区切って指定してください。</p>
+</section>
+<section id="id3">
+<h3><span class="section-number">4.1.3. </span>表形式データを含むブロック<a class="headerlink" href="#id3" title="この見出しへのパーマリンク"></a></h3>
+<p>ブロックは「表形式データ」を持つ場合があります。このようなブロックは対応する表形式データのみ記述することができます。
+表形式データは2次元の行列形式でデータを指定することのできる形式であり、たとえば各原子の座標値のように複数の属性値をもつデータを任意の数定義する必要があるようなデータに対して採用されています。
+その内容は、たとえば以下のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>tabular_data{
+     #units  angstrom
+     #defaullt column1=1, column2=off
+     #tag column1 column2 column3
+          data11  data12  data13
+          data21  data22  data23
+          ...
+}
+</pre></div>
+</div>
+<p>ブロック定義直下に <code class="code docutils literal notranslate"><span class="pre">units</span></code> によってブロック共通の単位を設定することができるのは通常のブロックと同じです。通常のブロックと違い単位を指定する方法はこれしかありません。<code class="code docutils literal notranslate"><span class="pre">#default</span></code> によって表形式データのデフォルト値を設定することができます。この例では <code class="code docutils literal notranslate"><span class="pre">column1</span></code> というカラムには <code class="code docutils literal notranslate"><span class="pre">1</span></code> というデフォルト値が、 <code class="code docutils literal notranslate"><span class="pre">column2</span></code> というカラムには <code class="code docutils literal notranslate"><span class="pre">off</span></code> というデフォルト値が設定されます。値として <code class="code docutils literal notranslate"><span class="pre">*</span></code> を指定するとデフォルト値が採用されます。最後のカラムの場合、何も指定がないとやはりデフォルト値が採用されます。<code class="code docutils literal notranslate"><span class="pre">#tag</span></code> によってカラムを定義します。スペース区切りで利用したいカラム名を指定します。<code class="code docutils literal notranslate"><span class="pre">#tag</span></code> の次の行からが表形式データ本体となります。<code class="code docutils literal notranslate"><span class="pre">#tag</span></code> 行で定義したカラム順に対応するデータを指定します。</p>
+</section>
+<section id="id4">
+<h3><span class="section-number">4.1.4. </span>コメント<a class="headerlink" href="#id4" title="この見出しへのパーマリンク"></a></h3>
+<p>!または//ではじまる行は, コメント扱いとなります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>block{
+ !  comment
+ !  tag_keyword = value1 コメント
+ // tag_keyword = value2 コメント
+ tag_keyword = value3
+}
+</pre></div>
+</div>
+<p>ただし、!#と、!のあとに#が続く場合はコメントとはみなされないので注意してください。</p>
+</section>
+<section id="input-parameters-binaryop-section">
+<span id="id5"></span><h3><span class="section-number">4.1.5. </span>二項演算子を用いた実数指定（バージョン2020.01以降）<a class="headerlink" href="#input-parameters-binaryop-section" title="この見出しへのパーマリンク"></a></h3>
+<p>バージョン2020.01以降、二項演算子を用いて実数を指定することができるようになりました。
+この機能を活用することによって、たとえば0.33333... を1/3と記述することなどができます。
++, -, /, * (もしくはx)のいずれかの文字列を含むような数値を検出した場合にそれぞれ足し算、引き算、除算、掛け算を行います。
+ただし、+, -には下記の制約があります。</p>
+<ul class="simple">
+<li><p>先頭が+もしくは-の場合は使えない</p></li>
+<li><p>e, dを含む数値指定(たとえば1e-3, 1d+4)には利用できない</p></li>
+</ul>
+<p>また、一つの実数指定に複数の二項演算子を適用することはできません。</p>
+</section>
+<section id="id6">
+<h3><span class="section-number">4.1.6. </span>入力パラメータファイル例<a class="headerlink" href="#id6" title="この見出しへのパーマリンク"></a></h3>
+<p>Si ダイヤモンド結晶（2原子）の電子状態計算を行う場合の基本的な計算条件を記述した入力ファイル例です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = initial
+  cpumax = 86400 sec
+  max_iteration = 10000
+}
+accuracy{
+  cutoff_wf = 25.0 rydberg
+  cutoff_cd = 100.0 rydberg
+  num_bands = 8
+  ksampling{
+    method = monk
+    mesh{
+      nx = 10
+      ny = 10
+      nz = 10
+    }
+  }
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-10
+    succession = 3
+  }
+  force_convergence{
+    max_force = 0.001 hartree/bohr
+  }
+}
+structure{
+  element_list{
+  #tag element atomicnumber
+        Si 14
+  }
+  unit_cell{
+    #units angstrom
+    a_vector = 0 2.732299538 2.732299538
+    b_vector = 2.732299538 0 2.732299538
+    c_vector = 2.732299538 2.732299538 0
+  }
+  unit_cell_type = bravais
+  atom_list{
+    atoms{
+    #tag element rx ry rz mobile
+          Si 0.125 0.125 0.125 0
+          Si -0.125 -0.125 -0.125 0
+    }
+    coordinate_system = internal
+  }
+}
+wavefunction_solver{
+  solvers{
+    #tag sol till_n prec cmix submat
+        davidson 1 on 1 on
+        rmm3 -1 on 1 on
+  }
+  rmm{
+    edelta_change_to_rmm=5e-5
+  }
+}
+charge_mixing{
+  mixing_methods{
+    #tag no method rmxs rmxe istr prec nbmix
+      1 pulay 0.40 0.40 3 on 15
+  }
+}
+Postprocessing{
+  dos{
+    sw_dos = ON
+    deltaE = 1.e-4 hartree
+  }
+  charge{
+    sw_charge_rspace = ON
+    filetype = cube !{cube|density_only}
+    title = &quot;This is a title line for the bulk Si&quot;
+  }
+}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2><span class="section-number">4.2. </span>入力パラメータファイル nfinp.dataのタグ（キーワード）の一覧<a class="headerlink" href="#id7" title="この見出しへのパーマリンク"></a></h2>
+<p>入力パラメータファイル nfinp.dataのタグ（キーワード）の一覧を、 <a class="reference internal" href="#input-parameters-input-keywords"><span class="std std-numref">表 4.2</span></a> に示します。</p>
+<table class="docutils align-default" id="input-parameters-input-keywords">
+<caption><span class="caption-number">表 4.2 </span><span class="caption-text">入力パラメータファイル nfinp.dataのタグ（キーワード）の一覧</span><a class="headerlink" href="#input-parameters-input-keywords" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>最上位ブロック</p></th>
+<th class="head"><p>第2, 3ブロック</p></th>
+<th class="head"><p>タグ（キーワード）</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>control</p></td>
+<td></td>
+<td></td>
+<td><p>全体的な計算条件設定ブロック</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>condition</p></td>
+<td><p>preparation,
+-2：入力座標の表示,対称操作の生成,k点の生成までで終了します。</p>
+<p>automatic,
+-1：継続可能であれば計算継続になります。そうでなければ、計算開始になります。</p>
+<p>initial, 0
+：計算開始</p>
+<p>continuation,
+1：計算継続</p>
+<p>(以下の2つはekcalによる計算で使用)</p>
+<p>fixed_charge,
+2：電荷を固定して計算</p>
+<p>fixed_charge_continuation,
+3：固定電荷+計算継続</p>
+<p>デフォルト値はautomatic
+です。</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>cpumax</p></td>
+<td><p>CPU時間の上限（デフォルト：86400
+sec）</p>
+<p>単位：{sec,
+min, hour,
+day}</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>max_iteration</p>
+<p>max_total_scf_iteration</p>
+</td>
+<td><p>総SCF回数（イタレーション）の制限値</p>
+<p>（デフォルト：10000）</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>max_mdstep</p></td>
+<td><p>総MD計算数の制限値（デフォルトは無制限）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>max_scf_iteration</p></td>
+<td><p>1MDステップ内のSCF回数の制限値</p>
+<p>（デフォルトは無制限）</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>nfstopcheck</p></td>
+<td><p>ファイルnfstop.data
+に書かれた数値で、処理を停止するべき更新回数を決定（デフォルト：1）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>sw_ekzaj</p></td>
+<td><p>phaseで、ekcalの入力となる波動関数ファイルF_ZAJへの出力を行うときONにする。EKCALでそのファイルを読み込むときもONにする。ただし、 <span class="math notranslate nohighlight">\(\Gamma\)</span> 点の計算でしか使用できません。</p>
+<p>デフォルト値はOFF
+です。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>accuracy</p></td>
+<td></td>
+<td></td>
+<td><p>計算精度の制御用ブロック識別子</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>cutoff_wf</p></td>
+<td><p>波動関数のカットオフエネルギー</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>cutoff_cd</p></td>
+<td><p>電荷密度のカットオフエネルギー</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>num_bands</p></td>
+<td><p>バンド数</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>ksampling</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>method</p></td>
+<td><p>k点のサンプリング法。</p>
+<p>monk：
+Monkhorst-Pack法。</p>
+<p>mesh：メッシュを生成します。</p>
+<p>file：ファイルから入力</p>
+<p>direct_in：直接記述</p>
+<p>gamma
+：<span class="math notranslate nohighlight">\(\
+\Gamma\)</span>点のみ</p>
+<p>デフォルトはMonkhorst-Pack法</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>mesh</p></td>
+<td></td>
+<td><p>メッシュの分割数</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>nx, ny, nz</p></td>
+<td><p>x,y,z
+方向への分割数</p>
+<p>デフォルト値=(4,4,4)、上限値=(20,20,20)</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>kshift</p></td>
+<td></td>
+<td><p>Monkhorst-Pack法でのみ有効なタグ</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>k1, k2, k3</p></td>
+<td><p>メッシュのずれの指定（入力値は[0.0,0.5] の範囲）</p>
+<p>デフォルト値：</p>
+<p>hexgonal
+の場合： k1 =
+k2 = 0, k3 =
+0.5</p>
+<p>そ
+れ以外の場合：
+k1 = k2 = k3 =
+0.5</p>
+<p>ただし0.5
+はメッシュの刻み幅の半分の値を指す</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>kpoints</p></td>
+<td></td>
+<td><p>k 点の重みづけ</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>kx ky kz denom
+weight</p></td>
+<td><p>k=
+(kx/denom,
+ky/denom,
+kz/denom)</p>
+<p>k点の座標値と、その重みづけ</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>smearing</p></td>
+<td></td>
+<td><p>k点サンプリングのsmearing</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>method</p></td>
+<td><p>parabolic
+：Parabolic法（デフォルト）</p>
+<p>cold ：Cold smearing 法（金属系で有効）</p>
+<p>tetrahedral：Tetrahedral法</p>
+<p>improved_tetrahedral :
+改良tetrahedral法</p>
+<p>tetrahedral
+またはimproved_tetrahedral
+としたときにはk点のサンプリングをメッシュ法にしなければなりません。</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>width</p></td>
+<td><p>smearing幅（デフォルト値：0.001hartree）</p>
+<p>method = parabolicとcold
+の時に使用</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>(タグなし)</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>xctype</p></td>
+<td><p>交換相関エネルギー(LDA,GGA)</p>
+<p>LDA ： LDAPW91, PZ</p>
+<p>GGA ： GGAPBE, REVPBE</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>scf_convergence</p></td>
+<td></td>
+<td><p>自己無憧着場の収束判定</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>delta_total_energy</p></td>
+<td><p>原子あたりの全エネルギーの計算誤差の上限<span class="math notranslate nohighlight">\(\Delta E\)</span></p>
+<p>（デフォルト値：
+<span class="math notranslate nohighlight">\(10^{- 9}\)</span>
+hartree）</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>succession</p></td>
+<td><p>ここで指定するsuccession回数連続して誤差が <span class="math notranslate nohighlight">\(\Delta E\)</span> 以内に収まったときにSCF収束したと判断する。構造緩和している、あるいは有限温度計算している場合は原子位置の更新手続きに移る。
+（デフォルト値：2）</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>force_convergence</p></td>
+<td></td>
+<td><p>力の収束判定</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>max_force</p></td>
+<td><p>全原子に働く力の最大値がこの値より小さくなれば計算を終了</p>
+<p>（デフォルト値：0.001
+hartree/bohr）</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>ek_convergence</p></td>
+<td></td>
+<td><p>固有値の収束判定。
+ekcalによる計算専用の識別子</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>num_extra_bands</p></td>
+<td><p>収束を促進するために追加する追加バンド（これらのバンドの固有値は収束が保証されない）の数。基底関数が増え、収束を促進する効果がある。
+（デフォルト値：2）</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>num_max_iteration</p></td>
+<td><p>k点一個当たりの最大の更新回数（デフォルト値：300）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>sw_eval_eig_diff</p></td>
+<td><p>固有値評価用スイッチ</p>
+<p>{ 1, on, yes }：評価あり（デフォルト）</p>
+<p>{ 0, off, no }：評価なし</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>delta_eigenvalue</p></td>
+<td><p>固有値の許容誤差</p>
+<p>（デフォルト値：
+<span class="math notranslate nohighlight">\(10^{- 5}\)</span> hartree）</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>succession</p></td>
+<td><p>計算の繰り返し回数（デフォルト値：2）</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>(タグなし)</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>initial_wavefunctions</p></td>
+<td><p>波動関数の初期値</p>
+<p>選択肢：{ random_numbers,
+matrix_diagon, atomic_orbitals,
+file }</p>
+<p>random_numbers: 乱数で初期化</p>
+<p>matrix_diagon: 小行列対角化で初期化</p>
+<p>atomic_orbitals: 原子軌道で初期化</p>
+<p>file: F_ZAJで指定されるファイルから読み込んだ波動関数で初期化</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>matrix_diagon</p></td>
+<td></td>
+<td><p>波動関数の初期値を小行列対角化法で与える</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>cutoff_wf</p></td>
+<td><p>波動関数のカットオフエネルギー</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>(タグなし)</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>initial_charge_density</p></td>
+<td><p>電荷密度の初期分布</p>
+<p>選択肢：{Gauss,
+atomic_charge_density, file}</p>
+<p>Gauss:
+ガウス分布関数の重ね合わせで初期化</p>
+<p>atomic_charge_density:
+原子の電子密度の重ね合わせで初期化</p>
+<p>file:
+ファイルF_CHGTから入力</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>precalculation</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>nel_Ylm</p></td>
+<td><p>予め計算してメモリー上に保持しておく球面調和関数の最高次数（デフォルト値は9）</p></td>
+</tr>
+<tr class="row-even"><td><p>structure</p></td>
+<td></td>
+<td></td>
+<td><p>構造設定用ブロック識別子</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>unit_cell_type</p></td>
+<td></td>
+<td><p>単位胞の型。
+選択肢：
+{primitive, Bravais }</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>unit_cell</p></td>
+<td><p>a_vector</p>
+<p>b_vector</p>
+<p>c_vector</p>
+<p>a, b, c</p>
+<p>alpha,</p>
+<p>beta,</p>
+<p>gamma</p>
+</td>
+<td><p>unit cell
+単位胞の指定。以下のいずれかの方法で与える</p>
+<p>各格子ベクトルの</p>
+<p><span class="math notranslate nohighlight">\((x,y,z)\)</span> 成分</p>
+<p></p>
+<p>デフォルトの単位はBohr</p>
+<p>格子定数 a, b, c</p>
+<p>b–c軸、c–a軸、a–b軸のなす角</p>
+<p>(角度のデフォルト単位はdegree)</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>symmetry</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>method</p></td>
+<td><p>選択肢:{manual,
+automatic}</p>
+<p>automaticを選択すると自動的に対称性を決定します。</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>crystal_structure</p></td>
+<td><p>選択肢：</p>
+<p>{diamond,hexagonal,
+fcc, bcc, simple cubic}</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>tspace</p></td>
+<td></td>
+<td><p>柳瀬章「空間群のプログラムTSPACE」(裳華房)および、ABCAPのマニュアルを参照</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>lattice_system</p></td>
+<td><p>{rhombohedral,
+trigonal,r,t,-1}</p>
+<p>{hexagonal,h,
+0}、{primitive
+,simple,p,s,1}</p>
+<p>{facecentered
+,f,2}、{
+bodycentered,b,3}</p>
+<p>{bottomcentered
+,basecentered
+,onefacecenter
+ed,bot,ba,o,4}</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>num_generators</p></td>
+<td><p>生成元の数
+(<span class="math notranslate nohighlight">\(1 \sim 3\)</span>
+の整数値)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>generators</p></td>
+<td><p>生成元</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>af_generator</p></td>
+<td><p>磁性空間群の生成元</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>(第3 タグなし)</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>sw_inversion</p></td>
+<td><p>反転対称性の有無</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>(第2 タグなし)</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td rowspan="3"></td>
+<td rowspan="3"></td>
+<td><p>nspin</p>
+<blockquote>
+<div><p>(2023.01以降)</p>
+</div></blockquote>
+</td>
+<td><p>スピン自由度</p>
+<p>入力値：{1,2,-2}から選択。
+2D版では4も選択可能。
+4はnoncollinear計算に対応。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>magnetic_state</p>
+<p>上のnspinが設定されている場合はこの設定は読み飛ばされる。</p>
+</td>
+<td><p>スピン自由度</p>
+<p>入力値：{nonmgnetic,antiferro,magnetic}から選択。
+nonmagneticはnonmagあるいはnoneと省略も可。antiferroはafと省略可。
+magneticはmagと省略可。また、プログラム開発の歴史的経緯から、para、ferroの設定も可能。paraはnonmagneticとferroはmagneticと同じである。nonmagnetic、nonmag、noneあるいはparaはnspin=1に、mgnetic、magあるいはferroはnspin=2に対応する。また、antiferroあるいはafはnspin=-2に対応する。
+2D版ではnoncollinearの設定も可能。
+noncollinearはnspin=4に対応する。</p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><p>noncollinearについては<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-noncollinear-section"><span class="std std-numref">7.13 章</span></a> を参照。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>atom_list</p></td>
+<td></td>
+<td><p>原子構成</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>coordinate_system</p></td>
+<td><p>選択肢
+：{cartesian,
+internal}</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>atoms</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>rx, ry, rz</p></td>
+<td><p>座標</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>element</p></td>
+<td><p>元素名</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>mobile</p></td>
+<td><p>可動性</p>
+<p>入力値
+は{1,0}、{on,off}、{yes,no}
+のどれでも可</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>weight</p></td>
+<td><p>重みづけ</p>
+<p>weight = 2 は
+sw_inversion = onの時のみ有効</p>
+<p>このとき、反転対称の位置にも原子を生成</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>element_list</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>element</p></td>
+<td><p>元素名(atomsのelementの入力値と一致させる)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>atomic_number</p></td>
+<td><p>原子番号</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>mass</p></td>
+<td><p>質量</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>zeta</p></td>
+<td><p>スピン分極
+s=(nup-ndown)/(nup+ndown)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>deviation</p></td>
+<td><p>初期電荷をガウス関数の和で与えるときの各ガウス関数の偏差。</p>
+<p>タグ名には devやstandard_deviationも使用可</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>wavefunction_solvers</p></td>
+<td><p>solver</p></td>
+<td></td>
+<td><p>波動関数ソルバー（詳しくは<a class="reference internal" href="#input-param-wfsol1"><span class="std std-numref">4.6.2 章</span></a> と<a class="reference internal" href="#input-param-wfsol2"><span class="std std-numref">4.8 章</span></a>
+を参照）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>sol</p></td>
+<td><p>ソルバーの種類</p>
+<p>MatrixDiagon
+：行列対角化法</p>
+<p>lm+MSD：
+lm(一次元探索)+
+MSD(改良
+型最急降下法)</p>
+<p>RMM2P,
+RMM3：RMM 法</p>
+<p>MSD：
+修正最速降下法</p>
+<p>pdavidson:
+分割Davidson法</p>
+<p>pkosugi:
+分割Kosugi法</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>till_n</p></td>
+<td><p>何回の更新まで、sol
+で指定された波動関数の</p>
+<p>更新方法を適用するかを指定</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>dts</p></td>
+<td><p>計算開始時の時間刻み幅</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>dte</p></td>
+<td><p>itr
+で指定された更新の回数における時間刻み</p>
+<p>幅。dtsの値のみが入力された場合にはdteにも同じ値を適用</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>itr</p></td>
+<td><p>時間刻み幅を変化させる回数の指定</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>var</p></td>
+<td><p>補間の形式。選択肢：{linear,
+tanh}。既定値はlinear</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>prec</p></td>
+<td><p>前処理の有無。
+選択肢：{on,off}</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>cmix</p></td>
+<td><p>電荷混合法の指定用変数。
+charge_mixing
+タグのmixing_methods
+で指定されている、各方法に割り振られた番号を使って指定する。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>submat</p></td>
+<td><p>onのときsubspace_rotationの指定に従ってsubspace
+rotationを行う。選択肢：{on,off}</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>line_minimization</p></td>
+<td></td>
+<td><p>一次元探索に関係した制御</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>dt_lower_critical</p>
+<p>dt_upper_critical</p>
+</td>
+<td><p>一次元探索をおこなう時の時間刻みの下限と上限</p>
+<p>(デフォルト値はそれぞれ、0.005と2.0)</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>delta_lmdenom</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>rmm</p></td>
+<td></td>
+<td><p>残差最小化法</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>imGSrmm</p></td>
+<td><p>RMM法で更新した波動関数に対して、Gram–Schmidtの直交化法を適用する頻度(デフォルト値は、毎回実行のimGSrmm
+= 1)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>rr_Critical_Value</p></td>
+<td><p>バンド毎の収束判定条件。波動関数の残差のノルムがここで指定された値以下になれば、そのバンドはそれ以降更新されない</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>edelta_change_to_rmm</p></td>
+<td><p>波動関数のソルバーをRMM法に変えるときの、全エネルギー収束判定条件。ここで指定する値より全エネルギーの収束が悪いときは、その前のソルバーを続けて使う。デフォルト値は1e-3/natmhartree；ここでnatmは原子数</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>subspace_rotation</p></td>
+<td></td>
+<td><p>subspace対角化に関する制御</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>subspace_matrix_size</p></td>
+<td><p>デフォルトの入力値はバンドの数
+(num_bands)</p>
+<p>num_bandsよりも大きな値が入力された場合には、強制的にnum_bandsの値を入力値に設定</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>damping_factor</p></td>
+<td><p>非対角要素のダンピング係数。[0.0,1.0]
+の範囲外の値が入力された場合には、入力値を強制的に1.0に設定</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>period</p></td>
+<td><p>solverタグのsubmatがONになっている場合、periodに1回subspace_rotationを行います。</p>
+<p>例えばperiod=3のときiteration(i)のうち、i=1,4,7,10
+,...がsubspace rotation
+を行う対象になります。デフォルト値は1。</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>critical_ratio</p></td>
+<td><p>非対角項の要素の値(1要素あたり)と対角項の要素の値(1要素あたり)の比がいったんcritical_ratioより小さくなった点に対しては、それ以後subspace rotationを行いません。</p>
+<p>デフォルト値は<span class="math notranslate nohighlight">\(10^{-15}\)</span></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>charge_mixing</p></td>
+<td></td>
+<td></td>
+<td><p>電荷混合法。（詳しくは<a class="reference internal" href="#input-param-charge-mixing"><span class="std std-numref">4.7 章</span></a>
+と <a class="reference internal" href="#input-param-wfsol2"><span class="std std-numref">4.8 章</span></a>
+を参照）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>mixing_methods</p></td>
+<td></td>
+<td><p>電荷密度の混合法。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>method</p></td>
+<td><p>選択肢：{
+simple,
+broyden2,
+pulay }</p>
+<p>デフォルトはpulay</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>rmxs</p></td>
+<td><p>計算開始時の電荷密度を混ぜる割合</p>
+<p>デフォルト値は0.4</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>rmxe</p></td>
+<td><p>itr
+回の更新の後に電荷密度
+を混ぜる割合。</p>
+<p>デフォルト値は
+0.4。rmxs
+の値のみが入力された場合には、rmxe
+にも同じ値を適用。</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>itr</p></td>
+<td><p>電荷密度の混合比(rmx)を変化させる回数</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>var</p></td>
+<td><p>rmxを変化させる方法(itr回のSCF回数の間にrmxsからrmxeまで）。選択肢：｛linear, tanh}</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>prec</p></td>
+<td><p>前処理の有無。選択肢：{on, off}</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>istr</p></td>
+<td><p>method がsimple 以外の場合に、istr回の更新後に、指定した方法で電荷を混ぜる</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>nbmix</p></td>
+<td><p>蓄えておくべき電荷密度データの回数を指定</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>update</p></td>
+<td><p>nbmix回分用意されている電荷密度の配列を使い切った時の処理の選択法。</p>
+<p>選択肢：{anew,renew}</p>
+<p>anewはそれまでのデータを全て棄却して新規に開始。</p>
+<p>renew は最も古いデータを最新のデータと入れ換える。</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>charge_
+preconditioning</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>amix</p></td>
+<td><p>前処理変数a</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>bmix</p></td>
+<td><p>前処理変数b</p></td>
+</tr>
+<tr class="row-even"><td><p>structure_evolution</p></td>
+<td></td>
+<td></td>
+<td><p>構造緩和計算用ブロック識別子</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>method</p></td>
+<td><p>選択肢：{sd,
+quench, gdiis,
+bfgs, cg, cg2,
+fire,
+velocity_verlet,
+temper
+ature_control}</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>dt</p></td>
+<td><p>時間刻み幅</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>stress</p></td>
+<td></td>
+<td><p>ストレス計算</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>sw_stress</p></td>
+<td><p>ストレス計算の有
+無。選択肢：{
+on,off }</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>gdiis</p></td>
+<td></td>
+<td><p>(GDIISおよびBFGS
+を選択す
+る場合のタグ)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>initial_method</p></td>
+<td><p>GDIIS (BFGS)へ移行する前に利用する最適化アルゴリズム。選択肢：{
+quench, cg, sd
+}デフォルト値はcg</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>gdiis_box_size</p></td>
+<td><p>ここで指定するイオン座標更新回数分のデータをgdiis(bfgs)用配列に蓄える</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>gdiis_hownew</p></td>
+<td><p>gdiis_box_sizeで指定した回数分のイオン座標のデータ配列を使い切った時の処理法の選択</p>
+<p>選択肢：{anew,
+renew}</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>c_forc2gdiis</p></td>
+<td><p>GDIIS (BFGS)への切替えの判定条件</p>
+<p>デフォルト値は0.05
+(hartree/bohr)</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>postprocessing</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>dos</p></td>
+<td></td>
+<td><p>状態密度の出力</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>sw_dos</p></td>
+<td><p>状態密度出力の有無。選択肢：{
+on,off }</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>method</p></td>
+<td><p>選択肢：{
+tetrahedral,
+Gaussian }</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>deltaE_dos</p></td>
+<td><p>状態密度出力のエネルギー精度</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>variance</p></td>
+<td><p>mehtodがGaussianの場合のガウス関数の分散</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>nwd_dos_window_width</p></td>
+<td><p>出力時のエネルギー幅 <span class="math notranslate nohighlight">\(\Delta\)</span> Eを次式で指定：
+<span class="math notranslate nohighlight">\(\Delta\)</span> E=nwd_window_width x
+deldos</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>charge</p></td>
+<td></td>
+<td><p>電荷の出力</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>sw_
+charge_rspace</p></td>
+<td><p>電荷出力の有無。選択肢：{
+on,off }</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>filetype</p></td>
+<td><p>電荷出力ファイルの形式</p>
+<p>選択肢：{
+cube,
+density_only }</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>title</p></td>
+<td><p>電荷の出力ファイルの見出し</p>
+<p>filetype =
+cube
+の時のみ有効</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>printoutlevel</p></td>
+<td></td>
+<td></td>
+<td><p>標準出力への出力レベルの制御</p>
+<p>0：出力なし</p>
+<p>1：情報を出力</p>
+<p>2：デバッグ
+用の情報を出力</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>base</p></td>
+<td><p>他の変数に入力値が指定されていない時は、この値がデフォルト</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>pulay</p></td>
+<td><p>Pulay電荷混合法</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>timing</p></td>
+<td><p>時間指定情報</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>solver</p></td>
+<td><p>電子状態解法</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>evdff</p></td>
+<td><p>固有エネルギー差</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>rmm</p></td>
+<td><p>残差最小化法</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>snl</p></td>
+<td><p>非局所ポテンシャル</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>gdiis</p></td>
+<td><p>GDIIS 法</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>eigenvalue</p></td>
+<td><p>固有値</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>spg</p></td>
+<td><p>空間群</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>kp</p></td>
+<td><p>k 点</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>matdiagon</p></td>
+<td><p>行列対角法</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>vlhxcq</p></td>
+<td><p>ローカルポテンシャル</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>totalcharge</p></td>
+<td><p>電子密度</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>submat</p></td>
+<td><p>部分空間回転法</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>strcfctr</p></td>
+<td><p>構造因子</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>parallel</p></td>
+<td><p>並列化のための前処理の
+結果の出力制御</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>input_file</p></td>
+<td><p>入力ファイルF_INPの解析結果の出力</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>parallel_debug</p></td>
+<td><p>1に設定するとゼロ番ノード以外のプロセスからもoutput00x_xxxといったファイルに出力を行う。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>jobstatus</p></td>
+<td><p>計算の進行状況をjobstatus00xに出力</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>jobstatus_option</p></td>
+<td></td>
+<td><p>状況ファイルの出力制御</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>jobstatus_format</p></td>
+<td><p>tag, tag_line,
+tableが選択可能。既定値はtag。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p>jobstatus_series</p></td>
+<td><p>ON またはOFF</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="control">
+<h2><span class="section-number">4.3. </span>全体的な計算条件設定（Control）<a class="headerlink" href="#control" title="この見出しへのパーマリンク"></a></h2>
+<p>計算をはじめから実行するのか継続計算を実施するのか、最大どれくらいの時間計算を継続するのか、など、計算全体に関わる条件の設定をcontrol ブロックで行います。たとえば、以下のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = initial
+  cpumax = 1 day
+  max_iteration = 1000000
+}
+</pre></div>
+</div>
+<p>control ブロックにおいては、次の変数を指定することができます。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>condition</p></td>
+<td><p>初期計算か継続計算かなどの指定です。&quot;initial&quot;
+とすると計算は始めから行われ、&quot;continuation&quot;
+とすると、波動関数、電荷密度分布などの計算結果を引き継い
+だ継続計算が行われます。また、&quot;automatic&quot;
+とすると継続計算に必要な複数のファイル（これらは、前のジョブが正常終了した場合には自動的に生成される）が存在する場合は&quot;continuation&quot;、存在しない場合は&quot;initial&quot;と設定したのと同じ動作をします。&quot;preparation&quot;
+を指定すると、前処理（使用配列の大きさの評価、ｋ点生成など
+）のみ行います。デフォルト値は&quot;automatic&quot;
+です。
+ほかに、（収束した）
+電荷密度分布を読み込んで、それを固定したまま波動関数のみを収束させる（バンド分散を計算する場合など）には、&quot;fixed_charge&quot;,
+&quot;fixed_charge_continuation&quot;,
+&quot;fixed_charge_automatic&quot;のいずれかを設定します。それぞれ、最初から計算するか、継続計算するか、自動判定するかの指定です。
+これらの&quot;initial&quot;、&quot;continuation&quot;、
+&quot;automatic&quot;、&quot;preparation&quot;、fixed_charge&quot;
+、&quot;fixed_charge_continuation&quot;、&quot;fixed_c
+harge_automatic&quot;は、それぞれ、整数0、1、-
+1、-2、2、3、-3で代用することができます。</p></td>
+</tr>
+<tr class="row-even"><td><p>cpumax</p></td>
+<td><p>PHASE計算を実行する時間を、実数＋単位、の組合せで指定します。ここで指定した時間を超えると、収束に達していなくても、継続計算用のファイルなどが出力され、計算が停止します。デフォルト値は86400
+s (1 日)
+です。単位は必須です。使える単位は、&quot;sec&quot;、&quot;s&quot;（これは&quot;sec&quot;と同じ）、&quot;min&quot;、&quot;hour&quot;、および&quot;day&quot;です。継続計算になる可能性がある場合には、ジョブの指定時間よりも小さな値に設定しておくのがよいでしょう（例えば、ジョブの制限値が６時間で、収束後の状態密度計算などの後処理がなければ、5.8hour程度に設定する）。</p></td>
+</tr>
+<tr class="row-odd"><td><p>max_iteration</p>
+<p>max_total_scf_iteration</p>
+</td>
+<td><p>SCF計算の総イタレーション数の最大値を指定します。SCF計算の総イタレーション数がここで指定した数に達すると継続計算用のファイルなどが出力され、計算が停止します。デフォルト値は10000です。</p></td>
+</tr>
+<tr class="row-even"><td><p>max_scf_iteration</p></td>
+<td><p>構造緩和計算や分子動力学計算における各MDステップ内での電子状態の更新回数（SCFイタレーション数）の最大値を指定します。例えば、構造緩和計算の最初期に構造が不安定で、電子状態に対する収束判定条件を満たすまで数百回に及ぶような大きな回数のSCFイタレーションが必要になることがあります。その場合には、SCF計算を途中で打ち切って、力を計算してより安定な原子構造に更新してから、次のSCF計算をすすめた方が有利になります。しかし、あまり小さな値（１０程度）に設定すると、計算される力の誤差が大きくなり、逆に収束を難しくすることがあるので注意が必要です。正確な力の計算が重要な場合には使用しないでください。</p></td>
+</tr>
+</tbody>
+</table>
+<section id="control-blocksize-section">
+<span id="id8"></span><h3><span class="section-number">4.3.1. </span>ブロックサイズ<a class="headerlink" href="#control-blocksize-section" title="この見出しへのパーマリンク"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">control</span></code> ブロックにおいて演算に用いるブロックサイズを指定することができます。特に大規模な系の場合デフォルトのブロックサイズは適切でない可能性があるため、適切なパラメーターを探ることによって高速な計算が実現できます。
+設定可能な主なブロックサイズは下記の通り。</p>
+<table class="docutils align-default" id="id43">
+<caption><span class="caption-number">表 4.3 </span><span class="caption-text">主なブロックサイズとデフォルト値</span><a class="headerlink" href="#id43" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>nblocksize_mgs</p></td>
+<td><p>修正グラムシュミット</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-even"><td><p>nblocksize_betar_dot_wfs</p></td>
+<td><p>波動関数と射影演算子の積</p></td>
+<td><p>32</p></td>
+</tr>
+<tr class="row-odd"><td><p>nblocksize_vnonlocal_w</p></td>
+<td><p>波動関数と非局所ポテンシャルの積</p></td>
+<td><p>1000</p></td>
+</tr>
+<tr class="row-even"><td><p>nblocksize_submat</p></td>
+<td><p>部分空間対角化</p></td>
+<td><p>0 (ブロッキングをしない)</p></td>
+</tr>
+</tbody>
+</table>
+<p>以下の記述を行うとブロックサイズの探索を行ってくれます。（3次元並列版のみ）</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  sw_optimize_blocking_parameters = on
+}
+</pre></div>
+</div>
+<p>この設定を施すと、前処理の際各ルーチンをブロックサイズを変えながら小数回実施し、最もよかったブロックサイズを報告します。Printlevelブロックにおいてipriblsizeを2以上に設定している場合、ログファイルには以下のような情報が記録されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>!** MGS blocksize and elapsed time   525     10.0516
+!** MGS blocksize and elapsed time   262      5.3681
+!** MGS blocksize and elapsed time   131      3.2394
+!** MGS blocksize and elapsed time    65      2.7701
+!** MGS blocksize and elapsed time    32      3.5466
+!** MGS blocksize and elapsed time    16      3.7317
+!** MGS blocksize and elapsed time     8      5.3605
+!** MGS blocksize and elapsed time     4     10.3687
+</pre></div>
+</div>
+<p>最終的に得られた最適なブロッキングパラメーターは以下のように出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>nblocksize_mgs           =    65
+nblocksize_betar_dot_wfs =  1024
+nblocksize_vnonlocal_w   =  4096
+nblocksize_submat        =   700
+</pre></div>
+</div>
+<p>決まったパラメーターは計算でそのまま活用されます。この文字列は入力パラメーターファイルのcontrolブロックの下にそのまま貼り付けて利用することができます。</p>
+<p>なお、この機能は三次元版並列版においてのみ有効です。また、この機能とk点並列とScaLAPACKをすべて同時に利用することはできないのでご注意ください。</p>
+</section>
+<section id="control-speedup-options-section">
+<span id="id9"></span><h3><span class="section-number">4.3.2. </span>高速計算のオプション (2023.01以降)<a class="headerlink" href="#control-speedup-options-section" title="この見出しへのパーマリンク"></a></h3>
+<p>ControlブロックにおいてSCF計算を高速にするための以下のようなオプションを利用することができます。</p>
+<table class="docutils align-default" id="id44">
+<caption><span class="caption-number">表 4.4 </span><span class="caption-text">SCF計算高速化オプション</span><a class="headerlink" href="#id44" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>オプション</p></td>
+<td><p>説明</p></td>
+</tr>
+<tr class="row-even"><td><p>sw_keep_hloc_phi</p></td>
+<td><p>onにすると「ローカルポテンシャルに波動関数を作用した配列」をメモリーに保存し再利用することによって高速化を実現します。デフォルト値はonです。offにすると使用メモリーを削減することができます。</p></td>
+</tr>
+<tr class="row-odd"><td><p>sw_precalculate_phase_betar_dot_wfs</p></td>
+<td><p>波動関数と射影演算子の積の演算において位相をあらかじめ計算しておくかどうかを指定するスイッチ。有効にすると計算が高速化されるがメモリー消費が多くなります。デフォルト値はoff.</p></td>
+</tr>
+<tr class="row-even"><td><p>sw_precalculate_phase_vnonlocal</p></td>
+<td><p>波動関数と非局所ポテンシャルの積の演算において位相をあらかじめ計算しておくかどうかを指定するスイッチ。有効にすると計算が高速化されるがメモリー消費が多くなります。デフォルト値はoff.</p></td>
+</tr>
+<tr class="row-odd"><td><p>sw_reduce_fft_for_charge</p></td>
+<td><p>RMM3ソルバー利用の際に高速フーリエ変換の回数を減らすオプション。有効にするとFFTの回数が減るが、収束性に若干の影響を及ぼす可能性がある。デフォルト値はoff.</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="code docutils literal notranslate"><span class="pre">sw_keep_hloc_phi</span></code> は特に効果が高いため、デフォルト値がonになっています。メモリーが枯渇してしまうような問題に対してはoffに設定するようにしてください。</p>
+</section>
+</section>
+<section id="accuracy">
+<h2><span class="section-number">4.4. </span>計算精度の指定（Accuracy）<a class="headerlink" href="#accuracy" title="この見出しへのパーマリンク"></a></h2>
+<section id="input-parameters-cutoff">
+<span id="id10"></span><h3><span class="section-number">4.4.1. </span>カットオフエネルギー<a class="headerlink" href="#input-parameters-cutoff" title="この見出しへのパーマリンク"></a></h3>
+<p>カットオフエネルギーは平面波基底を利用した計算においては計算の信頼性を決める重要なパラメーターです。</p>
+<p>カットオフエネルギーは以下のように指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+   cutoff_wf = 25 Rydberg
+   cutoff_cd = 225 Rydberg
+}
+</pre></div>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>cutoff_wf</p></td>
+<td><p>波動関数のカットオフエネルギーをエネルギーの単位で指定します。</p></td>
+</tr>
+<tr class="row-even"><td><p>cutoff_cd</p></td>
+<td><p>電荷密度のカットオフエネルギーをエネルギーの単位で指定します。</p></td>
+</tr>
+</tbody>
+</table>
+<p>カットオフエネルギーは充分な精度が得られる値を事前に勘案することが理想的ですが、以下のような指針も有用です。</p>
+<ul class="simple">
+<li><p>cutoff_wfはおおよそ25 rydberg</p></li>
+<li><p>cutoff_cdは、ノルム保存型の擬ポテンシャルのみを利用している場合はcutoff_wfの4倍、ウルトラソフト型擬ポテンシャルを利用している場合は9倍。バージョン2020.01以降はこのような値がデフォルト値になりました。</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3><span class="section-number">4.4.2. </span>バンド数<a class="headerlink" href="#id11" title="この見出しへのパーマリンク"></a></h3>
+<p>バンド数は、以下のようにaccuracyブロックの下のnum_bands変数によって指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+   num_bands = 12
+}
+</pre></div>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>num_bands</p></td>
+<td><p>バンド数</p></td>
+</tr>
+</tbody>
+</table>
+<p>バンド数は、最低限価電子数の半分+1は必要です。通常最低必要な数の2
+割程度多めの数を採用します。設定値が価電子数の半分以下の場合には、自動的に設定が増やされます。またこの値を設定していない場合には自動的にバンド数が設定されます。</p>
+</section>
+<section id="k">
+<h3><span class="section-number">4.4.3. </span>k点サンプリングとスメアリング<a class="headerlink" href="#k" title="この見出しへのパーマリンク"></a></h3>
+<section id="id12">
+<h4><span class="section-number">4.4.3.1. </span>基本の設定<a class="headerlink" href="#id12" title="この見出しへのパーマリンク"></a></h4>
+<p>カットオフエネルギーと同様に、k点サンプリングも計算の信頼性を決める重要なパラメーターです。
+k点サンプリングは, accuracy ブロックの下にksampling ブロックを作成し、ksampling
+ブロックの下で設定を行います。たとえば下記のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+   ksampling{
+     method = monk
+     mesh{
+       nx=4
+       ny=4
+       nz=4
+     }
+   }
+}
+</pre></div>
+</div>
+<p>ksampling ブロックでは、下記の変数/ブロックを定義することができます。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>method</p></td>
+<td><p>k点サンプリングの方法を選びます。monk, mesh, file,
+gamma、directinのいずれかです。monkはMonkhorst-Pack法によるサンプリングで、通常推奨される方法であり、デフォルト値です。meshは単純なメッシュで逆空間を分割します。
+四面体法により電荷密度を構成する場合や状態密度の計算を行う場合にはこれを指定します。fileはファイルから読み込みます。
+バンド分散をみるために対称線に沿って多くのｋ点を入力する必要がある場合やフェルミ面の計算において大量のk点を考慮する必要がある場合などに利用します。gammaを指定すると<span class="math notranslate nohighlight">\(\Gamma\)</span>点のみをサンプリングします。充分大きな単位胞を使っていて、<span class="math notranslate nohighlight">\(\Gamma\)</span>点のみでも充分な精度が得られる場合には、これを指定します。directinは直接ｋ点の組（個数と座標）を指定します。いずれの方法でも、サンプリングｋ点に<span class="math notranslate nohighlight">\(\Gamma\)</span>点が含まれていて、系に反転対称中心がなければ（設定されていなければ）、<span class="math notranslate nohighlight">\(\Gamma\)</span>点の波動関数に関する計算は、この点の対称性を利用して他のｋ点のものに比べて３倍程度高速に実行されます（後述のとおり、これを抑制する、つまり他のｋ点と同じ演算法を適用する手段もあります）。</p></td>
+</tr>
+<tr class="row-even"><td><p>mesh</p></td>
+<td><p>逆空間の分割数を指定します。以下の変数が利用できます。</p>
+<p>nx 1番目の逆格子ベクトルの分割数を指定します。</p>
+<p>ny 2番目の逆格子ベクトルの分割数を指定します。</p>
+<p>nz 3番目の逆格子ベクトルの分割数を指定します。</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>スメアリングは、フェルミ準位付近の状態を“ぼやかす” 操作です。
+これによって、フェルミ準位付近で状態を持つ金属系においても少ないk 点数で高い精度で計算ができるようになる場合があります。
+スメアリングは、以下のようにaccuracy ブロックの下のsmearing ブロックにおいて指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+   smearing{
+     method = parabolic
+     width = 0.001 hartree
+   }
+}
+</pre></div>
+</div>
+<p>smearing ブロックでは以下の変数を利用することができます。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>method</p></td>
+<td><p>スメアリングの方法を指定します。parabolic、tetrahedral、
+cold、improved_tetrahedral、methfessel_paxtonのいずれか
+を指定します。通常利用するのはparabolicで、２次関数の組み合わせによって
+フェルミ準位付近をぼやかします（後述）。tetrahedralとimproved_tetrahedralは四面体法で、主に四面体法による状態密度計算を行う場合に利用します。coldはColdスメアリングで、金属において有効とされている方法です。</p></td>
+</tr>
+<tr class="row-even"><td><p>width</p></td>
+<td><p>スメアリングの幅をエネルギーの単位で指定します。デフォルト値は0.001
+hartreeです(method=parabolicの場合)もしくは0.01 hartree
+(method=methfessel-paxtonの場合)</p>
+<p>この設定はmethod=parabolicもしくはmethfessel_paxtonの場合に有効です。
+気を付けなければならないのは、method=tetrahedralの場合、このwidthは別の意味を持つことです。この場合、widthは&quot;縮退しているとていると見なされる準位間のエネルギー差の閾値&quot; になります（指定がない場合の既定値は1.e-5 hartree）。
+method=parabolicのときに設定したwidthをmethod=tetrahedralの場合にもそのまま残しておかないように注意しましょう。</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Widthで指定された値をwとします。method=parabolicの場合、各バンドの固有エネルギーεを下の図で示す状態密度分布を持つものとして扱います。ε-wからε+wまでの間は上に凸な二次関数、ε-2wからε-wまでの間とε+wからε+2wまでの間はそれぞれ、下に凸な二次関数で表され、それらが連続に接続しています。この状態はε-2wからε+2wまで積分して１になるように規格化されています。これにより各固有状態の占有割合が0から1の間の値を取るようになります。フェルミエネルギー±2wの間にある状態がこのスメアリングの影響を受けます。フェルミエネルギー近傍に状態が複数あり、SCF計算（および構造緩和計算）中に値の順序が入れ替わるような場合には、これらの固有エネルギーがフェルミエネルギー±2wの範囲に入るように設定すると（基底状態の電荷密度分布の変化が抑制され）収束性が改善されることがあります。しかし、wが大きい程、DFTの基底電子状態からのずれも大きくなるので注意が必要です。</p>
+<figure class="align-default" id="smearing-parabolic">
+<a class="reference internal image-reference" href="../_images/parabolic.svg"><img alt="../_images/parabolic.svg" src="../_images/parabolic.svg" width="1080px" /></a>
+<figcaption>
+<p><span class="caption-number">図 4.1 </span><span class="caption-text">Smearing widthと状態密度の関係。横軸はエネルギー、縦軸は状態密度。</span><a class="headerlink" href="#smearing-parabolic" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="k-2020-01">
+<span id="input-parameters-2020-kp"></span><h4><span class="section-number">4.4.3.2. </span><strong>k</strong>点サンプリングを“密度”で指定する方法（バージョン2020.01以降）<a class="headerlink" href="#k-2020-01" title="この見出しへのパーマリンク"></a></h4>
+<p>バージョン2020.01より、<strong>k</strong>点サンプリングをメッシュ数ではなく“密度”で指定することができるようになりました。以下のように設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  ksampling{
+    density = 4 bohr
+  }
+}
+</pre></div>
+</div>
+<p>densityは長さの単位で指定します。meshブロックにおけるメッシュの指定があればそちらが優先されます。デフォルト値は4
+bohrであり、これはSi結晶の場合に4×4×4のメッシュを指定することに相当します。このデフォルト値で問題ないのであれば、ksamplingブロックを丸ごと省くことも可能です。</p>
+</section>
+<section id="id13">
+<h4><span class="section-number">4.4.3.3. </span><strong>k</strong>点サンプリング指定のデフォルトの振る舞いの変更（バージョン2020.01以降）<a class="headerlink" href="#id13" title="この見出しへのパーマリンク"></a></h4>
+<p>これまではksamplingのmethodのデフォルト値は常にmonkでしたが、バージョン2020.01以降smearingブロックのmethodがtetrahedralの場合に限りデフォルト値がmeshとなるように変更されました。これは、スメアリング手法としてtetrahedral法を利用する場合k点サンプリング手法がmeshであることが必要なためです。この仕様変更のため、「smearingのmethodがtetrahedralでksamplingのmethodとしてmeshを明示的に指定していない」場合以前のバージョンと等価な計算にならない点には留意が必要です。</p>
+</section>
+<section id="methfessel-paxton-2021-01">
+<span id="section-methfessel-paxton"></span><h4><span class="section-number">4.4.3.4. </span>Methfessel-Paxton法によるスメアリング (バージョン2021.01以降)<a class="headerlink" href="#methfessel-paxton-2021-01" title="この見出しへのパーマリンク"></a></h4>
+<p><strong>概要</strong></p>
+<p>PHASE/0にはparabolic法、四面体法などのスメアリング手法が備わっています。バージョン2021以降、これにMethfessel-Paxton法 <a class="reference internal" href="#methfessel89" id="id14"><span>[Methfessel89]</span></a> が加わりました。Methfessel-Paxton法は、負の占有数を許容するかわりに大きなスメアリング幅を利用しても全エネルギーなどの重要な計算結果がほとんど変化しない、という特徴を持ったスメアリング手法です。</p>
+<p><strong>Methfessel-Paxton法について</strong></p>
+<p>基本の理論</p>
+<p>スメアリング手法とは、 <span class="math notranslate nohighlight">\(\delta\)</span> 関数および階段関数を数値的に安定でなめらかな関数で近似する手法ということができます。Methfessel-Paxton法においては、 <span class="math notranslate nohighlight">\(\delta\)</span> 関数および階段関数を以下のように近似します。</p>
+<div class="math notranslate nohighlight">
+\[D \left( x \right) = \sum_{n=0}^N [ A_n H_{2n} {\rm e}^{-x^2} ]\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-methfessel-paxton1">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-methfessel-paxton1" title="この数式へのパーマリンク"></a></span>\[S \left( x \right) = \frac{1}{2} \left(1 - {\rm erf}(x)\right)\]</div>
+<p><span class="math notranslate nohighlight">\(A_n = \frac{(-1)^n}{n!4^2\sqrt(\pi)}\)</span>, <span class="math notranslate nohighlight">\(H_{n}\)</span> は次数 <span class="math notranslate nohighlight">\(n\)</span> のエルミート多項式です。 実際の計算においては、準位 <span class="math notranslate nohighlight">\(ik\)</span> における固有値を <span class="math notranslate nohighlight">\(\varepsilon_{ik}\)</span> フェルミエネルギー <span class="math notranslate nohighlight">\(\varepsilon_F\)</span> スメアリング幅を <span class="math notranslate nohighlight">\(\sigma\)</span> とすると <span class="math notranslate nohighlight">\(x\)</span> は <span class="math notranslate nohighlight">\(x_{ik}=\frac{\left(\varepsilon_{ik}-\varepsilon_F\right)}{\sigma}\)</span> という形で用いられます。また、エントロピー項は以下のように評価することができます <a class="reference internal" href="#kresse96" id="id15"><span>[Kresse96]</span></a></p>
+<div class="math notranslate nohighlight" id="equation-eq-methfessel-paxton2">
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-eq-methfessel-paxton2" title="この数式へのパーマリンク"></a></span>\[S_N = \sigma \sum_{ik} \frac{1}{2} A_N H_{2N} \left(x_{ik}\right) {\rm e}^{-x_{ik}^2}\]</div>
+<p><a class="reference internal" href="#fig-mp1"><span class="std std-numref">図 4.2</span></a> に、 <em>N</em> =6までの <span class="math notranslate nohighlight">\(D(x), S(x)\)</span> を示します。</p>
+<figure class="align-default" id="fig-mp1">
+<img alt="../_images/mp1.svg" src="../_images/mp1.svg" /><figcaption>
+<p><span class="caption-number">図 4.2 </span><span class="caption-text"><em>N</em> = 6までの <span class="math notranslate nohighlight">\(D(x)\)</span> および <span class="math notranslate nohighlight">\(S(x)\)</span></span><a class="headerlink" href="#fig-mp1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#fig-mp1"><span class="std std-numref">図 4.2</span></a> から明らかなように、Methfessel-Paxton法の場合フェルミエネルギー付近（ <span class="math notranslate nohighlight">\(x=0\)</span> 付近）の電子の占有数が負になる場合があります。これは明らかに物理的ではありませんが、最終的な全エネルギーの計算値などに影響を及ぼすことはありません。</p>
+<p>フェルミエネルギーについて</p>
+<p>通常フェルミエネルギーは電荷の数が合うように二分法によって求めますが、Methfessel-Paxton法においては負の占有状態が発生するため通常の二分法ではフェルミエネルギーが一意に求まらない可能性があります。そこで、最低エネルギーから少しずつエネルギーを増やし、電子数が超えるエネルギーを見つけてから通常の二分法に移行する、という特殊な手続きでフェルミエネルギーを求めます。具体的な手続きは下記の通り。</p>
+<ol class="arabic simple">
+<li><p>スメアリングに利用するスメアリング幅とMethfessel-Paxton法の次数からエネルギー幅 <span class="math notranslate nohighlight">\(\delta\)</span> を設定します。<span class="math notranslate nohighlight">\(\delta=a \sigma/N\)</span>. <span class="math notranslate nohighlight">\(a\)</span> は入力パラメーターファイルで設定可能な調整値で、PHASE/0のデフォルト値は10です。</p></li>
+<li><p>探索を開始する最低エネルギー値を設定します。求まっている固有値の最低値でもよいですが、保守的すぎるので <span class="math notranslate nohighlight">\(e_{\rm min} + \left(e_{\rm max}-e_{\rm min}\right)/2n\)</span> という値を採用します。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\delta\)</span> を最低エネルギーに加算していきフェルミエネルギーとし、結果得られる仮の電荷が本来の電荷を上回った段階でそのエネルギーを上限値とします。</p></li>
+<li><p>以上の処理によって下限と上限がエネルギー幅の範囲で決定するので、ここからは通常の二分法に移行し、フェルミエネルギーを求めます。</p></li>
+</ol>
+<p><strong>使い方</strong></p>
+<p>スメアリングの設定は、入力パラメーターファイルのaccuracyブロックの下のsmearingブロックにおいて行います。Methfessel-Paxton法の設定例を以下に記述します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">accuracy</span><span class="p">{</span>
+  <span class="n">smearing</span><span class="p">{</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="n">methfessel_paxton</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="n">hartree</span>
+    <span class="n">methfessel_paxton</span><span class="p">{</span>
+      <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>methodにmethfessel_paxtonを指定すると(methでも可)スメアリング手法がMethfessel-Paxton法になります。widthにおいてメアリング幅をエネルギーの単位で指定します。Methfessel-Paxton法の詳細設定はmethfessel_paxtonブロック（もしくはmethブロック）において行います。ここでは以下のような設定を施すことができます。</p>
+<table class="docutils align-default" id="mp-table1">
+<caption><span class="caption-number">表 4.5 </span><span class="caption-text">Methfessel-Paxton法の詳細設定</span><a class="headerlink" href="#mp-table1" title="このテーブルへのパーマリンク"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>タグ名</p></td>
+<td><p>説明</p></td>
+</tr>
+<tr class="row-even"><td><p>order</p></td>
+<td><p>Methessel-Paxton法の次数を指定します。デフォルト値は2です。</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>例題</strong></p>
+<p><code class="code docutils literal notranslate"><span class="pre">samples/smearing</span></code> 以下に例題が配置されています。
+FCC-AlとBCC-Feの例題が格納されています。それぞれの結晶について、<code class="code docutils literal notranslate"><span class="pre">mp2</span> <span class="pre">mp4</span> <span class="pre">mp6</span> <span class="pre">parabolic</span></code> の4つのディレクトリーがあり、
+それぞれ <em>N</em> = 2, 4および6の場合のMethfessel-Paxton法を適用した入力例と従来のparabolic法を適用した例題に対応します。
+さらにその下のサブディレクトリーには、sigma0.0001(スメアリング幅を0.0001 hartreeにした場合)とsigma0.001(スメアリング幅を0.001 hartreeにした場合)
+の例題が配置されています。これらの例題から得られる全エネルギーの計算結果を次の表にまとめます(表中のエネルギーはすべてhartree単位)</p>
+<table class="docutils align-default" id="mp-table2">
+<caption><span class="caption-number">表 4.6 </span><span class="caption-text">Methfessel-Paxton法および従来法によって得られる全エネルギー。</span><a class="headerlink" href="#mp-table2" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><blockquote>
+<div><p><span class="math notranslate nohighlight">\(\sigma=0.0001\)</span> hartree</p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p><span class="math notranslate nohighlight">\(\sigma=0.001\)</span> hartree</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><p>Al, mp2</p></td>
+<td><p>-0.2552794</p></td>
+<td><p>-0.2552805</p></td>
+</tr>
+<tr class="row-odd"><td><p>Al, mp4</p></td>
+<td><p>-0.2552794</p></td>
+<td><p>-0.2552801</p></td>
+</tr>
+<tr class="row-even"><td><p>Al, mp6</p></td>
+<td><p>-0.2552794</p></td>
+<td><p>-0.2552801</p></td>
+</tr>
+<tr class="row-odd"><td><p>Al, parabolic</p></td>
+<td><p>-0.2552797</p></td>
+<td><p>-0.2552832</p></td>
+</tr>
+<tr class="row-even"><td><p>Fe, mp2</p></td>
+<td><p>-21.993246</p></td>
+<td><p>-21.993248</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fe, mp4</p></td>
+<td><p>-21.993246</p></td>
+<td><p>-21.993248</p></td>
+</tr>
+<tr class="row-even"><td><p>Fe, mp6</p></td>
+<td><p>-21.993246</p></td>
+<td><p>-21.993247</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fe, parabolic</p></td>
+<td><p>-21.993247</p></td>
+<td><p>-21.993259</p></td>
+</tr>
+</tbody>
+</table>
+<p>表の数値から、Methfessel-Paxton法はparabolic法と比較して全エネルギーがスメアリング幅に依存しにくいことが分かります。</p>
+<div role="list" class="citation-list">
+<div class="citation" id="methfessel89" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">Methfessel89</a><span class="fn-bracket">]</span></span>
+<p>Methfessel and A. T. Paxton, Phys. Rev. B 40 (1989) 3616.</p>
+</div>
+<div class="citation" id="kresse96" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">Kresse96</a><span class="fn-bracket">]</span></span>
+<p>G. Kresse and J. Furthmüller, Computational Materials Science 6 (1996) 15.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h3><span class="section-number">4.4.4. </span>交換相関エネルギー<a class="headerlink" href="#id16" title="この見出しへのパーマリンク"></a></h3>
+<p>交換相関エネルギーは、LDAとGGAの２種類があります。LDAはLDAPW91,
+PZ、GGAはGGAPBE, RPBE, REVPBEが利用できます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  xctype = ggapbe
+}
+</pre></div>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>xctype</p></td>
+<td><p>交換相関エネルギー(LDA, GGA)</p>
+<p>LDA ： LDAPW91, PZ</p>
+<p>GGA ： GGAPBE, RPBE, REVPBE</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id17">
+<h3><span class="section-number">4.4.5. </span>収束判定<a class="headerlink" href="#id17" title="この見出しへのパーマリンク"></a></h3>
+<p>収束判定は、電子状態計算の収束判定と構造最適化の際の原子に働く力の収束判定の2
+種類があります。以下のように指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+   scf_convergence{
+     delta_total_energy = 1.0E-8 Hartree
+     succession = 3
+   }
+   force_convergence{
+     max_force = 2.0E-4 Hartree/Bohr
+   }
+}
+</pre></div>
+</div>
+<p>収束判定に関わるブロック/変数は以下の通りです。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>scf_convergence</p></td>
+<td><p>SCF計算の収束判定を指定するブロックです。</p></td>
+</tr>
+<tr class="row-even"><td><p>delta_total_energy</p></td>
+<td><p>全エネルギーの差の閾値をエネルギーの単位で指定します。</p>
+<p>現在の全エネルギーと1ステップ前のエネルギーの差がここで指定した値よりも小さい場合収束判定を満たしたとみなされます。デフォルト値は1e-9です。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>succession</p></td>
+<td><p>delta_total_energyを何回連続でみたせば最終的に収束したと見なすかを指定します。ここで指定した値の回数連続で収束判定を満たせば収束が得られたと判定されます。デフォルト値は2です。</p></td>
+</tr>
+<tr class="row-even"><td><p>force_convergence</p></td>
+<td><p>原子に働く力の最大値に関する閾値を設定するブロックです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>max_force</p></td>
+<td><p>原子に働く力の最大値の閾値を力の単位で指定します。デフォルト値は1e-3です。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="input-initial-wf-and-chg">
+<span id="id18"></span><h3><span class="section-number">4.4.6. </span>初期波動関数と初期電荷密度<a class="headerlink" href="#input-initial-wf-and-chg" title="この見出しへのパーマリンク"></a></h3>
+<p>初期波動関数と初期電荷密度の設定を適切に行うと、電子状態計算を少ない回数で収束させることができます。初期波動関数および初期電荷密度は、以下のように設定することができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+   initial_wavefunctions = atomic_orbitals
+   intial_charge_density = atomic_charge_density
+   matrix_diagon{
+     cutoff_wf = 5 rydberg
+   }
+}
+</pre></div>
+</div>
+<p>初期波動関数および初期電荷密度の設定に関わるブロック/変数は下記の通りです。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>initial_wavefunctions</p></td>
+<td><p>初期波動関数の設定方法を指定します。</p>
+<p>random_numbers, matrix_diagon, file,
+atomic_orbitalsを選択することができます。random_numbers
+は乱数による初期化です。matrix_diagon
+は行列対角化によってもとめます。この際、初期波動関数作成時にのみ利用するカットオフエネルギーを採用することもできます。その指定方法は後述のmatrix_diagonブロックにおいて行います。fileは、波動関数ファイルから読み込みます。すでにある程度収束した波動関数データファイルを持っている場合はこのオプションを指定し、読み込ませることができます。atomic_orbitalsは、擬ポテンシャルファイルに記録された原子軌道データをもとに初期化を行います。デフォルト値はrandom_numbersです。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>initial_charge_density</p></td>
+<td><p>初期電荷密度の設定方法を指定します。Gauss,
+file,
+atomic_charge_density
+のいずれかを選択することができます。Gaussは原子を中心とした単純なガウス関数による初期化です。fileはファイルから読み込みます。すでにある程度収束した電荷密度データファイルを持っている場合はこのオプションを選択し、読み込ませることができます。atomic_charge_densityは擬ポテンシャルファイルに記録された原子の電荷密度をもとに初期化を行います。デフォルト値はGaussです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>matrix_diagon</p></td>
+<td><p>initial_wavefunctionsにmatrix_diagonを指定している場合に、その振る舞いを制御するためのブロックです。</p></td>
+</tr>
+<tr class="row-even"><td><p>cutoff_wf</p></td>
+<td><p>初期波動関数作成時に利用するカットオフエネルギーの値を指定します。デフォルト値は、通常のカットオフエネルギーの半分です。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="input-parameters-differenet-wfcut">
+<span id="id19"></span><h3><span class="section-number">4.4.7. </span>カットオフ/格子定数の異なる計算から出力された波動関数/電荷密度を読み込む方法（バージョン2020.01以降）<a class="headerlink" href="#input-parameters-differenet-wfcut" title="この見出しへのパーマリンク"></a></h3>
+<p>initial_wavefunctions, initial_charge_densityでfileを指定するとファイルから波動関数や電荷密度を読み込むことができますが、2020.01未満のバージョンではカットオフエネルギーおよび格子定数が等しい場合のみ読み込むことができました。
+バージョン2020.01以降は、カットオフが異なる/格子定数が異なる（すなわちメッシュが異なる）場合は新しいメッシュ上に値を補間して読み込むことができるようになりました。カットオフエネルギーもしくは格子定数が異なる波動関数データ/電荷密度データを読み込む場合以下のような設定を施します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  sw_read_pwbs_info = on
+  initial_wavefunctions = file
+  initial_charge_density = file
+}
+</pre></div>
+</div>
+<p>このようにすると、nfpwbs.dataファイル(file_names.dataにおいて識別子F_PWBSを利用して変更可能)から必要な情報が読み込まれ、波動関数や電荷密度が補間をしながら読み込まれるように動作します。nfpwbs.dataファイルは計算終了時に自動的に書き出されますが、この動作を抑制したい場合は次の指定を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  sw_write_pwbs_info = off
+}
+</pre></div>
+</div>
+<p>sw_read_pwbs_infoのデフォルト値はoff, sw_write_pwbs_infoのデフォルト値はonです。</p>
+</section>
+<section id="input-parameters-rspace-section">
+<span id="id20"></span><h3><span class="section-number">4.4.8. </span>実空間法<a class="headerlink" href="#input-parameters-rspace-section" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEは、非局所ポテンシャルの演算を逆空間で実行しますが、これを実空間で行わせることも可能です。この機能を利用するためには、以下のように設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  nonlocal_potential{
+    sw_rspace = on
+    r0_factor = 1.9
+  }
+}
+</pre></div>
+</div>
+<p>実空間法は、 <a class="reference internal" href="#king-smith91" id="id21"><span>[King-Smith91]</span></a> および <a class="reference internal" href="#wang01" id="id22"><span>[Wang01]</span></a> の方法で実現されています。
+逆空間法はその演算量が <span class="math notranslate nohighlight">\(O(N^3)\)</span> であるのに対し実空間法は <span class="math notranslate nohighlight">\(O(N^2)\)</span> なので、大きな系においては実空間法の方が有利となります。
+ただし、逆空間法では厳密解が得られるのに対し、実空間法は近似解しか得られない点には注意が必要です。
+nonlocal_potentialブロックでは以下のような設定を施すことが可能です。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>sw_rspace</p></td>
+<td><p>実空間法を利用するかどうかを指定します。</p>
+<p>デフォルト値はoffです。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>projector_optimization</p></td>
+<td><p>実空間法を適用するためにはプロジェクターの最適化を行う必要がありますが、その方法を指定します。このパラメーターにprefittingを指定すると[1]の方法で、mask_functionを指定すると文献[2]の方法でこの最適化が行われます。デフォルト値はmask_functionです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>r0_factor</p></td>
+<td><p>「最適化されたプロジェクター」のおよぶ範囲を、もとのプロジェクターの何倍にするかを指定する実数。デフォルト値は1.9。</p></td>
+</tr>
+</tbody>
+</table>
+<div role="list" class="citation-list">
+<div class="citation" id="king-smith91" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id21">King-Smith91</a><span class="fn-bracket">]</span></span>
+<p>R. D. King-Smith, M. C. Payne, and J. S. Lin, “Real-space implementation of nonlocal pseudopotentials for first-principles total-energy calculations”, Physical Review B <strong>44</strong> 13063 (1991).</p>
+</div>
+<div class="citation" id="wang01" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id22">Wang01</a><span class="fn-bracket">]</span></span>
+<p>Lin-Wang Wang, “Mask-function real-space implementations of nonlocal pseudopotentials”, Physical Review B <strong>64</strong> 201107 (2001).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="structure">
+<h2><span class="section-number">4.5. </span>原子構造（Structure）<a class="headerlink" href="#structure" title="この見出しへのパーマリンク"></a></h2>
+<p>計算に利用するモデルの指定は、structure ブロックの下で行います。たとえば、以下のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+    unit_cell_type = Bravais
+    unit_cell{
+        #units angstrom
+        a_vector = 4.914100000 0.000000000 0.000000000
+        b_vector = -2.457050000 4.255735437 0.000000000
+        c_vector = 0.000000000 0.000000000 5.406000000
+    }
+    atom_list{
+        coordinate_system = Internal
+        atoms{
+            #units angstrom
+            #tag element rx ry rz
+             O 0.413100000054 0.145400000108 0.118930000000
+             O 0.854599999943 0.267699999886 0.452263333333
+             O 0.732300000003 0.586900000006 0.785596666667
+             O 0.267699999946 0.854599999892 0.547736666667
+             O 0.145399999997 0.413099999994 0.881070000000
+             O 0.586899999939 0.732299999879 0.214403333333
+             Si 0.530000000000 0.000000000000 0.333333000000
+             Si -0.000000000072 0.529999999857 0.666666333333
+             Si 0.469999999954 0.469999999908 0.999999666667
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass zeta deviation
+         O 8 29164.9435 * *
+         Si 14 51196.4212 * *
+    }
+    symmetry{
+          method = automatic
+          sw_inversion = off
+    }
+}
+</pre></div>
+</div>
+<section id="id23">
+<h3><span class="section-number">4.5.1. </span>ユニットセル<a class="headerlink" href="#id23" title="この見出しへのパーマリンク"></a></h3>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>unit_cell_type</p></td>
+<td><p>単位胞の指定方法を設定しています。</p>
+<p>prmitiveかbravais
+を指定することができます。デフォルト値はbravais
+です。後述するように、単位胞を格子定数で指定する場合はこの変数をbravaisとする必要があります。また、bravaisを指定している場合、symmetryブロックの下のtspaceブロックにおいて定義できるlattice_system変数によって格子を変換させることが可能です。lattice_system変数についてはあとの説明も参照してください。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>unit_cell</p></td>
+<td><p>単位胞を指定するブロックです。セルベクトルを指定する方法と格子定数を指定する方法があります。格子定数によって指定する方法は、unit_cell_typeがbravaisの場合のみ有効です。</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>セルベクトルを指定する方法</p></li>
+</ul>
+<p>この方法を利用する場合、ベクトル型データを利用して以下のように記述します</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>unit_cell{
+  #units angstrom
+  a_vector = a1 a2 a3
+  b_vector = b1 b2 b3
+  c_vector = c1 c2 c3
+}
+</pre></div>
+</div>
+<p>a_vector, b_vector, c_vectorによってそれぞれ<span class="math notranslate nohighlight">\(a\)</span>軸,
+<span class="math notranslate nohighlight">\(b\)</span>軸,
+<span class="math notranslate nohighlight">\(c\)</span>軸をベクトルで指定します。この指定方法の場合、長さの単位はブロック単位で指定する方法のみ利用できる点に
+注意してください。この例では、unit_cellブロックの先頭に#units angstromとすることによって長さの単位をÅ単位に変更しています。</p>
+<ul class="simple">
+<li><p>格子定数によって指定する方法</p></li>
+</ul>
+<p>この方法を利用する場合、以下のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>unit_cell{
+  a = a0
+  b = b0
+  c = c0
+  alpha = alpha0
+  beta  = beta0
+  gamma = gamma0
+}
+</pre></div>
+</div>
+<p>a, b, c, alpha, beta, gammaという変数を利用することによってそれぞれ格子定数<span class="math notranslate nohighlight">\(a,b,c,\alpha,\beta,\gamma\)</span>を指定します。
+この方法で指定すると、セルベクトルは計算開始時に以下のような“下三角”形式で定義されるようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>a_vector = a1 0.0 0.0
+b_vector = b1 b2  0.0
+c_vector = c1 c2  c3
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>簡易入力 (バージョン2022.01以降)</p></li>
+</ul>
+<p>対称性によっては単位胞の記述を簡略化することができます。基本的なルールは</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>格子定数b,cのデフォルト値はaに指定した値</p></li>
+<li><p>格子定数 <span class="math notranslate nohighlight">\(\alpha \beta \gamma\)</span> のデフォルト値は90度。ただし <code class="docutils literal notranslate"><span class="pre">lattice_system</span></code> の値が <code class="docutils literal notranslate"><span class="pre">hexagonal</span></code> の場合は <span class="math notranslate nohighlight">\(\gamma\)</span> のデフォルト値は120度</p></li>
+</ul>
+</div></blockquote>
+<p>というものです。いくつか具体例を挙げます。</p>
+<p>例 1.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  unit_cell{
+    #units angstrom
+    a = 3.5
+  }
+}
+</pre></div>
+</div>
+<p>立方晶のため格子定数aの値のみ指定しています。</p>
+<p>例 2.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  symmetry{
+    tspace{
+      lattice_system = hexagonal
+    }
+  }
+  unit_cell_scale = 3.5 angstrom
+  unit_cell{
+    a = 1
+    c = 1.61
+  }
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">lattice_system</span> <span class="pre">=</span> <span class="pre">hexagonal</span></code> によって六方晶であることを指定しています。さらに <code class="docutils literal notranslate"><span class="pre">unit_cell_scale</span> <span class="pre">=</span> <span class="pre">3.5</span> <span class="pre">angstrom</span></code> によって単位胞のすべての要素を3.5倍することを指定しています。3.5Åが格子定数aと等しいとすると、a = 1となり、またcの値としてはc/a比を指定すればよいことになります。</p>
+<p>例 3.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  unit_cell_scale = 3.5 angstrom
+  unit_cell{
+    a_vector = 1 0 0
+    b_vector = 0 1 0
+    c_vector = 0 0 1
+ }
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">unit_cell_scale=</span> <span class="pre">3.5</span> <span class="pre">angstrom</span></code> として単位胞全体のスケールを指定しています。立方晶で格子定数と <code class="docutils literal notranslate"><span class="pre">unit_cell_scale</span></code> が等しいのであればセルベクトルを単位行列とすれば正しい指定となります。</p>
+</section>
+<section id="id24">
+<h3><span class="section-number">4.5.2. </span>原子座標<a class="headerlink" href="#id24" title="この見出しへのパーマリンク"></a></h3>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>atom_list</p></td>
+<td></td>
+<td><p>各原子の座標値の指定などを行うブロックです。</p>
+<p>以下の変数/ブロックを定義することができます。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>coordinate_system</p></td>
+<td></td>
+<td><p>原子座標を、カルテシアン座標によって定義するかフラクショナル座標によって定義するかを指定します。internalとするとフラクショナル座標によって、cartesian
+とするとカルテシアン座標によって指定します。デフォルト値はinternalです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>atoms</p></td>
+<td></td>
+<td><p>実際に各原子の座標値を指定する表形式データを記述します。代表的な属性値は以下の通りです。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>element</p></td>
+<td><p>元素名を指定します。元素名は、後述の'element_list'に
+おいて定義されている必要があります。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>rx</p></td>
+<td><p><span class="math notranslate nohighlight">\(x\)</span>座標を指定します。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>ry</p></td>
+<td><p><span class="math notranslate nohighlight">\(y\)</span>座標を指定します。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>rz</p></td>
+<td><p><span class="math notranslate nohighlight">\(z\)</span>座標を指定します。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>mobile</p></td>
+<td><p>構造最適化や分子動力学シミュレーションにおいてこの原子が&quot;可動か否&quot;かを指定する真偽値です。可動にしたい場合onとします。デフォルト値はoffです。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>mobilex</p></td>
+<td><p>構造最適化や分子動力学シミュレーションにおいてこの原子の<em>x,</em>
+<em>y</em>,
+<em>z</em>座標を個別に&quot;可動か否か&quot;を指定する真偽値です。可動にしたい場合onとします。デフォルト値は、mobileに指定された値です。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>mobiley</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>mobilez</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>weight</p></td>
+<td><p>&quot;重み&quot;を設定します。この属性値に2という値を与えた場合、原点を中心とした反転対称の位置にコピー原子を配置します。デフォルト値は1です。2を与える場合、系に反転対称性があり、後述のsw_inversionパラメーターがonとなっている必要があります。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="input-parameters-atomtyp">
+<span id="id25"></span><h3><span class="section-number">4.5.3. </span>原子種の指定<a class="headerlink" href="#input-parameters-atomtyp" title="この見出しへのパーマリンク"></a></h3>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>element_list</p></td>
+<td></td>
+<td><p>元素情報を指定するための表形式データを記述するブロックです。</p>
+<p>代表的な属性値は以下の通り。</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>element</p></td>
+<td><p>元素名を指定します。指定は必須です。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>atomicnumber</p></td>
+<td><p>原子番号を指定します。指定は必須です。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>mass</p></td>
+<td><p>質量を指定します。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>zeta</p></td>
+<td><p>スピンを考慮している場合の、初期スピン分極の値を設定します。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>qex</p></td>
+<td><p>電子を追加/削減する場合に指定します。</p></td>
+</tr>
+</tbody>
+</table>
+<p>擬ポテンシャルファイルは、file_names.data
+ファイルにおいて、ファイルポインターF_POT(n) によって指定します。ここでn
+は入力における元素指定の順序に対応する整数です。たとえば、以下の要領でO
+とSi の元素指定が入力ファイルにおいて成されていて、</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+   ...
+   ...
+   element_list{
+     #tag element atomicnumber mass zeta deviation
+         O 8 29164.9435 * *
+         Si 14 51196.4212 * *
+   }
+}
+</pre></div>
+</div>
+<p>対応する擬ポテンシャルファイルがOがO_ggapbe_us_01.pp, Si
+がSi_ggapbe_nc_01.pp,だった場合、file_names.dataを以下のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+F_INP = &#39;./nfinp.data&#39;
+F_POT(1)=’./O_ggapbe_us_01.pp&#39;
+F_POT(2)=’./Si_ggapbe_nc_01.pp
+/
+</pre></div>
+</div>
+<p>擬ポテンシャルファイルの指定は、交換相関ポテンシャルの計算方法の指定にも対応しています。公開している擬ポテンシャルファイルの交換相関ポテンシャルの計算方法はggapbeかldapw91
+のいずれかですが、どちらなのかはファイル名から判定することができます。すなわち、ggapbe
+あるいはldapw91
+という文字列が擬ポテンシャルファイルのファイル名に含まれています。なお、ggapbe
+とldapw91
+を混在させた計算を行うことはできませんのでご注意ください。また、利用できる原子種は16
+種類までです。</p>
+<p>電子を追加/削除したい場合の設定もここで行います。qexパラメータに追加したい/削除したい電子数を指定します。たとえば、以下のように指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  ...
+  ...
+  element_list{
+    #tag element atomicnumber mass zeta deviation qex
+          O 8 29164.9435  * * +1
+         Si 14 51196.4212 * * 0
+  }
+}
+</pre></div>
+</div>
+<p>追加しているのは電子なので、1つ追加すると電荷としては1減る点に注意が必要です。指定は原子種に対して行いますが、実際は系全体におよぶ設定です。SCF計算がすすむに従って各原子に分配される余剰電荷は変化します。具体的には波動関数から電荷密度をつくるときに余剰電子1個分を含むようにフェルミレベルを調整します。また、Ewaldエネルギーはこの余剰電荷を打ち消すように背景に一様電荷分布をおいた状態にして計算します。</p>
+</section>
+<section id="id26">
+<h3><span class="section-number">4.5.4. </span>原子種の指定（バージョン2020.01以降）<a class="headerlink" href="#id26" title="この見出しへのパーマリンク"></a></h3>
+<p>バージョン2020.01以降、structureブロックにおけるelement_listの指定は非必須となりました。原子配置指定における元素名が通常の元素名もしくは元素名+数値という文字列の場合(C, C1,
+O2など)、element_listが存在しなくともデフォルトの設定が採用されます。qexやzetaなどの指定が必要な場合はelement_listを作成してください。</p>
+</section>
+<section id="id27">
+<h3><span class="section-number">4.5.5. </span>系全体への電荷の付加<a class="headerlink" href="#id27" title="この見出しへのパーマリンク"></a></h3>
+<p>系に付加する電荷については、qex 以外にも、additional_charge による指定も可能です。
+additional_charge で指定する数字が、正の場合は正電荷、負の場合は負電荷 (電子) を付け加えます。
+なお、Ewaldエネルギーはこの余剰電荷を打ち消すように背景に一様電荷分布をおいた状態にして計算します。</p>
+<p>下記の例では、系に -1.0 の電荷、すなわち1 個の電子を付け加えます。</p>
+<p>例：additional_charge の使用例</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  charged_state{
+    additional_charge = -1.0d0
+  }
+}
+</pre></div>
+</div>
+</section>
+<section id="id28">
+<h3><span class="section-number">4.5.6. </span>磁気モーメントの初期値の指定<a class="headerlink" href="#id28" title="この見出しへのパーマリンク"></a></h3>
+<p>原子種の初期磁気モーメント (分極) については、 <a class="reference internal" href="#input-parameters-atomtyp"><span class="std std-numref">4.5.3 章</span></a> のzeta 以外にも、moment による指定も可能です。
+単位はボーア磁子 [ <span class="math notranslate nohighlight">\(\mu_B\)</span> ] です。
+なお、momentによる指定を行うと、プログラム内部で自動的に zeta 値に変換されます。</p>
+<p>下記の例では、Cr1 及び Cr2 の初期磁気モーメントに、それぞれ <span class="math notranslate nohighlight">\(3\mu_B\)</span> および <span class="math notranslate nohighlight">\(-3\mu_B\)</span> が設定されます。</p>
+<p>例：moment による初期磁気モーメントの指定</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  element_list{
+    #tag element atomicnumber moment
+        Cr1 24 3.0
+        Cr2 24 -3.0
+        O 8
+  }
+}
+</pre></div>
+</div>
+</section>
+<section id="id29">
+<h3><span class="section-number">4.5.7. </span>対称性の指定<a class="headerlink" href="#id29" title="この見出しへのパーマリンク"></a></h3>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>symmetry</p></td>
+<td><p>系の対称性を指定するブロックです。</p>
+<p>対称性を利用することによって、計算量を大幅に減らすことができる場合があります。以下のブロック/変数を利用することができます。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>method</p></td>
+<td><p>対称性指定の方法を指定します。manualとautomaticを選ぶことができます。manualを選択すると、生成元を直接入力することによって対称性を指定することができます。automaticを選択すると、PHASEが指定のモデルから自動的に対称性を検知し、計算に反映させます。デフォルト値はmanualです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>sw_inversion</p></td>
+<td><p>系に反転対称性が存在する場合に、それを活用して計算量を減らすかどうかを指定する真偽値です。onの場合反転対称性を利用します。反転対称性の中心は原点(0,0,0)です。このオプションは反転対称性のある系の計算を行う場合は有効にすることが推奨されますが、反転対称性のない系で有効にすると前処理で検知し、終了するのでご注意ください。</p></td>
+</tr>
+<tr class="row-even"><td><p>tspace</p></td>
+<td><p>TSPACEを利用して生成元を直接指定するためのブロックです。以下の設定を行います。</p></td>
+</tr>
+<tr class="row-odd"><td><p>lattice_system</p></td>
+<td><p>unit_cell_typeがbravaisの場合に、&quot;格子の型&quot;を指定します。
+選択肢はfacecentered, bodycentered, basecentered,
+rhombohedralです。この変数を指定すると、指定に応じて格子が変換されます。このそれぞれがどのように格子を変換するかについては
+<a class="reference internal" href="../basics/basics.html#basics-table-primitive-translation"><span class="std std-numref">表 5.2</span></a>
+を参照してください。この変数を利用することによって、入力ファイルでは指定のしやすいブラベー格子で単位胞を指定しつつ、実際の計算は負荷の少ない基本格子で実行することが可能となります。lattice_system変数を利用して格子を変換させる場合、変換されるのは単位胞のみです。したがって、原子配置の定義などは基本格子の場合の定義の仕方を採用してください。たとえば、面心立方格子の計算を行う場合面心位置の原子は指定せず、原点の原子のみ指定するようにしてください。また、<span class="math notranslate nohighlight">\(k\)</span>点サンプリングは変換後の格子に合わせて設定してください。</p></td>
+</tr>
+<tr class="row-even"><td><p>generators</p></td>
+<td><p>生成元を指定するテーブルです。生成元は、3つまでしか定義できないという制約があります。このテーブルでどのように生成元を指定するかについては
+<a class="reference internal" href="../basics/basics.html#basics-symmetry-section"><span class="std std-numref">5.2.1.2 章</span></a>
+を参照してください。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="input-param-coord-from-file">
+<span id="id30"></span><h3><span class="section-number">4.5.8. </span>原子配置を別ファイルで指定する方法（バージョン2019.02以降）<a class="headerlink" href="#input-param-coord-from-file" title="この見出しへのパーマリンク"></a></h3>
+<p>原子配置を、F_INPファイルではなく別のファイルによって指定することもできるようになっています。</p>
+<p>座標データファイルを別ファイルにするためには、structureブロックおよびstructureブロックの下に定義するfileブロックにおいて関連する設定を施す必要があります。関連する変数/ブロックは下記の通りです。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>変数名/ブロック名</p></th>
+<th class="head"><p>変数名</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>method</p></td>
+<td></td>
+<td><p>座標データファイルの指定の仕方を指定する文字列。directinとするとF_INPファイルから、fileとすると別ファイルから読み込む。デフォルト値はdirectin。</p></td>
+</tr>
+<tr class="row-odd"><td><p>file</p></td>
+<td></td>
+<td><p>外部ファイル読み込みの設定を行うブロック。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>filetype</p></td>
+<td><p>methodの値がfileだった場合に座標データを読み込むファイルの形式を選択する。以下が利用できる。</p>
+<p>phase0_input : F_INP形式</p>
+<p>phase0_output : F_DYNM形式</p>
+<p>デフォルト値はphase0_output。</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>frame</p></td>
+<td><p>F_DYNM形式の場合のフレーム番号を選ぶ。0以下の値の場合最後のフレームが採用される。デフォルト値は-1。</p></td>
+</tr>
+</tbody>
+</table>
+<p>filetypeがphase0_outputだった場合、外部ファイルから取得できる情報は原子座標（と場合によっては原子速度）のみです。その他の原子配置に与えられる属性値(mobileなど)は別途F_INP形式のファイルから読み込む必要があります。これは、デフォルトの振る舞いではF_INPそのものになります。後述のように、ファイルポインターF_COORD_ATTRによって別のF_INP形式のファイルを指定することも可能です。</p>
+<p>分子動力学シミュレーションのF_DYNMファイルには各原子の速度が記録されており、これを初期速度として採用することも可能です。この場合、以下のような設定を施すことによって初期速度をプログラムが割り当てることを抑制する必要があります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure_evolution{
+  ...
+  temperature_control{
+    set_initial_velocity = off
+  }
+}
+</pre></div>
+</div>
+<p>file_names.dataファイルにおいて座標を読み込むファイルの指定を行います。関連するファイルポインターは下記の通りです。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>ファイルポインター</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>F_POS</p></td>
+<td><p>原子座標データファイルを読み込むファイル。</p>
+<p>デフォルト値は、fietypeがphase0_inputである場合F_INPが指す値、phase0_outputである場合F_DYNMが指す値。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>F_COORD_ATTR</p></td>
+<td><p>filetypeがphase0_outputである場合に原子の属性値を読み込むファイルの指定。
+デフォルト値はF_INPが指す値。</p></td>
+</tr>
+</tbody>
+</table>
+<p>file{filetype=phase0_output}としたとき、file_names.dataにF_POSの設定がないとF_DYNMが指すファイルから
+原子座標を読み込みますが、有限温度計算や構造緩和を行った場合、F_DYNMデータを上書きしてしまうので、注意が必要です。
+上書きを避けるためには、原子座標を読み込むファイルをF_POSで（F_DYNMとは別ファイル名を）与える必要があります。</p>
+</section>
+</section>
+<section id="wavefunction-solver">
+<h2><span class="section-number">4.6. </span>波動関数ソルバー（Wavefunction_Solver）<a class="headerlink" href="#wavefunction-solver" title="この見出しへのパーマリンク"></a></h2>
+<section id="phase">
+<h3><span class="section-number">4.6.1. </span>PHASE における計算フロー<a class="headerlink" href="#phase" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE における計算フローを <a class="reference internal" href="#input-param-fig1"><span class="std std-numref">図 4.3</span></a> に示します。</p>
+<figure class="align-default" id="input-param-fig1">
+<a class="reference internal image-reference" href="../_images/input_param_fig1.svg"><img alt="../_images/input_param_fig1.svg" src="../_images/input_param_fig1.svg" width="720px" /></a>
+<figcaption>
+<p><span class="caption-number">図 4.3 </span><span class="caption-text">PHASE における計算フロー</span><a class="headerlink" href="#input-param-fig1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>波動関数の更新の過程で、Kohn-Sham方程式</p>
+<div class="math notranslate nohighlight" id="equation-eq-hpsi1">
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-hpsi1" title="この数式へのパーマリンク"></a></span>\[(H_{\text{KS}}(\rho_{\text{inp}}) - \epsilon_{i})\psi_{i} = 0,\]</div>
+<p>を解いています。</p>
+<p>ある試行の波動関数が与えられ、</p>
+<div class="math notranslate nohighlight" id="equation-eq-hpsi2">
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-eq-hpsi2" title="この数式へのパーマリンク"></a></span>\[\Delta_{i} = (H_{\text{KS}}(\rho_{\text{inp}}) - \epsilon_{i})\psi_{i}\]</div>
+<p>の演算を繰り返し行うことに より、 <a class="reference internal" href="#equation-eq-hpsi1">(4.3)</a> の解が得られることになります。
+その際、<span class="math notranslate nohighlight">\(\Delta_{i}\)</span> はエネルギー<span class="math notranslate nohighlight">\(\epsilon\)</span> の波動関数
+<span class="math notranslate nohighlight">\(\psi\)</span> に対する勾配と解釈する事
+ができるので、この勾配が0に近づくように波動関数が更新されます。
+フローチャート <a class="reference internal" href="#input-param-fig1"><span class="std std-numref">図 4.3</span></a> 中の電荷密度の作成の過程では、
+更新した波動関数から、新しい電荷密度 <span class="math notranslate nohighlight">\(\rho\)</span>
+が、以下の処方で与えられます。</p>
+<div class="math notranslate nohighlight" id="equation-eq-rhoout-psi2">
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-eq-rhoout-psi2" title="この数式へのパーマリンク"></a></span>\[\rho_{\text{out}} = 2\sum_{\text{occ.}}^{}|\psi_{i}|^{2},\]</div>
+<p>図中の内側のループでは、入力の<span class="math notranslate nohighlight">\(\rho_{\text{inp}}\)</span>と新しい<span class="math notranslate nohighlight">\(\rho_{\text{out}}\)</span>が
+一致するまで計算が行われます。 この作業は
+SCF(自己無動着場)計算と呼ばれています。
+外側のループでは、与えられた原子配置に対して力の計算が行われ、この力が0(閾値以下)になるような
+原子配置に到達するまで、計算が続行されます。</p>
+</section>
+<section id="input-param-wfsol1">
+<span id="id31"></span><h3><span class="section-number">4.6.2. </span>波動関数ソルバー<a class="headerlink" href="#input-param-wfsol1" title="この見出しへのパーマリンク"></a></h3>
+<p>SCF計算において、「波動関数ソルバー」によって波動関数の更新を繰り返し行います。</p>
+<p>波動関数ソルバーは、wavefunction_solverブロックで指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wavefunction_solver{
+  solvers{
+    #tag sol      till_n prec cmix submat
+      pdavidson 2     on 1    on
+      rmm3     -1     on 1    on
+  }
+  rmm{
+    edelta_change_to_rmm = 1e-3
+  }
+}
+</pre></div>
+</div>
+<p>wavefunction_solverブロックで利用できるブロック/変数は以下の通りです。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>solvers</p></td>
+<td></td>
+<td><p>どの波動関数ソルバーを、</p>
+<p>どのタイミングで適用するかを設定する重要なテーブルです。以下の属性値を利用することができます。</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>sol</p></td>
+<td><p>利用するソルバーのアルゴリズムを指定します。msd,
+lm+msd, cg, pkosugi,
+pdavidson, rmm3
+から選択します。
+msdは、修正再急降下法です。
+1SCFあたりの計算負荷は最も軽い手法ですが、この手法のみで収束を得るのは困難です。主に初期波動関数に対して利用します。lm+msdはmsd法に一次元探索を備えた手法です。1回あたりの計算負荷は比較的軽い手法で、msd法と比較して収束の速い手法です。cg法は共役勾配法です。
+計算負荷はlm+msdよりも多いですが、収束性は良い場合が多いです。davidson法は、1回あたりの計算負荷は高いですが信頼性の高い手法です。pkosugi,
+pdavidsonはdavidson法を並列化した手法であり、通常はdavidson法よりも推奨されます。rmm3法は1回あたりの計算負荷はDavidson
+法よりも軽く、信頼性もDavidson法に劣らない場合の多い手法です。ただし、ランダムな波動関数に適用すると正しい解へ収束しない場合があるので、rmm3法を利用する場合は他のソルバーである程度波動関数を収束させてから移行する設定にする必要があります。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>till_n</p></td>
+<td><p>SCF計算の何ステップ目までsolを適用するかを指定します。上の例では、till_n値は、pdavidsonは2なので2回目まで使用する設定となっています（ただし後述のedelta_change_to_rmmで指定する条件を満たさない限り2回目以降もpdavidsonが利用され続けます）。負の数を指定すると収束するまでそのソルバーを使い続けます。したがって、rmm3は最後まで利用される設定となっています。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>prec</p></td>
+<td><p>前処理の有無を真偽値で指定します。デフォルト値はonで、通常変更する必要はありません。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>cmix</p></td>
+<td><p>採用する電荷密度混合法を指定します。電荷密度混合法は<a class="reference internal" href="#input-param-cmix1"><span class="std std-ref">電荷密度混合法</span></a>
+において解説します。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>submat</p></td>
+<td><p>部分空間対角化を行うかどうかを真偽値で指定します。デフォルト値はonで、通常変更する必要はありません。</p></td>
+</tr>
+<tr class="row-odd"><td><p>davidson</p></td>
+<td></td>
+<td><p>davidson法の詳細な振る舞いを設定したい場合に利用するブロックです。以下の変数を利用することができます。</p></td>
+</tr>
+<tr class="row-even"><td><p>max_subspace_size</p></td>
+<td></td>
+<td><p>davidson法で利用する部分空間の最大サイズを指定します。デフォルト値はバンド数の4倍です。</p></td>
+</tr>
+<tr class="row-odd"><td><p>ndavid</p></td>
+<td></td>
+<td><p>davidson法はすこしずつ部分空間を拡大しながら波動関数を更新しますが、その回数を指定する変数です。デフォルト値は5です。</p></td>
+</tr>
+<tr class="row-even"><td><p>rmm</p></td>
+<td></td>
+<td><p>rmm法の詳細な振る舞いを設定したい場合に利用するブロックです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>edelta_change_to_rmm</p></td>
+<td></td>
+<td><p>rmm法は、ある程度収束した波動関数に適用しないと正しく動作しない場合があります。そこで、ここで指定した値よりも全エネルギーがよくなった時点でrmm法へ移行します。デフォルト値は、1e-3/natm
+hartree；ここでnatmは原子数。</p></td>
+</tr>
+<tr class="row-even"><td><p>line_minimization</p></td>
+<td></td>
+<td><p>lm+msd法やcg法は1次元探索を行い、最適なきざみ幅をもとめます。その1次元探索の詳細設定を行うブロックです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>dt_lower_critical</p></td>
+<td></td>
+<td><p>1次元探索の下限の刻み幅を指定しま
+す。デフォルト値は0.1です。</p></td>
+</tr>
+<tr class="row-even"><td><p>dt_upper_critical</p></td>
+<td></td>
+<td><p>1次元探索の上限の刻み幅を指定しま
+す。デフォルト値は2.0です。</p></td>
+</tr>
+</tbody>
+</table>
+<section id="pkosugi-pdavidson-2023-01">
+<span id="input-param-kosugi-davidson"></span><h4><span class="section-number">4.6.2.1. </span>pkosugi, pdavidsonソルバーの高速化オプション (バージョン2023.01以降)<a class="headerlink" href="#pkosugi-pdavidson-2023-01" title="この見出しへのパーマリンク"></a></h4>
+<p>Pkosugiおよびpdavidsonソルバー利用の際、収束しているバンドは処理をスキップすることによって高速化を実現することができます。以下の要領でバンドが収束しているかどうかの判定の閾値を設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wavefunction_solver{
+  davidson{
+    delta_eig_occup = 1e-8
+    delta_eig_empty = 1e-4
+  }
+}
+</pre></div>
+</div>
+<p><code class="code docutils literal notranslate"><span class="pre">davidson</span></code> ブロックの下の <code class="code docutils literal notranslate"><span class="pre">delta_eig_occup</span></code> で占有準位に対する収束判定条件を、 <code class="code docutils literal notranslate"><span class="pre">delta_eig_empty</span></code> で非占有準位に対する収束判定条件を設定することができます。デフォルト値は両方とも1e-8 hartreeですが、非占有準位は全エネルギーに直接貢献しないため、バンドギャップがある場合はその収束判定は甘くても問題ない場合が多いです。非占有準位の閾値を甘く設定することによって全体の収束性を高めることができるかもしれません。</p>
+</section>
+</section>
+</section>
+<section id="charge-mixing">
+<span id="input-param-charge-mixing"></span><h2><span class="section-number">4.7. </span>電荷密度混合法（Charge_Mixing）<a class="headerlink" href="#charge-mixing" title="この見出しへのパーマリンク"></a></h2>
+<section id="input-param-cmix1">
+<span id="id32"></span><h3><span class="section-number">4.7.1. </span>電荷密度混合法<a class="headerlink" href="#input-param-cmix1" title="この見出しへのパーマリンク"></a></h3>
+<p>SCF 計算において、前回のSCF
+ステップで得られた電荷密度を一定程度混合することによって計算を進行させます。ここでは、この“電荷密度の混合方法”
+について説明します。電荷密度混合法の設定は、例えば、下記のようにcharge mixing
+ブロックで指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_mixing{
+    mixing_methods{
+        #tag method rmxs rmxe  prec istr nbmix
+              pulay  0.4 0.4   on   3  15
+    }
+    charge_preconditioning{
+        amix = 0.9
+        bmix = -1
+    }
+}
+</pre></div>
+</div>
+<p>charge mixing ブロックにおいては、以下のブロック/変数が利用できます。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>mixing_methods</p></td>
+<td></td>
+<td><p>電荷密度混合法を指定するためのテーブルです。</p>
+<p>電荷密度混合法はいくつでも定義することができます。実際に利用する混合法は、前節のsolversテーブルのcmix
+属性値によって指定します。cmix属性値では、利用したい電荷密度混合法を1始まりの定義順で指定します。このテーブルは、以下の属性値をもちます。</p>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>no</p></td>
+<td><p>正の整数。cmixと対応付けられる番号。
+この指定がない場合、methodなどを指定する行に1から順にnoが付加されます。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>method</p></td>
+<td><p>電荷密度混合のアルゴリズムを選びます。simple,
+broyden2,
+pulay, DFP
+のいずれかを選択することができます。simpleは単純混合法です。broyden2はBroydenの2番目の方法、pulayはPulayによるRMM-DIIS法です。
+DFPはDavidson-Fletcher-
+Powell法です。broyden2法、pulay法、DFP法は、いずれも準ニュートン法の一種です。mixing_methodsブロックを定義していない場合にはpulayが既定値になります。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>rmxs</p></td>
+<td><p>混合比パラメータrmxの初期値を0から1の間で指定します。既定値は0.5（mixing_methodsを定義してい
+ない場合の既定値は0.4）。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>rmxe</p></td>
+<td><p>混合比パラメータrmxの最終値を0から1の間で指定します。指定がない場合、rmxsが使われます。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>itr</p></td>
+<td><p>時間刻み幅を変化させるSCFの回数。既定値は100。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>var</p></td>
+<td><p>補間方法。選択肢:{linear, tanh}。既定値はlinear。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>prec</p></td>
+<td><p>前処理の有無を真偽値で指定します。通常onにします。また既定値もonです。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>istr</p></td>
+<td><p>method=simple以外のときに有効なパラメータです。0以上の整数を指定します（既定値は3）。
+broyden2、pulay、あるいはDFPが採用されている場合でも、SCF回数がistr+1に達するまではsimple法を使って電荷密度を混合します（少なとも一回はsimple法の適用が必要）。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>nbmix</p></td>
+<td><p>broyden2、pulay、あるいはDFPを選択している場合、過去の電荷密度の履歴を利用します。その履歴SCF回数を指定します（既定値は15）。</p></td>
+</tr>
+<tr class="row-odd"><td><p>charge_preconditioning</p></td>
+<td></td>
+<td><p>前処理の係数を設定します。
+amix, bmixというパラメータを同名の変数によってこのブロックの下で設定することができますが、通常設定しなくても問題ありません。
+複数の電荷密度混合法を使う場合でも共通したamix、bmixが使われます。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>amix</p></td>
+<td><p>0と1の間の実数を指定。既定値は1.0。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>bmix</p></td>
+<td><p>正の実数を指定。
+負の値を指定した場合、あるいは未設定の場合（-1が既定値として採用される）、後述の式の中の <span class="math notranslate nohighlight">\(G_0^2\)</span>
+を0.63として処理。</p></td>
+</tr>
+</tbody>
+</table>
+<p>prec=offとした場合（charge_preconditioningが無効な場合）、単純混合法が働いているSCF回（method=simple以外の場合も、SCF回数がistr+1に達するまでは単純混合法が働きます）には次の式に従って電荷密度を混合します。</p>
+<div class="math notranslate nohighlight">
+\[\rho_{\rm new} \leftarrow \left(1-{\rm rmx} \right) \rho_{\rm old} + {\rm rmx} \times \rho_{\rm new}\]</div>
+<p>補間方法の指定varがない場合（あるいはlinearが指定されている場合）は、 rmxsとrmxeの間を線形補間した値を混合比パラメータrmxとしますが、varにtanhが指定されている場合、SCFの回数 i （ここで i は原子座標や格子が変化したあとに１から数え直す数）におけるrmxは次の式に従って設定されます。</p>
+<div class="math notranslate nohighlight">
+\[{\rm rmx} = {\rm rmxs} + \frac{1}{2} \left( {\rm rmxe} - {\rm rmxs} \right) \left( tanh( 10 \times \frac{i-1}{\rm itr} - 5 ) + 1 \right)\]</div>
+<figure class="align-default" id="rmx-interpolation">
+<a class="reference internal image-reference" href="../_images/extract_rmxt.png"><img alt="../_images/extract_rmxt.png" src="../_images/extract_rmxt.png" style="width: 384.0px; height: 288.0px;" /></a>
+<figcaption>
+<p><span class="caption-number">図 4.4 </span><span class="caption-text">電荷密度混合比rmxの推移。設定はitr=30、rmxs=0.1、rmxe=0.8。</span><a class="headerlink" href="#rmx-interpolation" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>charge_preconditioningが有効の場合、以下の要領で <span class="math notranslate nohighlight">\(G\)</span> の成分ごとの混合比を変えます。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\rho_{\rm new}\left(G\right)  \leftarrow  \left(1-f\left(G\right)\right) \rho_{\rm old} \left(G\right) + f\left(G\right) \rho_{\rm new} \left( G \right), \\
+f\left( G \right)  =  \frac{ {\rm rmx} \times {\rm amix} } {1+ \left( \frac{G_0^2}{G^2} \right)}, \\
+G_0  =  {\rm bmix} \times G_{\rm min}\end{split}\]</div>
+<p>ここで、 <span class="math notranslate nohighlight">\(G_{\rm min}\)</span> は原点以外の最小の逆格子ベクトルの長さです。</p>
+<p>charge mixingグロックは次のように表記することも可能です（複数の収束法を利用する場合）。
+&quot;*&quot;は既定値を使うことを意味します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_mixing{
+    mixing_methods{
+        #tag no method rmxs rmxe  var  itr istr prec nbmix
+             1  simple 0.1  0.4  tanh  5   *    on   *
+             2  pulay  0.4   *    *    *   0    on  10
+    }
+}
+</pre></div>
+</div>
+</section>
+<section id="id33">
+<h3><span class="section-number">4.7.2. </span>収束を加速させるテクニック<a class="headerlink" href="#id33" title="この見出しへのパーマリンク"></a></h3>
+<p>ここでは、SCF計算がなかなか収束しない場合について試すことのできるテクニックを紹介します。</p>
+<p>部分空間対角化</p>
+<p>部分空間対角化の有効/無効の設定は、変数submat
+によって制御することができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wavefunction_solver{
+  solvers{
+    #tag sol till_n  dts  dte  itr  var     prec  cmix submat
+        lmMSD -1 0.2  1.0  40 linear  on 1 on
+  }
+}
+</pre></div>
+</div>
+<p>部分空間対角化の適用を、波動関数を更新する前に適用するか後に適用するかによって収束の振る舞いが変化します。
+これは、特にRMM法を利用している場合に大きな影響を与えます。
+デフォルトの振る舞いでは波動関数更新前に部分空間対角化が適用されますが、
+波動関数更新後にする場合には以下のように変数before_renewalをoffとします（経験的には、before_renewal=onの方が収束性がよい場合が多いです）。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wavefunction_solver{
+  solvers{
+    #tag sol till_n  dts  dte  itr  var     prec  cmix submat
+        lmMSD -1 0.2 1.0 40 linear on 1 on
+    }
+    submat{
+      before_renewal=off
+    }
+}
+</pre></div>
+</div>
+<p>また、部分空間対角化はバンド数が多い方がより有効に作用します。バンド数を増やせばそれだけ計算量も増えますが、この効果によって全体の計算時間は短くなる場合もあります。</p>
+<p>SCF 計算をある回数で打ち切る方法</p>
+<p>初期の原子配置が安定な原子配置から遠い場合、SCF計算を収束させるのに多くの繰り返し計算が必要となる場合があります。このような場合は、たとえ電子状態が充分に収束していなくとも構造最適化をすすめることによって結果的に正しい解へより少ない計算時間で到達することができる場合があります。そこで、入力の指定の収束条件を満たしていなくとも収束したとみなし、構造最適化を進める機能がPHASEには備わっています。この機能を利用するためには、controlブロックの下でmax_scf_iteration変数を設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+   ...
+   max_scf_iteration = 50
+}
+</pre></div>
+</div>
+<p>この例では、50 回のSCF
+計算を行っても収束判定を満たせなかった場合、その時点で至っている電子状態を利用して原子間力を計算し、構造最適化を進行させます。</p>
+<p>電荷密度の差の混合比を変更する方法</p>
+<p>スピンを考慮している場合、電荷密度混合は全電荷とスピン電荷密度（アップスピンの電荷密度とダウンスピンの電荷密度の差）に分離して混合します。全電荷とスピン電荷の混合比をそれぞれ違う値に設定することが可能です。このような設定を行うには、下記の要領でspin_density_mixfactor変数を定義します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_mixing{
+  spin_density_mixfactor = 4
+  mixing_methods{
+    #tag   no  method rmxs rmxe prec istr nbmix update
+        1   broyden2  0.1 0.1 on 3 15 renew
+  }
+}
+</pre></div>
+</div>
+<p>この例の場合、spin density mixfactor は4
+であり、電荷密度の差の混合比は0.1 × 4 = 0.4
+という値が採用されます。全電荷とスピン電荷を混合するのではなくアップスピンの電荷密度とダウンスピンの電荷密度を直接混合する場合、以下の要領でsw
+recomposing 変数にoff を設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_mixing{
+  sw_recomposing = off
+  ...
+}
+</pre></div>
+</div>
+<p>スピン電荷密度の混合に利用するアルゴリズムを変更する</p>
+<p>スピン電荷密度に対して、強制的に単純混合法を採用することも可能です。このような設定は、以下のようにspin_density ブロックを作成し、sw_force_simple_mixing変数を定義しその値をon
+とします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_mixing{
+  sw_recomposing=on
+  spin_density_mixfactor = 4
+  mixing_methods{
+    #tag no method rmxs rmxe prec istr nbmix update
+          1   broyden2  0.1 0.1 on 3 15 renew
+  }
+  spin_density{
+    sw_force_simple_mixing = on
+  }
+}
+</pre></div>
+</div>
+<p>スピンを固定する方法</p>
+<p>一定の間スピンを固定してSCF計算を行うと収束性が改善する場合があります。この設定は、下記の要領でstructureブロックの下にferromagnetic_stateブロックを作成し行います</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  ...
+  ferromagnetic_state{
+    sw_fix_total_spin = on
+    spin_fix_period = INITIALLY
+    total_spin = 1.0
+  }
+  ...
+}
+</pre></div>
+</div>
+<p>ferromagnetic_stateブロックでは以下の変数を利用することができます。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>sw_fix_total_spin</p></td>
+<td><p>&quot;on&quot;とした場合、スピンを固定した計算を行います</p></td>
+</tr>
+<tr class="row-even"><td><p>spin_fix_period</p></td>
+<td><p>スピン固定の方法を指定します。</p>
+<p>&quot;INITIALLY&quot;を指定した場合、SCF計算の初期は固定し、すこしずつ拘束を外していきます。&quot;WHOLE&quot;と指定した場合、計算終了までスピンを固定します。整数を指定した場合、その回数だけ固定しあとは通常の計算を行います。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>total_spin</p></td>
+<td><p>アップスピンとダウンスピンの差を指定します。単位胞全体の値を指定してください。</p></td>
+</tr>
+</tbody>
+</table>
+<p>欠損電荷を混合する方法</p>
+<p>PAW法を利用している場合、欠損電荷の混合が行われます。DFT+U法を利用している場合、占有行列の混合が行われますが、これも実質上は欠損電荷の混合をおこなっていることと同等です。この混合に対して通常の電荷密度と同様のアルゴリズムで混合させるには、以下のようにcharge_mixingブロックにsw_mix_charge_hardpart変数を定義し、その値をonにします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_density{
+  ...
+  sw_mix_charge_hardpart = on
+  ...
+}
+</pre></div>
+</div>
+<p>このように設定することによって、PAW法およびDFT+U法利用時の収束性が向上する場合があります。PAW法とDFT+U法を利用する場合は、このパラメータのデフォルト値はonです。</p>
+</section>
+</section>
+<section id="input-param-wfsol2">
+<span id="id34"></span><h2><span class="section-number">4.8. </span>波動関数ソルバーおよび電荷密度混合法の自動設定<a class="headerlink" href="#input-param-wfsol2" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASEに搭載されている波動関数ソルバーには、MSD法、lm+MSD法、Davidson法、CG法、RMM法、直接対角化法などの基本ソルバーと補助ソルバーとしてのsubspace
+rotationがあります。さらに、電荷密度混合法として単純混合法、Pulay法、Broydenによる2番目の方法などを搭載しています。これらを、問題に応じて適切に組み合わせることによって高速な収束が期待できます。しかし、このように問題に応じて適切に組み合わせるのは非常に手間がかかる作業です。そこで、PHASEには、適切な波動関数ソルバーや電荷密度混合法をプログラムが自動的に選択する機能があります。この機能は、様々な系に対し収束させることができるようになっていますが、もしなかなか収束させられない場合は、手動で波動関数ソルバーや電荷密度ミキサーの設定を行ってください。</p>
+<p>「ソルバーセット」は、利用したい計算機能や並列数、バンド数などに応じて自動的に適切なものが採用される仕組みになっているので、利用にあたって特に気にする必要な項目はありません。この自動選択機能は,
+波動関数に関してはwavefunction_solverブロックの下のsolversブロックが、電荷密度に関してはcharge_mixingブロックの下のmixing_methodsブロックが<em>存在しない場合</em>に有効となるので、本機能を利用したい場合は上述の設定を削除するかコメントアウトしてください。wavefunction_solverブロックは存在していても構わないので、ソルバーに関する詳細設定が必要な場合は対応するサブブロックにおいて行います。たとえば、本機能を利用しつつrmmソルバーは収束が10<sup>-6</sup>
+hartreeよりもよくなったタイミングで利用したい場合は、以下のような記述を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wavefunction_solver{
+  rmm{
+    edelta_change_to_rmm = 1e-6 hartree
+  }
+}
+</pre></div>
+</div>
+<p>また、本機能の関連機能として、利用したい電荷密度混合法が1種類のみの場合、以下の簡易表記が利用可能となっています。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_mixing{
+  method = pulay
+  rmx = 0.2
+  istr = 4
+  nbxmix = 10
+}
+</pre></div>
+</div>
+<p>各変数は、以下のような意味を持ちます。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>method</p></td>
+<td><p>電荷密度混合の手法を選択します。simple, broyden2, pulay</p>
+<p>のいずれかが有効。simpleは単純混合法、broyden2法はBroydenによる2番目の方法、pulay法はPulayによるDIIS法です。デフォルト値はpulay.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>rmx</p></td>
+<td><p>混合比を指定します。デフォルト値は0.4
+(スピンを考慮していない場合), 0.1
+(スピンを考慮している場合)</p></td>
+</tr>
+<tr class="row-odd"><td><p>istr</p></td>
+<td><p>broyden2法ないしpulay法を採用している場合に、はじめ何回をsimple法で混合するかを指定します。デフォルト値は3
+(スピンを考慮していない場合)、5 (スピンを考慮している場合)</p></td>
+</tr>
+<tr class="row-even"><td><p>nbxmix</p></td>
+<td><p>broyden2法ないしpulay法を採用している場合に、電荷密度の履歴を保持しておく回数を指定します。デフォルト値は15
+(スピンを考慮していない場合), 5
+(スピンを考慮している場合).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="structure-evolution">
+<h2><span class="section-number">4.9. </span>構造最適化 (Structure_evolution)<a class="headerlink" href="#structure-evolution" title="この見出しへのパーマリンク"></a></h2>
+<p>構造最適化、分子動力学法計算に関するパラメータは、structure_evolutionブロックで指定します。</p>
+<section id="id35">
+<h3><span class="section-number">4.9.1. </span>構造最適化<a class="headerlink" href="#id35" title="この見出しへのパーマリンク"></a></h3>
+<p>structure_evolution ブロックに、構造最適化の設定をします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>...
+structure_evolution{
+    method = quench
+    dt = 50
+    ...
+}
+...
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>method</p></td>
+<td><p>構造緩和の方法を指定します。</p>
+<p>構造緩和のオプションとして、quench
+(quenched MD法)、cg (CG法)、cg2法（改良CG法）、gdiis
+(GDIIS法), bfgs (BFGS法), fire (FIRE法), lbfgs (L-BFGS法)
+のいずれかが選べます。デフォルト値はbfgsです。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>dt</p></td>
+<td><p>構造緩和を行う際の時間刻みです。大きい方が早く収束へいたりますが、大きすぎると計算を正しく進行させることができなくなる場合があります。
+quenchおよびgdiisの場合に意味を持ちます。デフォルト値は原子単位で100です。構造最適化の場合は、このパラメータは数値解法の都合で導入しているものであり、物理的な意味はありません。</p></td>
+</tr>
+</tbody>
+</table>
+<p>GDIIS法, BFGS法, L-BFGS法は原子に働く力が大きい場合安定に計算できない場合があるので、力が大きい内はquenched MD法かCG法を利用し、
+ある程度力が小さくなってからGDIIS/BFGS/L-BFGS法に切り替える、という動作をします。GDIIS/BFGS/L-BFGS法に切り替える前の最適化手法と切り替えの判定条件は、それぞれ変数initial_methodとc_forc2gdiisを利用して
+次のように設定します.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure_evolution{
+    method = gdiis
+    dt = 50
+    gdiis{
+        initial_method = cg
+        c_forc2gdiis = 0.0025 hartree/bohr
+    }
+}
+...
+</pre></div>
+</div>
+<p>ブロック名は、GDIIS,
+BFGS, L-BFGS共通でgdiisです。デフォルト値はinitial_methodがcg,
+c_forc2gdiisが0.05 hartree/bohr です。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>gdiis</p></td>
+<td></td>
+<td><p>GDIIS およびBFGS を選択する場合のタグ</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>initial_method</p></td>
+<td><p>GDIIS (BFGS) へ移行する前に利用する最適化</p>
+<p>アルゴリズム。選択肢：{ quench, cg,
+cg2, sd }, デフォルト値はcg2</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>gdiis_box_size</p></td>
+<td><p>ここで指定するイオン座標更新回数分のデータをgdiis(bfgs)用配列に蓄える</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>gdiis_hownew</p></td>
+<td><p>gdiis_box_sizeで指定した回数分のイオン座標のデータ配列を使い切った時の処理法の選択</p>
+<p>選択肢：{anew, renew},
+デフォルト値はrenew</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>c_forc2gdiis</p></td>
+<td><p>GDIIS (BFGS) への切替えの判定条件</p>
+<p>デフォルト値は0.05 (hartree/bohr)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<section id="limited-memory-bfgs-2021-01">
+<span id="basics-lbfgs-section"></span><h4><span class="section-number">4.9.1.1. </span>limited-memory BFGS法による構造最適化 (バージョン2021.01以降)<a class="headerlink" href="#limited-memory-bfgs-2021-01" title="この見出しへのパーマリンク"></a></h4>
+<p><strong>概要</strong></p>
+<p>PHASE/0には構造最適化手法としてquench法、CG法、GDIIS法、BFGS法、FIRE法などが搭載されています。バージョン2021.01以降、文献 <a class="reference internal" href="#hjorth17" id="id36"><span>[Hjorth17]</span></a> のlimited-memory BFGS法 (l-BFGS法)が選択肢に加わりました。
+通常のl-BFGS法のほか、文献において提案されている前処理を施すこともできるようになっています。</p>
+<p><strong>l-BFGS法について</strong></p>
+<p>limited-memory BFGS法とは、BFGS法を効率化した最適化手法です。ヘッセ行列をメモリーに明示的に持つのではなく、iterationごとに構築していくことに特徴を持つ手法です。ヘッセ行列をあらわに持たないため、メモリー要求が小さいことが名称のlimited memoryの由来です。そのアルゴリズムの擬コードは、以下のように記述することができます。</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbfgs1">
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-eq-lbfgs1" title="この数式へのパーマリンク"></a></span>\[\begin{split}s_{k-1} = x_k - x_{k-1} \\
+y_{k-1} = g_k - g_{k-1} \\
+\rho_k = \frac{1}{s_k y_k} \\
+q = g_k \\
+{\rm do \quad }i=k-1, k-2, ..., k-m \\
+\alpha_i = \rho_i s_i q \\
+q = q-\alpha_i y_i \\
+{\rm end do} \\
+\gamma_k = \frac{s_{k-1} y_{k-1}}{y_{k-1} y_{k-1}} \\
+H_k^0 = \gamma_k I \\
+z = q H_k^0 \\
+{\rm do \quad }i=k-m, k-m+1, ..., k-1 \\
+\beta_i = \rho_i y_i z \\
+z = z+s_i \left( \alpha_i - \beta_i \right) \\
+{\rm end do} \\
+x_{k+1} = x_k - \alpha_k z\end{split}\]</div>
+<p>ここで <span class="math notranslate nohighlight">\(x_k, g_k`は :math:`k\)</span> 回目のiterationにおける座標データとエネルギーの座標微分、 <span class="math notranslate nohighlight">\(H_k^0\)</span> は初期ヘッセ行列の推定値に相当する行列です。
+その行列要素は <a class="reference internal" href="#equation-eq-lbfgs1">(4.6)</a> のように <span class="math notranslate nohighlight">\(H_k^0 = \gamma_k I\)</span> と計算することが一般的ですが、これを以下のような前処理行列で置き換えることが文献では提案されています。</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbfgs2">
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-eq-lbfgs2" title="この数式へのパーマリンク"></a></span>\[\begin{split}P_{ij} =
+-\mu \exp \left( -A \left( \frac{r_{ij}}{r_{nn}}-1 \right) \right) ,  r_{ij}  &lt; r_{\rm cut}, \\
+                                                                 0 ,  r_{ij}  &gt; r_{\rm cut}\end{split}\]</div>
+<p>ここで <span class="math notranslate nohighlight">\(A, \mu, r_{nn}, r_{\rm cut}\)</span> は任意に設定できるパラメーターです。
+文献によると <span class="math notranslate nohighlight">\(A\)</span> はあまり結果を左右しないようです。文献でも採用されている3という値をデフォルト値としています。 <span class="math notranslate nohighlight">\(r_{nn}\)</span> は最近接間距離の最大値であり、
+原子配置から自動的に決まる値です。 <span class="math notranslate nohighlight">\(r_{\rm cut}\)</span> はカットオフ距離に相当します。典型的には <span class="math notranslate nohighlight">\(r_{nn}\)</span> の2倍という値にります。
+最も結果を左右するパラメーターが <span class="math notranslate nohighlight">\(\mu\)</span> です。このパラメーターは小さい方が速い収束が見込めますが、小さくし過ぎるとロバスト性が損なわれてしまいます。
+PHASE/0のデフォルトの振る舞いとしては、前処理行列の行列要素の大きさが結果としておおむね通常のl-BFGS法の <span class="math notranslate nohighlight">\(\gamma_k\)</span> と同程度の値になるような値が採用されます。</p>
+<p><strong>使い方</strong></p>
+<p>構造最適化の設定は、入力パラメーターファイルのstructure_evolutionブロックにおいて行います。l-BFGS法を用いる場合、典型的には下記のような指定になります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">structure_evolution</span><span class="p">{</span>
+  <span class="n">method</span> <span class="o">=</span> <span class="n">lbfgs</span>
+  <span class="n">lbfgs</span><span class="p">{</span>
+    <span class="n">c_iteration2gdiis</span><span class="o">=</span><span class="mi">3</span>
+    <span class="n">c_forc2gdiis</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">gdiis_box_size</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">initial_method</span> <span class="o">=</span> <span class="n">cg2</span>
+    <span class="n">maxstep</span> <span class="o">=</span> <span class="mf">0.1</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>タグmethodにlbfgsを指定するとl-BFGS法を利用することができます。Limited-memory BFGS法（および通常のBFGS法、GDIIS法）の詳細設定は、structure_evolutionブロックの下のlbfgsブロック(bfgs, gdiisも可)において行うことができます。lbfgsブロック(もしくはbfgs, gdiisブロック)において設定できる主なパラメーターは下記の通り。</p>
+<table class="docutils align-default" id="lbfgs-table1">
+<caption><span class="caption-number">表 4.7 </span><span class="caption-text">l-BFGS法の詳細設定</span><a class="headerlink" href="#lbfgs-table1" title="このテーブルへのパーマリンク"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>タグ名</p></td>
+<td><p>説明</p></td>
+</tr>
+<tr class="row-even"><td><p>c_iteration2gdiis</p></td>
+<td><p>lbfgs法、bfgs法、gdiis法は計算の最初期から適用されるわけではなく、はじめは閾値を満たすまでは別の最適化手法が用いられます。閾値を満たしたあと、このタグの指定の回数経てからlbfgs法 (もしくはbfgs法、gdiis法)にに移行します。デフォルト値は3.</p></td>
+</tr>
+<tr class="row-odd"><td><p>c_forc2gdiis</p></td>
+<td><p>lbfgs法、bfgs法、gdiis法へ移行する際の閾値を力の単位で指定します。デフォルト値は0.05 hartree/bohr</p></td>
+</tr>
+<tr class="row-even"><td><p>gdiis_box_size</p></td>
+<td><p>lbfgs法、bfgs法、gdiis法の履歴の大きさ。デフォルト値は6.</p></td>
+</tr>
+<tr class="row-odd"><td><p>initial_method</p></td>
+<td><p>lbfgs法、bfgs法、gdiis法へ移行する前の構造最適化手法を指定します。デフォルト値はcg2.</p></td>
+</tr>
+<tr class="row-even"><td><p>maxstep</p></td>
+<td><p>lbfgs法において、最適化1回で原子が動ける距離の最大値を長さの単位で指定します。デフォルト値は0.1 bohr. この設定値はlbfgs法の場合のみ利用できます。</p></td>
+</tr>
+</tbody>
+</table>
+<p>多くのタグ名がGDIIS法にちなんだものとなっているのは、本機能がGDIIS法の履歴活用手法を用いているためです。</p>
+<p>Limited-memory BFGS法は、上述の通り前処理行列を作用させることができます。その設定は、下記の要領で行います。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">structure_evolution</span><span class="p">{</span>
+  <span class="n">method</span> <span class="o">=</span> <span class="n">lbfgs</span>
+  <span class="o">...</span>
+  <span class="n">sw_prec</span> <span class="o">=</span> <span class="n">on</span>
+  <span class="n">prec</span><span class="p">{</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>structure_evolutionブロックにおいてsw_prec = onとすると前処理が有効になります。前処理の詳細設定はprecブロックにおいて行います。設定できるパラメーターは下記の通り。</p>
+<table class="docutils align-default" id="lbfgs-table2">
+<caption><span class="caption-number">表 4.8 </span><span class="caption-text">l-BFGS法の詳細設定</span><a class="headerlink" href="#lbfgs-table2" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>タグ名</p></td>
+<td><p>説明</p></td>
+</tr>
+<tr class="row-even"><td><p>A</p></td>
+<td><blockquote>
+<div><p><a class="reference internal" href="#equation-eq-lbfgs2">(4.7)</a> のパラメーター <span class="math notranslate nohighlight">\(A\)</span> . デフォルト値は3.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-odd"><td><p>mu</p></td>
+<td><blockquote>
+<div><p><a class="reference internal" href="#equation-eq-lbfgs2">(4.7)</a> のパラメーター <span class="math notranslate nohighlight">\(\mu\)</span> . 負の値を指定すると、履歴に応じた最適値が自動的に計算されます。正の値の場合はその値がそのまま利用されます。デフォルト値は-1.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>例題</strong></p>
+<p>PHASE/0の構造最適化の例題は、 <code class="code docutils literal notranslate"><span class="pre">samples/structural_evolution</span></code> 以下に用意されています。
+すべての例題についてquench, bfgs, cg2, gdiisの例題が用意されていますが、ここにlbfgsディレクトリーを追加しました。
+PHASE/0付属の例題を用いて、CG2, BFGS, l-BFGS法が収束するまでに要したionic iterationの回数を以下に報告します。</p>
+<table class="docutils align-default" id="lbfgs-table3">
+<caption><span class="caption-number">表 4.9 </span><span class="caption-text">l-BFGS法の詳細設定</span><a class="headerlink" href="#lbfgs-table3" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>系</p></td>
+<td><p>CG2</p></td>
+<td><p>BFGS</p></td>
+<td><p>l-BFGS</p></td>
+</tr>
+<tr class="row-even"><td><p>Si(001)面</p></td>
+<td><p>84</p></td>
+<td><p>102</p></td>
+<td><p>63</p></td>
+</tr>
+<tr class="row-odd"><td><p>SiO <sub>2</sub> 結晶</p></td>
+<td><p>15</p></td>
+<td><p>15</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-even"><td><p>TiO <sub>2</sub> 結晶</p></td>
+<td><p>21</p></td>
+<td><p>31</p></td>
+<td><p>17</p></td>
+</tr>
+<tr class="row-odd"><td><p>ジクロロシクロヘキサン</p></td>
+<td><p>77</p></td>
+<td><p>60</p></td>
+<td><p>45</p></td>
+</tr>
+</tbody>
+</table>
+<p>この表から、おおむねl-BFGS法が高速であることが分かります。必ずよい結果が得られるとは限りませんが、多くの問題でここで見たような傾向が見られており、
+l-BFGS法は有力なオプションであると言えます。</p>
+<div role="list" class="citation-list">
+<div class="citation" id="hjorth17" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id36">Hjorth17</a><span class="fn-bracket">]</span></span>
+<p>Ask Hjorth Larsen et al. J. Phys.: Condens. Matter 29 (2017) 273002.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="id37">
+<h3><span class="section-number">4.9.2. </span>分子動力学法計算<a class="headerlink" href="#id37" title="この見出しへのパーマリンク"></a></h3>
+<p>分子動力学法計算に関するパラメータは、structure_evolutionブロックで指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure_evolution{
+    method = velocity_verlet
+    dt = 100
+}
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>method</p></td>
+<td></td>
+<td><p>原子座標の更新方法を指定する。分子動力学シミュレーションの場合、</p>
+<p>velocity_verlet
+(エネルギー一定の分子動力学シミュレーション)</p>
+<p>temperature_control
+(Nosé-Hoover熱浴
+による温度一定の分子動力学シミュレーション)</p>
+<p>velocity_scaling(速度スケーリングによる温度一定の分子動力学シミュレーション)のいずれか</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>dt</p></td>
+<td></td>
+<td><p>時間刻みを指定する。</p>
+<p>デフォルト値は100 au (約2.4 fs)</p>
+<p>分子動力学の場合、構造最適化の場合と異なり物理的な意味のある量である。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>thermostat</p></td>
+<td></td>
+<td><p>熱浴を定義するブロック。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>temp</p></td>
+<td><p>温度を指定する。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>qmass</p></td>
+<td><p>熱浴の質量を指定する。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>tdamp</p></td>
+<td><p>熱浴の&quot;周期&quot;を指定する。ここで指定された周期から逆算して熱浴の質量がもとまる。qmassとtdampが混在する場合、qmassの指定が優先される。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="input-param-wfpred">
+<span id="id38"></span><h3><span class="section-number">4.9.3. </span>構造更新時の電荷密度、波動関数の予測更新（収束性の向上）<a class="headerlink" href="#input-param-wfpred" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEには、構造最適化や分子動力学シミュレーションを行っている際に、波動関数や電荷密度を原子配置の変化に合わせて“補外”することによって収束性を向上させる機能が備わっています。補外は <a class="reference internal" href="#arias94" id="id39"><span>[Arias94]</span></a> で紹介されている方法によって行っています。</p>
+<p>この機能を利用するには、structure_evolutionブロックにpredictorブロックを作成し、そこで本機能に関する設定を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure_evolution{
+  predictor{
+    sw_charge_predictor = on
+    sw_extrapolate_charge = on
+    sw_wf_predictor = on
+  }
+}
+</pre></div>
+</div>
+<p>predictorブロックで定義できる変数です。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>predictor</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>sw_charge_predictor</p></td>
+<td><p>電荷の予測を行うかどうかを指定するスイッチ。</p>
+<p>デフォルト値はon</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>sw_extrapolate_charge</p></td>
+<td><p>予測の際に電荷密度の補外を行うかどうかを指定するスイッチ。デフォルト値はon</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>sw_wf_predictor</p></td>
+<td><p>波動関数の予測を行うかどうかを指定するス
+イッチ。デフォルト値はoff</p></td>
+</tr>
+</tbody>
+</table>
+<p>また、printoutlevelに変数ipripredictorを定義し、その値を2以上にすると補外をする際に原子配置の予測の精度やなどの情報がログファイルに出力されます。</p>
+<div role="list" class="citation-list">
+<div class="citation" id="arias94" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id39">Arias94</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="20">
+<li><p>Arias, M. C. Payne and J. D. Joannopoulos, “<em>Ab initio</em> molecular-dynamics techniques extended to large-length-scale systems”, Physical Review B <strong>45</strong>, 1538 (1992).</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="id40">
+<h3><span class="section-number">4.9.4. </span>ストレステンソル計算<a class="headerlink" href="#id40" title="この見出しへのパーマリンク"></a></h3>
+<p>ストレステンソル計算を行うには、structure_evolutionブロックのstressブロックで指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure_evolution{
+  stress{
+    sw_stress=1
+  }
+}
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>stress</p></th>
+<th class="head"></th>
+<th class="head"><p>ストレス計算</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>sw_stress</p></td>
+<td><p>ストレス計算の有無。選択肢：{ on,off }</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="postproccesing">
+<h2><span class="section-number">4.10. </span>後処理（Postproccesing）<a class="headerlink" href="#postproccesing" title="この見出しへのパーマリンク"></a></h2>
+<section id="dos">
+<h3><span class="section-number">4.10.1. </span>状態密度（DOS）<a class="headerlink" href="#dos" title="この見出しへのパーマリンク"></a></h3>
+<p>SCF計算が収束したのち、状態密度の計算を行うことができます。電荷密度の計算を行うには、postprocessingブロックの下のdosブロックで設定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postprocessing{
+    dos{
+        sw_dos = on
+        method = gaussian
+        deltaE_dos = 1e-4 hartree
+    }
+}
+</pre></div>
+</div>
+<p>dos ブロックでは以下の設定を行うことができます。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>sw_dos</p></td>
+<td><p>状態密度計算を行うかどうかを指定する真偽値です。</p>
+<p>状態密度の計算を行う場合onとします。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>method</p></td>
+<td><p>状態密度の計算方法を指定します。gaussianとtetrahedralのいずれかを選択することができます。gaussianを選択した場合、エネルギー準位をガウス関数によって幅を持たせた上で計算した状態密度が得られます。tetrahedralの場合四面体法による高精度な状態密度計算を行うことができます。ただしtetrahedralを利用する場合後述の四面体法が利用できる条件もご参照ください。</p></td>
+</tr>
+<tr class="row-odd"><td><p>deltaE_dos</p></td>
+<td><p>状態密度計算に利用されるエネルギーの幅をハートリー単位で指定します。デフォルト値は1e-4
+hartreeです。</p></td>
+</tr>
+</tbody>
+</table>
+<p>状態密度の計算方法としてtetrahedralを利用する場合、以下の条件が満たされている必要があります。</p>
+<ul class="simple">
+<li><p>k点サンプリング手法としてmesh 法を採用している</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  ksampling{
+    method = mesh
+  }
+}
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>smearing の方法としてtetrahedral 法を採用している</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  smearing{
+    method = tetrahedral
+  }
+}
+</pre></div>
+</div>
+<p>以上が満たされていないとgaussian
+法による状態密度計算が行われてしまうのでご注意ください。</p>
+</section>
+<section id="id41">
+<h3><span class="section-number">4.10.2. </span>電荷密度<a class="headerlink" href="#id41" title="この見出しへのパーマリンク"></a></h3>
+<p>SCF計算中は逆空間で電荷密度を扱いますが、収束した電荷密度を実空間に逆フーリエ変換し、出力させることも可能です。こうすることによってPHASE-Viewerなどを利用して電荷密度の可視化を行うことが可能です。電荷密度を実空間に出力させるためには、postprocessingの下のchargeブロックで設定を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postprocessing{
+  charge{
+    sw_charge_rspace = on
+    filetype = cube
+  }
+}
+</pre></div>
+</div>
+<p>chargeブロックの下では以下の変数の設定を行います。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>sw_charge_rspace</p></td>
+<td><p>電荷密度を実空間で出力するかどうかを指定する真偽値です。</p>
+<p>onにすると実空間の電荷密度が出力されます。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>filetype</p></td>
+<td><p>電荷密度データのデータフォーマットを指定します。density_onlyとcubeが選べます。density_onlyの場合電荷密度のみが出力されます。
+デフォルト値はdensity_onlyです。cubeの場合、Gaussian
+Cube形式で電荷密度が出力されます。このパラメータは、cubeに設定することを推奨します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>title</p></td>
+<td><p>Gaussian
+Cubeファイルの&quot;見出し&quot;指定します。空白文字を含める場合、全体を半角の2重引用符で囲みます。</p></td>
+</tr>
+</tbody>
+</table>
+<p>また、filetypeとしてcubeを選択した場合、file_names.dataファイルにおいて電荷密度ファイルのファイル名を変更しておくことを推奨します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+...
+F_CHR = &#39;./nfchr.cube&#39;
+/
+</pre></div>
+</div>
+<p>変更しない場合のデフォルト値はnfchr.dataです。</p>
+<p>スピン分極を考慮している場合は、file_names.dataで指定したファイル名がnfchr.cubeであったとすると、nfchr.up.cubeとnfchr.down.cubeという2つのファイルにそれぞれスピンアップ・ダウン
+に対応する電荷密度データが出力されます。</p>
+</section>
+<section id="id42">
+<h3><span class="section-number">4.10.3. </span>構造最適化/分子動力学シミュレーションの最中に後処理を行う方法<a class="headerlink" href="#id42" title="この見出しへのパーマリンク"></a></h3>
+<p>ここで説明した後処理は、特に設定が施されていない場合力が収束した後に実行されます。構造最適化や分子動力学シミュレーションの最中に後処理を行いたい場合、以下のような記述を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postprocessing{
+  ...
+  frequency = 5
+}
+</pre></div>
+</div>
+<p>変数 frequency に正の値を指定した場合、指定した回数に 1
+回の頻度で後処理が行われるようになります。結果は、状態密度の場合は
+dos_iterxx.data ファイル、電荷密度は nfchr_iterxx.data
+ファイルに記録されます（xxは原子配置の更新回数に相当する数値に読み替えてください）。なお、この機能によって出力できるのは、状態密度と電荷密度のみです。</p>
+</section>
+</section>
+<section id="printlevel">
+<h2><span class="section-number">4.11. </span>ログレベル（PrintLevel）<a class="headerlink" href="#printlevel" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASEはoutput000というファイル（000は計算を行うたびに1ずつ増えます）にログを記録します。そのログの詳細度の設定はprintoutlevelブロックで行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>printoutlevel{
+  base = 1
+}
+</pre></div>
+</div>
+<p>最上位にprintoutlevelブロックを作成し、その下にログレベルを制御する変数を定義します。ログレベルを制御するための変数は
+0,1,2のいずれかの値をとり、数字が大きいほどより詳細な出力が得られます。デフォルト値はすべて1です。
+ログレベルを制御する変数として主なものは以下の通りです。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>base</p></td>
+<td><p>計算全体のログレベルを指定します。特に指定のない項目はここでの指定に従います。</p></td>
+</tr>
+<tr class="row-even"><td><p>timing</p></td>
+<td><p>計算時間に関わるログレベルを制御します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>input</p></td>
+<td><p>入力に関わるログレベルを制御します。</p></td>
+</tr>
+<tr class="row-even"><td><p>solver</p></td>
+<td><p>波動関数ソルバーに関わるログレベルを制御します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>spg</p></td>
+<td><p>空間群に関わるログレベルを制御します。</p></td>
+</tr>
+</tbody>
+</table>
+<p>base=2に設定すると膨大な量の出力が得られ、ログファイルが見づらくなってしまいます。得られる情報のほとんどはデバッグ情報なので、特別な事情がない限りbase=2は指定しないことを推奨します。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../first_step/first_step.html" class="btn btn-neutral float-left" title="3. PHASE/0の基本的な利用方法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../basics/basics.html" class="btn btn-neutral float-right" title="5. 基本機能を利用した計算例" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, PHASEシステム研究会.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

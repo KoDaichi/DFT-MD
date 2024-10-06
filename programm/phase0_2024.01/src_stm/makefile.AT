@@ -1,0 +1,3 @@
+F90 = nfort -O2 -fpp
+LINK = $(F90)
+

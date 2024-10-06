@@ -1,0 +1,12 @@
+ &fnames
+ F_POT(1) = '../../../pp/H_ggapbe_paw_nc_01m.pp'
+ F_POT(2) = '../../../pp/C_ggapbe_paw_us_01.pp'
+ F_POT(3) = '../../../pp/N_ggapbe_paw_us_01m.pp'
+ F_POT(4) = '../../../pp/O_ggapbe_paw_us_02m.pp'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = './nfchgt.data'
+ F_ENF    = './nfefn.data'
+ F_ENERG  = './nfenergy.data'
+ F_CNTN   = './continue.data'
+ F_ZAJ    = './zaj.data'
+/

@@ -1,0 +1,72 @@
+Control{
+    cpumax = 1000000000 day
+    condition = initial
+}
+accuracy{
+    paw = off
+    ksampling{
+        mesh{
+            nx = 4
+            ny = 4
+            nz = 8
+        }
+        method = monk
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 16
+    cutoff_wf = 36 rydberg
+    cutoff_cd = 324 rydberg
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         Sn 50 216393.767
+    }
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz
+             Sn 0.0 0.25 0.375
+             Sn 0.0 0.75 0.625
+        }
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 5.918393 0.00 0.00
+        b_vector = 0.00 5.918393 0.00
+        c_vector = 0.00 0.00 3.232271381
+    }
+    symmetry{
+        tspace{
+            lattice_system = bodycentered
+        }
+        method = automatic
+    }
+    unit_cell_type = Bravais
+}
+
+Phonon{
+    displacement = 0.1
+    sw_vibrational_modes = on
+    lattice{
+        l1 = 2
+        l2 = 2
+        l3 = 2
+    }
+    dos{
+        mesh{
+            nx = 10
+            ny = 10
+            nz = 10
+        }
+    }
+    sw_calc_force = on
+    method = dos
+    sw_phonon = on
+}
+

@@ -1,0 +1,70 @@
+control{
+    condition = initial
+}
+accuracy{
+    cutoff_wf = 25.0 Rydberg
+    cutoff_cd = 100.0 Rydberg
+
+    ksampling{
+        method = monk ! {mesh|file|directin|gamma}
+        mesh{
+            nx = 12, ny = 12, nz = 12
+        }
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+   force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+
+    num_bands = 20
+
+!    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge_density
+
+     smearing{
+               method = parabolic
+               width  = 0.002 hartree
+        }
+     xctype  = tb09
+}
+structure{
+    unit_cell_type = bravais
+    unit_cell{
+         a = 10.389006977
+         b = 10.389006977
+         c = 10.389006977
+         alpha = 90, beta = 90, gamma = 90
+    }
+    symmetry{
+         method = automatic
+         tspace{
+             lattice_system = facecentered
+         }
+    }
+    atom_list{
+         atoms{
+         #tag  rx       ry         rz     element
+             0.00     0.00     0.00    Al
+             0.25    0.25      0.25     P
+        }
+    }
+    element_list{ #tag element  atomicnumber
+                         Al        13
+                         P         15
+    }
+}
+Charge_mixing{
+!    sw_mix_charge_with_ekindens = on
+     mixing_methods{
+        #tag no   method   rmxs
+              1  pulay  0.40
+     }
+}
+postprocessing{
+   dos{
+       sw_dos = on
+   }
+}

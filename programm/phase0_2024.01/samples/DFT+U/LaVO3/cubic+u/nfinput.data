@@ -1,0 +1,122 @@
+Control{
+	condition = initial
+	cpumax = 1 day    ! {sec|min|hour|day}
+	max_iteration = 60000
+}
+
+accuracy{
+	cutoff_wf =  25.00  rydberg
+	cutoff_cd = 230.00  rydberg
+	num_bands = 50
+	ksampling{
+		method = mesh ! {monk|mesh|file|directin|gamma}
+		mesh{ nx=6, ny=6, nz=6}
+	}
+	smearing{
+		method = tetrahedral ! {parabolic|tetrahedron}
+	}
+        hubbard{
+           sw_hubbard = on
+           projectors{
+             #units eV
+             #tag no ueff
+                  1  20.0
+                  2   0.0
+           }
+        }
+        projector_list{
+          projectors{
+            #tag no group radius l
+                 1  1     2.00   3
+                 2  2     1.00   2
+          }
+        }
+	scf_convergence{
+		delta_total_energy = 1.e-9 hartree
+	}
+	force_convergence{
+		max_force = 0.1e-3
+	}
+
+	initial_wavefunctions = matrix_diagon !{random_numbers|matrix_diagon}
+            matrix_diagon{
+               cutoff_wf =  10.0 rydberg  ! cke_wf
+            }
+}
+
+structure{
+        unit_cell_type=bravais
+        unit_cell{
+          #units angstrom
+          a = 3.91, b= 3.91, c= 3.91
+          alpha=90.0, beta=90.0, gamma=90.0
+        }
+
+	symmetry{
+	      method = automatic
+	      sw_inversion = on
+	}
+	magnetic_state = ferro !{para|af|ferro}
+
+	atom_list{
+	     coordinate_system = internal ! {cartesian|internal}
+	     atoms{
+	     #default mobile=no
+#tag  rx                 ry                 rz                 element proj_group
+       0.0                0.0                0.0                La      1
+       0.5                0.5                0.5                V       2
+       0.0                0.5                0.5                O       0
+       0.5                0.0                0.5                O       0
+       0.5                0.5                0.0                O       0
+	     }
+	}
+	element_list{ #tag element  atomicnumber  zeta  dev
+                            La        57           0.00  2.0
+                            V         23           0.30  2.0
+                            O          8           0.00  2.0
+        }
+}
+
+structure_evolution{
+     method = gdiis
+     dt  = 100.0
+     gdiis{
+       gdiis_box_size = 4
+       gdiis_update = RENEW
+       c_forc2gdiis = 0.0050
+       c_iteration2GDIIS = 3
+     }
+     stress{
+       sw_stress = off
+     }
+}
+
+postprocessing{
+ dos {
+       sw_dos = on
+ }
+ pdos{
+       sw_pdos = on
+ }
+}
+
+printlevel{
+	base = 1
+	timing = 1
+	solver = 1
+	evdff  = 1
+	rmm    = 0
+	snl    = 0
+	gdiis  = 1
+	eigenvalue = 1
+	spg    = 1
+	kp     = 2
+	pulay  = 0
+        matdiagon = 0
+	vlhxcq = 0
+	totalcharge = 1
+	submat = 0
+	strcfctr = 0
+	inputfile = 2
+        davidson = 1
+}

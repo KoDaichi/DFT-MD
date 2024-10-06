@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6. 電子状態解析：バンド構造と状態密度 &mdash; PHASE/0 Manual 2024.01 ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/phase0.css?v=84baaed2" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=df52f328"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="7. 高度な電子状態計算" href="../advanced_electronic_structure/advanced_electronic_structure.html" />
+    <link rel="prev" title="5. 基本機能を利用した計算例" href="../basics/basics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PHASE/0 Manual
+              <img src="../_static/image1.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">1. はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">2. PHASE/0のインストール</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_step/first_step.html">3. PHASE/0の基本的な利用方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_parameters/input_parameters.html">4. 入力パラメータファイル：nfinp.data（詳細版）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/basics.html">5. 基本機能を利用した計算例</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. 電子状態解析：バンド構造と状態密度</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">6.1. 全状態密度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">6.2. 局所状態密度</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">6.2.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">6.2.2. 原子分割局所状態密度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">6.2.3. 層分割局所状態密度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">6.2.4. ウルトラソフト型擬ポテンシャルを利用している場合の高速化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-accurate-ldos-section">6.2.5. 高精度な局所状態密度 (バージョン2021.01以降)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">6.2.5.1. 概要</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">6.2.5.2. 使い方</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">6.2.5.3. 例題</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">6.3. 射影状態密度</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">6.3.1. 入力パラメータ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">6.3.2. 計算結果の出力</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batio3">6.3.3. 計算例：BaTiO<sub>3</sub> 結晶の射影状態密度</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-projected-band">6.4. バンド構造</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-local-band">6.5. 局所バンド構造（バージョン2024.01以降）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id17">6.5.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">6.5.2. 使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">6.5.2.1. 入力パラメーター</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">6.5.2.2. 出力</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">6.5.2.3. 可視化スクリプト</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">6.5.3. 例題</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id23">6.6. 射影バンド構造（バージョン2020.01以降）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id24">6.6.1. 機能の概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">6.6.2. 使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id26">6.6.2.1. 入力パラメーター</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">6.6.2.2. 出力</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pband">6.6.2.3. PBAND計算の出力例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28">6.6.2.4. スクリプトの利用による可視化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#band-orbital-proj-pl">6.6.2.5. band_orbital_proj.plの使用例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">6.6.3. 例題</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mos2-ws2">6.6.3.1. MoS<sub>2</sub> / WS<sub>2</sub></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nio">6.6.3.2. NiO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#band-unfolding-2020-01">6.7. band-unfolding計算機能（2020.01以降）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id30">6.7.1. 概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">6.7.2. 入力ファイル</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">6.7.3. 出力ファイル</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#band-unfold-pl">6.7.4. band_unfold.plスクリプトの利用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">6.7.5. 例題</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#te-2h-mos2">6.7.5.1. Teドープ 2H-MoS<sub>2</sub></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gesi">6.7.5.2. GeドープSi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-projected-band-unfold-section">6.8. 射影バンドアンフォールディング計算機能（2024.01以降）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id35">6.8.1. 概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id36">6.8.2. 使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id37">6.8.2.1. 入力ファイル</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38">6.8.2.2. 出力ファイル</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">6.8.3. 例題</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id40">6.8.3.1. Teドープ 2H-MoS<sub>2</sub></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id41">6.8.3.2. GeドープSi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#projected-surface-band-section">6.9. バルクの電子バンドの表面ブリルアンゾーンへの射影（バージョン2022.01以降）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id43">6.9.1. 概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id44">6.9.2. 使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#k">6.9.2.1. k点座標生成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id45">6.9.2.2. 表面ブリルアンゾーンに射影したバルクのバンドの描画</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id46">6.9.2.3. 表面バンドの背景へのバルクのバンドの描画</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id47">6.9.3. 計算例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id48">6.9.3.1. 表面ブリルアンゾーンに射影したバルクのバンド</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id49">6.9.3.2. 表面バンドの背景へのバルクのバンドの描画</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html">7. 高度な電子状態計算</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis/analysis.html">8. 解析機能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supplement/supplement.html">11. 補遺</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PHASE/0 Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">6. </span>電子状態解析：バンド構造と状態密度</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/electronic_structure/electronic_structure.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="estructure-chapter">
+<span id="id1"></span><h1><span class="section-number">6. </span>電子状態解析：バンド構造と状態密度<a class="headerlink" href="#estructure-chapter" title="この見出しへのパーマリンク"></a></h1>
+<section id="id2">
+<h2><span class="section-number">6.1. </span>全状態密度<a class="headerlink" href="#id2" title="この見出しへのパーマリンク"></a></h2>
+<p>全状態密度の計算方法については <a class="reference internal" href="../first_step/first_step.html#firststep-fc-section"><span class="std std-numref">3.3.7 章</span></a>, <a class="reference internal" href="../basics/basics.html#section-basics-si2"><span class="std std-numref">5.2.2 章</span></a>, <a class="reference internal" href="../basics/basics.html#section-total-density-of-states"><span class="std std-numref">5.9 章</span></a> などを参照してください。</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">6.2. </span>局所状態密度<a class="headerlink" href="#id3" title="この見出しへのパーマリンク"></a></h2>
+<section id="id4">
+<h3><span class="section-number">6.2.1. </span>機能の概要<a class="headerlink" href="#id4" title="この見出しへのパーマリンク"></a></h3>
+<p>計算した電子状態を解析するため状態密度や電子密度を描きますが、複雑な物質になると解析が困難になります。
+原子領域の状態密度を求めることにより、結合状態の解析が可能となります。積層構造や界面構造の場合に層毎の状態密度を計算すると、積層による電子状態の変化の解析や界面状態の同定ができます。
+原子分割と層分割の局所状態密度の計算の仕方をBaO/Si(001)界面を例に説明します。</p>
+<p>簡単のため、BaOの格子定数にSiと同じ格子定数(5.43Å)を用います。そして、 <a class="reference internal" href="#advanced-bao-image1"><span class="std std-numref">図 6.1</span></a> に示すように、BaO/Si(001)界面の原子構造は5層からなるシリコン層と6層からなるBaO層をOで繋げた構造にします。このBaO/Si(001)界面の計算例題は <code class="code docutils literal notranslate"><span class="pre">samples/dos_band/BaO_Si001</span></code> です。</p>
+<p>入力パラメータの構造に関する部分は次のようになっています。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+   unit_cell_type=bravais
+   unit_cell{
+     !! a_Si=5.43 A, c-axis=5*a_Si
+     !! (c.f. a_BaO=5.52 A)
+     #units angstrom degree
+     a = 3.83958982184, b= 3.83958982184, c= 27.15
+     alpha=90.0, beta=90.0, gamma=90.0
+   }
+   symmetry{
+     tspace{
+       system = primitive
+       generators {
+         #tag rotation tx  ty  tz
+               E         0   0   0
+               C2z       0   0   0
+       }
+     }
+     sw_inversion = off
+   }
+   magnetic_state = para  !{para|af|ferro}
+   atom_list{
+     coordinate_system = internal ! {cartesian|internal}
+     atoms{
+       #default mobile=no
+       #tag element  rx     ry     rz     num_layer
+           Ba       0.0000 0.5000 0.05   1
+           O        0.5000 0.0000 0.05   1
+           Ba       0.5000 0.0000 0.15   2
+           O        0.0000 0.5000 0.15   2
+           Ba       0.0000 0.5000 0.25   3
+           O        0.5000 0.0000 0.25   3
+           O        0.0000 0.5000 0.35   4
+           Si       0.0000 0.0000 0.40   5
+           Si       0.5000 0.0000 0.45   6
+           Si       0.5000 0.5000 0.50   7
+           Si       0.0000 0.5000 0.55   8
+           Si       0.0000 0.0000 0.60   9
+           O        0.5000 0.0000 0.65  10
+           Ba       0.5000 0.0000 0.75  11
+           O        0.0000 0.5000 0.75  11
+           Ba       0.0000 0.5000 0.85  12
+           O        0.5000 0.0000 0.85  12
+           Ba       0.5000 0.0000 0.95  13
+           O        0.0000 0.5000 0.95  13
+       }
+     }
+     element_list{ !#tag element  atomicnumber  zeta  dev
+         Si            14  0.00  1.5
+         Ba            56  0.00  1.5
+         O              8  0.00  1.5
+       }
+     }
+</pre></div>
+</div>
+<p>原子構造の緩和には時間がかかるので、mobileをnoに設定して構造緩和を行いません。</p>
+</section>
+<section id="id5">
+<h3><span class="section-number">6.2.2. </span>原子分割局所状態密度<a class="headerlink" href="#id5" title="この見出しへのパーマリンク"></a></h3>
+<p>原子分割の局所状態密度を計算するにはタグPostprocessingの中にタグdosとタグldosを書きます。そして、タグdosの中の変数sw_dosをONにし、タグldosの中の変数sw_aldosをONにします（phase/0 2015.01以前のバージョンではではsw_dos=OFFでsw_aldos=ONに設定した場合、異常終了しますのでご注意下さい）。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Postprocessing</span><span class="p">{</span>
+   <span class="n">dos</span><span class="p">{</span>
+       <span class="n">sw_dos</span> <span class="o">=</span> <span class="n">ON</span>
+       <span class="n">method</span> <span class="o">=</span> <span class="n">g</span>
+   <span class="p">}</span>
+   <span class="n">ldos</span><span class="p">{</span>
+      <span class="n">sw_aldos</span> <span class="o">=</span> <span class="n">ON</span>
+      <span class="n">aldos</span><span class="p">{</span>
+         <span class="n">crtdst</span> <span class="o">=</span> <span class="mf">6.0</span> <span class="n">bohr</span>
+         <span class="n">naldos_from</span> <span class="o">=</span> <span class="mi">1</span>
+         <span class="n">naldos_to</span>   <span class="o">=</span> <span class="mi">19</span>
+      <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>タグaldosの中の変数crtdstは単位格子を原子ごとにボロノイ多面体分割するときの臨界距離です。どの原子からもこの臨界距離以上離れている領域は真空領域とみなされます。真空領域の状態密度は、（原子の個数+1）番目の原子局所状態密度として表されます。
+naldos_formとnaldos_toに原子分割局所状態密度を計算する最初の原子と最後の原子を指定します。これを指定しないと全原子について原子分割局所状態密度が計算されます。また、タグatomsの中で変数aldosをoffにした原子の局所状態密度は計算されません。変数aldosよりもnaldos_fromとnaldos_toの方が優先されます。</p>
+<p>計算結果はdos.dataに出力されます。状態密度図を作成するには、付属のPerlスクリプトdos.plを使います。以下のようにすれば、dos_a001.eps,dos_a002.eps,...,dos_axxx.epsといったポストスクリプトファイルが作成されます。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>%<span class="w"> </span>../../../tools/bin/dos.pl<span class="w"> </span>dos.data<span class="w"> </span>-erange<span class="o">=</span>-30,5<span class="w"> </span>-dosrange<span class="o">=</span><span class="m">0</span>,12<span class="w"> </span>-mode<span class="o">=</span>atom
+</pre></div>
+</div>
+<p>BaO/Si(001)界面の原子分割局所状態密度を計算した結果を <a class="reference internal" href="#advanced-bao-image1"><span class="std std-numref">図 6.1</span></a> に示します。
+Si,Ba,Oの原子分割局所状態密度にそれぞれの原子の特徴を見ることができます。</p>
+<figure class="align-default" id="advanced-bao-image1">
+<img alt="../_images/image9.svg" src="../_images/image9.svg" /><figcaption>
+<p><span class="caption-number">図 6.1 </span><span class="caption-text">BaO/Si(001)界面構造の原子分割の局所状態密度。上のパネル：Si層中央のSiの局所状態密度。中央のパネル：BaO層中央のBaの局所状態密度。下のパネル：BaO層中央のOの局所状態密度。</span><a class="headerlink" href="#advanced-bao-image1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id6">
+<h3><span class="section-number">6.2.3. </span>層分割局所状態密度<a class="headerlink" href="#id6" title="この見出しへのパーマリンク"></a></h3>
+<p>層分割の局所状態密度を計算するにはタグPostprocessingの中にタグdosとタグldosを書きます。そして、タグdosの中の変数sw_dosをONにし、タグldosの中の変数sw_layerdosをONにします（原子分割局所状態密度の計算の場合と同様、phase/0 2015.01以前のバージョンでは、sw_dos=OFFでsw_layer=ONに設定した場合、異常終了しますのでご注意下さい）。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dos{
+    sw_dos = ON
+    method = g
+}
+ldos{
+   sw_layerdos = ON
+   layerdos{
+      slicing_way = by_atomic_positions !{regular_intervals|by_atomic_positions}
+      deltaz = 1.0 angstrom
+      normal_axis = 3
+      crtdst = 3.5 bohr
+   }
+}
+</pre></div>
+</div>
+<p>タグlayerdosの中の変数normal_axisでは層分割するときの層の法線方向を指定します。1がa軸で、2がb軸で、3がc軸を表します。変数slicing_wayにby_atomic_positionsを指定すると、原子位置によって局所状態密度を計算する層を定めることができます。この場合、atomsテーブルのnum_layerによって、原子が含まれる層の番号を指定します。先に示した、構造の入力部分では13個の層に各原子を割り当てています。変数slicing_wayにregular_intervalsを指定すると、ある領域を等間隔に分割して作成した各層について局所状態密度を計算します。その間隔は変数deltazに入力します。変数crtdstは層を作成する領域を決める臨界距離です。端の原子からこの臨界距離まで層を作成します。</p>
+<p>層の範囲に関する下記のような記述がoutput000に出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>!!ldos     no,        min,           max
+!!ldos    1          0.00000000          5.13060607
+!!ldos    2          5.13060607         10.26121214
+!!ldos    3         10.26121214         15.39181821
+!!ldos    4         15.39181821         19.23977276
+!!ldos    5         19.23977276         21.80507579
+!!ldos    6         21.80507579         24.37037883
+!!ldos    7         24.37037883         26.93568186
+!!ldos    8         26.93568186         29.50098489
+!!ldos    9         29.50098489         32.06628793
+!!ldos   10         32.06628793         35.91424248
+!!ldos   11         35.91424248         41.04484855
+!!ldos   12         41.04484855         46.17545462
+!!ldos   13         46.17545462         51.30606069
+!!ldos   14          0.00000000          0.00000000
+</pre></div>
+</div>
+<p>noは層の番号です。minとmaxは層の下端の位置と上端の位置を示します。最後の層は指定した以外の領域です。</p>
+<p>計算結果はdos.dataに出力されます。状態密度図を作成するには、付属のPerlスクリプトdos.plを使います。以下のように実行すると、ポストスクリプトファイルdos_l001.eps,dos_l002.eps,...,dos_lxxx.epsが作成されます。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>%<span class="w"> </span>../../../tools/bin/dos.pl<span class="w"> </span>dos.data<span class="w"> </span>-erange<span class="o">=</span>-20,5<span class="w"> </span>-dosrange<span class="o">=</span><span class="m">0</span>,20<span class="w"> </span>-mode<span class="o">=</span>layer
+</pre></div>
+</div>
+<p>BaO/Si(001)界面の層分割局所状態密度を計算した結果を <a class="reference internal" href="#advanced-bao-image2"><span class="std std-numref">図 6.2</span></a> に示します。</p>
+<figure class="align-default" id="advanced-bao-image2">
+<img alt="../_images/image10.svg" src="../_images/image10.svg" /><figcaption>
+<p><span class="caption-number">図 6.2 </span><span class="caption-text">BaO/Si(001)界面構造の層分割局所状態密度。一番上のパネル：Si層の中央領域の局所状態密度。上から二番目のパネル：BaO/Si(001)界面のSi側の局所状態密度。中央のパネル：BaO/Si(001)界面の酸素あたりの局所状態密度。下から二番目のパネル：BaO/Si(001)界面のBaO側の局所状態密度。一番下のパネル：BaO層の中央領域の局所状態密度。</span><a class="headerlink" href="#advanced-bao-image2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id7">
+<h3><span class="section-number">6.2.4. </span>ウルトラソフト型擬ポテンシャルを利用している場合の高速化<a class="headerlink" href="#id7" title="この見出しへのパーマリンク"></a></h3>
+<p>ウルトラソフト擬ポテンシャルを利用して局所状態密度計算する場合、非常に多くの計算時間がかかってしまうことがあります。これは欠損電荷の計算に時間がかかってしまうからなのですが、この計算を実空間で行うことによって高速化を実現することができます。欠損電荷の計算を実空間で行うには、以下のような設定を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Postprocessing{
+  dos{
+    sw_dos = on
+  }
+  ldos{
+    sw_rspace = on
+    sw_aldos = on
+    sw_layerdos = on
+    aldos{
+      ...
+      ...
+    }
+    layerdos{
+      ...
+      ...
+    }
+  }
+}
+</pre></div>
+</div>
+<p>ldosブロックで変数sw_rspaceを定義し、その値をonとすれば欠損電荷の計算を実空間で行わせることができます。</p>
+</section>
+<section id="advanced-accurate-ldos-section">
+<span id="id8"></span><h3><span class="section-number">6.2.5. </span>高精度な局所状態密度 (バージョン2021.01以降)<a class="headerlink" href="#advanced-accurate-ldos-section" title="この見出しへのパーマリンク"></a></h3>
+<section id="id9">
+<h4><span class="section-number">6.2.5.1. </span>概要<a class="headerlink" href="#id9" title="この見出しへのパーマリンク"></a></h4>
+<p>原子分割局所状態密度とは、空間を原子ごとの領域に分割し、その領域における電子状態密度をもとめる計算機能です。積算状態密度のフェルミエネルギーにおける値を調べることによって、対象原子の電子数をもとめるという用途に用いることも可能です。</p>
+<p>原子分割局所状態密度は、波動関数および電荷密度の実空間におけるFFTメッシュを空間上で最も近い原子に割り当て、その寄与分を加算することによって計算します。このような方法の場合、実空間のFFTメッシュと原子位置の関係によって対称性から等価な原子間でも割り当たるメッシュ数などが異なり、結果が微妙に異なる場合があります。言い換えると、原子配置を単位胞に対してどのように定義するかによって計算結果が変化します。たとえば、対称性から等価なはずの原子の電子数が互いに異なる値となってしまう場合があります。この振る舞いを改善するため、2021年版以降電荷密度の割り当てを実空間FFTメッシュではなく原子中心メッシュに切り替えて評価する方法を用いることができます。このようにするとメッシュは常に同じように各原子に割り当てられるため、原子配置を単位胞に対してどう定義するかによって結果が左右されにくくなります。原子中心メッシュは原子ごとに定義され、その値は実空間FFTメッシュ上の値の三次元線形補間によって求められます。</p>
+</section>
+<section id="id10">
+<h4><span class="section-number">6.2.5.2. </span>使い方<a class="headerlink" href="#id10" title="この見出しへのパーマリンク"></a></h4>
+<p>原子中心メッシュによる局所状態密度計算の指定は、postprocessingブロックにおけるldosブロックにおいて行います。以下のような指定を行います。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">postprocessing</span><span class="p">{</span>
+  <span class="n">dos</span><span class="p">{</span>
+    <span class="n">sw_dos</span> <span class="o">=</span> <span class="n">on</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="n">t</span>
+  <span class="p">}</span>
+  <span class="n">ldos</span><span class="p">{</span>
+    <span class="n">sw_aldos</span> <span class="o">=</span> <span class="n">on</span>
+    <span class="n">aldos</span><span class="p">{</span>
+      <span class="n">sw_atom_centered_mesh</span> <span class="o">=</span> <span class="n">on</span>
+      <span class="n">atom_centered_mesh_factor</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>postprocessingブロックにdosブロックを作ると、全状態密度の設定を行うことができます。局所状態密度の計算の基本設定は全状態にならう形式になっているので、ここでの設定は局所状態密度にもあてはまります。ldosブロックにおいて局所状態密度計算の設定を、さらにその下のaldosブロックにおいて原子分割局所状態密度計算の設定を行います。aldosブロックにおいて新たに利用できるようになった設定項目は下記の通り。</p>
+<ul class="simple">
+<li><p>sw_atom_centered_meshもしくはsw_ac_mesh : onとすることによって、原子分割局所状態密度計算のメッシュが実空間FFTメッシュから原子中心メッシュに切り替わります。デフォルト値はoff.</p></li>
+<li><p>atom_centered_mesh_factorもしくはac_mesh_factor : 原子中心メッシュはデフォルトの振る舞いではその“濃さ”は実空間FFTメッシュと同じですが、ここで指定する係数分増やすことも可能です。たとえば2とすると、3方向のメッシュ数がそれぞれ2倍となります。その結果計算量は8倍となる点は注意が必要です。デフォルト値は1.</p></li>
+</ul>
+</section>
+<section id="id11">
+<h4><span class="section-number">6.2.5.3. </span>例題<a class="headerlink" href="#id11" title="この見出しへのパーマリンク"></a></h4>
+<p>Si結晶およびグラファイトの例題がサンプルディレクトリーの <code class="docutils literal notranslate"><span class="pre">samples/dos_band/aldos_by_acmesh</span></code> 以下にあります。Si結晶の例題はディレクトリーSi2以下、グラファイトの例題はディレクトリーgraphite以下に配置されており、それぞれ <code class="docutils literal notranslate"><span class="pre">acmesh</span></code> と <code class="docutils literal notranslate"><span class="pre">fftmesh</span></code> フォルダーが存在し、前者が原子中心メッシュを用いた局所状態密度計算、後者がFFTメッシュを用いた局所状態密度計算の入力ファイルが格納されています。</p>
+<p>いずれの結晶も、精度の高い結果が得られるよう比較的大きなカットオフエネルギー(80 Rydberg)を採用しています。また、精密な状態密度を得るため四面体法を用いる設定を施しています。すなわち、入力パラメーターファイルには以下のような設定が施されています。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">accuracy</span><span class="p">{</span>
+  <span class="n">cutoff_wf</span> <span class="o">=</span>  <span class="mi">80</span> <span class="n">rydberg</span>
+  <span class="o">...</span>
+  <span class="n">ksampling</span><span class="p">{</span>
+     <span class="n">method</span> <span class="o">=</span> <span class="n">mesh</span>
+     <span class="o">...</span>
+  <span class="p">}</span>
+  <span class="n">smearing</span><span class="p">{</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="n">t</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>それぞれの最下層のディレクトリーにおいて計算を実行すると、SCF計算のあと状態密度の計算が行われ、結果がdos.dataファイルに記録されます。原子分割局所状態密度の計算結果は <code class="docutils literal notranslate"><span class="pre">ALDOS</span>&#160;&#160;&#160;&#160; <span class="pre">num_atom</span> <span class="pre">=</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">aid</span></code> という文字列からはじまる行以降に記録されます。ここで <code class="docutils literal notranslate"><span class="pre">aid</span></code> は原子のIDで、各原子の入力ファイルにおける定義順に対応します。各原子の電子数はフェルミエネルギーにおける積算状態密度の値です。
+dos.dataファイルは(スピンを考慮していない場合)4カラム目のデータがフェルミエネルギーを原点としたエネルギー、6カラム目が積算状態密度に対応するので、4カラム目が0となる行の6カラム目の値がその原子の電子数に対応することになります。たとえば以下のようなデータがdos.dataに記録されている場合、1番目の原子の電子数はおおよそ3.9803となります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="o">...</span>
+  <span class="o">...</span>
+<span class="n">ALDOS</span>     <span class="n">num_atom</span> <span class="o">=</span>       <span class="mi">1</span>
+  <span class="n">No</span><span class="o">.</span>   <span class="n">E</span><span class="p">(</span><span class="n">hr</span><span class="o">.</span><span class="p">)</span>        <span class="n">dos</span><span class="p">(</span><span class="n">hr</span><span class="o">.</span><span class="p">)</span>         <span class="n">E</span><span class="p">(</span><span class="n">eV</span><span class="p">)</span>          <span class="n">dos</span><span class="p">(</span><span class="n">eV</span><span class="p">)</span>              <span class="nb">sum</span>
+     <span class="mi">6</span>  <span class="o">-</span><span class="mf">0.33730</span>      <span class="mf">0.0000000000</span>    <span class="o">-</span><span class="mf">11.955933</span>      <span class="mf">0.0000000000</span>        <span class="mf">0.0000000000</span>
+    <span class="mi">16</span>  <span class="o">-</span><span class="mf">0.33630</span>      <span class="mf">0.0000000000</span>    <span class="o">-</span><span class="mf">11.928722</span>      <span class="mf">0.0000000000</span>        <span class="mf">0.0000000000</span>
+  <span class="o">...</span>
+  <span class="o">...</span>
+  <span class="mi">4366</span>   <span class="mf">0.09870</span>      <span class="mf">0.6019928210</span>     <span class="o">-</span><span class="mf">0.091764</span>      <span class="mf">0.0221228201</span>        <span class="mf">3.9797782305</span>
+  <span class="mi">4376</span>   <span class="mf">0.09970</span>      <span class="mf">0.2103606325</span>     <span class="o">-</span><span class="mf">0.064553</span>      <span class="mf">0.0077306078</span>        <span class="mf">3.9801773503</span>
+  <span class="mi">4386</span>   <span class="mf">0.10070</span>      <span class="mf">0.0555466368</span>     <span class="o">-</span><span class="mf">0.037342</span>      <span class="mf">0.0020413005</span>        <span class="mf">3.9802911964</span>
+  <span class="mi">4396</span>   <span class="mf">0.10170</span>      <span class="mf">0.0056133904</span>     <span class="o">-</span><span class="mf">0.010130</span>      <span class="mf">0.0002062882</span>        <span class="mf">3.9803167566</span>
+  <span class="mi">4406</span>   <span class="mf">0.10270</span>      <span class="mf">0.0000000000</span>      <span class="mf">0.017081</span>      <span class="mf">0.0000000000</span>        <span class="mf">3.9803179066</span>
+  <span class="mi">4416</span>   <span class="mf">0.10370</span>      <span class="mf">0.0000000000</span>      <span class="mf">0.044293</span>      <span class="mf">0.0000000000</span>        <span class="mf">3.9803179066</span>
+  <span class="o">...</span>
+  <span class="o">...</span>
+</pre></div>
+</div>
+<p>以下、この例題によって得られるSi結晶およびグラファイトのある原子の電子数を報告します。</p>
+<table class="docutils align-default" id="acmesh-table1">
+<caption><span class="caption-number">表 6.1 </span><span class="caption-text">本例題によって得られる電子数</span><a class="headerlink" href="#acmesh-table1" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>Si, fftmesh</p></td>
+<td><p>Si, acmesh</p></td>
+<td><p>C, fftmesh</p></td>
+<td><p>C, acmesh</p></td>
+</tr>
+<tr class="row-even"><td><p>3.9803</p></td>
+<td><p>4.0000</p></td>
+<td><p>4.0537</p></td>
+<td><p>3.9992</p></td>
+</tr>
+</tbody>
+</table>
+<p>いずれの例題もすべての原子は対称性から等価なため、電子数としては4という値が得られるはずです。
+表の値から明らかなように、原子中心メッシュともにFFTメッシュの結果よりも正しい解に近い結果が得られています。</p>
+</section>
+</section>
+</section>
+<section id="id12">
+<h2><span class="section-number">6.3. </span>射影状態密度<a class="headerlink" href="#id12" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASEには、軌道ごとに射影した状態密度を計算する機能もあります。ここでは、射影状態密度を計算する方法を紹介します。</p>
+<section id="id13">
+<h3><span class="section-number">6.3.1. </span>入力パラメータ<a class="headerlink" href="#id13" title="この見出しへのパーマリンク"></a></h3>
+<p>射影状態密度を計算するには、射影したい軌道の設定を以下のように指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuraccy{
+   ...
+   projector_list{
+     projectors{
+       #tag no group radius l t
+         1 1 1.0 0 1
+         2 1 1.0 1 1
+         3 2 1.5 0 2
+         4 2 1.5 1 2
+
+     }
+   }
+}
+</pre></div>
+</div>
+<p>no に軌道の識別番号を指定します。省略可能です。groupには、“軌道グループ” を指定します。ひとまとめに扱いたい軌道には同じgroup値を指定します。radiusには軌道の半径をボーア単位で指定します。原子間距離の半分程度よりも小さな値が目安となります。デフォルト値は1 bohr です。l には、軌道角運動量を指定します。0 がs 軌道、1 がp 軌道、2 がd 軌道、3 がf 軌道に対応します。最後に、t に主量子数を指定します。ただし、この場合の主量子数とは擬ポテンシャルから見た場合の主量子数であり、ほとんどの場合1となります。擬ポテンシャルによっては角運動量が同じ軌道が2つ定義されている場合があります。2つのうちエネルギーの高い方を指定したい場合にt の値を2 としてください。</p>
+<p>次に、定義した射影演算子を原子に割り当てます。これは、以下のように原子配置の定義において属性値proj_groupを追加して指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+   atom_list{
+     atoms{
+       #tag element rx ry rz mobile proj_group
+           Fe1 0.0 0.0 0.14783 on 1
+           Fe2 0.0 0.0 0.35217 on 2
+           Fe1 0.0 0.0 0.85217 on 1
+           Fe2 0.0 0.0 0.64783 on 2
+           ...
+           ...
+     }
+   }
+}
+</pre></div>
+</div>
+<p>磁気量子数と軌道の性格の対応表</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><div class="line-block">
+<div class="line">占有行</div>
+<div class="line">列の添え字</div>
+</div>
+</th>
+<th class="head"><p><span class="math notranslate nohighlight">\(l = 0\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(l = 1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(l = 2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(l = 3\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(s\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(3z^{2} - r^{2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(z(5z^{2} - 3r^{2})\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(y\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x^{2} - y^{2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x(5z^{2} - r^{2})\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(z\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(xy\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y(5z^{2} - r^{2})\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(yz\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(z(x^{2} - y^{2})\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(zx\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(xyz\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(x(x^{2} - 3y^{2})\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(y(3x^{2} - y^{2})\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>この例では、Fe1 にgroup が1 の軌道グループを、Fe2 にgroup が2の軌道グループを指定しています。異種元素間では異なる軌道グループを指定する必要があります。</p>
+<p>postprocessingブロックにおいて射影演算子を計算するためのスイッチを有効にします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postprocessing{
+   ...
+   pdos{
+     sw_pdos = on
+   }
+}
+</pre></div>
+</div>
+<p>射影状態密度の計算方法は、postprocessing のdosブロックにおける指定に従います。</p>
+</section>
+<section id="id14">
+<h3><span class="section-number">6.3.2. </span>計算結果の出力<a class="headerlink" href="#id14" title="この見出しへのパーマリンク"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>PDOS: ia= 2 l= 1 m= 1 t= 1
+No. E(hr.) dos(hr.) E(eV) dos(eV) sum
+ 6 -1.95781 0.0000000000 -56.762838 0.0000000000 0.0000000000
+16 -1.95681 0.0000000000 -56.735626 0.0000000000 0.0000000000
+26 -1.95581 0.0000000000 -56.708415 0.0000000000 0.0000000000
+36 -1.95481 0.0000000000 -56.681204 0.0000000000 0.0000000000
+46 -1.95381 0.0085366260 -56.653992 0.0003137151 0.0000002437
+56 -1.95281 0.0176460501 -56.626781 0.0006484801 0.0000254127
+</pre></div>
+</div>
+<p>PDOS:
+という文字列から始まる行が、射影状態密度データの始まりをあらわします。ia=の後に対応する原子のID
+が,
+l=のあとに対応する軌道角運動量が、m=のあとに対応する磁気量子数が、t=のあとに対応する主量子数が出力されます。それ以降の行は、通常の状態密度データと同じです。磁気量子数と軌道の性格の対応は、表に示しています。</p>
+<p>射影状態密度データを含んだdos.data の処理には、dos.pl に-mode=projected
+オプションをつけて実行します。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>%<span class="w"> </span>dos.pl<span class="w"> </span>dos.data<span class="w"> </span>-mode<span class="o">=</span>projected<span class="w"> </span>-color<span class="w"> </span>-with_fermi
+</pre></div>
+</div>
+<p>実行すると、EPS 形式のファイルdos_aAAAlLmMtT.eps が出力されます。AAA
+は原子のID, L は軌道角運動量、M は磁気量子数、T
+は主量子数に対応した数字です。また、 -data=yes
+オプションを利用すると、軌道ごとに分割された状態密度データファイルを得ることができます。そのファイル名は、EPS
+ファイルの拡張子をdata に変更したものとなります。</p>
+</section>
+<section id="batio3">
+<h3><span class="section-number">6.3.3. </span>計算例：BaTiO<sub>3</sub> 結晶の射影状態密度<a class="headerlink" href="#batio3" title="この見出しへのパーマリンク"></a></h3>
+<p>BaTiO<sub>3</sub>
+結晶の射影状態密度を計算した例です。
+この例題は <code class="code docutils literal notranslate"><span class="pre">samples/dos_band/pdos/BaTiO3</span></code> 以下にあります。</p>
+<p>BaTiO<sub>3</sub>
+はペロブスカイト構造をとる結晶です。厳密には正方晶ですが、立方晶に非常に近い結晶構造です。この例では、結晶構造を以下のように指定し、立方晶として設定しています。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+   atom_list{
+     atoms{
+       #units angstrom
+       #tag element rx ry rz proj_group
+             Ba 0.00 0.00 0.00
+             O 0.50 0.50 0.00 2
+             O 0.50 0.00 0.50 2
+             O 0.00 0.50 0.50 2
+             Ti 0.50 0.50 0.50 1
+     }
+   }
+   unit_cell{
+     #units angstrom
+     a_vector = 4 0.00 0.00
+     b_vector = 0.00 4 0.00
+     c_vector = 0.00 0.00 4
+   }
+}
+</pre></div>
+</div>
+<p>射影する軌道は、以下のように指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+   projector_list{
+     projectors{
+       #tag no group radius l
+             1 1 1.0 2
+             2 2 1.0 1
+     }
+   }
+}
+</pre></div>
+</div>
+<p>グループ1 はl が2(d 軌道)、グループ2 はl が1(p 軌道) であり、それぞれTi
+とO に割り当てています。最後に、postprocessing
+ブロックにおいて射影状態密度を計算する機能を有効にしています。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postprocessing{
+   dos{
+     sw_dos = on
+     method = tetrahedral
+   }
+   pdos{
+     sw_pdos = on
+   }
+}
+</pre></div>
+</div>
+<p>状態密度計算はtetrahedral 法を利用しています。したがって、k
+点サンプリングはmesh 法、smearingはtetrahedral 法を指定しています。</p>
+<p>BaTiO3 結晶の全状態密度を <a class="reference internal" href="#advanced-pdos-image1"><span class="std std-numref">図 6.3</span></a> に、Ti のd 軌道に射影した状態密度を <a class="reference internal" href="#advanced-pdos-image2"><span class="std std-numref">図 6.4</span></a> に示します。</p>
+<figure class="align-default" id="advanced-pdos-image1">
+<a class="reference internal image-reference" href="../_images/image14.svg"><img alt="../_images/image14.svg" src="../_images/image14.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 6.3 </span><span class="caption-text">BaTiO3 結晶の全状態密度</span><a class="headerlink" href="#advanced-pdos-image1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="advanced-pdos-image2">
+<a class="reference internal image-reference" href="../_images/image15.svg"><img alt="../_images/image15.svg" src="../_images/image15.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 6.4 </span><span class="caption-text">Ti のd 軌道の射影状態密度</span><a class="headerlink" href="#advanced-pdos-image2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="advanced-projected-band">
+<span id="id15"></span><h2><span class="section-number">6.4. </span>バンド構造<a class="headerlink" href="#advanced-projected-band" title="この見出しへのパーマリンク"></a></h2>
+<p>通常のバンド構造の計算方法については <a class="reference internal" href="../first_step/first_step.html#firststep-fc-section"><span class="std std-numref">3.3.7 章</span></a> や <a class="reference internal" href="../basics/basics.html#section-band-structure"><span class="std std-numref">5.10 章</span></a> を参照してください。</p>
+</section>
+<section id="advanced-local-band">
+<span id="id16"></span><h2><span class="section-number">6.5. </span>局所バンド構造（バージョン2024.01以降）<a class="headerlink" href="#advanced-local-band" title="この見出しへのパーマリンク"></a></h2>
+<section id="id17">
+<h3><span class="section-number">6.5.1. </span>機能の概要<a class="headerlink" href="#id17" title="この見出しへのパーマリンク"></a></h3>
+<p>原子或いは層ごとに局所分割した状態密度 (LDOS) を求めるとき、各k点における波動関数の局所成分を計算しています。この仕組みを利用して、対称点に沿ったバンド計算で適用すると局所バンド構造 (LBAND) を得ることができます。</p>
+</section>
+<section id="id18">
+<h3><span class="section-number">6.5.2. </span>使い方<a class="headerlink" href="#id18" title="この見出しへのパーマリンク"></a></h3>
+<section id="id19">
+<h4><span class="section-number">6.5.2.1. </span>入力パラメーター<a class="headerlink" href="#id19" title="この見出しへのパーマリンク"></a></h4>
+<p>LBAND 機能を用いるには、postprocessingブロックのlband ブロック内で sw_calc_wf_atom_decompositionあるいはsw_calc_wf_layer_decompositionを ON にします。前者は原子分割、後者は層分割に対応します。両者を同時に使用することもできます。</p>
+<p>原子分割LBANDの場合の入力例は以下の通りです。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz  atom_decomp
+S     0.666666666666666852  0.333333333333333370  0.123244449411807913  0
+Mo    0.333333333333333315  0.666666666666666741  0.250000000000000056
+S     0.666666666666666852  0.333333333333333370  0.376755550588192156
+        }
+    }
+}
+postprocessing{
+  lband{
+     sw_calc_wf_atom_decomposition = on     ! 原子分割の場合
+     atom_decomposition{
+        sw_wd_only_specified_atoms = on       !　デフォルト: off
+     }
+  }
+}
+</pre></div>
+</div>
+<p>原子の一部を出力したい場合、sw_wd_only_specified_atoms = on にするとともに、出力しない原子に対して atom_decomp タグを 0 に設定します。</p>
+<p>層分割LBANDの場合の入力例は以下の通りです。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+    atom_list{
+      atoms{
+          #tag element rx ry rz   num_layer
+S     0.666666666666666852  0.333333333333333370  0.376755550588192156  1
+S     0.333333333333333315  0.666666666666666741  0.623054822874977710  2
+      }
+   }
+}
+postprocessing{
+  lband{
+     sw_calc_wf_layer_decomposition = on     ! 層分割の場合
+     layer_decomposition{
+       slicing_way = by_atomic_positions  ! regular_intervals or by_atomic_positions ( デフォルト値: regular_intervals )
+       normal_axis = 3          ! 層分割の法線方向 (1:x, 2:y, 3:z) デフォルト値:1
+       deltaz = 1.0  angstrom    ! デフォルト値: 0.5 bohr
+       crtdst = 3.5              ! デフォルト値: 3.5 bohr
+     }
+  }
+}
+</pre></div>
+</div>
+<p>層分割の場合には、分割方向を層の法線方向 (normal_axis )で指定します。slicing_way、deltaz、crtdstの意味は、LDOS機能と同じです。また、LDOSと同様、num_layerタグを用いることによって層指定を行います。</p>
+</section>
+<section id="id20">
+<h4><span class="section-number">6.5.2.2. </span>出力<a class="headerlink" href="#id20" title="この見出しへのパーマリンク"></a></h4>
+<p>各バンドの局所分割成分は、F_WFK_LOCAL_DECOMPで指定したファイル (デフォルト値: wfn_local_decomp.data) に出力されます。</p>
+<p>原子分割の場合以下のような内容になります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Local Decomposition for bands
+
+ num_kpoints =       57
+ num_bands   =      60
+ nspin       =        1
+
+# Decomposition Info.
+ num_atoms   =        7  ( last 1 corresponds to external region )
+
+# Atom Info.
+   no.    target_atom    species
+    1         1            S
+    2         2            Mo
+    3         3            S
+    4         4            S
+    5         5            W
+    6         6            S
+    7
+
+ weight for each atomic cell    nk =        1      ← 1番目のk 点
+1)  0.0000004203   0.0000000726   0.0000004669   0.0061235360   0.9877519372
+    0.0061235670   0.0000000000　    ← 1 番目のバンド
+                                    ( num_aoms 個の成分が出力される。最後の1個は空隙・真空層の成分。)
+2)  0.0000000451  -0.0000000145   0.0000000623   0.0027563085   0.9944983463
+    0.0027452524   0.0000000000　　　← 2 番目のバンド
+(後略)
+</pre></div>
+</div>
+<p>層分割の場合以下のような内容になります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Local Decomposition for bands
+
+num_kpoints =       57
+num_bands   =      60
+nspin       =        1
+
+# Decomposition Info.
+num_layers  =       48  ( last 1 corresponds to external region )
+
+# Layer Info. (Angstrom)               　    ← 層分割の情報
+ no.       min.         max.  (Angstrom)
+  1      -0.3218      -0.0572
+(中略)
+ 47      11.8493      12.0955
+ 48      12.0955      12.0955
+
+weight for each layer          nk =        1          ← 1番目のk 点
+1)  0.0000002919   0.0000000887   0.0000001319   0.0000001037   0.0000000172
+(中略)
+0.0161865026   0.0034412983   0.0007256887   0.0001641874   0.0000380678
+0.0000078706   0.0000018031   0.0000000000
+  ← 1 番目のバンド ( num_layers 個の成分が出力される。最後の1個は空隙・真空層成分。)
+2) -0.0000000516   0.0000000330   0.0000000889   0.0000000505  -0.0000000281
+  ← 2番目のバンド
+(後略)
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h4><span class="section-number">6.5.2.3. </span>可視化スクリプト<a class="headerlink" href="#id21" title="この見出しへのパーマリンク"></a></h4>
+<p>可視化には、band_local_decomp.py スクリプトを使用します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: band_local_decomp.py [-h]
+[--atom_id [ATOM_ID [ATOM_ID ...]]]
+           [--layer_id [LAYER_ID [LAYER_ID ...]]]
+           [--e_range E_RANGE E_RANGE] [--e_inc E_INC] [--unit UNIT]
+           [--plot_style PLOT_STYLE] [--circle_scale CIRCLE_SCALE]
+           [--cb_range CB_RANGE CB_RANGE] [--line_width LINE_WIDTH]
+           [--window_scale WINDOW_SCALE WINDOW_SCALE] [--vertical]
+           [--fig_format FIG_FORMAT] [--out_file OUT_FILE] [--with_fermi]
+           [--threshold THRESHOLD]
+           band_file kpt_file lband_weight_file
+</pre></div>
+</div>
+<p>bulk_band_file、kpt_file、及びweight_fileは、最低限実行に必要なファイルで、それぞれ nfenergy.data、bandkpt.in、及びwfn_local_decomp.dataに対応します。上記で括弧内は省略可能なオプションで、その意味は以下のとおりです。</p>
+<table class="docutils align-default" id="id50">
+<caption><span class="caption-number">表 6.2 </span><span class="caption-text">band_local_decomp.pyのオプション</span><a class="headerlink" href="#id50" title="このテーブルへのパーマリンク"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>引数</p></td>
+<td><p>意味</p></td>
+<td><p>デフォルト値</p></td>
+</tr>
+<tr class="row-even"><td><p>--atom_id</p></td>
+<td><p>選択する原子の番号のリスト</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>--layer_id</p></td>
+<td><p>選択する層番号のリスト</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-even"><td><p>--e_range</p></td>
+<td><p>表示するエネルギー領域の最小値、最大値</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>--e_inc</p></td>
+<td><p>エネルギー領域のインクリメント</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-even"><td><p>--unit</p></td>
+<td><p>エネルギーの単位 (eV, Ry, Ha)</p></td>
+<td><p>eV</p></td>
+</tr>
+<tr class="row-odd"><td><p>--plot_style</p></td>
+<td><p>局所分割成分の和の表示法 (1,2,3) 1: 半径で表示 2: カラースケール 3. 半径+カラースケール</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>--circle_scale</p></td>
+<td><p>半径のスケール</p></td>
+<td><p>1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>--cb_range</p></td>
+<td><p>plot_style = 2, 3におけるカラーの範囲の最小値、最大値</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-even"><td><p>--line_width</p></td>
+<td><p>線の幅</p></td>
+<td><p>1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>--window_scale</p></td>
+<td><p>プロットする領域の幅、高さのスケール</p></td>
+<td><p>1.0 1.0</p></td>
+</tr>
+<tr class="row-even"><td><p>--vertical</p></td>
+<td><p>nspin=2 の場合、グラフを縦に並べる (引数は不要)</p></td>
+<td><p>False (横に並べる)</p></td>
+</tr>
+<tr class="row-odd"><td><p>--fig_format</p></td>
+<td><p>可視化画像の形式 (png/eps)</p></td>
+<td><p>eps</p></td>
+</tr>
+<tr class="row-even"><td><p>--out_file</p></td>
+<td><p>(拡張子を除く)出力ファイル名</p></td>
+<td><p>plot_lband</p></td>
+</tr>
+<tr class="row-odd"><td><p>--with_fermi</p></td>
+<td><p>E = 0.0 eV に線を引く (引数は不要)</p></td>
+<td><p>False (線を引かない)</p></td>
+</tr>
+<tr class="row-even"><td><p>--threshold</p></td>
+<td><p>plot_style=3 の場合に、バンドの局所分割成分の和が thresholdを超えた場合にプロットする。</p></td>
+<td><p>0.0</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="id22">
+<h3><span class="section-number">6.5.3. </span>例題<a class="headerlink" href="#id22" title="この見出しへのパーマリンク"></a></h3>
+<p>MoS2/WS2 結晶を例に、L0BAND計算例を紹介します。入力ファイルは <code class="docutils literal notranslate"><span class="pre">samples/dos_band/Lband/MoS2_WS2</span></code> 以下にあります。このディレクトリーの下の <code class="docutils literal notranslate"><span class="pre">scf</span></code> にSCF計算の入力が、 <code class="docutils literal notranslate"><span class="pre">lband_atom</span></code> に原子分割LBANDの入力が、 <code class="docutils literal notranslate"><span class="pre">lband_layer</span></code> に層分割LBANDの入力がおかれています。主な計算条件は下記の通り。</p>
+<table class="docutils align-default" id="id51">
+<caption><span class="caption-number">表 6.3 </span><span class="caption-text">Te-doped MoS2結晶(24原子)の計算条件</span><a class="headerlink" href="#id51" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>平面波カットオフ [Ry]</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-odd"><td><p>k 点サンプリング</p></td>
+<td><p>SCF: monk (6×6×1) バンド: 57 点</p></td>
+</tr>
+<tr class="row-even"><td><p>バンド数</p></td>
+<td><p>SCF: 38 バンド: 60</p></td>
+</tr>
+<tr class="row-odd"><td><p>交換相関相互作用</p></td>
+<td><p>GGAPBE</p></td>
+</tr>
+<tr class="row-even"><td><p>擬ポテンシャル</p></td>
+<td><p>Mo_ggapbe_paw_us_02.pp, W_ggapbe_paw_us_01.pp, S_ggapbe_paw_nc_01m.pp</p></td>
+</tr>
+<tr class="row-odd"><td><p>初期波動関数</p></td>
+<td><p>atomic_orbitals</p></td>
+</tr>
+<tr class="row-even"><td><p>初期電荷密度</p></td>
+<td><p>atomic_charge</p></td>
+</tr>
+<tr class="row-odd"><td><p>スメアリング [eV]</p></td>
+<td><p>0.05 (parabolic)</p></td>
+</tr>
+<tr class="row-even"><td><p>SCF 収束条件 [Ha/atom]</p></td>
+<td><p>1.0E-8</p></td>
+</tr>
+</tbody>
+</table>
+<p>バンド計算では、slicing_wayとしてby_atomic_positionsを採用し、MoS2及びWS2層にそれぞれnum_layer を 1 及び2に設定しました。</p>
+<p><code class="docutils literal notranslate"><span class="pre">scf</span></code> ディレクトリーにおいてSCF計算を行い、 <code class="docutils literal notranslate"><span class="pre">lband_atom</span></code>, <code class="docutils literal notranslate"><span class="pre">lband_layer</span></code> において固定電荷計算を行うとLBANDを得ることができます。コマンド例とその結果得られるLBAND図を紹介します。</p>
+<p>コマンド例</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_local_decomp.py nfenergy.data bandkpt.in wfn_local_decomp.data --layer_id 1 --e_range -5 5 --e_inc 1.0 --fig_format png --plot_style 2 --line_width 2 --window_scale 0.8 1.0  --with_fermi --circle_scale 2.0
+</pre></div>
+</div>
+<figure class="align-default" id="lband-mos2-ws2">
+<img alt="../_images/lband_MoS2_WS2.png" src="../_images/lband_MoS2_WS2.png" />
+<figcaption>
+<p><span class="caption-number">図 6.5 </span><span class="caption-text">MoS2/WS2 結晶(6原子)のlband. plot_type 2で可視化した結果。</span><a class="headerlink" href="#lband-mos2-ws2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="id23">
+<h2><span class="section-number">6.6. </span>射影バンド構造（バージョン2020.01以降）<a class="headerlink" href="#id23" title="この見出しへのパーマリンク"></a></h2>
+<section id="id24">
+<h3><span class="section-number">6.6.1. </span>機能の概要<a class="headerlink" href="#id24" title="この見出しへのパーマリンク"></a></h3>
+<p>射影状態密度 (PDOS)
+を求めるとき、SCFにおける各波動関数に対してprojectorで指定した原子軌道への射影を行います。同様の処理をバンド計算で得られた各波動関数に対して行うことにより、その射影成分を出力することができます。軌道射影バンド計算では、各波動関数に対して原子軌道への射影を行い、その(重み)成分をファイルに出力します。このとき、原子軌道の球面調和関数部分は空間に固定されたもので、化学結合の方向には依りません。化学結合の方向を考慮するには、軌道占有行列を対角化し、その固有ベクトルを係数とした原子軌道の線形結合を用います。ただし、軌道占有行列はバンド計算では得られないため、事前にSCF計算を行っておく必要があります。</p>
+<p>　対角化して得られた原子軌道を使用するか否かは、ユーザー指定のスイッチにより切り替えることができます。可視化については
+band.pl と同様に、gnuplot
+の描画機能を用いるperlスクリプトが付属します。このスクリプトを用いると、射影した軌道の成分を、明暗などによりバンド分散上にマップすることができます。</p>
+</section>
+<section id="id25">
+<h3><span class="section-number">6.6.2. </span>使い方<a class="headerlink" href="#id25" title="この見出しへのパーマリンク"></a></h3>
+<section id="id26">
+<h4><span class="section-number">6.6.2.1. </span>入力パラメーター<a class="headerlink" href="#id26" title="この見出しへのパーマリンク"></a></h4>
+<ol class="arabic simple">
+<li><p>SCF 計算</p></li>
+</ol>
+<p>占有行列を計算し、ファイルに出力するには、orbital_population
+ブロック内で、sw_write_orb_dens_mat_file = on
+とします。これ以外には、PDOSと同様に、射影する軌道の指定を行います。</p>
+<p>占有行列をファイルに出力するための入力 (軌道射影バンドの前処理)</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  projector_list{
+    projectors{
+      #tag group radius l
+            1 2.5 2
+    }
+  }
+}
+structure{
+  atom_list{
+    atoms{
+      #tag element rx ry rz proj_group
+            Ni1 0.000 0.000 0.000 1
+    }
+  }
+}
+postprocessing{
+  orbital_population{
+    sw_write_orb_dens_mat_file = on
+  }
+}
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>バンド計算</p></li>
+</ol>
+<p>　軌道射影バンドの計算は固定電荷モードで行います。各波動関数の軌道射影成分をファイルに出力するには、wf_orb_projectionブロック内で
+sw_calc_wf_orb_projection = on
+とします。この時、占有行列を対角化して得られた軌道を使用するには、さらにorbital_populationブロック内で
+sw_diagonalize_population = on を指定します。sw_diagonalize_population = onとする場合、file_names.dataファイルにおいてF_PORB_DENS_MATを用いてSCF計算で得られた占有行列のファイル（デフォルト名porb_density_matrix.data）を指すようにする必要があります。</p>
+<p>軌道射影バンド計算の入力例 : nfinp.dataファイル</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  projector_list{
+    projectors{
+      #tag group radius l
+            1 2.5 2
+    }
+  }
+}
+structure{
+  atom_list{
+    atoms{
+      #tag element rx ry rz proj_group　key
+            Ni1 0.000 0.000 0.000 1 1
+    }
+  }
+}
+postprocessing{
+  orbital_population{
+    sw_diagonalize_population = on
+  }
+  wf_orb_projection{
+    sw_calc_wf_orb_projection = on
+  }
+}
+</pre></div>
+</div>
+<p>軌道射影バンド計算の入力例 : file_names.dataファイル</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+F_CHGT = &#39;../scf/nfchgt.data&#39;
+F_PORB_DENS_MAT = &#39;../scf/porb_density_matrix.data&#39;
+/
+</pre></div>
+</div>
+</section>
+<section id="id27">
+<h4><span class="section-number">6.6.2.2. </span>出力<a class="headerlink" href="#id27" title="この見出しへのパーマリンク"></a></h4>
+<ol class="arabic simple">
+<li><p>SCF計算</p></li>
+</ol>
+<p>F_PORB_DENS_MATで指定したファイル
+(デフォルト名：porb_density_matrix.data )
+に、占有行列がバイナリ形式で出力されます。</p>
+<ol class="arabic simple" start="2">
+<li><p>バンド計算</p></li>
+</ol>
+<p>　F_WFK_ORB_PROJ で指定したファイル　(デフォルト名：wfn_orb_proj.data )
+に、各波動関数の軌道射影成分がテキスト形式で出力されます。
+また、score_bond は、軌道が広がる方向に原子が存在するか否かを判定した値です。ここで、m番目の軌道のscore_bondは、</p>
+<div class="math notranslate nohighlight">
+\[{\rm score\_bond(m)} = \frac{1}{4\pi} \frac{1}{2l+1} \sum_{i}^{\rm neighbor} \left| \sum_{m=1}^{2l+1} c_{m'm}^l Y_{lm'} \left(\Theta_i, \phi_i \right) \right|^2\]</div>
+<p>で定義します。例えば、8面体サイトの中央原子のd軌道では、score_bond値 が
+0 の軌道がt2g に対応します。</p>
+</section>
+<section id="pband">
+<h4><span class="section-number">6.6.2.3. </span>PBAND計算の出力例<a class="headerlink" href="#pband" title="この見出しへのパーマリンク"></a></h4>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Orbital Projection for bands
+num_kpoints = 88
+num_bands = 40
+nspin = 2
+num of orbitals = 16
+population_diag_mode = 1
+# Orbital Info.
+iorb ia l m&#39; tau element key score_bond
+1 1 2 1 1 Ni1 1 3.00000
+2 1 2 2 1 Ni1 1 3.00000
+(中略)
+=================
+ik = 1 ( -0.00000000 0.50000000 0.50000000 )
+1 1 2 1 1 : iorb, ia, l, m&#39;, tau
+0.0000000000 0.0291274666 0.0000000292 0.6901602135
+(後略)
+</pre></div>
+</div>
+</section>
+<section id="id28">
+<h4><span class="section-number">6.6.2.4. </span>スクリプトの利用による可視化<a class="headerlink" href="#id28" title="この見出しへのパーマリンク"></a></h4>
+<p>band_orbital_proj.pl
+を用いると、gnuplotを用いて可視化したファイルが生成されます。以下にその使用法を示します。このスクリプトは、ユーザーが指定した条件を満たす軌道射影成分を合計して、ファイルplot_band_orbproj.datに出力します。同時に生成されるplot_band_orbproj.gnu
+は gnuplot 用のファイルです。</p>
+<p>band_orbital_proj.plの引数</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_orbital_proj.pl EnergyDataFile KpointFile OrbProjFile
+-erange=Emin,Emax -einc=dE -with_fermi
+-atom_range=amin,amax -il=L -im=M -tau=TAU
+-element=X -key=I -score_range=scmin,scmax
+-cbrange=Cbmin,Cbmax -circle_radius=SIZE -window_width=SIZE
+-color -print_format={eps,png} -outfile=AAA
+</pre></div>
+</div>
+<p>EnergyDataFile はバンド固有値ファイル、KpointFile
+はk点を生成するために使用したファイル、OrbProjFile
+は上述の軌道射影成分を格納したファイルです。これらの3ファイルの指定は必須です。</p>
+<table class="longtable docutils align-default" id="id52">
+<caption><span class="caption-number">表 6.4 </span><span class="caption-text">band_orbital_proj.plのオプション</span><a class="headerlink" href="#id52" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>オプション</p></th>
+<th class="head"><p>意味</p></th>
+<th class="head"><p>デフォルト値</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>-erange=Emin,Emax</p></td>
+<td><p>プロットするエネルギー領域を指定する。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>-einc=dE</p></td>
+<td><p>図の縦軸の increment
+を指定する。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-even"><td><p>-with_fermi</p></td>
+<td><p>フェルミエネルギー (
+0.0 eV
+)の位置に線を引く。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>-atom_range=amin,amax</p></td>
+<td><p>全軌道射影成分のうち、原子のインデックスがaminからamaxまでの成分を取り出す。</p></td>
+<td><p>全原子</p></td>
+</tr>
+<tr class="row-even"><td><p>-il=L</p></td>
+<td><p>全軌道射影成分のうち、軌道量子数がLの成分を取り出す。</p></td>
+<td><p>全軌道量子数</p></td>
+</tr>
+<tr class="row-odd"><td><p>-im=M</p></td>
+<td><p>全軌道射影成分のうち、磁気量子数がMの成分を取り出す。</p></td>
+<td><p>全磁気量指数</p></td>
+</tr>
+<tr class="row-even"><td><p>-tau=TAU</p></td>
+<td><p>全軌道射影成分のうち、主量子数がTAUの成分を取り出す。</p></td>
+<td><p>全主量子数</p></td>
+</tr>
+<tr class="row-odd"><td><p>-element=X</p></td>
+<td><p>全軌道射影成分のうち、原子タイプ名がXである成分を取り出す。</p></td>
+<td><p>全原子タイプ</p></td>
+</tr>
+<tr class="row-even"><td><p>-key=I</p></td>
+<td><p>全軌道射影成分のうち、key値がIの成分を取り出す。</p></td>
+<td><p>全key</p></td>
+</tr>
+<tr class="row-odd"><td><p>-score_range=scmin,scmax</p></td>
+<td><p>全軌道射影成分のうち、score_bond値がscminからscmaxまでの成分を取り出す。</p></td>
+<td><p>制限なし</p></td>
+</tr>
+<tr class="row-even"><td><p>-cbrange=Cbmin,Cbmax</p></td>
+<td><p>プロットするカラーレンジを指定する。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>-circle_radius=SIZE</p></td>
+<td><p>プロットするデータの半径を指定する。</p></td>
+<td><p>0.02</p></td>
+</tr>
+<tr class="row-even"><td><p>-window_width=SIZE</p></td>
+<td><p>プロットするWindowのサイズを指定する。</p></td>
+<td><p>0.50</p></td>
+</tr>
+<tr class="row-odd"><td><p>-color</p></td>
+<td><p>カラー出力を行う。</p></td>
+<td><p>NO</p></td>
+</tr>
+<tr class="row-even"><td><p>-print_format={eps,png}</p></td>
+<td><p>eps あるいは png出力のいずれを行うか指定する。</p></td>
+<td><p>eps</p></td>
+</tr>
+<tr class="row-odd"><td><p>-outfile=AAA</p></td>
+<td><p>可視化したファイル名をAAAに指定する。</p></td>
+<td><p>epsファイルの時は</p>
+<p>orbital_projected_band.eps,</p>
+<p>png ファイルの時は</p>
+<p>orbital_projected_band.png</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>以下に、band_orbital_proj.plの使用例を示します。この例では、key値1、il=2 (d軌道)、score_bond値が0から1の軌道射影成分を合計し、plot_band_orbproj.datに出力します。さらに、gnuplotを通してpng ファイル orbital_projected_band.pngを生成します。なお、nfenergy.dataはバンド固有値ファイル、bandkpt.inはk点を生成するために使用したファイル、wfn_orb_proj.dataは軌道射影成分を出力したファイルです。</p>
+</section>
+<section id="band-orbital-proj-pl">
+<h4><span class="section-number">6.6.2.5. </span>band_orbital_proj.plの使用例<a class="headerlink" href="#band-orbital-proj-pl" title="この見出しへのパーマリンク"></a></h4>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_orbital_proj.pl nfenergy.data bandkpt.in wfn_orb_proj.data
+-key=1 -il=2 -score_range=0,1 -color -print_format=png
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id29">
+<h3><span class="section-number">6.6.3. </span>例題<a class="headerlink" href="#id29" title="この見出しへのパーマリンク"></a></h3>
+<p>射影バンド構造の計算例を紹介します。入力（と出力の一部）は <code class="code docutils literal notranslate"><span class="pre">samples/dos_band/PBAND</span></code> 以下にあります。</p>
+<section id="mos2-ws2">
+<h4><span class="section-number">6.6.3.1. </span>MoS<sub>2</sub> / WS<sub>2</sub><a class="headerlink" href="#mos2-ws2" title="この見出しへのパーマリンク"></a></h4>
+<p><a class="reference internal" href="#advanced-mos2-structure"><span class="std std-numref">図 6.6</span></a> (左) に、MoS<sub>2</sub> / WS<sub>2</sub>
+の構造を示します。また、用いた計算条件を <a class="reference internal" href="#advanced-pband-table1"><span class="std std-numref">表 6.5</span></a> に示します。格子定数は、事前に最適化して得られた値a = 3.232 Å, c = 12.417 Åを使用しました。</p>
+<p>また、PBAND計算のために、MoS<sub>2</sub>
+及びWS<sub>2</sub>のユニットにそれぞれkey 値1, 2 を与え、射影軌道を <a class="reference internal" href="#advanced-pband-table2"><span class="std std-numref">表 6.6</span></a> のように指定しました。<a class="reference internal" href="#advanced-pband-table3"><span class="std std-numref">表 6.7</span></a> に、postprocessingブロック内で使用したワードを示します。
+最後に、 <a class="reference internal" href="#advanced-mos2-structure"><span class="std std-numref">図 6.6</span></a> にブリルアンゾーン及び対称点を示します。</p>
+<table class="docutils align-default" id="advanced-pband-table1">
+<caption><span class="caption-number">表 6.5 </span><span class="caption-text">MoS<sub>2</sub>/WS<sub>2</sub> PBANDの計算条件</span><a class="headerlink" href="#advanced-pband-table1" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>波動関数カットオフ [Ry]</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-odd"><td><p>k点サンプリング</p></td>
+<td><p>SCF計算 Monk (6×6×1)</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>GGAPBE</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Mo_ggapbe_paw_02.pp,
+W_ggapbe_paw_01.pp,
+S_ggapbe_paw_03.pp</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="advanced-pband-table2">
+<caption><span class="caption-number">表 6.6 </span><span class="caption-text">MoS<sub>2</sub> / WS<sub>2</sub> PBAND計算で使用した射影軌道</span><a class="headerlink" href="#advanced-pband-table2" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>原子タイプ</p></th>
+<th class="head"><p>射影した軌道 (プロジェクタのカットオフ)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Mo</p></td>
+<td><p>s軌道 (2.0 bohr), p軌道 (2.0 bohr), d軌道 (2.4bohr)</p></td>
+</tr>
+<tr class="row-odd"><td><p>W</p></td>
+<td><p>s軌道 (2.0 bohr), p軌道 (2.0 bohr), d軌道 (2.4bohr)</p></td>
+</tr>
+<tr class="row-even"><td><p>S</p></td>
+<td><p>s軌道 (1.6 bohr), p軌道 (1.8 bohr)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="advanced-pband-table3">
+<caption><span class="caption-number">表 6.7 </span><span class="caption-text">MoS<sub>2</sub> / WS<sub>2</sub> PBAND計算におけるpostprocessingブロックの指定</span><a class="headerlink" href="#advanced-pband-table3" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>SCF計算</p></td>
+</tr>
+<tr class="row-even"><td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>バンド計算</p></td>
+</tr>
+<tr class="row-even"><td><p>wf_orb_projection{
+sw_calc_wf_orb_projection = on
+}</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="advanced-mos2-structure">
+<img alt="../_images/image17.png" src="../_images/image17.png" />
+<figcaption>
+<p><span class="caption-number">図 6.6 </span><span class="caption-text">（左）MoS<sub>2</sub> / WS<sub>2</sub> 構造。（右）ブリルアンゾーン及び対称点。</span><a class="headerlink" href="#advanced-mos2-structure" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#advanced-mos2-pband"><span class="std std-numref">図 6.7</span></a> <a class="reference internal" href="#advanced-ws2-pband"><span class="std std-numref">図 6.8</span></a> に MoS<sub>2</sub> 及び WS<sub>2</sub>ユニットに対するPBAND
+を示します。ここでは、s, p, d 軌道全成分を合計して表示しています。<a class="reference internal" href="#advanced-bandprojpl-table"><span class="std std-numref">表 6.8</span></a> に、<a class="reference internal" href="#advanced-mos2-pband"><span class="std std-numref">図 6.7</span></a> に使用したコマンドを示します。</p>
+<figure class="align-default" id="advanced-mos2-pband">
+<img alt="../_images/MoS2_pband.png" src="../_images/MoS2_pband.png" />
+<figcaption>
+<p><span class="caption-number">図 6.7 </span><span class="caption-text">MoS2構造のPBAND</span><a class="headerlink" href="#advanced-mos2-pband" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="advanced-ws2-pband">
+<img alt="../_images/WS2_pband.png" src="../_images/WS2_pband.png" />
+<figcaption>
+<p><span class="caption-number">図 6.8 </span><span class="caption-text">WS2構造のPBAND</span><a class="headerlink" href="#advanced-ws2-pband" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default" id="advanced-bandprojpl-table">
+<caption><span class="caption-number">表 6.8 </span><span class="caption-text"><a class="reference internal" href="#advanced-mos2-pband"><span class="std std-numref">図 6.7</span></a> 作成に使用したコマンド</span><a class="headerlink" href="#advanced-bandprojpl-table" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>band_orbital_proj.pl nfenergy.data bandkpt.in wfn_orb_proj.data</p>
+<p>-key=1 -with_fermi -erange=-5,5 -einc=1</p>
+<p>-cbrange=0.00,0.5 -color -print_format=png -outfile=Key1.png</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nio">
+<h4><span class="section-number">6.6.3.2. </span>NiO<a class="headerlink" href="#nio" title="この見出しへのパーマリンク"></a></h4>
+<p><a class="reference internal" href="#advanced-bandproj-nio-cond"><span class="std std-numref">表 6.9</span></a> に用いた計算条件を示します。なお、原子配置や格子定数、k点座標は既存のサンプルに記載の値を流用しました。
+<a class="reference internal" href="#advanced-bandproj-nio-cond-postproc"><span class="std std-numref">表 6.10</span></a> に、postprocessingブロック内で使用したワードを示します。 <a class="reference internal" href="#advanced-nio-pband-t2g"><span class="std std-numref">図 6.9</span></a> <a class="reference internal" href="#advanced-nio-pband-eg"><span class="std std-numref">図 6.10</span></a> に、Ni 3d 軌道の t2g 及び eg 成分のプロットを示します。</p>
+<table class="docutils align-default" id="advanced-bandproj-nio-cond">
+<caption><span class="caption-number">表 6.9 </span><span class="caption-text">NiO PBANDの計算条件</span><a class="headerlink" href="#advanced-bandproj-nio-cond" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>波動関数カットオフ [Ry]</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-odd"><td><p>k点サンプリング</p></td>
+<td><p>SCF計算：Monk (4×4×4)</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>GGAPBE+U</p>
+<p>( U<sub>eff</sub> = 5.0eV on Ni 3d,</p>
+<p>プロジェクタカットオフ：2.5 bohr )</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Ni_ggapbe_paw_01.pp,</p>
+<p>O_ggapbe_paw_02.pp</p>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="advanced-bandproj-nio-cond-postproc">
+<caption><span class="caption-number">表 6.10 </span><span class="caption-text">NiO PBAND計算における postprocessing ブロックの指定</span><a class="headerlink" href="#advanced-bandproj-nio-cond-postproc" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>SCF計算</p></td>
+</tr>
+<tr class="row-even"><td><p>orbital_population{</p>
+<p>sw_write_orb_dens_mat_file = on</p>
+<p>}</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>バンド計算</p></td>
+</tr>
+<tr class="row-even"><td><p>orbital_population{</p>
+<p>sw_diagonalize_population = on</p>
+<p>}</p>
+<p>wf_orb_projection{</p>
+<p>sw_calc_wf_orb_projection = on</p>
+<p>}</p>
+</td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="advanced-nio-pband-t2g">
+<img alt="../_images/band_t2g.png" src="../_images/band_t2g.png" />
+<figcaption>
+<p><span class="caption-number">図 6.9 </span><span class="caption-text">NiO のPBAND。Ni d 軌道 t2g。左右はそれぞれ、アップ及ぶダウンスピン成分に対応する。</span><a class="headerlink" href="#advanced-nio-pband-t2g" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="advanced-nio-pband-eg">
+<img alt="../_images/band_eg.png" src="../_images/band_eg.png" />
+<figcaption>
+<p><span class="caption-number">図 6.10 </span><span class="caption-text">NiO のPBAND。Ni d 軌道 eg。左右はそれぞれ、アップ及ぶダウンスピン成分に対応する。</span><a class="headerlink" href="#advanced-nio-pband-eg" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default" id="id53">
+<caption><span class="caption-number">表 6.11 </span><span class="caption-text"><a class="reference internal" href="#advanced-mos2-pband"><span class="std std-numref">図 6.7</span></a> 作成に使用したコマンド
+<a class="reference internal" href="#advanced-nio-pband-t2g"><span class="std std-numref">図 6.9</span></a> <a class="reference internal" href="#advanced-nio-pband-eg"><span class="std std-numref">図 6.10</span></a> 作成に使用したコマンド</span><a class="headerlink" href="#id53" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>t2g</p></td>
+</tr>
+<tr class="row-even"><td><p>band_orbital_proj.pl nfenergy.data bandkpt.in wfn_orb_proj.data</p>
+<p>-atom_range=1,2 -il=2 -score_range=0,1</p>
+<p>-erange=-4,6 -color -print_format=png -outfile=band_t2g.png</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>eg</p></td>
+</tr>
+<tr class="row-even"><td><p>band_orbital_proj.pl nfenergy.data bandkpt.in wfn_orb_proj.data</p>
+<p>-atom_range=1,2 -il=2 -score_range=2,4</p>
+<p>-erange=-4,6 -color -print_format=png -outfile=band_eg.png</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="band-unfolding-2020-01">
+<span id="advanced-band-unfold-section"></span><h2><span class="section-number">6.7. </span>band-unfolding計算機能（2020.01以降）<a class="headerlink" href="#band-unfolding-2020-01" title="この見出しへのパーマリンク"></a></h2>
+<section id="id30">
+<h3><span class="section-number">6.7.1. </span>概要<a class="headerlink" href="#id30" title="この見出しへのパーマリンク"></a></h3>
+<p>Band-unfolding計算機能とは、「基本格子の逆格子ベクトルのBZ内の対称点を結ぶ
+k点で、スーパーセルのバンド計算を行い、バンド計算終了後、各波動関数のGベクトル成分のうち、基本格子の逆格子ベクトルの周期をもつ成分を取り出すフィルターをかけ、その
+(重み)成分をファイルに出力する」機能です。可視化については band.pl
+と同様に、gnuplot の描画機能を用いるようなperlスクリプトが付属します。</p>
+<p>各k点で波動関数 <span class="math notranslate nohighlight">\(\psi_{nk\sigma}\)</span> (バンドn、スピン <span class="math notranslate nohighlight">\(\sigma\)</span> )が得られた後、スペクトル強度</p>
+<div class="math notranslate nohighlight" id="equation-advanced-bandunfold-eq1">
+<span class="eqno">(6.1)<a class="headerlink" href="#equation-advanced-bandunfold-eq1" title="この数式へのパーマリンク"></a></span>\[A_{nk\sigma} = \sum_{G \in G_{\rm pr}} \left| \left&lt; G | \psi_{nk\sigma} \right&gt; \right|^2\]</div>
+<p>を計算し、ファイルに出力します。ここで、Gprは、基本格子の逆格子ベクトルが作るGベクトルです。なお、非ノルム保存擬ポテンシャルの場合には、</p>
+<div class="math notranslate nohighlight" id="equation-advanced-bandunfold-eq2">
+<span class="eqno">(6.2)<a class="headerlink" href="#equation-advanced-bandunfold-eq2" title="この数式へのパーマリンク"></a></span>\[\begin{split}A_{nk\sigma} = \sum_{G \in G_{\rm pr}} \left| \left&lt; G | \tilde{\psi}_{nk\sigma} \right&gt; \right|^2 + \sum_I \sum_{\tau l m} \sum_{\tau' l' m'} q_{\tau l m, \tau' l' m'}^I f_{\tau l m}^{I \ast} f_{\tau' l' m'}^I, \\ f_{\tau l m}^I = \sum_{G \in G_{\rm pr}} \left&lt; \beta_{\tau l m}^I | G \right&gt; \left&lt; G | \tilde{\psi}_{nk\sigma} \right&gt;\end{split}\]</div>
+<p>となります。ここで、 <span class="math notranslate nohighlight">\(\beta_{\tau l m}^I\)</span> は、原子I、主量子数 <span class="math notranslate nohighlight">\(\tau\)</span> 、方位量子数 <span class="math notranslate nohighlight">\(l\)</span> 、磁気量子数 <span class="math notranslate nohighlight">\(m\)</span>
+におけるプロジェクタです。また、 <span class="math notranslate nohighlight">\(q_{\tau l m, \tau' l' m'}^I\)</span> は補償電荷です。</p>
+</section>
+<section id="id31">
+<h3><span class="section-number">6.7.2. </span>入力ファイル<a class="headerlink" href="#id31" title="この見出しへのパーマリンク"></a></h3>
+<p>band-unfolding計算機能を利用するには、reference_cell
+ブロックで、基本格子ベクトルを指定します。また、band_unfoldingブロック内で
+sw_band_unfolding = on
+とします。なお、k点座標は、スーパーセルではなく基本格子のBZ
+の対称点を結ぶ線上に生成しておく必要があります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = fixed_charge
+}
+accuracy{
+  ksampling{
+    method = file
+  }
+}
+structure{
+  reference_cell{
+    #units angstrom
+    a_vector = 0.0000 2.1798 2.1798
+    b_vector = 2.1798 0.0000 2.1798
+    c_vector = 2.1798 2.1798 0.0000
+  }
+}
+postprocessing{
+  band_unfolding{
+    sw_band_unfolding = on
+  }
+}
+</pre></div>
+</div>
+</section>
+<section id="id32">
+<h3><span class="section-number">6.7.3. </span>出力ファイル<a class="headerlink" href="#id32" title="この見出しへのパーマリンク"></a></h3>
+<p>スペクトル強度がF_BAND_SPECTR_WGHTで指定したファイル
+(デフォルト：nfband_spectr_wght.data )
+に出力される。の最小・最大値は0及び1である。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>num_kpoints = 141
+num_bands = 32
+nspin = 1
+ik = 1 ( 0.00000000 0.50000000 0.50000000 )
+0.0000000000 0.3333333226 0.6331196968 0.0335469806
+0.2340754547 0.3217382137 0.4441863316 0.1846990206
+…
+(後略)
+</pre></div>
+</div>
+</section>
+<section id="band-unfold-pl">
+<h3><span class="section-number">6.7.4. </span>band_unfold.plスクリプトの利用<a class="headerlink" href="#band-unfold-pl" title="この見出しへのパーマリンク"></a></h3>
+<p>band_unfold.pl
+を用いると、gnuplotを用いて可視化するためのファイルが生成されます。以下にスクリプト使用法を示します。このスクリプトは、スペクトル強度
+( plot_band_energy.dat ) あるいはスペクトル関数 ( plot_band_energy.map
+) を出力ます。同時に生成されるplot_band_unfolding.gnu は gnuplot
+用のファイルです。ここで、スペクトル強度は、 <a class="reference internal" href="#equation-advanced-bandunfold-eq1">(6.1)</a>  或いは <a class="reference internal" href="#equation-advanced-bandunfold-eq2">(6.2)</a> で定義されます。スペクトル関数は、</p>
+<div class="math notranslate nohighlight">
+\[A_{k\sigma} (w) = \sum_n A_{nk\sigma} \delta (w-\varepsilon_{nk\sigma})\]</div>
+<p>で得るものとします。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">スペクトル強度をplotする場合</span><span class="p">)</span>
+<span class="n">band_unfold</span><span class="o">.</span><span class="n">pl</span> <span class="n">EnergyDataFile</span> <span class="n">KpointFile</span> <span class="n">SpectralWeightFile</span>
+<span class="o">-</span><span class="n">erange</span><span class="o">=</span><span class="n">Emin</span><span class="p">,</span><span class="n">Emax</span> <span class="o">-</span><span class="n">einc</span><span class="o">=</span><span class="n">dE</span> <span class="o">-</span><span class="n">window_width</span><span class="o">=</span><span class="n">SIZE</span>
+<span class="o">-</span><span class="n">with_dispersion</span> <span class="o">-</span><span class="n">with_fermi</span> <span class="o">-</span><span class="n">circle_radius</span><span class="o">=</span><span class="n">SIZE</span>
+<span class="o">-</span><span class="n">color</span> <span class="o">-</span><span class="n">print_format</span><span class="o">=</span><span class="p">{</span><span class="n">eps</span><span class="p">,</span><span class="n">png</span><span class="p">}</span> <span class="o">-</span><span class="n">outfile</span><span class="o">=</span><span class="n">AAA</span>
+
+<span class="p">(</span><span class="n">スペクトル関数をplotする場合</span><span class="p">)</span>
+<span class="n">band_unfold</span><span class="o">.</span><span class="n">pl</span> <span class="n">EnergyDataFile</span> <span class="n">KpointFile</span> <span class="n">SpectralWeightFile</span>
+<span class="o">-</span><span class="n">spectral_func</span>
+<span class="o">-</span><span class="n">erange</span><span class="o">=</span><span class="n">Emin</span><span class="p">,</span><span class="n">Emax</span> <span class="o">-</span><span class="n">einc</span><span class="o">=</span><span class="n">dE</span> <span class="o">-</span><span class="n">window_width</span><span class="o">=</span><span class="n">SIZE</span>
+<span class="o">-</span><span class="n">ndiv</span><span class="o">=</span><span class="n">VAL</span> <span class="o">-</span><span class="n">sigma</span><span class="o">=</span><span class="n">VAL</span> <span class="o">-</span><span class="n">line_width</span><span class="o">=</span><span class="n">VAL</span><span class="o">-</span><span class="n">cbrange</span><span class="o">=</span><span class="n">Cbmin</span><span class="p">,</span><span class="n">Cbmax</span>
+<span class="o">-</span><span class="n">color</span> <span class="o">-</span><span class="n">print_format</span><span class="o">=</span><span class="p">{</span><span class="n">eps</span><span class="p">,</span><span class="n">png</span><span class="p">}</span> <span class="o">-</span><span class="n">outfile</span><span class="o">=</span><span class="n">AAA</span>
+</pre></div>
+</div>
+<p>EnergyDataFile はバンド固有値ファイル、KpointFile
+はk点を生成するために使用したファイル、SpectralWeightFile
+は上述のスペクトル強度を格納したファイルです。これらの3ファイルの指定は必須です。</p>
+<table class="longtable docutils align-default" id="id54">
+<caption><span class="caption-number">表 6.12 </span><span class="caption-text">band_unfold.plのオプション</span><a class="headerlink" href="#id54" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>オプション</p></th>
+<th class="head"><p>意味</p></th>
+<th class="head"><p>デフォルト値</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>-erange=Emin,Emax</p></td>
+<td><p>プロットするエネル
+ギー領域を指定する。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>-einc=dE -</p></td>
+<td><p>図の縦軸の increment
+を指定する。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-even"><td><p>-window_width=SIZE</p></td>
+<td><p>プロットするWindo
+wのサイズを指定する。</p></td>
+<td><p>0.50</p></td>
+</tr>
+<tr class="row-odd"><td><p>-color</p></td>
+<td><p>カラー出力を行う。</p></td>
+<td><p>NO</p></td>
+</tr>
+<tr class="row-even"><td><p>-print_format={eps,png}</p></td>
+<td><p>eps あるいは png
+出力のいず
+れを行うか指定する。</p></td>
+<td><p>eps</p></td>
+</tr>
+<tr class="row-odd"><td><p>-outfile=AAA</p></td>
+<td><p>可視化したファイ
+ル名をAAAに指定する。</p></td>
+<td><p>epsファイルの時は</p>
+<p>unfolded_band.eps,</p>
+<p>png ファイルの時は</p>
+<p>unfolded_band.png</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>-with_fermi</p></td>
+<td><p>フェルミエネルギー (
+0.0 eV
+)の位置に線を引く。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>スペクトル強度のみ</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>-with_dispersion</p></td>
+<td><p>スペ
+クトル強度のみならず
+、計算したすべてのバ
+ンドをプロットする。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-even"><td><p>-circle_radius=SIZE</p></td>
+<td><p>スペクトル強度1.0
+(
+最大値)に対応するデー
+タ点(円で表示)の半径</p></td>
+<td><p>0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>-threshold=VAL</p></td>
+<td><p>閾値以上の強度のみ描画する。</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>スペクトル関数のみ</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>-spectral_func</p></td>
+<td><p>スペクトル関数を出力する。</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>-ndiv=VAL</p></td>
+<td><p>表示する
+エネルギー範囲内で、
+スペクトル関数を計算
+するエネルギーの点数
+(均等分割)。</p></td>
+<td><p>400</p></td>
+</tr>
+<tr class="row-even"><td><p>-sigma=VAL</p></td>
+<td><p>スペクトル関数をGaussianで
+滑らかにする際の偏差</p></td>
+<td><p>0.05</p></td>
+</tr>
+<tr class="row-odd"><td><p>-line_width=VAL</p></td>
+<td><p>スペクトル関数をプロ
+ットする際の線の太さ</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>-cbrange=Cbmin,Cbmax</p></td>
+<td><p>プロットするカラーレンジを指定する。</p></td>
+<td><p>なし</p></td>
+</tr>
+</tbody>
+</table>
+<p>以下に、band_unfold.plの使用例を示します。この例では、スペクトル強度を出力し、gnuplot
+を通じて eps ファイルunfolded_band.epsを生成します。なお、nfenergy.data
+はバンド固有値ファイル、bandkpt.in
+はk点を生成するために使用したファイル、nfband_spectr_wght.dataはスペクトル強度を出力したファイルです。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_unfold.pl nfenergy.data bandkpt.in nfband_spectr_wght.data -with_fermi -color
+</pre></div>
+</div>
+</section>
+<section id="id33">
+<h3><span class="section-number">6.7.5. </span>例題<a class="headerlink" href="#id33" title="この見出しへのパーマリンク"></a></h3>
+<p>Band-unfolding機能の利用例を紹介します。入力（と一部出力）は <code class="code docutils literal notranslate"><span class="pre">samples/dos_band/Unfold</span></code> 以下のサブディレクトリーにあります。</p>
+<section id="te-2h-mos2">
+<span id="band-unfold-te-dope-mos2"></span><h4><span class="section-number">6.7.5.1. </span>Teドープ 2H-MoS<sub>2</sub><a class="headerlink" href="#te-2h-mos2" title="この見出しへのパーマリンク"></a></h4>
+<p><a class="reference internal" href="#advanced-bandunfold-fig1"><span class="std std-numref">図 6.11</span></a> (左上)に2H-MoS<sub>2</sub> の基本格子を示します。この系を ab
+面内に2倍した構造や、さらに2個のS原子をTe原子に置換した構造を考えます。用いた計算条件は以下のとおりです。</p>
+<p>2H-MoS<sub>2</sub> の基本格子及びスーパーセルの計算における条件</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>波動関数カットオフ [Ry]</p></th>
+<th class="head"><p>25</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-odd"><td><p>k点サンプリング</p></td>
+<td><p>SCF計算：Monk (4×4×1)あるいは(2×2×1)</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>PBE+D2</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Mo_ggapbe_paw_02.pp,</p>
+<p>S_ggapbe_paw_03.pp,</p>
+<p>Te_ggapbe_paw_02.pp</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#advanced-bandunfold-fig1"><span class="std std-numref">図 6.11</span></a> (左下)に2H-MoS<sub>2</sub>
+基本格子のブリルアンゾーン及び対称点、(右)にバンド分散を示します。 <a class="reference internal" href="#advanced-bandunfold-fig2"><span class="std std-numref">図 6.12</span></a> に、単位胞をab面内方向にそれぞれ2倍したスーパーセルに対する、アンフォールドしたバンド分散を示します。灰色の細線は全バンドの分散に対応し、各赤丸の半径はスペクトル強度に対応します。 <a class="reference internal" href="#advanced-bandunfold-fig3"><span class="std std-numref">図 6.13</span></a> に、2個のS原子をTe原子に置換した構造に対する、アンフォールドしたバンド分散を示します。半径の異なる赤丸が多々見られるのは、Teの導入による周期の乱れを反映しています。</p>
+<figure class="align-default" id="advanced-bandunfold-fig1">
+<img alt="../_images/MoS2_BZ_band.png" src="../_images/MoS2_BZ_band.png" />
+<figcaption>
+<p><span class="caption-number">図 6.11 </span><span class="caption-text">(左上) 2H-MoS<sub>2</sub>基本格子の構造。(左下)ブリルアンゾーン及び対称点。(右)バンド分散。</span><a class="headerlink" href="#advanced-bandunfold-fig1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="advanced-bandunfold-fig2">
+<img alt="../_images/image75.png" src="../_images/image75.png" />
+<figcaption>
+<p><span class="caption-number">図 6.12 </span><span class="caption-text">(左上) <a class="reference internal" href="#advanced-bandunfold-fig1"><span class="std std-numref">図 6.11</span></a> を面内方向に2倍拡げたスーパーセル。 (左下) 基本格子のブリルアンゾーン及び対称点。(右)アンフォールドしたバンド分散。</span><a class="headerlink" href="#advanced-bandunfold-fig2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="advanced-bandunfold-fig3">
+<img alt="../_images/image77.png" src="../_images/image77.png" />
+<figcaption>
+<p><span class="caption-number">図 6.13 </span><span class="caption-text">(左上)図 5‑26の2個のS原子をTeに置換したスーパーセル。 (左下) 基本格子のブリルアンゾーン及び対称点。(右)アンフォールドしたバンド分散。</span><a class="headerlink" href="#advanced-bandunfold-fig3" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#advanced-bandunfold-fig4"><span class="std std-numref">図 6.14</span></a> に、 <a class="reference internal" href="#advanced-bandunfold-fig3"><span class="std std-numref">図 6.13</span></a> と同じ系に対するスペクトル関数を示します。なお、スペクトル関数は</p>
+<div class="math notranslate nohighlight">
+\[A_{k\sigma} (w) = \sum_n A_{nk\sigma} \delta ( w -\varepsilon_{nk\sigma} )\]</div>
+<p>で定義しています。</p>
+<figure class="align-default" id="advanced-bandunfold-fig4">
+<img alt="../_images/image79.png" src="../_images/image79.png" />
+<figcaption>
+<p><span class="caption-number">図 6.14 </span><span class="caption-text"><a class="reference internal" href="#advanced-bandunfold-fig3"><span class="std std-numref">図 6.13</span></a> と同じ系に対するスペクトル関数のプロット。</span><a class="headerlink" href="#advanced-bandunfold-fig4" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>最後に、作図に使用したコマンドを示します。</p>
+<p><a class="reference internal" href="#advanced-bandunfold-fig2"><span class="std std-numref">図 6.12</span></a> <a class="reference internal" href="#advanced-bandunfold-fig3"><span class="std std-numref">図 6.13</span></a> <a class="reference internal" href="#advanced-bandunfold-fig4"><span class="std std-numref">図 6.14</span></a> の生成に使用したコマンド</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>スペクトル強度のプロット</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>band_unfold.pl nfenergy.data bandkpt.in nfband_spectr_wght.data</p>
+<p>-with_fermi -color -erange=-6,4 -print_format=png -with_dispersion</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>スペクトル関数のプロット</p></td>
+</tr>
+<tr class="row-even"><td><p>band_unfold.pl -spectral_func nfenergy.data bandkpt.in
+nfband_spectr_wght.data</p>
+<p>-with_fermi -color -erange=-6,4 -print_format=png</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="gesi">
+<span id="band-unfold-ge-dope-si"></span><h4><span class="section-number">6.7.5.2. </span>GeドープSi<a class="headerlink" href="#gesi" title="この見出しへのパーマリンク"></a></h4>
+<p>　<a class="reference internal" href="#advanced-bandunfold-fig5"><span class="std std-numref">図 6.15</span></a> (左)に、Siブラベー格子内の8原子のうち、2原子をGe原子に置換した構造を示します。
+この構造に対して、Si 2原子から成る基本格子のブリルアンゾーンを考え、対応するバンド分散を計算します。
+計算条件は以下のとおりです。なお、格子定数 ( a = 5.543 Å)及び原子配置は、事前に最適化を行った値を使用しました。</p>
+<p>GeドープSiの計算における条件</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>波動関数カットオフ [Ry]</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-even"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-odd"><td><p>k点サンプリング</p></td>
+<td><p>SCF計算：Monk (4×4×4)</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>PAW-PBE</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Si_ggapbe_paw_02.pp,</p>
+<p>Ge_ggapbe_paw_02.pp</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#advanced-bandunfold-fig5"><span class="std std-numref">図 6.15</span></a>  (右)に、アンフォールドしたバンド分散を示します。
+灰色の細線は全バンドの分散に対応し、各赤丸の半径はスペクトル強度に対応します。</p>
+<p><a class="reference internal" href="#advanced-bandunfold-fig5"><span class="std std-numref">図 6.15</span></a> 作成に使用したコマンド</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">band_unfold</span><span class="o">.</span><span class="n">pl</span> <span class="n">nfenergy</span><span class="o">.</span><span class="n">data</span> <span class="n">bandkpt_fcc_xglux</span><span class="o">.</span><span class="ow">in</span> <span class="n">nfband_spectr_wght</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span><span class="n">with_fermi</span> <span class="o">-</span><span class="n">print_format</span><span class="o">=</span><span class="n">png</span> <span class="o">-</span><span class="n">color</span> <span class="o">-</span><span class="n">erange</span><span class="o">=-</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span> <span class="o">-</span><span class="n">with_dispersion</span>
+</pre></div>
+</div>
+<figure class="align-default" id="advanced-bandunfold-fig5">
+<img alt="../_images/image80.png" src="../_images/image80.png" />
+<figcaption>
+<p><span class="caption-number">図 6.15 </span><span class="caption-text">(左) GeドープSiの構造。(右)アンフォールドしたバンド。</span><a class="headerlink" href="#advanced-bandunfold-fig5" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+<section id="advanced-projected-band-unfold-section">
+<span id="id34"></span><h2><span class="section-number">6.8. </span>射影バンドアンフォールディング計算機能（2024.01以降）<a class="headerlink" href="#advanced-projected-band-unfold-section" title="この見出しへのパーマリンク"></a></h2>
+<section id="id35">
+<h3><span class="section-number">6.8.1. </span>概要<a class="headerlink" href="#id35" title="この見出しへのパーマリンク"></a></h3>
+<p>射影バンド機能では、各バンドにおける波動関数の、ユーザーが指定した原子軌道への射影成分を計算します。一方、バンドアンフォールディング機能では、スーパーセルで計算した波動関数の、基本格子の逆格子ベクトルの整数倍成分を抽出します。射影バンドアンフォールディング計算機能とは、両者を組み合わせて利用する計算機能です。射影バンドアンフォールディング機能では、バンドアンフォールディング機能と同様に、（スーパーセルの逆格子でなく） 基本格子に対応する逆格子ベクトルをもとに生成したｋ点座標を用いてスペクトル強度が出力されます。そのため、バンドアンフォールディング機能と同じband_orbital_proj.plスクリプトによってスペクトル強度を描画することできます。</p>
+</section>
+<section id="id36">
+<h3><span class="section-number">6.8.2. </span>使い方<a class="headerlink" href="#id36" title="この見出しへのパーマリンク"></a></h3>
+<section id="id37">
+<h4><span class="section-number">6.8.2.1. </span>入力ファイル<a class="headerlink" href="#id37" title="この見出しへのパーマリンク"></a></h4>
+<p>射影バンドアンフォールディング計算機能を利用するためには、射影バンドの入力と、バンドアンフォールディングの入力 (以下の例でハイライトしている箇所)を列挙すればよいだけです。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> accuracy{
+   ksampling{
+       method = file
+   }
+   projector_list{
+       projectors{
+           #tag  group radius l
+                 1    2.0    1
+       }
+    }
+ }
+ structure{
+   atom_list{
+        atoms{
+        #tag  element rx   ry     rz     proj_group
+               Si  0.00  0.00  0.00
+               Ge  0.25  0.25  0.25      1
+         }
+    }
+<span class="hll">   reference_cell{
+</span><span class="hll">         a_vector =  0.00  5.25  5.25
+</span><span class="hll">         b_vector =  5.25  0.00  5.25
+</span><span class="hll">         c_vector =  5.25  5.25  0.00
+</span><span class="hll">   }
+</span> }
+ postprocessing{
+<span class="hll">     band_unfolding{
+</span><span class="hll">         sw_band_unfolding = on
+</span><span class="hll">     }
+</span>     wf_orb_projection{
+         sw_calc_wf_orb_projection = on
+     }
+ }
+</pre></div>
+</div>
+<p>なお、バンドアンフォールディング機能と同様、k点座標は、reference_cell の逆格子ベクトルのブリルアンゾーンの対称点に沿って生成しておいてください。</p>
+</section>
+<section id="id38">
+<h4><span class="section-number">6.8.2.2. </span>出力ファイル<a class="headerlink" href="#id38" title="この見出しへのパーマリンク"></a></h4>
+<p>filenames.data内でF_BAND_SPECTR_WGHTに割り当てたファイル (デフォルト: nfband_spectr_wght.data)にバンドアンフォールディングのスペクトル強度、F_WFK_ORB_PROJに割り当てたファイル (デフォルト: wfn_orb_proj.data)に、射影バンドアンフォールディングのスペクトル強度が出力されます。後者の出力形式は、射影バンド機能による出力と同じですが、k点座標が reference_cell に対応する逆格子ベクトルを単位とした値に変換されています。以下に、wfn_orb_proj.dataの出力例を示します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Orbital Projection for bands
+
+num_kpoints =      141
+num_bands   =       40
+nspin       =        1
+num of orbitals =        6
+
+population_diag_mode =   1
+
+# Orbital Info.
+  iorb  ia  l  m  tau  element  key
+    1   4  1  1  1     Ge       0
+(中略)
+=================
+ik =      1 (       0.00000000      0.50000000      0.50000000 )
+    1    4  1  1  1 : iorb, ia, l, m, tau
+      0.0000055229      0.0032036337      0.0033765015      0.0003999101
+(後略)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id39">
+<h3><span class="section-number">6.8.3. </span>例題<a class="headerlink" href="#id39" title="この見出しへのパーマリンク"></a></h3>
+<section id="id40">
+<h4><span class="section-number">6.8.3.1. </span>Teドープ 2H-MoS<sub>2</sub><a class="headerlink" href="#id40" title="この見出しへのパーマリンク"></a></h4>
+<blockquote>
+<div><p><a class="reference internal" href="#band-unfold-te-dope-mos2"><span class="std std-numref">6.7.5.1 章</span></a> においてTeドープ 2H-MoS<sub>2</sub> のバンドアンフォールディングの計算例がありますが、ここではさらに射影バンドを組み合わせた例を紹介します。入力ファイルは <code class="docutils literal notranslate"><span class="pre">samples/dos_band/PBAND_Unfold/Te_doped_MoS2</span></code> 以下にあります。 <code class="docutils literal notranslate"><span class="pre">scf</span></code> ディレクトリーにSCF計算用の入力データが、 <code class="docutils literal notranslate"><span class="pre">band</span></code> に固定電荷計算用の入力データが格納されています。主な計算条件は下記の通り。</p>
+</div></blockquote>
+<table class="docutils align-default" id="id55">
+<caption><span class="caption-number">表 6.13 </span><span class="caption-text">Te-doped MoS2結晶(24原子)の計算条件</span><a class="headerlink" href="#id55" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>SCF計算</p></td>
+<td><p>バンド計算</p></td>
+</tr>
+<tr class="row-even"><td><p>平面波カットオフ [Ry]</p></td>
+<td><p>25</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-odd"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-even"><td><p>k 点サンプリング</p></td>
+<td><p>monk(2×2×1)</p></td>
+<td><p>57点</p></td>
+</tr>
+<tr class="row-odd"><td><p>バンド数</p></td>
+<td><p>128</p></td>
+<td><p>160</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>GGAPBE PAW+D2</p></td>
+<td><p>GGAPBE PAW+D2</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Mo_ggapbe_paw_us_02.pp, S_ggapbe_paw_nc_01m.pp Te_ggapbe_paw_us_02.pp</p></td>
+<td><p>Mo_ggapbe_paw_us_02.pp S_ggapbe_paw_nc_01m.pp Te_ggapbe_paw_us_02.pp</p></td>
+</tr>
+<tr class="row-even"><td><p>プロジェクタ</p></td>
+<td><p>--</p></td>
+<td><p>Te s p軌道 (rcut=2.3 bohr)</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">scf</span></code> ディレクトリーにおいてSCF計算を行い、ついで <code class="docutils literal notranslate"><span class="pre">band</span></code> ディレクトリーにおいて固定電荷計算を実行すると結果を得ることができます。結果は、以下のようなコマンドによって可視化することができます。</p>
+<p>コマンド(Te s軌道)</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_orbital_proj.pl nfenergy.data bandkpt.in wfn_orb_proj.data -element=Te -il=0 -color -print_format=png -plot_style=2 -erange=-12,4 -circle_radius=0.7 -window_width=0.8 -outfile=contrib_Te_s.png
+</pre></div>
+</div>
+<p>得られるpngファイル (Te s軌道)</p>
+<figure class="align-default" id="pband-unfold-te-s">
+<img alt="../_images/contrib_Te_s.png" src="../_images/contrib_Te_s.png" />
+<figcaption>
+<p><span class="caption-number">図 6.16 </span><span class="caption-text">Te-doped MoS<sub>2</sub> 結晶の電子バンドにおける基本格子へのアンフォールディング。Te s軌道成分を抽出。</span><a class="headerlink" href="#pband-unfold-te-s" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>コマンド(Te p軌道)</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_orbital_proj.pl nfenergy.data bandkpt.in wfn_orb_proj.data -element=Te -il=1 -color -print_format=png -plot_style=2 -erange=-12,4 -circle_radius=0.7 -window_width=0.8 -outfile=contrib_Te_p.png
+</pre></div>
+</div>
+<p>得られるpngファイル (Te p軌道)</p>
+<figure class="align-default" id="pband-unfold-te-p">
+<img alt="../_images/contrib_Te_p.png" src="../_images/contrib_Te_p.png" />
+<figcaption>
+<p><span class="caption-number">図 6.17 </span><span class="caption-text">Te-doped MoS<sub>2</sub> 結晶の電子バンドにおける基本格子へのアンフォールディング。Te p軌道成分を抽出。</span><a class="headerlink" href="#pband-unfold-te-p" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id41">
+<h4><span class="section-number">6.8.3.2. </span>GeドープSi<a class="headerlink" href="#id41" title="この見出しへのパーマリンク"></a></h4>
+<blockquote>
+<div><p><a class="reference internal" href="#band-unfold-ge-dope-si"><span class="std std-numref">6.7.5.2 章</span></a> においてGeドープ Si結晶のバンドアンフォールディングの計算例がありますが、ここではさらに射影バンドを組み合わせた例を紹介します。入力ファイルは <code class="docutils literal notranslate"><span class="pre">samples/dos_band/PBAND_Unfold/Ge_doped_Si</span></code> 以下にあります。 <code class="docutils literal notranslate"><span class="pre">scf</span></code> ディレクトリーにSCF計算用の入力データが、 <code class="docutils literal notranslate"><span class="pre">band</span></code> に固定電荷計算用の入力データが格納されています。主な計算条件は下記の通り。</p>
+</div></blockquote>
+<table class="docutils align-default" id="id56">
+<caption><span class="caption-number">表 6.14 </span><span class="caption-text">Ge-doped Si 結晶(8原子)の計算条件</span><a class="headerlink" href="#id56" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>SCF計算</p></td>
+<td><p>バンド計算</p></td>
+</tr>
+<tr class="row-even"><td><p>平面波カットオフ [Ry]</p></td>
+<td><p>25</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-odd"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225</p></td>
+<td><p>225</p></td>
+</tr>
+<tr class="row-even"><td><p>k 点サンプリング</p></td>
+<td><p>monk(4×4×4)</p></td>
+<td><p>141点</p></td>
+</tr>
+<tr class="row-odd"><td><p>バンド数</p></td>
+<td><p>24</p></td>
+<td><p>40</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関相互作用</p></td>
+<td><p>GGAPBE PAW</p></td>
+<td><p>GGAPBE PAW</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Si_ggapbe_paw_nc_01m.pp, Ge_ggapbe_paw_nc_01m.pp</p></td>
+<td><p>Si_ggapbe_paw_nc_01m.pp, Ge_ggapbe_paw_nc_01m.pp</p></td>
+</tr>
+<tr class="row-even"><td><p>プロジェクタ</p></td>
+<td><p>--</p></td>
+<td><p>Ge s p軌道 (rcut=2.2 bohr)</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">scf</span></code> ディレクトリーにおいてSCF計算を行い、ついで <code class="docutils literal notranslate"><span class="pre">band</span></code> ディレクトリーにおいて固定電荷計算を実行すると結果を得ることができます。結果は、以下のようなコマンドによって可視化することができます。</p>
+<p>コマンド(Ge s軌道)</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_orbital_proj.pl  nfenergy.data  bandkpt.in  wfn_orb_proj.data -element=Ge  -il=0 -color -print_format=png  -plot_style=2  -erange=-15,5 -circle_radius=0.5  window_width=0.8  -outfile=contrib_Ge_s.png
+</pre></div>
+</div>
+<p>得られるpngファイル (Ge s軌道)</p>
+<figure class="align-default" id="pband-unfold-ge-s">
+<img alt="../_images/contrib_Ge_s.png" src="../_images/contrib_Ge_s.png" />
+<figcaption>
+<p><span class="caption-number">図 6.18 </span><span class="caption-text">Ge-doped Si 結晶の電子バンドにおける基本格子へのアンフォールディング。Ge s軌道成分を抽出。</span><a class="headerlink" href="#pband-unfold-ge-s" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>コマンド(Ge p軌道)</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_orbital_proj.pl  nfenergy.data  bandkpt.in  wfn_orb_proj.data -element=Ge  -il=1 -color -print_format=png  -plot_style=2  -erange=-15,5 -circle_radius=0.5  window_width=0.8  -outfile=contrib_Ge_p.png
+</pre></div>
+</div>
+<p>得られるpngファイル (Ge p軌道)</p>
+<figure class="align-default" id="pband-unfold-ge-p">
+<img alt="../_images/contrib_Ge_p.png" src="../_images/contrib_Ge_p.png" />
+<figcaption>
+<p><span class="caption-number">図 6.19 </span><span class="caption-text">Ge-doped Si 結晶の電子バンドにおける基本格子へのアンフォールディング。Ge p軌道成分を抽出。</span><a class="headerlink" href="#pband-unfold-ge-p" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+<section id="projected-surface-band-section">
+<span id="id42"></span><h2><span class="section-number">6.9. </span>バルクの電子バンドの表面ブリルアンゾーンへの射影（バージョン2022.01以降）<a class="headerlink" href="#projected-surface-band-section" title="この見出しへのパーマリンク"></a></h2>
+<section id="id43">
+<h3><span class="section-number">6.9.1. </span>概要<a class="headerlink" href="#id43" title="この見出しへのパーマリンク"></a></h3>
+<p>通常、表面の電子バンドは、(kz=0 を満たす) 対称点を結んだ k点座標 (kx, ky) に沿って計算を行います。バルクのバンドは、表面平行方向には上記と同じ (kx, ky)、垂直方向には [-0.5,0.5] を幾つか (Nz個) に等分割した kzで計算を行います。ただし、バルクモデルは、表面平行方向には表面モデルと同じ格子定数、また表面垂直方向に周期性をもった構造とします。</p>
+<p>上記の要領で計算したバルクのバンドを表面ブリルアンゾーンに射影するには、各 (kx,ky)におけるエネルギー準位がバンド数×Nz個あるものとして、nfenergy.data を加工するスクリプトを用います。また、表面のバンドの背景にバルクのバンドを描画するには、次のようにな操作を行います。すなわち、各 (kx,ky) において、バルクのバンドエネルギー固有値nの -0.5 &lt;= kz &lt; 0.5 における最小値 <span class="math notranslate nohighlight">\(e_{n,min}\)</span> 及び最大値 <span class="math notranslate nohighlight">\(e_{n,max}\)</span> を算出し、 <span class="math notranslate nohighlight">\(e_{n,min}\)</span> から <span class="math notranslate nohighlight">\(e_{n,max}\)</span> まで塗りつぶすように可視化します。
+なお、表面とバルクでは、エネルギーの原点が異なる点に注意が必要です。この対策として、両者のSCF計算の段階で、それぞれ原子平均ポテンシャルを算出しておきます。表面モデルの膜厚中心にある原子とバルクモデルの原子における平均ポテンシャルを比較し、両者の差をスクリプトの引数として与えます。</p>
+</section>
+<section id="id44">
+<h3><span class="section-number">6.9.2. </span>使い方<a class="headerlink" href="#id44" title="この見出しへのパーマリンク"></a></h3>
+<section id="k">
+<h4><span class="section-number">6.9.2.1. </span>k点座標生成<a class="headerlink" href="#k" title="この見出しへのパーマリンク"></a></h4>
+<p>k点座標の生成方法を説明します。</p>
+<p>表面ブリルアンゾーンに射影するバルクのバンド計算用 <code class="docutils literal notranslate"><span class="pre">bandkpt.in</span></code> はたとえば以下のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>0.01
+  0.6076  0.0000  0.0000
+  0.0000  0.8592  0.0000
+  0.0000  0.0000  0.8592
+0 1 0 2 # X
+0 0 0 1 # {/Symbol G}
+1 0 0 2 # X&#39;
+</pre></div>
+</div>
+<p>この <code class="docutils literal notranslate"><span class="pre">bandkpt.in</span></code> ファイルに対して以下の要領で <code class="docutils literal notranslate"><span class="pre">bankd_kpoint.pl</span></code> を実行します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">band_kpoint</span><span class="o">.</span><span class="n">pl</span>  <span class="n">bandkpt</span><span class="o">.</span><span class="ow">in</span> <span class="o">-</span><span class="n">zdiv</span><span class="o">=</span><span class="n">N</span> <span class="o">-</span><span class="n">zshift</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>このように実行すると各 (kx,ky) にて、[-0.5,0.5] の範囲で N 等分した kz 値を出力します。zshift &gt; 0 の場合には、kz を 0.5/N だけシフトします。
+この操作によってたとえば以下のような内容の <code class="docutils literal notranslate"><span class="pre">kpoint.data</span></code> ファイルが得られます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>3650 3650
+   0.00000000000000000000   0.50000000000000000000  -0.50000000000000000000
+   0.00000000000000000000   0.50000000000000000000  -0.47999999999999998224
+   0.00000000000000000000   0.50000000000000000000  -0.46000000000000001998
+(中略)
+   0.00000000000000000000   0.48809523809523808202  -0.50000000000000000000
+   0.00000000000000000000   0.48809523809523808202  -0.47999999999999998224
+   0.00000000000000000000   0.48809523809523808202  -0.46000000000000001998
+(後略)
+</pre></div>
+</div>
+</section>
+<section id="id45">
+<h4><span class="section-number">6.9.2.2. </span>表面ブリルアンゾーンに射影したバルクのバンドの描画<a class="headerlink" href="#id45" title="この見出しへのパーマリンク"></a></h4>
+<p>バンド計算の結果を可視化するには <code class="docutils literal notranslate"><span class="pre">surface_projected_bulk_band.py</span></code> スクリプトを用います。以下のように利用することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">surface_projected_bulk_band</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
+<span class="p">[</span><span class="o">--</span><span class="n">e_range</span> <span class="n">E_RANGE</span> <span class="n">E_RANGE</span><span class="p">]</span>
+                  <span class="p">[</span><span class="o">--</span><span class="n">e_inc</span> <span class="n">E_INC</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">unit</span> <span class="n">UNIT</span><span class="p">]</span>
+                  <span class="p">[</span><span class="o">--</span><span class="n">plot_style</span> <span class="n">PLOT_STYLE</span><span class="p">]</span>
+                  <span class="p">[</span><span class="o">--</span><span class="n">cb_range</span> <span class="n">CB_RANGE</span> <span class="n">CB_RANGE</span><span class="p">]</span>
+                  <span class="p">[</span><span class="o">--</span><span class="n">line_width</span> <span class="n">LINE_WIDTH</span><span class="p">]</span>
+                  <span class="p">[</span><span class="o">--</span><span class="n">window_scale</span> <span class="n">WINDOW_SCALE</span> <span class="n">WINDOW_SCALE</span><span class="p">]</span>
+                  <span class="p">[</span><span class="o">--</span><span class="n">vertical</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">fig_format</span> <span class="n">FIG_FORMAT</span><span class="p">]</span>
+                  <span class="p">[</span><span class="o">--</span><span class="n">out_file</span> <span class="n">OUT_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">force_normal</span><span class="p">]</span>
+                  <span class="p">[</span><span class="o">--</span><span class="n">with_fermi</span><span class="p">]</span>
+                  <span class="n">bulk_band_file</span>  <span class="n">kpt_file</span>
+</pre></div>
+</div>
+<p>bulk_band_file 及びkpt_fileは、最低限実行に必要なファイルで、それぞれバルクの nfenergy.data  及び bandkpt.in に対応します。上記で括弧内は省略可能なオプションで、その意味は以下のとおりです。</p>
+<table class="docutils align-default" id="id57">
+<caption><span class="caption-number">表 6.15 </span><span class="caption-text">surface_projected_bulk_band.pyのオプション
+  :name: surface_projected_band_table1</span><a class="headerlink" href="#id57" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>引数</p></td>
+<td><p>意味</p></td>
+<td><p>デフォルト値</p></td>
+</tr>
+<tr class="row-even"><td><p>--e_range</p></td>
+<td><p>表示するエネルギー領域の最小値、最大値</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>--e_inc</p></td>
+<td><p>エネルギー領域のインクリメント</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-even"><td><p>--unit</p></td>
+<td><p>エネルギーの単位 (eV, Ry, Ha)</p></td>
+<td><p>eV</p></td>
+</tr>
+<tr class="row-odd"><td><p>--plot_style</p></td>
+<td><p>バルクのバンドの描画法 (1,2) 1: 単色の線 2: カラーの線 (kz値で色分け)</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>--cb_range</p></td>
+<td><p>plot_style = 2における カラーの範囲の最小値、最大値</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>--line_width</p></td>
+<td><p>線の幅</p></td>
+<td><p>1.0</p></td>
+</tr>
+<tr class="row-even"><td><p>--window_scale</p></td>
+<td><p>プロットする領域の幅、高さの スケール</p></td>
+<td><p>1.0 1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>--vertical</p></td>
+<td><p>nspin=2 の場合、グラフを縦に並べる (引数は不要)</p></td>
+<td><p>False (横に並べる)</p></td>
+</tr>
+<tr class="row-even"><td><p>--fig_format</p></td>
+<td><p>可視化画像の形式 (png/eps)</p></td>
+<td><p>eps</p></td>
+</tr>
+<tr class="row-odd"><td><p>--out_file</p></td>
+<td><p>(拡張子を除く)出力ファイル名</p></td>
+<td><p>energy_band</p></td>
+</tr>
+<tr class="row-even"><td><p>--force_normal</p></td>
+<td><p>3番目の逆格子ベクトルが表面に直行しない場合でも計算を進める (引数は不要)</p></td>
+<td><p>False (計算を停止する)</p></td>
+</tr>
+<tr class="row-odd"><td><p>--with_fermi</p></td>
+<td><p>E = 0.0 eV に線を引く (引数は不要)</p></td>
+<td><p>False (線を引かない)</p></td>
+</tr>
+</tbody>
+</table>
+<p>バルクのバンド固有値は <code class="docutils literal notranslate"><span class="pre">--out_file</span></code> で指定したワードに、 <code class="docutils literal notranslate"><span class="pre">_bulk.dat</span></code> を追加したファイルに出力されます。デフォルトのファイル名は、 <code class="docutils literal notranslate"><span class="pre">energy_band_bulk.dat</span></code> です。なお、エネルギーの原点は、バルクのバンドの価電子帯上端です。以下に、バルクのバンドの nspin =1 及び 2 の場合の出力例を示します。</p>
+<p>nspin=1の出力例</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#    dk[Bohr-1]         kz         energy[eV]
+     0.00000000    -0.50000000    -8.00986780
+     0.01022878    -0.50000000    -8.09960696
+(中略)
+
+     0.00000000    -0.50000000    -8.00986374
+     0.01022878    -0.50000000    -8.09960676
+(後略)
+</pre></div>
+</div>
+<p>nspin=2の出力例</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#    dk[Bohr-1]         kz         energy[eV]
+#                                     up            down
+     0.00000000    -0.50000000    -7.73061031    -7.73061031
+     0.01022878    -0.50000000    -7.82024116    -7.82024116
+(中略)
+
+     0.00000000    -0.50000000    -7.73036492    -7.73036492
+     0.01022878    -0.50000000    -7.81770948    -7.81770948
+(後略)
+</pre></div>
+</div>
+<p>拡張子 gnuのファイルは gnuplot 用のファイルです。このファイルをgnuplot で loadすると、png あるいは eps ファイルが生成されます。</p>
+</section>
+<section id="id46">
+<h4><span class="section-number">6.9.2.3. </span>表面バンドの背景へのバルクのバンドの描画<a class="headerlink" href="#id46" title="この見出しへのパーマリンク"></a></h4>
+<p>可視化には、surface_projected_bulk_band.py を使用します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: surface_projected_bulk_band.py [-h]
+[--e_range E_RANGE E_RANGE]
+                  [--e_inc E_INC] [--unit UNIT]
+                  [--plot_style PLOT_STYLE]
+                  [--cb_range CB_RANGE CB_RANGE]
+                  [--line_width LINE_WIDTH]
+                  [--window_scale WINDOW_SCALE WINDOW_SCALE]
+                  [--vertical] [--fig_format FIG_FORMAT]
+                  [--out_file OUT_FILE] [--force_normal]
+                  [--with_fermi]
+                  [--surf_band_file SURF_BAND_FILE]
+                  [--e_shift E_SHIFT]
+                  [--ndiv_erange_map NDIV_ERANGE_MAP]
+                  [--broadening_width_map BROADENING_WIDTH_MAP]
+                  [--spin_sum_map]
+                  bulk_band_file  kpt_file
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--surf_band_file</span></code> から <code class="docutils literal notranslate"><span class="pre">spin_sum_map</span></code> は表面バンドの背景にバルクバンドを描画する場合に特有のオプションです。その意味は下記の通り。</p>
+<table class="docutils align-default" id="id58">
+<caption><span class="caption-number">表 6.16 </span><span class="caption-text">surface_projected_bulk_band.pyのオプション
+  :name: surface_projected_band_table2</span><a class="headerlink" href="#id58" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>引数</p></td>
+<td><p>意味</p></td>
+<td><p>デフォルト値</p></td>
+</tr>
+<tr class="row-even"><td><p>--surf_band_file</p></td>
+<td><p>表面バンドのファイル名</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>--e_shift</p></td>
+<td><p>表面とバルクのエネルギー原点の差。 単位は --unit と合わせる。</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p>--ndiv_erange_map</p></td>
+<td><p>バルクのバンドを背景に示す際に スペクトルを計算するためのエネルギー軸の分割数</p></td>
+<td><p>なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>--broadening_width_map</p></td>
+<td><p>バルクのバンドを背景に示す際に スペクトルをなまらせる幅 (エネルギー軸の分解能を単位とする)</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-even"><td><p>--spin_sum_map</p></td>
+<td><p>nspin=2で得られたバルクの バンドを背景に表示する際に 両スピンの寄与を合算して表示 (引数は不要)</p></td>
+<td><p>False (合算せず個別に表示)</p></td>
+</tr>
+</tbody>
+</table>
+<p>たとえば以下のように実行します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python3  surface_projected_bulk_band.py
+nfenergy.data  bandkpt.in   --e_range -2 2 --e_inc 0.5  --unit eV
+--fig_format png
+--surf_band_file  ../../surf/bands/nfenergy.data  --e_shift -2.86  --with_fermi
+</pre></div>
+</div>
+<p>なお、 <code class="docutils literal notranslate"><span class="pre">--surf_band_file</span></code> を用いた場合には、plot_style の指定は無効になります。</p>
+<p>バルクのバンド固有値は <code class="docutils literal notranslate"><span class="pre">--out_file</span></code> で指定したワードに、 <code class="docutils literal notranslate"><span class="pre">_bulk.dat</span></code> を追加したファイルに出力されます。デフォルトのファイル名は、 <code class="docutils literal notranslate"><span class="pre">energy_band_bulk.dat</span></code> です。ファイルの形式は、上述の場合と同様である。なお、エネルギーの原点は、前節と異なり、表面バンドの価電子帯上端である点に注意が必要です。</p>
+<p>また、表面バンドの固有値は、“ <code class="docutils literal notranslate"><span class="pre">--out_file</span></code> で指定したワードに、 <code class="docutils literal notranslate"><span class="pre">_surf.dat</span></code> を追加したファイルに出力されます。デフォルトのファイル名は、 <code class="docutils literal notranslate"><span class="pre">energy_band_surf.dat</span></code> です。エネルギーの原点は、表面バンドの価電子帯上端です。以下に、表面のバンドの nspin =1 及び 2 の場合の出力例を示します。</p>
+<p>nspin=1の出力例</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#    dk[Bohr-1]     energy[eV]
+     0.00000000    -9.74658845
+     0.01022878    -9.83170582
+(中略)
+
+     0.00000000    -9.74658830
+     0.01022878    -9.73615395
+(後略)
+</pre></div>
+</div>
+<p>nspin=2の出力例</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#    dk[Bohr-1]            energy[eV]
+#                       up            down
+     0.00000000    -9.74657752    -9.74657731
+     0.01022878    -9.83169359    -9.83169340
+(中略)
+
+     0.00000000    -9.74657739    -9.74657718
+     0.01022878    -9.73649436    -9.73649496
+(後略)
+</pre></div>
+</div>
+<p>拡張子 gnuのファイルは gnuplot 用のファイルです。このファイルをgnuplot で loadすると、png あるいは eps ファイルが生成されます。</p>
+</section>
+</section>
+<section id="id47">
+<h3><span class="section-number">6.9.3. </span>計算例<a class="headerlink" href="#id47" title="この見出しへのパーマリンク"></a></h3>
+<p>計算例を紹介します。入力ファイルは <code class="docutils literal notranslate"><span class="pre">samples/dos_band/Si110-H</span></code> 以下に配置されています。</p>
+<section id="id48">
+<h4><span class="section-number">6.9.3.1. </span>表面ブリルアンゾーンに射影したバルクのバンド<a class="headerlink" href="#id48" title="この見出しへのパーマリンク"></a></h4>
+<p>表面ブリルアンゾーンにバルクのバンドを射影する計算例を紹介します。用いた系はSiのバルクです。入力ファイルは <code class="docutils literal notranslate"><span class="pre">samples/dos_band/Si110-H/bulk</span></code> の <code class="docutils literal notranslate"><span class="pre">scf</span></code> および <code class="docutils literal notranslate"><span class="pre">band</span></code> 以下にあります。格子定数は事前に作成したH終端Si (110)表面と同じ格子定数になるようにしました。ここでは、(110) 面に平行な表面ブリルアンゾーンをとり、これにバルクのバンドを射影した計算を行います。計算条件は次に示す通り。</p>
+<table class="docutils align-default" id="id59">
+<caption><span class="caption-number">表 6.17 </span><span class="caption-text">Siバルクの計算条件</span><a class="headerlink" href="#id59" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><dl class="field-list simple">
+<dt class="field-odd">name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>surface_projected_band_example_table1</p>
+</dd>
+</dl>
+</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>平面波カットオフ [Ry]</p></td>
+<td><p>25.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225.0</p></td>
+</tr>
+<tr class="row-even"><td><p>k 点サンプリング</p></td>
+<td><p>monk (4×4×6)</p></td>
+</tr>
+<tr class="row-odd"><td><p>交換相関相互作用</p></td>
+<td><p>GGAPBE, PAW</p></td>
+</tr>
+<tr class="row-even"><td><p>SCF 収束条件 [Ha/atom]</p></td>
+<td><p>1.0E-8</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Si_ggapbe_paw_nc_01m.pp</p></td>
+</tr>
+<tr class="row-even"><td><p>格子定数 [Å,deg.]</p></td>
+<td><p>a = 5.4726, b = 3.8697, c = 3.8697, alpha = 90, beta = 90, gamma = 90</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="surface-projected-band-si1">
+<img alt="../_images/surface_projected_band_Si1.png" src="../_images/surface_projected_band_Si1.png" />
+<figcaption>
+<p><span class="caption-number">図 6.20 </span><span class="caption-text">用いたバルクSi結晶</span><a class="headerlink" href="#surface-projected-band-si1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>k点生成に使用した <code class="docutils literal notranslate"><span class="pre">bandkpt.in</span></code> およびコマンドは下記の通り。</p>
+<p><code class="docutils literal notranslate"><span class="pre">bandkpt.in</span></code> ファイル</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>0.01
+  0.6076  0.0000  0.0000
+  0.0000  0.8592  0.0000
+  0.0000  0.0000  0.8592
+0 1 0 2 # X
+0 0 0 1 # {/Symbol G}
+1 0 0 2 # X&#39;
+</pre></div>
+</div>
+<p>コマンド</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_kpoint.pl  bandkpt.in  -zdiv=50  -zshift=0
+</pre></div>
+</div>
+<p>以下に、可視化コマンドと得られた図を示します。</p>
+<p>可視化コマンド</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python3  surface_projected_bulk_band.py  nfenergy.data  bandkpt.in
+--e_range -2 2  --e_inc 0.5  --fig_format png  --plot_style 1
+</pre></div>
+</div>
+<p>得られるバンド図</p>
+<figure class="align-default" id="surface-projected-band-si2">
+<img alt="../_images/surface_projected_band_Si2.png" src="../_images/surface_projected_band_Si2.png" />
+<figcaption>
+<p><span class="caption-number">図 6.21 </span><span class="caption-text">Siバルクのバンドの [110] 方向に垂直なブリルアンゾーンへの射影。その1。</span><a class="headerlink" href="#surface-projected-band-si2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>可視化コマンド</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python3  surface_projected_bulk_band.py  nfenergy.data  bandkpt.in
+--e_range -2 2  --e_inc 0.5  --fig_format png  --plot_style 2
+--window_scale  0.8 1.0  --line_width 2  --with_fermi
+</pre></div>
+</div>
+<p>得られるバンド図</p>
+<figure class="align-default" id="surface-projected-band-si3">
+<img alt="../_images/surface_projected_band_Si3.png" src="../_images/surface_projected_band_Si3.png" />
+<figcaption>
+<p><span class="caption-number">図 6.22 </span><span class="caption-text">Siバルクのバンドの [110] 方向に垂直なブリルアンゾーンへの射影。その2。</span><a class="headerlink" href="#surface-projected-band-si3" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id49">
+<h4><span class="section-number">6.9.3.2. </span>表面バンドの背景へのバルクのバンドの描画<a class="headerlink" href="#id49" title="この見出しへのパーマリンク"></a></h4>
+<p>ここでは、、H終端Si(110)表面のバンドを計算し、さらに背景に前節で紹介した Siバルクのバンドを描画します。
+入力ファイルは <code class="docutils literal notranslate"><span class="pre">samples/dos_band/Si110-H/surf</span></code> 以下の <code class="docutils literal notranslate"><span class="pre">scf</span></code> および <code class="docutils literal notranslate"><span class="pre">band</span></code> 以下に配置されています。
+計算条件や原子配置は次に示す通り。</p>
+<table class="docutils align-default" id="id60">
+<caption><span class="caption-number">表 6.18 </span><span class="caption-text">H終端Si(110)表面のバンド計算条件</span><a class="headerlink" href="#id60" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><dl class="field-list simple">
+<dt class="field-odd">name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>surface_projected_band_example_table2</p>
+</dd>
+</dl>
+</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>平面波カットオフ [Ry]</p></td>
+<td><p>25.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>電荷密度カットオフ [Ry]</p></td>
+<td><p>225.0</p></td>
+</tr>
+<tr class="row-even"><td><p>k 点サンプリング</p></td>
+<td><p>monk (4×4×1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>交換相関相互作用</p></td>
+<td><p>GGAPBE, PAW</p></td>
+</tr>
+<tr class="row-even"><td><p>SCF 収束条件 [Ha/atom]</p></td>
+<td><p>1.0E-8</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル</p></td>
+<td><p>Si_ggapbe_paw_nc_01m.pp, H_ggapbe_paw_nc_01m.pp</p></td>
+</tr>
+<tr class="row-even"><td><p>Si原子層</p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="row-odd"><td><p>格子定数 [Å, deg.] (真空層含む)</p></td>
+<td><p>a = 5.4726, b = 3.8697, c = 45.0000, alpha = 90, beta = 90, gamma = 90</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="surface-projected-band-hsi1">
+<img alt="../_images/surface_projected_band_HSi1.png" src="../_images/surface_projected_band_HSi1.png" />
+<figcaption>
+<p><span class="caption-number">図 6.23 </span><span class="caption-text">H終端Si(110)表面の原子配置</span><a class="headerlink" href="#surface-projected-band-hsi1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>k点生成に使用した <code class="docutils literal notranslate"><span class="pre">bandkpt.in</span></code> およびコマンドは下記の通り。</p>
+<p><code class="docutils literal notranslate"><span class="pre">bandkpt.in</span></code> ファイル</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>0.01
+  0.6076  0.0000  0.0000
+  0.0000  0.8592  0.0000
+  0.0000  0.0000  0.0831
+0 1 0 2 # X
+0 0 0 1 # {/Symbol G}
+1 0 0 2 # X&#39;
+</pre></div>
+</div>
+<p>コマンド</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>band_kpoint.pl  bandkpt.in
+</pre></div>
+</div>
+<p>以下に、可視化コマンドと得られた図を示します。なお、 <code class="docutils literal notranslate"><span class="pre">e_shift</span></code> 値は、SCF計算における <code class="docutils literal notranslate"><span class="pre">potential_on_atoms.data</span></code> 記載の値から判断しました ( Siバルク: -5.866908 eV、H終端Si(110)表面の膜厚中央の値: -8.435574 eV の差 )。</p>
+<p>可視化コマンド</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python3  surface_projected_bulk_band.py  nfenergy.data.bulk  bandkpt.in
+--e_range -2 2  --e_inc 0.5  --fig_format png
+--surf_band_file  nfenergy.data  --e_shift  -2.56867
+( 現在のフォルダは、表面のバンド計算を行ったフォルダとします。nfenergy.data.bulk は、別のフォルダにある bulk のnfenergy.dataを指します。)
+</pre></div>
+</div>
+<p>得られるバンド図</p>
+<figure class="align-default" id="surface-projected-band-hsi2">
+<img alt="../_images/surface_projected_band_HSi2.png" src="../_images/surface_projected_band_HSi2.png" />
+<figcaption>
+<p><span class="caption-number">図 6.24 </span><span class="caption-text">H終端Si(110)表面のバンド (青線)。灰色の領域は、バルクのバンドを射影したものに対応する。</span><a class="headerlink" href="#surface-projected-band-hsi2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../basics/basics.html" class="btn btn-neutral float-left" title="5. 基本機能を利用した計算例" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../advanced_electronic_structure/advanced_electronic_structure.html" class="btn btn-neutral float-right" title="7. 高度な電子状態計算" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, PHASEシステム研究会.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+structure{
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz
+             H -0.745970362293727584 0.0  0.612288579829283712
+             H  0.745970362293727584 0.0  0.612288579829283712
+             O  0.0 0.0 0.0
+        }
+        coordinate_system = cartesian
+    }
+    element_list{
+        #tag element atomicnumber mass
+         H 1 1837.35097
+         O 8 29164.9435
+    }
+    unit_cell_type = Bravais
+    unit_cell{
+        #units angstrom
+        a_vector = 3 0.00 0.00
+        b_vector = 0.00 3 0.00
+        c_vector = 0.00 0.00 12
+    }
+    symmetry{
+        method = automatic
+    }
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 6
+            ny = 6
+            nz = 1
+        }
+        method = monk
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 5.0E-3 Hartree/Bohr
+    }
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+    num_bands = 8
+    esm{
+       sw_esm = on
+    }
+}
+control{
+    condition = initial
+}
+printoutlevel{
+    base = 1
+    parallel_debug = 0
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n
+         mddavidson 2
+         rmm3 -1
+    }
+    rmm{
+        edelta_change_to_rmm = 1e-3
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs
+         1 pulay 0.40
+    }
+}

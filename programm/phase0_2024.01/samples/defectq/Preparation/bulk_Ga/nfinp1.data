@@ -1,0 +1,88 @@
+Control{
+    condition = initial
+    cpumax = 46 hour
+    max_iteration = 1000000
+    max_scf_iteration = 50
+}
+accuracy{
+    cutoff_wf = 30 Rydberg
+    cutoff_cd = 270 Rydberg
+
+    ksampling{
+        method = monk
+        mesh{
+            nx = 6
+            ny = 6
+            nz = 6
+        }
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+   force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 30
+
+    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge
+
+      smearing{
+                method = parabolic      ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+        }
+     paw = on
+}
+structure{
+    atom_list{
+        coordinate_system = internal ! {internal|cartesian}
+        atoms{
+            #default mobile=yes
+            #tag element rx ry rz
+  Ga     -0.15490000000000   0.15490000000000   0.08100000000000  ! // Ga
+  Ga      0.65490000000000   0.34510000000000   0.58100000000000  ! // Ga
+  Ga      0.34510000000000   0.65490000000000   0.41900000000000  ! // Ga
+  Ga      0.15490000000000  -0.15490000000000  -0.08100000000000  ! // Ga
+        }
+   }
+
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber 
+                 Ga     31
+    }
+    unit_cell_type = bravais
+    unit_cell{
+      #units angstrom
+a_vector =   2.26150000000000  -3.83050000000456   0.00000000000000
+b_vector =   2.26150000000000   3.83050000000456   0.00000000000000
+c_vector =   0.00000000000000   0.00000000000000   4.52400000002060
+    }
+
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+    }
+}
+!charge_mixing{
+!        mixing_methods{
+!        #tag no   method   rmxs   rmxe   prec istr  nbmix  update
+!               1  pulay  0.01   0.01   on    3     15    RENEW
+!        }
+!}
+structure_evolution {
+    stress{
+      sw_stress = on
+      sw_stress_correction = on
+   }
+   lattice{
+     sw_optimize_lattice = on
+!     sw_uniform = on
+     sw_rebuild_pws = on
+     fix_angle_alpha = yes
+     fix_angle_beta = yes
+   }
+}

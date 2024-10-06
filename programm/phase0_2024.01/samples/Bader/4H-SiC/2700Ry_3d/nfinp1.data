@@ -1,0 +1,80 @@
+control{
+    condition = initial
+    cpumax = 23 hour
+    max_iteration = 1000000
+}
+accuracy{
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{
+!              nx = 10, ny = 10, nz =  3
+              nx = 6, ny = 6, nz =  2
+        }
+!        kshift{
+!           k1=0, k2=0, k3=0
+!        }
+    }
+
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 2700.0 Rydberg
+
+      smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.05 eV
+        }
+   scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+    num_bands = 30
+
+!    initial_wavefunctions = atomic_orbital
+    initial_charge_density =  atomic_charge_density
+!
+     paw = on
+!
+}
+structure{
+    atom_list{
+        coordinate_system = internal    ! {internal|cartesian}
+        atoms{
+            #tag element rx ry rz
+Si    0.000000000000000000 -0.000000000000000000 -0.1561195423775262D-03
+Si   -0.000000000000000000  0.000000000000000000  0.4998438804576224D+00
+C    -0.000000000000000000 -0.000000000000000000  0.1873043462775200D+00
+C     0.000000000000000000  0.000000000000000000  0.6873043462775201D+00
+Si    0.333333333333333333  0.666666666666666667  0.2498868203624297D+00
+Si   -0.333333333333333333  0.333333333333333333  0.7498868203624297D+00
+C     0.333333333333333333  0.666666666666666667  0.4379681424594145D+00
+C    -0.333333333333333333  0.333333333333333333  0.9379681424594143D+00
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber moment  mass
+                Si      14        0.0    28.085
+                 C       6        0.0    12.011
+    }
+
+    unit_cell{
+      a = 5.8714955621, b = 5.8714955621, c = 19.2150056243
+      alpha = 90.0, beta = 90.0, gamma = 120.0
+    }
+
+!    magnetic_state = ferro
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+!        sw_inversion = on
+    }
+}
+postprocessing{
+   charge{
+         sw_charge_rspace = on
+         filetype = cube
+         sw_add_corecharge_rspace = on
+!         eval_corecharge_on_Gspace = on
+   }
+}

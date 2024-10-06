@@ -1,0 +1,89 @@
+control{
+    condition = initial
+    cpumax = 23 hour
+    max_scf_iteration = 100000000
+}
+accuracy{
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{
+              nx = 10, ny = 10, nz =  6
+        }
+    }
+
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 270.0 Rydberg
+
+    smearing{
+            method = parabolic ! {parabolic|tetrahedral}
+            width  = 0.002 hartree
+   }
+   scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+
+    num_bands = 25
+
+!    initial_wavefunctions = atomic_orbital
+    initial_charge_density =  atomic_charg
+
+    paw = on
+}
+structure{
+    atom_list{
+        atoms{
+            #default mobile=yes
+            #tag element rx ry rz mobile
+             N 0.33333333333333333333 0.666666666666666666666666 0.0
+             N -0.3333333333333333333 0.333333333333333333333333 0.5
+             Al 0.3333333333333333333 0.66666666666666666666666 0.381
+             Al -0.333333333333333333 0.333333333333333333333333 0.881
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber moment
+             Al       13         0.0
+              N        7         0.0
+    }
+
+    unit_cell{
+!J. Am. Ceram. Soc.,1989,72,,1409-1414,Vandamme N.S., Richard S.M., Winzer S.R.
+        #units angstrom
+        a = 3.1117
+        b = 3.1117
+        c = 4.9788
+        alpha = 90 
+        beta = 90 
+        gamma = 120.000000000
+    }
+
+!    magnetic_state = ferro
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+    }
+}
+printlevel{
+   magmom = 2
+   gap = 2
+}
+structure_evolution {
+    stress{
+      sw_stress = on
+      sw_stress_correction = on
+   }
+   lattice{
+     sw_optimize_lattice = on
+!     sw_uniform = on
+     sw_rebuild_pws = on
+     fix_angle_alpha = yes
+     fix_angle_beta = yes
+   }
+}

@@ -1,0 +1,121 @@
+!! Adenine-Thymine stacking DFT+vdW
+control{
+        condition = initial
+	max_iteration = 60000
+        sw_vdw_correction = on
+}
+
+accuracy{
+	cutoff_wf =  30.00  rydberg  ! cke_wf
+	cutoff_cd = 230.00  rydberg  ! cke_cd
+	num_bands = 72
+	initial_wavefunctions = atomic_orbitals
+	initial_charge_density = atomic_charge_density
+        ksampling{
+	  method = gamma
+        }
+        smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+        }
+        scf_convergence{
+          delta_total_energy = 1.0e-9
+        }
+        force_convergence{
+	  max_force = 5.0e-4
+	}
+	vdw_method = williams
+	vdw_radius = 20.0
+	vdw_scaling_factor = 0.8095
+	vdw_scaling_factor_r = 0.8
+	vdw_damping_factor = 3.0
+}
+
+structure{
+	unit_cell{
+	      #units angstrom
+              a = 20, b = 20,  c = 20
+              alpha = 90, beta = 90, gamma = 90
+	}
+	symmetry{
+	  sw_inversion = off
+	}
+	atom_list{
+	     coordinate_system = cartesian ! {cartesian|internal}
+	     atoms{
+	         #units angstrom
+		 #default mobile=on
+#tag element  rx        ry        rz    vdw
+N	-2.06218922276997 	-0.67057857608143 	-0.00073455199630 	NPI2
+C	-2.34282988295194 	0.69311000983260 	-0.00015489864733 	CTR
+N	-1.25853337937855 	1.45638027123117 	0.00099245922837 	NTR2
+C	-0.20761401633347 	0.53684729966898 	0.00080152731470 	CBR
+C	1.20163863514228 	0.69174575437403 	0.00076629257682 	CTR
+N	1.79892236129553 	1.91534861669655 	0.00153767107616 	NPI2
+N	1.98262200899157 	-0.41822878728615 	0.00015860288806 	NTR2
+C	1.37907201458081 	-1.62956314872743 	-0.00029343725085 	CTR
+N	0.06063037312073 	-1.91924199596453 	-0.00057916227249 	NTR2
+C	-0.67880565559697 	-0.79407606829430 	-0.00013823009319 	CBR
+H	-3.36892911800236 	1.05914111057067 	-0.00057545485669 	H
+H	2.81039158749025 	1.96867203576291 	-0.00114413783214 	H
+H	1.23189722302091 	2.75442863707347 	-0.00002899785484 	H
+H	2.05829078139244 	-2.49078154322514 	-0.00055092960796 	H
+H	-2.72814724061371 	-1.43655330999148 	-0.00196891560758 	H
+N	-1.11469787987803 	-1.25386803898707 	3.40020007662570 	NPI2
+C	-1.65033563964043 	0.04177620847040 	3.39942519973556 	CTR
+O	-2.85867432074313 	0.27059358135738 	3.39951957373515 	OTR4
+N	-0.65922694092950 	1.02363344793665 	3.39852639059230 	NPI2
+C	0.75229699115403 	0.85117365939915 	3.39928585307838 	CTR
+O	1.49706477169282 	1.83517279722358 	3.39944673037025 	OTR4
+C	1.19580317537414 	-0.55559647767001 	3.39959156565385 	CTR
+C	2.67828049834978 	-0.83194579136382 	3.39932887730535 	CTE
+C	0.24432453854048 	-1.53199930996674 	3.39999533053996 	CTR
+H	-0.99282667899669 	1.98746599221349 	3.39768136967042 	H
+H	2.87465575462585 	-1.91738107326219 	3.39678795707673 	H
+H	3.15810517915886 	-0.38132705587658 	4.28728154503096 	H
+H	3.15828413896648 	-0.37703568240038 	2.51369077635724 	H
+H	0.49929929255326 	-2.59588972601201 	3.40017402470060 	H
+H	-1.80105773701496 	-2.00213691282059 	3.40075544391405 	H
+	     }
+	}
+	element_list{
+	              #tag element  atomicnumber dev
+			   H         1           1.0
+			   C         6           2.0
+			   N         7           2.0
+			   O         8           2.0
+       }
+}
+
+wf_solver{
+        solvers {
+        #tag    sol    till_n
+                mddavidson    1
+                rmm3       -1
+        }
+        rmm {
+          edelta_change_to_rmm = 1.d-3
+        }
+}
+
+charge_mixing{
+        mixing_methods {
+        #tag no   method    rmxs
+              1   pulay   0.40
+        }
+        sw_mix_charge_hardpart = OFF
+}
+
+!structure_evolution{
+!   method = cg
+!}
+
+Postprocessing{
+    dos{
+         sw_dos = off
+    }
+}
+
+printlevel{
+        base = 1
+}

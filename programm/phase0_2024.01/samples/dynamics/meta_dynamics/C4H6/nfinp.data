@@ -1,0 +1,128 @@
+Control{
+    condition = initial
+    cpumax = 7 day
+    max_mdstep = 376000
+    driver = meta_dynamics
+}
+accuracy{
+    cutoff_wf = 25.0 rydberg
+    cutoff_cd = 225.0 rydberg
+    num_bands = 16
+    ksampling{
+        method = gamma
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-9 hartree
+        succession = 2
+    }
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+}
+structure{
+    unit_cell{
+        #units angstrom
+        a_vector = 6.00 0.00 0.00
+        b_vector = 0.00 6.00 0.00
+        c_vector = 0.00 0.00 6.00
+    }
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz mobile weight thermo_group
+        H 4.9972456085        3.5831409229        6.5878980005 on 1 1
+        C 5.0010073647        5.6727184086        5.8330661564 on 1 1
+        C 4.9986444056        4.3264441575        5.8309307832 on 1 1
+        C 5.0244609993        5.8272855513        4.2722903990 on 1 1
+        C 5.0045273933        4.1721119387        4.2705579636 on 1 1
+        H 5.8638928645        3.7127508705        3.8454033342 on 1 1
+        H 4.1368601380        3.7317695000        3.8415106541 on 1 1
+        H 4.9895689675        6.4148642102        6.5913210969 on 1 1
+        H 4.1740897142        6.2879342094        3.8308732117 on 1 1
+        H 5.9003710248        6.2666079818        3.8591254283 on 1 1
+        }
+        coordinate_system = cartesian
+    }
+    element_list{
+        #tag element atomicnumber mass
+         C 6 21894.5796
+         H 1 1837.35097
+    }
+}
+meta_dynamics{
+  meta_dynamics_type = bias_only
+  max_bias_update = -1
+  continuation_strategy{
+    randomize_velocity=on
+    scale_velocity=off
+    velocity_scaling_factor=0.7
+    configuration_from_input=off
+  }
+  bias_potential{
+    height = 0.02 eV
+    update_frequency=20
+    output_frequency=100
+  }
+  collective_variable{
+    mass=1000
+    k=100
+    delta_s = 0.08
+    control_velocity=on
+    mass_thermo = 50
+    target_KE = 0.1
+  }
+  collective_variable1{
+     type=bond_length
+     atom1=5
+     atom2=4
+     delta_s=0.05 angstrom
+!for bpot output
+     smin=1 angstrom
+     smax=5 angstrom
+     ds = 0.1 angstrom
+   }
+   collective_variable2{
+     type=dihedral_angle
+     atom1=5
+     atom2=3
+     atom3=2
+     atom4=4
+     delta_s = 5 degree
+!for bpot output
+     smin = -180 degree
+     smax = +180 degree
+     ds = 10 degree
+   }
+}
+structure_evolution{
+    method = temperature_control
+    dt = 30
+    n_md_step = -1
+    temperature_control{
+        num_thermostat = 1
+        set_initial_velocity = on
+        thermostat{
+            #tag temp qmass
+                  300 5000
+            }
+    }
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n
+         mddavidson 1
+         rmm3    -1
+    }
+    rmm{
+        edelta_change_to_rmm = 5.0e-3
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs
+         1 broyden2 0.40
+    }
+}
+printoutlevel{
+   base=1
+}
+

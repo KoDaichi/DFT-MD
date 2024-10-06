@@ -1,0 +1,8 @@
+&fnames
+F_POT(1) = '../../../../pp/Pt_ggapbe_paw_us_01m.pp'
+F_POT(2) = '../../../../pp/O_ggapbe_paw_us_02m.pp'
+/
+&nebfiles
+F_IMAGE(0) = '../fcc/nfdynm.data'
+F_IMAGE(-1) = '../hcp/nfdynm.data'
+/

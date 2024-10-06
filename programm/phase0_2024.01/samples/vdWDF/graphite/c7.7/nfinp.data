@@ -1,0 +1,46 @@
+control{
+    condition = initial 
+}
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz 
+             C 0.00 0.00 0.25 
+             C 0.00 0.00 0.75
+             C 0.3333333333333 0.6666666667 0.25
+             C 0.6666666666667 0.3333333333 0.75
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass zeta deviation
+         C 6 21894.5796 0.0 1.83
+    }
+    unit_cell{
+        #units angstrom
+        a = 2.480
+        b = 2.480
+        c = 7.7
+        alpha = 90
+        beta =  90
+        gamma = 120
+    }
+    symmetry{
+        method = automatic 
+    }
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 12
+            ny = 12
+            nz = 2 
+        }
+    }
+    cutoff_wf =  25 Rydberg
+    cutoff_cd = 225 Rydberg
+    num_bands = 12 
+    xctype = vdwdf
+    vdwdf{
+       mode = oneshot ! oneshot or scf
+    }
+}

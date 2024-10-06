@@ -1,0 +1,52 @@
+Control{
+  condition = initial
+}
+accuracy{
+  cutoff_wf =  80 rydberg
+  cutoff_cd = 320 rydberg
+  num_bands = 8
+  ksampling{
+     method = mesh
+     mesh{  nx = 8, ny =  8, nz =  8   }
+  }
+  smearing{
+    method = t
+  }
+}
+structure{
+    unit_cell{
+       #units angstrom
+       a = 5.466
+       b = 5.466
+       c = 5.466
+       alpha = 90
+       beta  = 90
+       gamma = 90
+    }
+    symmetry{
+      method = automatic
+      tspace{
+        lattice_system = facecentered
+      }
+    }
+    atom_list{
+       atoms{
+       #tag  rx       ry         rz     element 
+        0.125     0.125     0.125     Si    
+        0.875     0.875     0.875     Si    
+       }
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+    }
+}
+postprocessing{
+  dos{
+    sw_dos = on
+    method = t
+    write_format = wide
+  }
+  ldos{
+    sw_aldos = on
+  }
+}

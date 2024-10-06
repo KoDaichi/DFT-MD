@@ -1,0 +1,68 @@
+Control{
+    condition = initial
+    cpumax = 1 day ! {sec|min|hour|day}
+}
+
+accuracy{
+    cutoff_wf =  20.0  rydberg
+    cutoff_cd =  80.0  rydberg
+
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{  nx = 2, ny =  4, nz =  1  }
+                kshift{ k1 = 0.5, k2 = 0.5, k3 = 0.0 }
+    }
+
+    smearing{
+        method = parabolic ! {parabolic|tetrahedral}
+        width  = 0.001 hartree
+    }
+    force_convergence{
+        max_force = 2.0e-4
+    }
+}
+
+structure{
+  atom_list{
+    atoms{
+      #tag    element    rx    ry    rz    weight    mobile
+            H    0.30874317781287197    0.5    0.6875302466242159    1    on
+            H    0.6782205357476374    0.5    0.6875302466242159    1    on
+            C    0.39989589242870655    0.5    0.6445596062102025    1    on
+            C    0.5870678211318029    0.5    0.6445596062102025    1    on
+            Si    0.2136198132928935    0.5    0.5693121147999    1    on
+            Si    0.7863612028718067    0.5    0.5693085613798001    1    on
+            Si    0.2667772298369    0    0.4931588397631    1    on
+            Si    0.7332057471799001    0    0.4931564740015    1    on
+            Si    -5.3006023e-06    0    0.4191201643227    1    on
+            Si    0.4999910842765    0    0.3982652194410001    1    on
+            Si    -6.2512419e-06    0.5    0.33355119136210004    1    on
+            Si    0.49999509761680005    0.5    0.3147593494722    1    on
+            Si    0.23731523748230002    0.5    0.24159315199220002    1    on
+            Si    0.7626735001712001    0.5    0.24159048282560003    1    on
+            H    0.221506945891    0.2004542670499    0.18424772315100002    1    on
+            H    0.221506945891    0.7995457329502001    0.18424772315100002    1    on
+            H    0.7784753882933001    0.20045629835830003    0.18424367499020003    1    on
+            H    0.7784753882933001    0.7995437016417    0.1842436749901    1    on
+    }
+  }
+  unit_cell{
+    a_vector = 14.512 0.0 0.0
+    b_vector = 0.0 7.256 0.0
+    c_vector = 0.0 0.0 30.784
+  }
+  element_list{
+    #tag    element    atomicnumber    mass    zeta    deviation
+          Si    14    51196.421331057994    0    1.83
+          C    6    21894.579644561698    0    1.83
+          H    1    1837.350978847683    0    1.83
+  }
+}
+structure_evolution{
+  method = lbfgs
+}
+postprocessing{
+  eda{
+    sw_eda = on
+  }
+}

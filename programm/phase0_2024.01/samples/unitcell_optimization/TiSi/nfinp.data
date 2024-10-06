@@ -1,0 +1,72 @@
+Control{
+    cpumax = 1 day
+    condition = initial
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 2
+            ny = 2
+            nz = 3
+        }
+        method = monk
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 110
+    cutoff_wf = 36 Rydberg
+    cutoff_cd = 324 Rydberg
+}
+structure_evolution{
+  lattice{
+    sw_optimize_lattice = on
+  }
+}
+printoutlevel{
+    base = 1
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         Si 14 51196.4212
+         Ti 22 87279.3665
+    }
+    atom_list{
+        atoms{
+            #tag element rx ry rz mobile
+             Ti 0.3333333333 0.6666666667 0.00 1
+             Ti -0.3333333333 0.3333333333 0.50 1
+             Ti -0.3333333333 -0.6666666667 0.00 1
+             Ti 0.3333333333 -0.3333333333 0.50 1
+             Si 0.6063 0.00 0.25 1
+             Si 0.6063 0.6063 0.75 1
+             Si 0.00 0.6063 0.25 1
+             Si -0.6063 0.00 0.75 1
+             Si -0.6063 -0.6063 0.25 1
+             Si 0.00 -0.6063 0.75 1
+             Ti 0.2473 0.00 0.25 1
+             Ti 0.2473 0.2473 0.75 1
+             Ti 0.00 0.2473 0.25 1
+             Ti -0.2473 0.00 0.75 1
+             Ti -0.2473 -0.2473 0.25 1
+             Ti 0.00 -0.2473 0.75 1
+        }
+    }
+    unit_cell_type = Bravais
+    unit_cell{
+        a_vector = 14.099245627431058 0.0 0.0
+        b_vector = -7.049622813715529 12.210304887484504 0.0
+        c_vector = 0.0 0.0 9.733600640366157
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+        sw_inversion = on
+    }
+}

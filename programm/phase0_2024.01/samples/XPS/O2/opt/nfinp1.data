@@ -1,0 +1,71 @@
+control{
+    condition = initial
+    cpumax = 23 hour
+    max_scf_iteration = 100000000
+}
+accuracy{
+    ksampling{
+        method = gamma
+    }
+
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 270.0 Rydberg
+
+    smearing{
+            method = parabolic ! {parabolic|tetrahedral}
+            width  = 0.002 hartree
+   }
+   scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+   force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 12
+
+!    initial_wavefunctions = atomic_orbital
+    initial_charge_density =  atomic_charge
+!
+    paw = on
+}
+structure{
+    atom_list{
+        coordinate_system = cartesian
+        atoms{
+            #default mobile=yes
+            #units angstrom
+            #tag element rx ry rz 
+O  -0.6005  0.0  0.0
+O   0.6005  0.0  0.0
+        }  
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber moment
+                 O       8        1.0  
+    }
+
+    unit_cell_type = Bravais 
+    unit_cell{
+        #units angstrom
+        a =  14.00
+        b =  14.00
+        c =  14.00
+        alpha = 90.00 
+        beta = 90.00 
+        gamma = 90.00 
+    }
+
+    magnetic_state = ferro
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitve
+        }
+    }
+}
+printlevel{
+   magmom = 2
+   gap = 2
+}

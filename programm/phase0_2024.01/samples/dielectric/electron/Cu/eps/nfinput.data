@@ -1,0 +1,118 @@
+Control{
+	condition = fixed_charge
+	cpumax = 1 day             ! {sec|min|hour|day}
+  use_additional_projector = on
+}
+
+accuracy{
+	cutoff_wf =  25.0       rydberg
+	cutoff_cd = 225.0       rydberg
+	num_bands = 18
+	ksampling{
+		method = mesh ! {mesh|file|directin|gamma|monk}
+		mesh{  nx=10, ny=10, nz=10 }
+
+	}
+	smearing{
+		method = tetrahedral   ! parabolic ! {parabolic|tetrahedral}
+	}
+	scf_convergence{
+		delta_total_energy = 1.e-12  hartree
+		succession   =  3   !default value = 3
+	}
+	force_convergence{
+		max_force = 0.1e-3
+	}
+	ek_convergence{
+		num_extra_bands = 4
+		sw_eval_eig_diff = on
+		delta_eigenvalue = 1.e-6 rydberg
+		succession   =  3
+	}
+
+	initial_wavefunctions = matrix_diagon  ! matrix_diagon  !{random_numbers|matrix_diagion}
+            matrix_diagon{
+               cke_wf =  25.00  rydberg  ! cke_wf
+            }
+}
+
+structure{
+	unit_cell_type = primitive
+	unit_cell{
+		#units bohr degree
+		a_vector =  0.00000000000         3.47046370000          3.47046370000
+    b_vector =  3.47046370000         0.00000000000          3.47046370000
+		c_vector =  3.47046370000         3.47046370000          0.00000000000
+	}
+	symmetry{
+	     crystal_structure = facecentered_cubic
+	     sw_inversion = on
+	}
+
+	magnetic_state = para   !{para|af|ferro}
+	atom_list{
+	     atoms{
+		#tag  rx       ry       rz       weight   element    mobile  pdos
+                     0.000    0.000     0.000       1        Cu        off      off
+	          }
+                  }
+	element_list{
+	 #tag element  atomicnumber
+   	        Cu          29
+	}
+}
+
+structure_evolution{
+	method = gdiis
+	dt  = 100.0
+	gdiis{
+	    gdiis_box_size = 4
+	    gdiis_update = RENEW
+	    c_forc2gdiis = 0.0050
+	    c_iteration2GDIIS = 3
+	}
+	stress{
+	    sw_stress = off
+	}
+}
+
+epsilon {
+        sw_epsilon = on
+        crystal_type = single ! {single|poly}
+        fermi_energy{
+               read_efermi = off
+               efermi = 0.000
+        }
+        photon{
+               polar    {ux=1.00, uy=0.00, uz=0.00}
+               Poynting {px=0.00, py=0.00, pz=0.00}
+               energy   {low=0.000, high=2.000, step=0.004}
+        }
+        transition_moment{
+                type = ks ! {l|rn|ks}
+                delq =0.001
+                symmetry =on
+        }
+        mass {
+                sw_mass = off
+        }
+        BZ_integration {
+                method = t !{parabolic(p)|gaussian(g)|tetrahedron(t)}
+        }
+        band_gap_correction{
+                scissor_operator=0.0d0
+        }
+        drude_term {
+                drude=on ! {on|off|drude_only}
+                effective_mass=1.49d0
+                damping_factor=0.003505569d0
+                   }
+        nonlinear_optics {
+                process = off
+                   }
+        ipriepsilon=2
+}
+
+printlevel{
+	base = 1
+}

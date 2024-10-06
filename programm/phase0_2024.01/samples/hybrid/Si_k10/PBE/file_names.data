@@ -1,0 +1,8 @@
+ &fnames
+ F_INP    = './nfinput.data'
+ F_POT(1) = '../../../pp/Si_ggapbe_paw_nc_01m.pp'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = './nfchgt.data'
+ F_ENF    = './nfefn.data'
+ F_ZAJ    = './zaj.data'
+ /

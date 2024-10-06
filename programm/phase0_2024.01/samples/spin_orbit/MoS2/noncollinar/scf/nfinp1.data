@@ -1,0 +1,69 @@
+control{
+    condition = initial 
+}
+accuracy{
+    cutoff_wf = 30 Rydberg
+    cutoff_cd = 270 Rydberg
+
+    ksampling{
+        method = monk 
+        mesh{
+            nx = 4 
+            ny = 4 
+            nz = 1
+        }
+    }
+    num_bands = 80
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    smearing{
+           method = parabolic ! {parabolic|tetrahedral}
+           width  = 0.05 eV
+    }
+    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge
+
+    xctype = pbesol
+    paw = on
+    spinorbit{
+        mode = pawpot
+    }
+}
+structure{
+    atom_list{
+        atoms{
+            #default mobile=no
+            #tag element rx ry rz 
+Mo    0.333333333333333481  0.666666666666666852  0.250000000000000056
+Mo    0.666666666666666519  0.333333333333333315  0.749999999999999778
+S     0.333333333333333481  0.666666666666666852  0.622562168813851735
+S     0.333333333333333481  0.666666666666666852  0.877437831186148598
+S     0.666666666666666519  0.333333333333333315  0.122562168813851610
+S     0.666666666666666519  0.333333333333333315  0.377437831186148487
+        }
+    }
+    element_list{
+        #tag element atomicnumber 
+                Mo     42
+                 S     16 
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+  a     =     5.996895050189 , b    =     5.996895050189 ,  c     =    23.425098520869
+  alpha =    90.000000000000 , beta =    90.000000000000 ,  gamma =   120.000000000000
+    }
+    magnetic_state = noncollinear
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+    }
+}
+printlevel{
+   gap = 2
+}

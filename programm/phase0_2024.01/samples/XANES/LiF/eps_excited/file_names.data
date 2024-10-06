@@ -1,0 +1,12 @@
+ &fnames
+ F_INP    = './nfinp1.data'
+ F_POT(1) = '../pp/Li_ggapbe_paw_02_no_corehole.pp'
+ F_POT(2) = '../pp/Li_ggapbe_paw_02_1s_corehole.pp'
+ F_POT(3) = '../../../pp/F_ggapbe_paw_us_01m.pp'
+
+ F_CHGT   = '../scf_excited/nfchgt.data'
+ F_CNTN_BIN_PAW   = '../scf_excited/continue_bin_paw.data'
+
+ F_CORE_ENERGY_INITIAL = '../scf_ground/core_energy.data'
+ F_CORE_ENERGY_FINAL   = '../scf_excited/core_energy.data'
+/

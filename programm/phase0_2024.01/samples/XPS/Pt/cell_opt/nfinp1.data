@@ -1,0 +1,77 @@
+control{
+    condition = initial 
+    cpumax = 46 hour
+    max_iteration = 100000
+    max_scf_iteration = 60
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 8
+            ny = 8
+            nz = 8 
+        }
+        method = monk 
+    }
+    num_bands = 12
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 270.0 Rydberg
+
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+
+    paw = on
+
+}
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz
+Pt  0.0  0.0  0.0
+        }
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+! Z. Phys. Chem. (Munich),1985,144,,223-229,Ebert H., Abart J., Voitlander J.
+        #units angstrom
+        a =  3.925
+        b =  3.925
+        c =  3.925
+        alpha = 90.00 
+        beta = 90.00 
+        gamma = 90.00 
+    }
+
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = fcc
+        }    
+   }
+    element_list{
+        #tag element atomicnumber moment
+               Pt     78   0.0
+    }
+}
+structure_evolution {
+    stress{
+      sw_stress = on
+      sw_stress_correction = on
+   }
+   lattice{
+     sw_optimize_lattice = on
+     sw_rebuild_pws = on
+   }
+}
+printlevel{
+   magmom = 2
+   gap = 2
+}

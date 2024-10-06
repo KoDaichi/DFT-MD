@@ -1,0 +1,101 @@
+Control{
+    condition = 0       ! {0|1|2|3}|{initial|continuation|fixed_charge|fixed_charge_continuation}
+    cpumax = 1 day     ! {sec|min|hour|day}
+    max_iteration = 6000
+}
+
+accuracy{
+    cutoff_wf =  25  rydberg
+    cutoff_cd = 230  rydberg
+    num_bands = 16
+    ksampling{
+          method = mesh
+      mesh { nx = 6, ny = 6, nz = 4 }
+    }
+    smearing{
+        method = tetrahedral ! {parabolic|tetrahedral}
+        width  = 0.001 hartree
+    }
+    xctype = ldapw91
+    scf_convergence{
+        delta_total_energy = 1.e-10  hartree
+        succession   = 3   !default value = 3
+    }
+
+    force_convergence{
+        delta_force = 0.1e-3
+    }
+
+}
+
+structure{
+        unit_cell_type = bravais
+        unit_cell{
+           a= 5.80638 , b= 5.80638 , c= 9.296014
+           alpha=90, beta=90, gamma=120
+        }
+
+    symmetry{
+             tspace{
+                lattice_system = hexagonal
+                generators{
+                  #tag rotation tx ty tz
+                        2       0  0  1/2
+                       19       0  0  1/2           
+                }    
+             }
+         sw_inversion = 0
+    }
+
+    atom_list{
+         coordinate_system = internal ! {cartesian|internal}
+         atoms{
+             #tag   rx            ry            rz            element
+                     0.3333333333  0.6666666666  0.0000000000  Al
+                     0.6666666666  0.3333333333  0.5000000000  Al
+                     0.3333333333  0.6666666666  0.3820000000  N
+                     0.6666666666  0.3333333333  0.8820000000  N
+         }
+    }
+    element_list{ #units atomic_mass
+                      #tag  element  atomicnumber dev           mass
+                Al        13          1.825741858   26.981538
+                N          7          1.825741858   14.0067
+            }
+}
+
+Phonon{
+   sw_phonon = on
+   sw_calc_force = on
+   force_calc{
+      start = 1, end = -1
+   }
+   norder = 1
+   sw_polynomial_fit = OFF
+   displacement = 0.05
+   sw_vibrational_modes = on
+   sw_lo_to_splitting = off
+   electronic_dielectric_constant{
+     exx =  0.0, eyy =  0.0, ezz =  0.0, exy = 0.0, eyz = 0.0, ezx = 0.0
+   }
+   k_vector{ kx = 0.0, ky = 0.0, kz = 0.0 }
+   sw_lattice_dielectric_tensor = off
+   sw_dielectric_function = off
+   energy_range{
+      min_energy = 0.0
+      max_energy = 0.01
+      division_number = 100
+   }
+   sw_internal_strain_piezoelectric_tensor = off
+}
+
+Postprocessing{
+        Polarization{
+           sw_bp_property = off
+           property = effective_charge
+        }
+}
+
+printlevel{
+    base = 1
+}

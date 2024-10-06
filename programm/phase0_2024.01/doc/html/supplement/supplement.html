@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>11. 補遺 &mdash; PHASE/0 Manual 2024.01 ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/phase0.css?v=84baaed2" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=df52f328"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="prev" title="10. 誘電応答解析機能 UVSOR" href="../uvsor/uvsor.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PHASE/0 Manual
+              <img src="../_static/image1.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">1. はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">2. PHASE/0のインストール</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_step/first_step.html">3. PHASE/0の基本的な利用方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_parameters/input_parameters.html">4. 入力パラメータファイル：nfinp.data（詳細版）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/basics.html">5. 基本機能を利用した計算例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../electronic_structure/electronic_structure.html">6. 電子状態解析：バンド構造と状態密度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html">7. 高度な電子状態計算</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis/analysis.html">8. 解析機能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">11. 補遺</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">11.1. 計算精度、収束性</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">11.1.1. カットオフエネルギーと計算精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#k">11.1.2. k 点サンプリングと計算精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">11.1.3. 収束判定と計算精度</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scf-2023-01">11.2. SCF計算の高速化 (バージョン2023.01以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phase-0">11.3. PHASE/0 の単位系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#commands-tools-chapter">11.4. PHASE/0プログラム、ツールの実行方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#phase">11.4.1. プログラムphase</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#phase2">11.4.1.1. プログラムphase2次元版の並列計算オプション</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#phase-3-g">11.4.1.2. プログラムphase 3次元並列（G点並列）版</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ekcal">11.4.2. プログラムekcal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#epsmain">11.4.3. プログラムepsmain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tdlrmain">11.4.4. プログラムtdlrmain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dos-pl">11.4.5. 状態密度図作成ツール dos.pl</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">11.4.5.1. 状態密度図の作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">11.4.5.2. dos.plのオプション</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dos-py-2020-01">11.4.6. 改良版状態密度図作成ツールdos.py (バージョン2020.01以降)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">11.4.6.1. 概要</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">11.4.6.2. 使い方</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">11.4.6.3. 出力</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">11.4.6.4. 利用例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#k-band-kpoint-pl">11.4.7. k点ファイル生成ツール　band_kpoint.pl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#band-pl">11.4.8. バンド構造図作成ツール band.pl</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">11.4.8.1. band.plの実行</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">11.4.8.2. band.plのオプション</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#trajectory-dynm2tr2-pl">11.4.9. 原子構造の拡張trajectory形式への変換ツール　dynm2tr2.pl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#freq-pl">11.4.10. 振動数レベル図作成ツール freq.pl</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id15">11.4.10.1. freq.plのオプション</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#trajectory-animate-pl">11.4.11. 基準振動の軌跡の拡張trajectory形式ファイル変換ツール animate.pl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conv-py">11.4.12. 座標データ変換ツールconv.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inpcheck-py">11.4.13. 入力ファイル正誤チェックツールinpcheck.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geninp-py">11.4.14. 入力ファイル生成ツールgeninp.py</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#inputs-outputs-chapter">11.5. 入出力ファイル</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#f-pot">11.5.1. 擬ポテンシャルファイル F_POT（入力）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id17">11.5.1.1. フォーマット</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inouts-recpp-section">11.5.1.2. 推奨擬ポテンシャルファイル</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#k-f-kpoint-kpoint-data">11.5.2. サンプリングk点ファイル F_KPOINT （=kpoint.data）（入力）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#f-dos-dos-data">11.5.3. 状態密度ファイル F_DOS（=dos.data）（出力）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">11.5.3.1. 全状態密度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">11.5.3.2. 原子分割状態密度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">11.5.3.3. 層分割局所状態密度</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#f-enf-nfefn-data">11.5.4. エネルギー履歴ファイル F_ENF（=nfefn.data）（出力）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id22">11.5.4.1. 構造緩和計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">11.5.4.2. 分子動力学法計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">11.5.4.3. 格子最適化計算</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#f-dynm-nfdynm-data">11.5.5. 原子座標履歴ファイル F_DYNM（=nfdynm.data）（出力）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#f-chr-nfchr-cube">11.5.6. 電荷密度ファイル F_CHR（=nfchr.cube）（出力）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#f-cntn-continue-data">11.5.7. 継続計算用ファイル F_CNTN（=continue.data）（入出力）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#f-energ-nfenergy-data">11.5.8. 固有値データファイル F_ENERG（=nfenergy.data）（出力ファイル）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PHASE/0 Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">11. </span>補遺</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/supplement/supplement.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="supplement-chapter">
+<span id="id1"></span><h1><span class="section-number">11. </span>補遺<a class="headerlink" href="#supplement-chapter" title="この見出しへのパーマリンク"></a></h1>
+<section id="id2">
+<h2><span class="section-number">11.1. </span>計算精度、収束性<a class="headerlink" href="#id2" title="この見出しへのパーマリンク"></a></h2>
+<section id="id3">
+<h3><span class="section-number">11.1.1. </span>カットオフエネルギーと計算精度<a class="headerlink" href="#id3" title="この見出しへのパーマリンク"></a></h3>
+<p>平面波基底を採用している利点の1つとして、カットオフエネルギーは大きくすればするほど必ず全エネルギーは小さくなり、密度汎関数理論の厳密解に近づく、という点が挙げられます。具体例として、面心立方格子のアルミニウム結晶を利用したテスト例を紹介します。
+<a class="reference internal" href="#al-cutoff"><span class="std std-numref">図 11.1</span></a> にカットオフエネルギーと全エネルギーの関係を示します。</p>
+<figure class="align-default" id="al-cutoff">
+<a class="reference internal image-reference" href="../_images/suppl_image1.svg"><img alt="../_images/suppl_image1.svg" src="../_images/suppl_image1.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.1 </span><span class="caption-text">アルミニウム結晶の場合の、カットオフエネルギーと全エネルギーの関係</span><a class="headerlink" href="#al-cutoff" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>図から明らかなように、カットオフエネルギーを大きくすると全エネルギーが小さくなり、一定の値に収束しています。
+この振る舞いは利用している擬ポテンシャルに依存します。この例では、36 Rydbergほどで原子あたり1 meV程度まで収束しています。どの程度の収束を目指すべきかは対象とする問題によって異なってきますが、通常10meV程度の収束が得られていれば十分であると考えられます。また、全エネルギーを絶対エネルギーで評価するのではなく、（ふたつの構造の全エネルギーの差など）相対エネルギーで評価する場合はより小さなカットオフエネルギーで収束することが期待できます。</p>
+</section>
+<section id="k">
+<h3><span class="section-number">11.1.2. </span>k 点サンプリングと計算精度<a class="headerlink" href="#k" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEは平面波基底を採用しているので、扱える問題は周期系に限られます。したがって、すべての物理量は最終的には第一ブリユアンゾーン内で積分する必要があります。この第一ブリユアンゾーン内の積分の細かさを指定するのが<span class="math notranslate nohighlight">\(k\)</span>点サンプリングです。
+<span class="math notranslate nohighlight">\(k\)</span>点サンプリング数と全エネルギーの関係を、 <a class="reference internal" href="#al-kpoints"><span class="std std-numref">図 11.2</span></a> に示します。</p>
+<figure class="align-default" id="al-kpoints">
+<a class="reference internal image-reference" href="../_images/suppl_image2.svg"><img alt="../_images/suppl_image2.svg" src="../_images/suppl_image2.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.2 </span><span class="caption-text">アルミニウム結晶の場合の、k点数と全エネルギーの関係</span><a class="headerlink" href="#al-kpoints" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p><span class="math notranslate nohighlight">\(k\)</span>点数に関しては変分原理が成立するわけではないので、<span class="math notranslate nohighlight">\(k\)</span>点数に応じて全エネルギーが単純減少するわけではない点には 注意が必要です。<a class="reference internal" href="#al-kpoints"><span class="std std-numref">図 11.2</span></a> の例でも、途中全エネルギーが大きくなってから収束へ至っていることが分かります。</p>
+<p>なお、カットオフエネルギーの場合と同様ここでみた全エネルギーの絶対エネルギーではなく相対エネルギーの場合はより少ない<span class="math notranslate nohighlight">\(k\)</span>点サンプリング数で収束することが期待できます。</p>
+</section>
+<section id="id4">
+<h3><span class="section-number">11.1.3. </span>収束判定と計算精度<a class="headerlink" href="#id4" title="この見出しへのパーマリンク"></a></h3>
+<p>SCF計算の収束判定を厳しくすると、原子に働く力をより精度よく計算することが可能となります。通常の構造最適化の場合<span class="math notranslate nohighlight">\(10^{- 8}\)</span> hartree程度の収束判定を採用すれば多くの場合問題なく収束します。他方、分子動力学シミュレーションにおいて保存量を保存させるには、さらに厳しい収束判定を採用する必要があります。</p>
+<p><a class="reference internal" href="#sio2-convergence-force"><span class="std std-numref">図 11.3</span></a> に、SiO<sub>2</sub>に対して収束判定を変化させながら力の計算を行った結果を例としてしめします。この図から、 力を収束させるためには<span class="math notranslate nohighlight">\(10^{- 10}\)</span> hartree以上の、比較的厳しい収束判定が要求されることが分かります。</p>
+<figure class="align-default" id="sio2-convergence-force">
+<a class="reference internal image-reference" href="../_images/suppl_image3.svg"><img alt="../_images/suppl_image3.svg" src="../_images/suppl_image3.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.3 </span><span class="caption-text">SiO2 の、収束判定と力の最大値の関係</span><a class="headerlink" href="#sio2-convergence-force" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="scf-2023-01">
+<span id="supplement-section-scf-speedup"></span><h2><span class="section-number">11.2. </span>SCF計算の高速化 (バージョン2023.01以降)<a class="headerlink" href="#scf-2023-01" title="この見出しへのパーマリンク"></a></h2>
+<p>バージョン2023.01以降のバージョンにおいてはそれまでのバージョンと比較してFFT回数の削減などによるSCF計算の高速化がほどこされました。どの程度高速になったか、以下のテスト例題によって検証してみました。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>4H-SiC結晶の <span class="math notranslate nohighlight">\(4 \times 5 \times 2\)</span> スーパーセル</p></li>
+<li><p>波動関数カットオフエネルギー25 Rydberg</p></li>
+<li><p><span class="math notranslate nohighlight">\(k\)</span> 点サンプリング一般 <span class="math notranslate nohighlight">\(k\)</span> 点一点</p></li>
+<li><p>バンド数768</p></li>
+</ul>
+</div></blockquote>
+<p>収束判定条件や波動関数ソルバー、電荷密度ミキサーなどの設定はすべてデフォルトのものを採用しました。いずれのケースもSCF計算16回で収束しました。用いたCPUはIntel(R) Xeon(R) Platinum 8268, コードはPHASE/0の三次元並列版です。並列数を24 (ne=2, ng=12), 48 (ne=2, ng=24), 96 (ne=2, ng=48), 192 (ne=4, ng=48)と変化させて計算を行いました。各ソルバーの1回あたりのおおよその計算と総計算時間は次に報告する通り。</p>
+<table class="docutils align-default" id="id25">
+<caption><span class="caption-number">表 11.1 </span><span class="caption-text">phase/0 2022.01版を用いた場合の計算時間。単位は秒。</span><a class="headerlink" href="#id25" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>並列設定</p></td>
+<td><p>pkosugi</p></td>
+<td><p>RMM3</p></td>
+<td><p>SCF計算全体</p></td>
+</tr>
+<tr class="row-even"><td><p>ne=2 ng=12</p></td>
+<td><p>30.6</p></td>
+<td><p>20.3</p></td>
+<td><p>420</p></td>
+</tr>
+<tr class="row-odd"><td><p>ne=2 ng=24</p></td>
+<td><p>18.5</p></td>
+<td><p>12.4</p></td>
+<td><p>260</p></td>
+</tr>
+<tr class="row-even"><td><p>ne=2 ng=48</p></td>
+<td><p>14.9</p></td>
+<td><p>10.0</p></td>
+<td><p>205</p></td>
+</tr>
+<tr class="row-odd"><td><p>ne=4 ng=48</p></td>
+<td><p>9.0</p></td>
+<td><p>5.9</p></td>
+<td><p>124</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id26">
+<caption><span class="caption-number">表 11.2 </span><span class="caption-text">phase/0 2023.01版を用いた場合の計算時間。単位は秒。</span><a class="headerlink" href="#id26" title="このテーブルへのパーマリンク"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>並列設定</p></td>
+<td><p>pkosugi</p></td>
+<td><p>RMM3</p></td>
+<td><p>SCF計算全体</p></td>
+</tr>
+<tr class="row-even"><td><p>ne=2 ng=12</p></td>
+<td><p>20.3</p></td>
+<td><p>16.4</p></td>
+<td><p>304</p></td>
+</tr>
+<tr class="row-odd"><td><p>ne=2 ng=24</p></td>
+<td><p>12.0</p></td>
+<td><p>9.6</p></td>
+<td><p>178</p></td>
+</tr>
+<tr class="row-even"><td><p>ne=2 ng=48</p></td>
+<td><p>9.0</p></td>
+<td><p>7.5</p></td>
+<td><p>140</p></td>
+</tr>
+<tr class="row-odd"><td><p>ne=4 ng=48</p></td>
+<td><p>5.8</p></td>
+<td><p>4.8</p></td>
+<td><p>89</p></td>
+</tr>
+</tbody>
+</table>
+<p>2022.01版と比較すると、2023.01版はpkosugiソルバーの場合は5割程度、RMM3ソルバーの場合は2割程度高速に動作するようになりました。今回はデフォルトの設定を採用しました。 <a class="reference external" href="https://fftw.org/doc/Distributed_002dmemory-FFTW-with-MPI.html">Distributed-memory FFTW</a> を用いたり、<a class="reference internal" href="../input_parameters/input_parameters.html#control-speedup-options-section"><span class="std std-ref">高速計算のオプション (2023.01以降)</span></a> を用いたりすることによってさらに高速に動作させることもできるかもしれません。</p>
+</section>
+<section id="phase-0">
+<h2><span class="section-number">11.3. </span>PHASE/0 の単位系<a class="headerlink" href="#phase-0" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASE/0において利用される単位は、原則としてハートリー原子単位系です。ここでは、ハートリー原子単位系からそのほかの単位に変換する際の変換係数を記述します。結果の解析の際にご活用ください。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>エネルギー</p></td>
+<td><p>1 hartree = 2 rydberg = 27.211386245988 eV
+= 4.3597447222071 <span class="math notranslate nohighlight">\(\times 10^{-18}\)</span> J</p></td>
+</tr>
+<tr class="row-even"><td><p>長さ</p></td>
+<td><p>1 bohr = 0.529177210903 Å= 0.529177210903
+<span class="math notranslate nohighlight">\(\times 10^{-10}\)</span>m</p></td>
+</tr>
+<tr class="row-odd"><td><p>質量</p></td>
+<td><p>1 au mass = 電子の質量 =
+9.1093837015<span class="math notranslate nohighlight">\(\times 10^{-31}\)</span> kg</p></td>
+</tr>
+<tr class="row-even"><td><p>体積</p></td>
+<td><p>1 au volume = 0.148184711472
+<span class="math notranslate nohighlight">\(\mathring{\mathrm{A}}^{3}\)</span> = 1.48184711472
+<span class="math notranslate nohighlight">\(\times 10^{-29}\)</span> <span class="math notranslate nohighlight">\(\text{m}^{3}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>速度</p></td>
+<td><p>1 au velocity = 21.8769126364 Å/fs
+= 2.18769126364 <span class="math notranslate nohighlight">\(\times 10^{6}\)</span> m/s</p></td>
+</tr>
+<tr class="row-even"><td><p>力</p></td>
+<td><p>1 hartree/bohr = 51.422067476 eV/Å
+= 8.2387234983<span class="math notranslate nohighlight">\(\times 10^{-8}\)</span> N</p></td>
+</tr>
+<tr class="row-odd"><td><p>時間</p></td>
+<td><p>1 au time = 2.4188843265857<span class="math notranslate nohighlight">\(\times 10^{-2}\)</span> fs
+= 2.4188843265857<span class="math notranslate nohighlight">\(\times 10^{-17}\)</span> s</p></td>
+</tr>
+<tr class="row-even"><td><p>圧力</p></td>
+<td><p>1 au stress = 29.42101570 <span class="math notranslate nohighlight">\(\times 10^{13}\)</span> Pa
+= 2.90363 <span class="math notranslate nohighlight">\(\times 10^{9}\)</span> atm</p></td>
+</tr>
+<tr class="row-odd"><td><p>密度</p></td>
+<td><p>1 au density = 6.1473168257 kg/<span class="math notranslate nohighlight">\(\text{m}^{3}\)</span>
+= 6.1473168257<span class="math notranslate nohighlight">\(\times 10^{-3}\)</span> g/<span class="math notranslate nohighlight">\(\text{cm}^{3}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="commands-tools-chapter">
+<span id="id5"></span><h2><span class="section-number">11.4. </span>PHASE/0プログラム、ツールの実行方法<a class="headerlink" href="#commands-tools-chapter" title="この見出しへのパーマリンク"></a></h2>
+<section id="phase">
+<h3><span class="section-number">11.4.1. </span>プログラムphase<a class="headerlink" href="#phase" title="この見出しへのパーマリンク"></a></h3>
+<ul>
+<li><p class="rubric" id="id6">プログラムphaseの実行</p>
+</li>
+</ul>
+<p>PHASEはSCF計算、分子動力学法計算を行います。また収束した電荷密度分布から状態密度やバンド分散を計算することができます。
+入力パラメータファイル、擬ポテンシャルファイルを実行ディレクトリに置きます。file_names.dataを使用する場合には、それも同じディレクトリに置いてください。</p>
+<p>１プロセッサ（１コア）の逐次計算を行う場合には、次のようにプログラムphase を実行します。ホームディレクトリー <code class="code docutils literal notranslate"><span class="pre">$HOME</span></code> にPHASEがインストールされていると仮定しています。</p>
+<pre class="literal-block">% $HOME/phase0_2024.01/bin/phase</pre>
+<p>並列計算を行う場合には、お使いの計算機の利用するMPIライブラリの実行コマンドを使用します。詳細はお使いの計算機システムのマニュアルを参照ください。一般的なコマンドはmpirunです。</p>
+<pre class="literal-block">% mpirun -np NP $HOME/phase0_2024.01/bin/phase ne=NE nk=NK (2次元版)
+
+% mpirun -np NP $HOME/phase0_2024.01/bin/phase.3d ne=NE nk=NK ng=NG (3次元版)</pre>
+<p>ここで、NP はMPI プロセス数、NE はバンド並列数、NK はk点並列数です。3次元版の場合のNGはG点並列数です。</p>
+<section id="phase2">
+<h4><span class="section-number">11.4.1.1. </span>プログラムphase2次元版の並列計算オプション<a class="headerlink" href="#phase2" title="この見出しへのパーマリンク"></a></h4>
+<ul class="simple">
+<li><p>バンド並列、k点並列</p></li>
+</ul>
+<p>並列計算（バンド並列、k点並列）では、バンド並列数NE、k点並列数NKを指定します。
+NP = NE×NK という関係が成立している必要があります。</p>
+<pre class="literal-block">% mpirun -np NP $HOME/phase0_2024.01/bin/phase ne=NE nk=NK</pre>
+<p>通常、バンド並列よりもk点並列の方が効率が良いです。
+したがって、可能な場合はk 点並列数を大きくすると良いと考えられます。
+ただし、Brillouin領域内にサンプルするk点数は系が大きくなるほど少なくても充分になり、そのk点数が必ずしも利用できるプロセス数で割り切れるわけではない（MPIプロセス数がサンプリングk点よりも大きくなる）という点に注意が必要です。
+k点数よりもNK の値が大きいとエラーになります。
+また、k点数がNK で割り切れない場合は理想的な並列効率が得られません。
+そこで、必要に応じてバンド並列も組み合わせて計算を実行してください。</p>
+<p>ne, nk という引数は省略することも可能です。その場合のデフォルト値は下記の通り。</p>
+<ul class="simple">
+<li><p>バージョン2019.02以前：NE = NP, NK = 1</p></li>
+<li><p>バージョン2020.01以降：対称性を考慮した上で得られる<strong>k</strong>点数と総並列数NPが割り切れる最大の整数値がNK, NEはNP/NK.</p></li>
+<li><p>レプリカ並列</p></li>
+</ul>
+<p>NEB 法、拘束条件付きダイナミクス、メタダイナミクスなどの機能によっては“レプリカ並列” が利用できる場合があります。
+レプリカ並列を実行するには以下のコマンドを利用します。</p>
+<pre class="literal-block">% mpirun -np NP $HOME/phase0_2024.01/bin/phase nr=NR ne=NE nk=NK</pre>
+<p>NR はレプリカ並列数です。NP = NR×NE×NK という関係が成立している必要があります。
+レプリカ並列の効率はk 点並列よりも更に良いですが、k 点並列と同じ注意が必要です。
+また、“もっとも収束の遅いレプリカ”が律速となるので、実効的には必ずしも効率的とは限りません。</p>
+</section>
+<section id="phase-3-g">
+<h4><span class="section-number">11.4.1.2. </span>プログラムphase 3次元並列（G点並列）版<a class="headerlink" href="#phase-3-g" title="この見出しへのパーマリンク"></a></h4>
+<p>PHASE/0 はバンドとk 点の2 軸並列に対応していますが、平面波のG 成分の並列化にも対応しています。
+3軸並列版も、2軸並列版と同様インストーラーによってコンパイルすることができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="o">./</span><span class="n">install_3d</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>実行は、次の例のように行います。</p>
+<pre class="literal-block">% mpirun -np NP $HOME/phase0_2024.01/bin/phase.3d ng=NG ne=NE nk=NK</pre>
+<p>ここで、NPは総MPIプロセス数、NG はG 点並列数、NE はバンド並列数、NKはk点並列数を意味します。
+NG とNE とNK の積は、総MPI プロセスの数に等しい必要があります。
+2次元版の場合と同様、NEB法、拘束条件付きダイナミクス、メタダイナミクスなどの機能を利用する場合はnr=NRによってレプリカ並列をすることも可能です。</p>
+<p>ne, nk, ngが省略された場合のデフォルト値は下記の通り。</p>
+<ul class="simple">
+<li><p>バージョン2019.02以前：NE = NP, NK = 1, NG=1</p></li>
+<li><p>バージョン2020.01以降：対称性を考慮した上で得られる<strong>k</strong>点数と総並列数NPが割り切れる最大の整数値がNK, NGとNEはNE*NG=NP/NKを満たし、かつNE:NGが1:2に最も近くなる取り方</p></li>
+</ul>
+<p>3次元版のオプションについて</p>
+<p>3次元版は、以下のような設定を施すことによって、おもに低並列時に高速になる場合があります。</p>
+<p>FFTを非並列で処理する</p>
+<p>3次元版はFFTを並列で処理します。これをあえて非並列で処理することによって、<strong>G</strong>点並列数が少ない場合に高速になる場合があります。このオプションは以下の要領で有効にすることができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  sw_serial_fft = on
+}
+</pre></div>
+</div>
+<p>特にng=1とする場合は高速化が期待できるオプションです。</p>
+<p>電荷密度の処理用にコミュニケーターを追加する</p>
+<p>3次元版は、電荷密度を波動関数と同じコミュニケーターで扱います。以下の設定を施すことによって電荷密度に専用のコミュニケーターを割り当てることができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  sw_communicator_for_chg = on
+}
+</pre></div>
+</div>
+<p><strong>G</strong>並列数が少ない場合に、おもに交換相関相互作用の処理が高速化されます。</p>
+</section>
+</section>
+<section id="ekcal">
+<h3><span class="section-number">11.4.2. </span>プログラムekcal<a class="headerlink" href="#ekcal" title="この見出しへのパーマリンク"></a></h3>
+<p>状態密度計算、バンド計算において、k点の個数が多い場合に使うプログラムとしてekcalがあります。
+SCF計算の計算結果の電荷密度を入力として計算できます。
+SCF計算の計算結果の電荷密度ファイルnfchgt.dataを実行ディレクトリにコピーします。または、入出力ファイル設定ファイルfile_names.dataにおいて、F_CHGTにSCF計算で得られた電荷密度ファイル指定します。
+バンド構造計算においては、サンプリング<strong>k</strong>点の設定ファイルkpoint.dataを用意します。</p>
+<p>次のようにプログラムekcal を実行します。 ホームディレクトリー <code class="code docutils literal notranslate"><span class="pre">$HOME</span></code> にPHASEがインストールされていると仮定します。</p>
+<pre class="literal-block">% $HOME/phase0_2024.01/bin/ekcal</pre>
+<p>ekcalプログラムは2次元版にしか用意されていませんが、入力パラメーターファイルに以下のような設定を加えることによってphaseをekcalと同じように動作させることができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  fixed_charge_option{
+    kparallel = one_by_one
+  }
+}
+</pre></div>
+</div>
+<p>ONE_BY_ONEモードで動作する場合、ある<strong>k</strong>点iterationにおける初期波動関数は1つ前の<strong>k</strong>点iterationの波動関数が採用されます。この際、以下のように変数sw_modified_kpoint_incrementの値をonとすることによって<strong>k</strong>点の更新方法が変更され、<strong>k</strong>点並列時により近い<strong>k</strong>点の波動関数が初期波動関数として採用されるようになります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">control</span><span class="p">{</span>
+  <span class="n">fixed_charge_option</span><span class="p">{</span>
+    <span class="n">kparallel</span> <span class="o">=</span> <span class="n">one_by_one</span>
+    <span class="n">sw_modified_kpoint_increment</span> <span class="o">=</span> <span class="n">on</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="epsmain">
+<h3><span class="section-number">11.4.3. </span>プログラムepsmain<a class="headerlink" href="#epsmain" title="この見出しへのパーマリンク"></a></h3>
+<p>電子系の誘電関数の計算に利用するプログラムがepsmainです。その動作はekcalとほぼ同じですが、入力パラメーターの設定に応じて誘電関数計算用の処理が行われる点が異なります。3次元版のバイナリー名はepsmain.3dです。</p>
+</section>
+<section id="tdlrmain">
+<h3><span class="section-number">11.4.4. </span>プログラムtdlrmain<a class="headerlink" href="#tdlrmain" title="この見出しへのパーマリンク"></a></h3>
+<p>線形応答時間依存密度汎関数法による励起スペクトル計算に利用するプログラムがtdlrmainです。3次元版は用意されていません。</p>
+</section>
+<section id="dos-pl">
+<h3><span class="section-number">11.4.5. </span>状態密度図作成ツール dos.pl<a class="headerlink" href="#dos-pl" title="この見出しへのパーマリンク"></a></h3>
+<section id="id7">
+<h4><span class="section-number">11.4.5.1. </span>状態密度図の作成<a class="headerlink" href="#id7" title="この見出しへのパーマリンク"></a></h4>
+<p>PHASEあるいはEKCALによって状態密度データを出力させることが出来ます。
+それについては、たとえば <a class="reference internal" href="../basics/basics.html#section-basics-si2"><span class="std std-numref">5.2.2 章</span></a> をご覧ください。
+その状態密度データdos.dataを可視化するプログラムがdos.plです。以下のように実行します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dos.pl dos.data -erange=-13,5 -color -with_fermi
+</pre></div>
+</div>
+<p>こうすると、EPSファイルdensity_of_states.epsが生成されます。
+UNIX環境で、これを見るにはevinceやgvなどを必要とします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ evince density_of_states.eps
+または
+$ gv density_of_states.eps
+</pre></div>
+</div>
+<figure class="align-default" id="commands-and-tools-fig1">
+<a class="reference internal image-reference" href="../_images/ch8_10_image1.svg"><img alt="../_images/ch8_10_image1.svg" src="../_images/ch8_10_image1.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.4 </span><span class="caption-text">バルクSiの状態密度図</span><a class="headerlink" href="#commands-and-tools-fig1" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>dos.plを実行するときに状態密度データdos.dataの後に付加した-erangeは表示するエネルギーの範囲を制御するオプション、-colorはカラー出力を行うためのオプション、-with_fermiはフェルミエネルギーの位置をあらわす縦線を引くオプションです。</p>
+</section>
+<section id="id8">
+<h4><span class="section-number">11.4.5.2. </span>dos.plのオプション<a class="headerlink" href="#id8" title="この見出しへのパーマリンク"></a></h4>
+<p>なにも付加せずにdos.plを実行すると利用方法が表示されます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dos.pl
+
+Version: 3.00
+Usage: dos.pl DosD
+ata -erange=Emin,Emax -einc=dE -dosrange=DOSmin,DOSmax -dosinc=dDOS
+-title=STRING -with_fer
+mi -width=SIZE -font=SIZE -color -mode={total|layer|atom|projected}
+-epsf={yes|no} -data={yes|no}
+</pre></div>
+</div>
+<p>DosDataに状態密度データが記録されたファイル(通常dos.data)を指定します。
+その後に作図を制御するオプションを指定します。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>-erange=Emin,Emax</p></td>
+<td><p>表示するエネルギーの範囲をeV単位で指定する。</p>
+<p>たとえば、-10 eVから5 eVまで表示したい場合は、
+-erange=-10,5
+とします。指定をしないと、データの最小値・最大値から自動的に決定されます。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>-einc=dE</p></td>
+<td><p>目盛りの間隔を指定する。たとえば、2eV間隔に目盛りをふりたいなら、
+　　-einc=2
+とします。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-dosrange=DOSmin,DOSmax</p></td>
+<td><p>表示する状態密度の範囲を変える。たとえば、0 states/eVから12 states/eVまで表示したい場合は、-dosrange=0,12
+とします。</p></td>
+</tr>
+<tr class="row-even"><td><p>-dosinc=dDOS</p></td>
+<td><p>縦軸(状態密度)の目盛りの間隔を指定する。たとえば、2 states/eV間隔に目盛りをふりたいなら、-dosinc=2
+とします。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-title=STRING</p></td>
+<td><p>グラフにタイトルを付けたいときに設定する。たとえば、タイトルを「Total DOS」とするなら、-titile=&quot;Total DOS&quot;
+とします。</p></td>
+</tr>
+<tr class="row-even"><td><p>-with_fermi</p></td>
+<td><p>デフォルトでは描かないフェルミレベルまたは価電子帯上端のエネルギーレベルを描く。金属ではフェルミレベルを表示し、絶縁体・半導体であれば価電子帯上端のエネルギーレベルを表示します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-width=SIZE</p></td>
+<td><p>図の幅のデフォルト値は1であるが、その値を変更したい場合はこのオプションを使う。たとえば、0.8に変更したい場合は-width=0.8
+とします。</p></td>
+</tr>
+<tr class="row-even"><td><p>-font=SIZE</p></td>
+<td><p>フォントのサイズを変更したいときには、これを設定する。既定値は14です。たとえば、フォントサイズを28にしたいならば、-font=28
+とします。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-color</p></td>
+<td><p>グラフをカラー表示します。</p></td>
+</tr>
+<tr class="row-even"><td><p>-mode={total|layer|atom|projected}</p></td>
+<td><p>totalを指定すると、全状態密度図が作成されます。layerを指定すると、層分割の局所状態密度の図が作成されます。atomを指定すると、原子分割の局所状態密度の図が作成されます。projectedを指定すると、原子軌道分割の局所状態密度の図が作成されます。既定値はtotalです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-epsf={yes|no}</p></td>
+<td><p>ポストスクリプトファイルを作成しないときには、noを指定します。既定値はyesで指定がなければ、ポストスクリプトファイルが作成されます。</p></td>
+</tr>
+<tr class="row-even"><td><p>-data={yes|no}</p></td>
+<td><p>層分割や原子分割の状態密度データからepsファイルを作成するのではなく個別のファイルに出力するときにはyesを指定します。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="dos-py-2020-01">
+<span id="cmd-tools-dospy-section"></span><h3><span class="section-number">11.4.6. </span>改良版状態密度図作成ツールdos.py (バージョン2020.01以降)<a class="headerlink" href="#dos-py-2020-01" title="この見出しへのパーマリンク"></a></h3>
+<section id="id9">
+<h4><span class="section-number">11.4.6.1. </span>概要<a class="headerlink" href="#id9" title="この見出しへのパーマリンク"></a></h4>
+<p>PHASE/0には状態密度可視化スクリプトdos.plが付属します。このスクリプトを用いると、全状態密度・原子分割局所状態密度・層分割局所状態密度・射影状態密度の状態密度図をEPS形式で得ることができます。dos.pyスクリプトはその改良版です。スクリプト名の拡張子から示唆されるように、Pythonスクリプトです。下記のような機能が搭載されています。</p>
+<ul class="simple">
+<li><p>dos.plが持っている全機能</p></li>
+<li><p>EPS以外の画像ファイルの対応</p></li>
+<li><p>状態密度を加算する機能；たとえば、原子分割局在状態密度において指定の原子群の状態密度を足し上げて状態密度図を作成したりデータファイルを出力したりすることができる機能</p></li>
+<li><p>層分割局所状態密度のヒートマップ作成機能</p></li>
+<li><p>動作モードの追加：dos.plが提供するバッチモードのほか、対話モードとGUIモード</p></li>
+</ul>
+<p>層分割状態密度のヒートマップは、<em>x</em>座標が層の座標、<em>y</em>座標がエネルギー、<em>z</em>座標が状態密度という三次元データをヒートマッププロットすることによって得られます。このような可視化を行うことによって、層ごとに状態密度がどのように変化するかを視覚的に明らかにすることができるようになります。</p>
+<p>状態密度を加算する機能などを利用する場合、すべてのオプションを引数で渡すのは煩雑な場合がありえます。そこで、dos.pyは対話的にも利用できるようになっています。たとえば加算機能を利用する場合、加算対象となりえる状態密度データがリストアップされるので、所望の状態密度データをそこから選択します。</p>
+<p>dos.pyは簡易的なGUIも提供します。利用するGUIのフレームワークはtkinter
+(<a class="reference external" href="https://docs.python.org/ja/3/library/tkinter.html">https://docs.python.org/ja/3/library/tkinter.html</a>) です。tkinterは通常Pythonに標準的に備わっているので、利用の際特別な準備は必要ありません。</p>
+<p>状態密度プロットの際、dos.plはgnuplotを用います。これに対し、dos.pyはmatplotlib
+(<a class="reference external" href="https://matplotlib.org/">https://matplotlib.org/</a>) をプロットの際に用いる仕様となっているため、動作にはPythonのほかmatplotlibが必要となります。また、numpyも必要です。
+Matplotlibやnumpyはpip(<a class="reference external" href="https://www.python.jp/install/windows/pip.html">https://www.python.jp/install/windows/pip.html</a>)などの仕組みを用いてインストールすることが可能です。
+また、両方ともAnaconda (<a class="reference external" href="https://www.anaconda.com/">https://www.anaconda.com/</a>) のようなPython distributionにはプリインストールされています。
+なお、Python3以降が必須であり、Python2系列では動作しません。</p>
+</section>
+<section id="id10">
+<h4><span class="section-number">11.4.6.2. </span>使い方<a class="headerlink" href="#id10" title="この見出しへのパーマリンク"></a></h4>
+<p><strong>起動の仕方</strong></p>
+<p>以下の要領で起動することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dos.py [OPTIONS]
+</pre></div>
+</div>
+<p><strong>バッチモード</strong></p>
+<p>バッチモードにおいては、-fもしくは--fileオプションによって状態密度データファイルを指定し、さらに様々なオプションを指定します。利用可能なオプションは下記の通り。なお、オプションは原則としてハイフン(-)が一つの場合は空白の後に、ハイフンが二つ続く場合(--)は=の後に値を指定します。
+たとえば-m total, --mode=total など。
+また、真偽値を指定するタイプのオプションの場合そのオプションがあるかどうかで真偽が判定されるため、値は指定しません。
+オプションは1.  スクリプト全般の振る舞いを制御するオプション、2.  状態密度を加算する場合に加算対象を選択するオプション、3.  描画に関するオプションの三種類があります。</p>
+<p>スクリプト全般の振る舞いを制御するオプション</p>
+<p>スクリプトの全体的な振る舞いを以下のオプションによって制御することができます。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>オプション</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>--version</p></td>
+<td><p>バージョンを表示する。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-h, --help</p></td>
+<td><p>ヘルプを表示する。</p></td>
+</tr>
+<tr class="row-even"><td><p>-i, --interactive</p></td>
+<td><p>対話モードで実行する場合に指定するオプション。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-g, --gui</p></td>
+<td><p>簡易GUIモードで実行する場合に指定するオプション。</p></td>
+</tr>
+<tr class="row-even"><td><p>-f FILE --file=FILE</p></td>
+<td><p>状態密度データファイルを指定する。デフォルト値はdos.data.</p></td>
+</tr>
+<tr class="row-odd"><td><p>--output000=OUTPUT000</p></td>
+<td><p>output000ファイルを指定する。無指定の場合、作業ディレクトリーにおいてタイムスタンプが最も若いoutput000ファイルが採用される。</p></td>
+</tr>
+<tr class="row-even"><td><p>-m MODE --mode=MODE</p></td>
+<td><p>状態密度データの種類を指定する。total,
+atom, layer, projectedのいずれか。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-a ACTION --action=ACTION</p></td>
+<td><p>スクリプトの振る舞いを指定する。analyze,
+split,
+sumのいずれか。</p>
+<p>analyze
+の場合は状態密度データを解析し、結果を出力する。splitの場合は局所状態密度などを分割し、画像ファイルなどを作成する。sumの場合フィルターオプションの指定に応じて状態密度を加算して画像ファイルなどを作成する。カンマ区切りで複数指定してもよい。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>--heatmap</p></td>
+<td><p>層分割局所状態密度の場合に、ヒートマップを作成したい場合このオプションを指定する。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-o OUTPUT,</p>
+<p>--output_action=OUTPUT_ACTION</p>
+</td>
+<td><p>出力の振る舞いを指定する。genfig,
+storedata,
+bothのいずれか。genfigの場合画像ファイルが出力される。storedataの場合テキストファイルに加工した状態密度データが出力される。bothの場合両方行われる。デフォルト値はboth.</p></td>
+</tr>
+</tbody>
+</table>
+<p>加算対象の状態密度データを選択するためのオプション</p>
+<p>状態密度を足し上げてその結果を画像ファイルに出力したりテキストファイルに出力したりすることができます。この時に加算対象とする状態密度データをオプションによって選択します。カンマ(,)とハイフン(-)を用いて複数の整数値を選択することができます。カンマ区切りで値を一つずつ、ハイフン区切りで連続する値を選択することができます。たとえば1,3,4,8-11
+などとすると1,3,4,8,9,10,11と展開されます。ただし--elemidは文字列の指定なので、カンマ区切りのみ利用可能です。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>オプション</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>--dosid=DOSID</p></td>
+<td><p>dosidによって加算対象の状態密度を選択する。</p>
+<p>dosidは、特に射影状態密度の場合は分かりづらいので後述のatomid,
+lid, mid, tidを利用してもよい。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>--atomid=ATOMID</p></td>
+<td><p>加算対象とする原子のIDを指定する。原子分割局所状態密度および射影状態密度の場合のみ意味をもつ。</p></td>
+</tr>
+<tr class="row-even"><td><p>--layerid=LAYERID</p></td>
+<td><p>加算対象とする層のIDを指定する。層分割局所状態密度の場合のみ意味を持つ。</p></td>
+</tr>
+<tr class="row-odd"><td><p>--elemid=ELEMID</p></td>
+<td><p>加算対象とする元素を指定する。</p></td>
+</tr>
+<tr class="row-even"><td><p>--lid=LAYERID</p></td>
+<td><p>加算対象とする方位量子数を指定する。射影状態密度の場合のみ意味を持つ。</p></td>
+</tr>
+<tr class="row-odd"><td><p>--mid=MID</p></td>
+<td><p>加算対象とする磁気量子数を指定する。射影状態密度の場合のみ意味を持つ。</p></td>
+</tr>
+<tr class="row-even"><td><p>--tid=TID</p></td>
+<td><p>加算対象とする主量子数を指定する。射影状態密度の場合のみ意味を持つ。</p></td>
+</tr>
+</tbody>
+</table>
+<p>描画オプション</p>
+<p>状態密度図を作成する際にどのように描画するかをオプションによって制御することができます。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>オプション</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>-e ERANGE, --erange=ERANGE</p></td>
+<td><p>態密度図描画の際のエネルギーの範囲を指定する。emin,emaxという形式で指定する。eminが下限値、emaxが上限値。emin,
+emaxは片方のみ指定することもできる。すなわちemin,
+もしくは,emax.
+この場合指定されなかった方の値はmatplotlibのデフォルト値が割り当てられる。</p></td>
+</tr>
+<tr class="row-odd"><td><p>--einc=EINC</p></td>
+<td><p>エネルギーの軸の目盛り値を指定する。</p></td>
+</tr>
+<tr class="row-even"><td><p>-d DRANGE,</p>
+<p>--drange=DRANGE</p>
+</td>
+<td><p>状態密度描画の際の状態密度の範囲を指定する。指定の形式はエネルギーと同じ。</p></td>
+</tr>
+<tr class="row-odd"><td><p>--dinc=DINC</p></td>
+<td><p>状態密度の軸の目盛り値を指定する。</p></td>
+</tr>
+<tr class="row-even"><td><p>--lrange=LRANGE</p></td>
+<td><p>層分割局所状態密度のヒートマップ作成の場合に、層の範囲を指定する。指定の形式はエネルギーと同じ。</p></td>
+</tr>
+<tr class="row-odd"><td><p>--linc=LINC</p></td>
+<td><p>層分割局所状態密度のヒートマップ作成の場合に、層の軸の目盛り値を指定する。</p></td>
+</tr>
+<tr class="row-even"><td><p>--with_fermi</p></td>
+<td><p>フェルミエネルギーを表す点線を描画したい場合にこのオプションを有効にする。</p></td>
+</tr>
+<tr class="row-odd"><td><p>--title</p></td>
+<td><p>状態密度図にタイトルを表示したい場合このオプションを有効にする。</p></td>
+</tr>
+<tr class="row-even"><td><p>--cmap=CMAP</p></td>
+<td><p>層分割局所状態密度のヒートマップ作成の場合に、カラーマップの種類を指定する。
+可能な選択肢が※のウェブサイトに掲載されている。デフォルト値はviridis</p></td>
+</tr>
+<tr class="row-odd"><td><p>--imgtype=IMGTYPE</p></td>
+<td><p>画像ファイルの種類を指定する。以下のいずれか。</p>
+<p>eps, ps, png, jpg, pdf, svg</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>※ <a class="reference external" href="https://matplotlib.org/3.1.1/gallery/color/colormap_reference.html">https://matplotlib.org/3.1.1/gallery/color/colormap_reference.html</a></p>
+<p><strong>対話モード</strong></p>
+<p>dos.pyを-i もしくは--interactiveをつけて実行すると対話モードで利用することができます。対話モードでは選択肢がいろいろと提示されるので、所望の振る舞いに応じて選択します。対話モードでは、おおよそ以下のように動作します。</p>
+<ul class="simple">
+<li><p>状態密度の種類を選ぶ。状態密度の種類とは、total, atom, layer, projectedのいずれか。</p></li>
+<li><p>atom, layer, projectedの場合何を実行するかを選ぶ。atom, projectedの場合splitもしくはsum, layerの場合はこれにheatmapが加わる。</p></li>
+<li><p>sumの場合、加算対象のIDを選ぶ。</p></li>
+<li><p>描画オプションの選択：erange, drange, with_fermiを入力する。</p></li>
+<li><p>画像ファイルの種類：eps, ps, png, jpg, pdf, svgのいずれかを選ぶ</p></li>
+</ul>
+<p><strong>GUIモード</strong></p>
+<p>dos.pyに-g もしくは--guiオプションをつけて実行すると <a class="reference internal" href="#commands-and-tools-fig2"><span class="std std-numref">図 11.5</span></a> で示すようなGUIが得られます。</p>
+<figure class="align-default" id="commands-and-tools-fig2">
+<a class="reference internal image-reference" href="../_images/ch8_10_image2.svg"><img alt="../_images/ch8_10_image2.svg" src="../_images/ch8_10_image2.svg" width="600px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.5 </span><span class="caption-text">dos.pyが提供するGUI.</span><a class="headerlink" href="#commands-and-tools-fig2" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>図のアルファベットを用いてこのGUIについて説明します。</p>
+<ol class="loweralpha simple">
+<li><p>プロット表示域。</p></li>
+<li><p>状態密度の種類などを選択するタブ域。totalは全状態密度、atomは原子分割局所状態密度、atom
+(sum)は原子分割局所状態密度加算、layerは層分割局所状態密度、layer
+(sum)は層分割局所状態密度加算、layer
+(heatmap)は層分割局所状態密度のヒートマップ、projectedは射影状態密度、projected
+(sum)は射影状態密度加算、figure optionsは描画オプション設定域。</p></li>
+<li><p>状態密度選択域。atom ID, layer ID, pdos
+IDなどのチェックボックスを選択するとそれに応じて描画が更新される。加算モードの場合複数選択することが可能で、選択状態のすべての状態密度が加算され描画される。</p></li>
+<li><p>プロット操作域。プロットの描画のされ方などを変えることができる。フロッピーディスクのアイコンをクリックするとファイル選択ダイアログが得られ、画像ファイルにエクスポートすることができる。</p></li>
+</ol>
+</section>
+<section id="id11">
+<h4><span class="section-number">11.4.6.3. </span>出力<a class="headerlink" href="#id11" title="この見出しへのパーマリンク"></a></h4>
+<p>出力としては、分割もしくは加工した状態密度データが記録されたテキストファイルと状態密度図のデータが得られます。二つのファイルのファイル名は拡張子以外共通であり、拡張子は前者がdata,
+後者は--imgtypeの指定に応じたそれになります。拡張子を除いた分は以下に示すように場合によって異なります。</p>
+<ul class="simple">
+<li><p>--action=sumでなく、--heatmapもつけていない場合</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>全状態密度：dos_total</p></li>
+<li><p>局所状態密度：dos_atom<em>atomid</em></p></li>
+<li><p>層分割局所状態密度：dos_layer<em>layerid</em></p></li>
+<li><p>射影状態密度：dos_atom<em>atomid</em>_l<em>lid</em>_m<em>mid</em>_t<em>tid</em></p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>--heatmapを付けている場合</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>層分割局所状態密度：layer_dos_heatmap</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>--action=sumの場合</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>局所状態密度：dos_summed_atom</p></li>
+<li><p>層分割局所状態密度：dos_summed_layer</p></li>
+<li><p>射影状態密度：dos_summed_projected</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id12">
+<h4><span class="section-number">11.4.6.4. </span>利用例<a class="headerlink" href="#id12" title="この見出しへのパーマリンク"></a></h4>
+<p>使用例と結果得られる状態密度図を紹介します。利用する状態密度データはPHASE/0のサンプルにあるBaO-Si界面とBaTiOの状態密度データです。</p>
+<figure class="align-default" id="commands-and-tools-fig3">
+<img alt="../_images/ch8_10_BaOSi_BTO.svg" src="../_images/ch8_10_BaOSi_BTO.svg" /><figcaption>
+<p><span class="caption-number">図 11.6 </span><span class="caption-text">(a) BaO-Si界面と(b) BaTiO の原子配置。</span><a class="headerlink" href="#commands-and-tools-fig3" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p><strong>BaO-Si界面</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dos.py -f dos.data --imgtype=svg
+</pre></div>
+</div>
+<p>全状態密度の状態密度図が得られる。画像ファイルはsvg形式。</p>
+<figure class="align-default" id="id27">
+<img alt="../_images/ch8_10_image5.png" src="../_images/ch8_10_image5.png" />
+<figcaption>
+<p><span class="caption-number">図 11.7 </span><span class="caption-text">全状態密度。</span><a class="headerlink" href="#id27" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dos.py -f dos.data -m atom --imgtype=svg
+</pre></div>
+</div>
+<p>原子に分割した状態密度図が得られる。原子数分の画像ファイルが得られる。一番目の原子（最下層のBa）と二番目の原子（最下層のO）の状態密度を図示する。</p>
+<figure class="align-default" id="id28">
+<img alt="../_images/ch8_10_aldos_Ba_O.svg" src="../_images/ch8_10_aldos_Ba_O.svg" /><figcaption>
+<p><span class="caption-number">図 11.8 </span><span class="caption-text">1番目の原子と2番目の原子の局所状態密度。いずれも <a class="reference internal" href="#commands-and-tools-fig3"><span class="std std-numref">図 11.6</span></a>  (a)の最下層の原子で、元素は1番目がBa, 2番目がOである。</span><a class="headerlink" href="#id28" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dos.py -f dos.data -m layer --imgtype=svg
+</pre></div>
+</div>
+<p>層に分割した状態密度図が得られる。層の数分の画像ファイルが得られる。最下層と中央付近の層の状態密度を図示する。</p>
+<figure class="align-default" id="id29">
+<img alt="../_images/ch8_10_layerdos_Ba_Si.svg" src="../_images/ch8_10_layerdos_Ba_Si.svg" /><figcaption>
+<p><span class="caption-number">図 11.9 </span><span class="caption-text">1層目（ <a class="reference internal" href="#commands-and-tools-fig3"><span class="std std-numref">図 11.6</span></a> の最下層）と65層目（ <a class="reference internal" href="#commands-and-tools-fig3"><span class="std std-numref">図 11.6</span></a> (a)の中央付近）の状態密度</span><a class="headerlink" href="#id29" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dos.py -f dos.data -m atom -a sum --elemid=Si --imgtype=svg
+</pre></div>
+</div>
+<p>Si原子の状態密度をすべて足しこんだ状態密度図が得られる。</p>
+<figure class="align-default" id="id30">
+<img alt="../_images/ch8_10_image10.png" src="../_images/ch8_10_image10.png" />
+<figcaption>
+<p><span class="caption-number">図 11.10 </span><span class="caption-text">Si原子の状態密度をすべて足しこんだ状態密度。</span><a class="headerlink" href="#id30" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dos.py -f dos.data -m layer --heatmap --imgtype=png --drange=,2
+</pre></div>
+</div>
+<p>層分割状態密度のヒートマップが得られる。色の違いを際立たせるため、状態密度の上限を2としている。</p>
+<figure class="align-default" id="id31">
+<img alt="../_images/ch8_10_image12.png" src="../_images/ch8_10_image12.png" />
+<figcaption>
+<p><span class="caption-number">図 11.11 </span><span class="caption-text">層分割状態密度のヒートマップ。横軸が最低面を原点とした場合の層の原点からの距離、縦軸がエネルギーであり、状態密度の値の違いは描画色の違いによって表されている。</span><a class="headerlink" href="#id31" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p><strong>BaTiO結晶</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dos.py -f dos.data -m projected --imgtype=svg
+</pre></div>
+</div>
+<p>射影状態密度の図が軌道ごとに出力される。Tiの<em>d</em>軌道の状態密度を図示する。</p>
+<figure class="align-default" id="id32">
+<img alt="../_images/ch8_10_BTO_Ti3d.svg" src="../_images/ch8_10_BTO_Ti3d.svg" /><figcaption>
+<p><span class="caption-number">図 11.12 </span><span class="caption-text">Ti d軌道の射影状態密度。</span><a class="headerlink" href="#id32" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dos.py -f dos.data -a sum --lid=2 -m projected --imgtype=svg
+</pre></div>
+</div>
+<p>Tiの<em>d</em>軌道の状態密度をすべて足し上げた状態密度図が得られる。</p>
+<figure class="align-default" id="id33">
+<img alt="../_images/ch8_10_image15.png" src="../_images/ch8_10_image15.png" />
+<figcaption>
+<p><span class="caption-number">図 11.13 </span><span class="caption-text">Ti d軌道の射影状態密度。</span><a class="headerlink" href="#id33" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="k-band-kpoint-pl">
+<span id="band-kpoint-pl-section"></span><h3><span class="section-number">11.4.7. </span>k点ファイル生成ツール　band_kpoint.pl<a class="headerlink" href="#k-band-kpoint-pl" title="この見出しへのパーマリンク"></a></h3>
+<p>バンド構造図を描くには、対称線に沿った<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点の列を生成し、その各<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点での固有エネルギーを
+ekcalで計算します。ekcalは<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点のデータが書き込まれたファイルkpoint.dataを
+読み込み各<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点での固有エネルギーを計算します。その<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点のファイルの生成を支援するプログラムが
+band_kpoint.plです。band_kpoint.plの入力ファイルの記述形式は以下の様になっています。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dkv
+b1x b2x b3x
+b1y b2y b3y
+b1z b2z b3z
+n1 n2 n3 nd # Symbol
+...
+</pre></div>
+</div>
+<p>dkvが<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点の間隔、b1x,b1y,b1zは逆格子ベクトル<span class="math notranslate nohighlight">\(\mathbf{b}_{\mathbf{1}}\)</span>のx,y,z成分。
+逆格子ベクトル<span class="math notranslate nohighlight">\(\mathbf{b}_{\mathbf{2}}\)</span>,<span class="math notranslate nohighlight">\(\mathbf{b}_{\mathbf{3}}\)</span>についても同様です。
+五行目以降に特殊<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点とそのシンボルの指定をします。シンボルの指定は必須ではありませんが、指定がある場合、バンド構造図作成の際に利用されます。
+整数<span class="math notranslate nohighlight">\(n_{1},n_{2},n_{3},n_{d}\)</span>を用いて<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>ベクトルを</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{k =}\frac{n_{\mathbf{1}}}{n_{\mathbf{d}}}\mathbf{b}_{\mathbf{1}}\mathbf{+}\frac{n_{\mathbf{2}}}{n_{\mathbf{d}}}\mathbf{b}_{\mathbf{2}}\mathbf{+}\frac{n_{\mathbf{3}}}{n_{\mathbf{d}}}\mathbf{b}_{\mathbf{3}}\]</div>
+<p>のように指定します。シンボルは#の後に書いてください。面心立方格子の場合の例を示します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>0.02                        &lt;---- k点の間隔
+-1.0  1.0  1.0
+1.0 -1.0  1.0               &lt;---- 逆格子ベクトル
+1.0  1.0 -1.0
+0 1 1 2 # X                 &lt;---- n1 n2 n3 nd # Symbol
+0 0 0 1 # {/Symbol G}
+1 1 1 2 # L
+5 2 5 8 # U
+1 0 1 2 # X
+</pre></div>
+</div>
+<p>これと同じものがディレクトリexampleにあるので、それをコピーしてband_kpoint.plを実行してみましょう。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd PHASE_INST_DIR/samples/tools/work
+$ cp ../example/bandkpt_fcc_xglux.in .
+$ band_kpoint.pl bandkpt_fcc_xglux.in &gt; output
+</pre></div>
+</div>
+<p>こうするとkpoint.dataが生成されます。これがバンド構造計算用の<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点のファイルです。
+この<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点のファイルを入力に加えて、ekcalで<span class="math notranslate nohighlight">\(\mathbf{k}\)</span>点での固有エネルギーを計算してください。</p>
+</section>
+<section id="band-pl">
+<h3><span class="section-number">11.4.8. </span>バンド構造図作成ツール band.pl<a class="headerlink" href="#band-pl" title="この見出しへのパーマリンク"></a></h3>
+<section id="id13">
+<h4><span class="section-number">11.4.8.1. </span>band.plの実行<a class="headerlink" href="#id13" title="この見出しへのパーマリンク"></a></h4>
+<div class="line-block">
+<div class="line">band.pl
+PHASE/0のekcalの出力nfenergy.dataとband_kpoint.plの入力ファイルがband.plの
+入力になります。
+前節の入力例で生成したkpoint.dataを入力とし、ekcalで固有エネルギー計算を行い、
+結果得られた固有エネルギーファイルnfenergy.dataが
+ディレクトリexampleにあります。
+このファイルを使ってバンド構造図を描いてみましょう。exampleにあるnfenergy.dataと
+bandkpt_fcc_xglux.inをworkにコピーし、それらを入力としてband.plを実行します。</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cp ../example/nfenergy.data
+$ cp
+$ band.pl nfenergy.data bandkpt_fcc_xglux.in
+</pre></div>
+</div>
+<p>こうすると、EPSファイルband_structure.epsが生成されます。
+このファイルをご覧になるには、ghostviewやgvなどのソフトウェアが必要です。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ghostview
+または $ gv
+$ gv band_structure.eps
+</pre></div>
+</div>
+<figure class="align-default" id="id34">
+<a class="reference internal image-reference" href="../_images/ch8_10_image17.svg"><img alt="../_images/ch8_10_image17.svg" src="../_images/ch8_10_image17.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.14 </span><span class="caption-text">バルクSiのバンド構造図</span><a class="headerlink" href="#id34" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>band.plを実行するときにいくつかのオプションを付加することができます（次節）。</p>
+</section>
+<section id="id14">
+<h4><span class="section-number">11.4.8.2. </span>band.plのオプション<a class="headerlink" href="#id14" title="この見出しへのパーマリンク"></a></h4>
+<p>なにも付加せずにband.plを実行すると利用方法が表示されます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ band.pl
+
+ Usage: band.pl EnergyDataFile KpointFile -erange=Emin,Emax
+ -einc=dE -ptype={solid_circles|lines} -with_fermi
+ -width=SIZE -color
+</pre></div>
+</div>
+<p>KpointFileの後が作図を制御するオプションです。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>-erange=Emin,Emax</p></td>
+<td><p>表示するエネルギーの範囲をeV単位で指定する。</p>
+<p>たとえば、-10 eVから5 eVまで表示したい場合は、-erange=-10,5
+とします。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>-einc=dE</p></td>
+<td><p>目盛りの間隔を指定する。たとえば2eV間隔に目盛りをふりたいなら、-einc=2
+とします。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-ptype=TYPE</p></td>
+<td><p>描画種を選択する。
+-ptype=solid_circles  : 黒く塗りつぶされた円で表示する。
+-ptype=lines : 直線でつなぐ(デフォルト)。</p></td>
+</tr>
+<tr class="row-even"><td><p>-with_fermi</p></td>
+<td><p>デフォルトでは描かないフェルミレベルまたは価電子帯上端のエネルギーレベルを描く。金属ではフェルミレベルを表示し、絶縁体・半導体であれば価電子帯上端のエネルギーレベルを表示します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-width=SIZE</p></td>
+<td><p>図の幅のデフォルト値は0.5であるが、その値を変更したい場合はこのオプションを使う。たとえば、0.3に変更したい場合は-width=0.3
+とします。</p></td>
+</tr>
+<tr class="row-even"><td><p>-color</p></td>
+<td><p>グラフをカラー表示する。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="trajectory-dynm2tr2-pl">
+<h3><span class="section-number">11.4.9. </span>原子構造の拡張trajectory形式への変換ツール　dynm2tr2.pl<a class="headerlink" href="#trajectory-dynm2tr2-pl" title="この見出しへのパーマリンク"></a></h3>
+<p>Perlスクリプトdynm2tr2.plは、構造最適化、分子動力学法計算のデータ(nfdym.data)を拡張trajectory形式に変換します。</p>
+<p>ツールdynm2tr2.plを以下のように実行します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dynm2tr2.pl nfdynm.data
+</pre></div>
+</div>
+<p>このようにすると、dynm.tr2というファイルとgrid.mol2というファイルが生成されます。前者は原子の座標などが記述されたファイルであり、
+後者は対応するセルの情報などが記述されたファイルです。</p>
+<p>FCCのプリミティブセルにSiが二原子入った非平衡状態を初期構造とし、構造最適化した結果を拡張trajectory形式に変化し、可視化した例です。</p>
+<figure class="align-default" id="commands-and-tools-fig12">
+<a class="reference internal image-reference" href="../_images/ch8_10_image18.svg"><img alt="../_images/ch8_10_image18.svg" src="../_images/ch8_10_image18.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.15 </span><span class="caption-text">バルクSiの構造最適化過程の可視化例</span><a class="headerlink" href="#commands-and-tools-fig12" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#commands-and-tools-fig12"><span class="std std-numref">図 11.15</span></a> の矢印は原子に作用する力を表しています。
+力が極大になったあとは、原子座標の更新が進む毎に原子に作用する力が小さくなり、原子構造が最適化されていく様子が分かります。
+<a class="reference internal" href="#commands-and-tools-fig12"><span class="std std-numref">図 11.15</span></a> ではプリミティブセルで表示されますが、 以下のようなcontrol.inpというファイルを作成すれば、原点の移動やセルの変更ができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">origin</span>  <span class="mf">1.2825</span> <span class="mf">1.2825</span> <span class="mf">1.2825</span>
+<span class="n">vector1</span> <span class="mf">10.26</span>  <span class="mi">0</span>     <span class="mi">0</span>
+<span class="n">vector2</span>  <span class="mi">0</span>    <span class="mf">10.26</span>  <span class="mi">0</span>
+<span class="n">vector3</span>  <span class="mi">0</span>     <span class="mi">0</span>    <span class="mf">10.26</span>
+</pre></div>
+</div>
+<p>このcontrol.inpを使用してdynm2tr2.plでdynm.tr2を作成すると原点が(1.2825,1.2825,1.2825) bohrに移り、 セルのベクトルが(10.26,0,0)、(0,10.26,0)、(0,0,10.26) bohrになります。
+以下のようにして、dynm.tr2を作成します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dynm2tr2.pl nfdynm.data control.inp
+</pre></div>
+</div>
+<p>ブラベーセルで構造最適化過程のstep 10を図示したのが、<a class="reference internal" href="#commands-and-tools-fig13"><span class="std std-numref">図 11.16</span></a> です。</p>
+<figure class="align-default" id="commands-and-tools-fig13">
+<a class="reference internal image-reference" href="../_images/ch8_10_image19.svg"><img alt="../_images/ch8_10_image19.svg" src="../_images/ch8_10_image19.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.16 </span><span class="caption-text">ブラベーセルで表したバルクSiの構造最適化過程(step 10)</span><a class="headerlink" href="#commands-and-tools-fig13" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="freq-pl">
+<h3><span class="section-number">11.4.10. </span>振動数レベル図作成ツール freq.pl<a class="headerlink" href="#freq-pl" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEの振動解析機能を使用すると、結晶の基準振動モードの振動数と固有ベクトルが得られます。
+振動解析の結果は、ファイルmode.dataに出力されます。Perlスクリプトfreq.plmode.dataから振動数のデータを取り出し
+振動数レベル図を作成します。freq.pl実行すると、EPS形式の画像ファイルfreq.epsが出力されます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ freq.pl [options] mode.data
+</pre></div>
+</div>
+<p>バルクSiの振動数解析結果の振動数のレベル図を <a class="reference internal" href="#commands-and-tools-fig14"><span class="std std-numref">図 11.17</span></a> に示します。</p>
+<figure class="align-default" id="commands-and-tools-fig14">
+<a class="reference internal image-reference" href="../_images/ch8_10_image20.svg"><img alt="../_images/ch8_10_image20.svg" src="../_images/ch8_10_image20.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 11.17 </span><span class="caption-text">バルクSiの振動数レベル図</span><a class="headerlink" href="#commands-and-tools-fig14" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p>振動数レベルを表す横棒は既約表現ごとに列にまとめて分類され、その各列の上には既約表現の名称と活性を表す記号(IR,R,IR&amp;R,NON)が
+表示されます。IRは赤外活性を表し、Rはラマン活性を表します。IR&amp;Rは赤外活性とラマン活性があることを示します。
+NONはサイレントモードであることを示しています。作成された振動数レベル図では、横線の右側には振動数がcm<sup>-1</sup>単位で表示されます。
+既約表現ごとに振動数の低い順に番号付けされ、横線の左側に表示されます。</p>
+<section id="id15">
+<h4><span class="section-number">11.4.10.1. </span>freq.plのオプション<a class="headerlink" href="#id15" title="この見出しへのパーマリンク"></a></h4>
+<p>なにも付加せずにfreq.plを実行すると利用方法が表示されます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ freq.pl
+
+*** A visualization program for vibrational freqencies ***
+Usage: freq.pl [-width=W] [-height=H] [-nrep=N] {-solid|-mol|-ignored_modes=LIST} mode.data
+</pre></div>
+</div>
+<p>freq.plのオプションです。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>-width=W</p></td>
+<td><p>図の幅のデフォルト値は1であるが、その値を変更したい場合はこのオプションを使う。</p>
+<p>たとえば、0.3に変更したい場合は
+-width=0.3
+とします。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>-height=H</p></td>
+<td><p>図の幅のデフォルト値は1であるが、その値を変更したい場合はこのオプションを使う。たとえば、2.5に変更したい場合は
+-height=2.5
+とします。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-nrep=N</p></td>
+<td><p>一つの図に表示する既約表現の数。振動モードの既約表現かこの数よりも多いときには、複数のEPSファイルが作成されます。</p></td>
+</tr>
+<tr class="row-even"><td><p>-solid</p></td>
+<td><p>固体の場合に並進を非表示にするオプション。これはデフォルトで設定されています。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-mol</p></td>
+<td><p>分子の場合に回転と並進を非表示にするオプション。</p></td>
+</tr>
+<tr class="row-even"><td><p>-ignored_modes=LIST</p></td>
+<td><p>LISTのところにコンマで区切って並べた番号のモードは表示されなくなります。
+たとえば
+-ignored_modes=1,2,3
+とすると1,2,3番のモードは表示されなくなります。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="trajectory-animate-pl">
+<h3><span class="section-number">11.4.11. </span>基準振動の軌跡の拡張trajectory形式ファイル変換ツール animate.pl<a class="headerlink" href="#trajectory-animate-pl" title="この見出しへのパーマリンク"></a></h3>
+<p>Perlスクリプトanimate.plmode.dataに出力されている振動モードの固有ベクトルのデータを読み込み、基準振動の軌跡を拡張trajectory形式ファイルに変換します。</p>
+<p>control.inpというファイルを用意すると、原点の移動とセルベクトルの変更ができます。</p>
+<p>control.inpの例です。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">origin</span>  <span class="mf">1.27189</span> <span class="mf">1.27189</span> <span class="mf">1.27189</span>
+<span class="n">vector1</span> <span class="mf">10.17512</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="n">vector2</span> <span class="mi">0</span> <span class="mf">10.17512</span> <span class="mi">0</span>
+<span class="n">vector3</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">10.17512</span>
+</pre></div>
+</div>
+<p>この例では、ブラベーセルで表示するために、原点を(1.27189、1.27189、1.27189) bohrに移し、セルベクトルを(10.17512、0、0)、(0、10.17512、0)、(0、0、10.17512) bohr に変更します。</p>
+<p>animate.plを以下のように実行します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ animate.pl mode.data control.inp
+</pre></div>
+</div>
+<p>各振動モードごとの拡張trajectory形式ファイルmode_1.tr2、mode_2.tr2、...、mode_6.tr2というファイルとgrid.mol2というファイルが作成されます。
+拡張trajectory形式のファイルは振動モードの数だけ出力されます。</p>
+<p>バルクSiの振動解析の6番目の基準振動の固有ベクトルmode_6.tr2を可視化した図を <a class="reference internal" href="#commands-and-tools-fig15"><span class="std std-numref">図 11.18</span></a> に示します。</p>
+<figure class="align-default" id="commands-and-tools-fig15">
+<img alt="../_images/ch8_10_image21.png" src="../_images/ch8_10_image21.png" />
+<figcaption>
+<p><span class="caption-number">図 11.18 </span><span class="caption-text">バルクSiの基準振動の固有ベクトル</span><a class="headerlink" href="#commands-and-tools-fig15" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="conv-py">
+<span id="commands-and-tools-convpy"></span><h3><span class="section-number">11.4.12. </span>座標データ変換ツールconv.py<a class="headerlink" href="#conv-py" title="この見出しへのパーマリンク"></a></h3>
+<p>conv.pyというPythonスクリプトを使って、座標データを変換することができます。binディレクトリーの下にあります。<code class="docutils literal notranslate"><span class="pre">conv.py</span></code> コマンドを実行すれば起動することができます。conv.pyは対話的に利用します。たとえば、nfdynm.dataファイルをCIFに変換する手続きは下記の通りです。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>画面に現れる文字列</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>$ conv.py</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>atomic configuration converter
+utility.</p>
+<p>Copyright (C)
+PHASE System Consortium</p>
+<p>select the type of the input
+atomic coordinate file</p>
+<ol class="arabic simple" start="0">
+<li><p>phase_input</p></li>
+<li><p>phase_output</p></li>
+<li><p>VASP_input</p></li>
+<li><p>VASP_output</p></li>
+<li><p>OpenMX_input</p></li>
+<li><p>OpenMX_output</p></li>
+<li><p>XSF</p></li>
+<li><p>xyz</p></li>
+<li><p>cube</p></li>
+<li><p>cif</p></li>
+<li><p>dmol</p></li>
+<li><p>LAMMPS_output</p></li>
+</ol>
+<ol class="loweralpha simple" start="24">
+<li><p>Exit</p></li>
+</ol>
+<p>Please enter a selection
+(0/1/2/3/4/5/6/7/8/9/10/11/x)
+[0]:</p>
+</td>
+<td><p>変換元のファイル形式を指定する。
+nfdynm.dataの場合phase_outputなので1を指定し、Enter</p></td>
+</tr>
+<tr class="row-even"><td><p>Please enter the name of the
+input atomic coordinate file, or
+type x to exit. [nfdynm.data]:</p></td>
+<td><p>nfdynm.dataファイルのファイル名を指定。nfdynm.dataでよいならそのままEnter</p></td>
+</tr>
+<tr class="row-odd"><td><p>Please enter the frame no.
+(enter a negative value in order
+to output all frames when
+possible), or type x to exit.
+[-1]:</p></td>
+<td><p>フレームを選択する。
+負の値の場合「全フレーム」を選択することに相当する。
+カンマ区切りで三つの整数を指定することによって、始フレーム, 終フレーム、間隔を指定することができる。フレームの数値は0始まり</p></td>
+</tr>
+<tr class="row-even"><td><p>select the type of the output
+atomic coordinate file</p>
+<ol class="arabic simple" start="0">
+<li><p>phase_input</p></li>
+<li><p>phase_output</p></li>
+<li><p>VASP_input</p></li>
+<li><p>OpenMX_input</p></li>
+<li><p>XSF</p></li>
+<li><p>xyz</p></li>
+<li><p>cube</p></li>
+<li><p>cif</p></li>
+<li><p>dmol</p></li>
+<li><p>LAMMPS_input</p></li>
+</ol>
+<ol class="loweralpha simple" start="24">
+<li><p>Exit</p></li>
+</ol>
+<p>Please enter a selection
+(0/1/2/3/4/5/6/7/8/9/x) [1]:</p>
+</td>
+<td><p>変換先の形式を指定する。
+CIFの場合7と入力しEnter</p></td>
+</tr>
+<tr class="row-odd"><td><p>Please enter the name the output
+atomic coordinate file, or type
+x to exit. [coord.cif]:</p></td>
+<td><p>出力ファイル名を指定する。CIFの場合、デフォルト値はcoord.cif</p></td>
+</tr>
+</tbody>
+</table>
+<p>以上の操作によって、nfdynm.dataファイルからCIFを得ることができます。そのほかのファイル形式についても同様に変換することができます。</p>
+<p>conv.py起動時に、以下のオプションを指定することができます。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>オプション</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>--pack</p></td>
+<td><p>単位胞の中に原子を押し込めます</p></td>
+</tr>
+<tr class="row-odd"><td><p>--na=NA</p></td>
+<td><p><em>a</em>軸をNA倍にしたスーパーセルを作成し、変換します</p></td>
+</tr>
+<tr class="row-even"><td><p>--nb=NB</p></td>
+<td><p><em>b</em>軸をNB倍にしたスーパーセルを作成し、変換します</p></td>
+</tr>
+<tr class="row-odd"><td><p>--nc=NC</p></td>
+<td><p><em>c</em>軸をNC倍にしたスーパーセルを作成し、変換します</p></td>
+</tr>
+</tbody>
+</table>
+<p>PHASE/0の入力を変換する場合、ホームディレクトリーに.piouというファイルが存在し、その中身が下記のようになっている必要があります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">default_pp_dir</span><span class="o">=</span><span class="n">PATH_TO_PPDIR</span>
+</pre></div>
+</div>
+<p>ここでPATH_TO_PPDIRは擬ポテンシャルファイルが納められたディレクトリーです。</p>
+</section>
+<section id="inpcheck-py">
+<span id="ch08-10-inpcheck-py-section"></span><h3><span class="section-number">11.4.13. </span>入力ファイル正誤チェックツールinpcheck.py<a class="headerlink" href="#inpcheck-py" title="この見出しへのパーマリンク"></a></h3>
+<p>inpcheck.pyとは、PHASE/0の入力の正誤チェックを行うツールです。binディレクトリーの下にあります。</p>
+<p>このスクリプトを利用するには、まずホームディレクトリーに.piouというファイルを作成し、その中身を以下のようにする必要があります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">default_pp_dir</span><span class="o">=</span><span class="n">PATH_TO_PPDIR</span>
+</pre></div>
+</div>
+<p>ここでPATH_TO_PPDIRは擬ポテンシャルファイルが納められたディレクトリーです。</p>
+<p>以下のように計算の実行ディレクトリーにおいて実行すると診断をはじめ、結果が標準エラー出力に出力されます。たとえば、以下のような出力が得られます。</p>
+<pre class="literal-block">$ inpcheck.py
+
+input data validator utility for PHASE
+Copyright (C) the RISS project, The University of Tokyo
+INFO: -- running the input validator --
+INFO: specfile : phase.spec
+INFO: checking directory : /home/jkoga/phase0_2024.01/samples/Si8
+INFO: validating input...
+INFO:
+INFO: checking if required/recommended entries exist...
+INFO:
+INFO: found [accuracy.matrix_diagon.cutoff_wf] at line 31, a recommended
+entry when [accuracy.initial_wavefunctions] is 'matrix_diagon
+...
+...
+INFO: checking whether each entires are valid...
+INFO:
+INFO: line 2: entry [control.cpumax] matches the specification.
+INFO: line 3: entry [control.condition] matches the
+...
+...
+WARNING:
+WARNING: line 95: could not find [postprocessing.dos.nwd_window_width] in specification.
+WARNING: candidate entry: [postprocessing.dos.nwd_dos_window_width]
+WARNING:
+INFO: line 98: entry [postprocessing.charge.sw_charge_rspace] matches the specification.
+INFO: line 99: entry [postprocessing.charge.filetype] matches the specification.
+INFO: line 100: entry [postprocessing.charge.title] matches the specification.
+INFO:
+INFO: input validation done.
+INFO:
+WARNING: found 2 warnings in /home/jkoga/phase0_2024.01/samples/Si8
+WARNING: check the log for details.</pre>
+<p>inpcheck.pyに渡せるオプションは下記の通り。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>オプション</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>-l LOGLEVEL, --loglevel=LOGLEVEL</p></td>
+<td><p>ログレベルを指定する。</p>
+<p>0 : 最小出力
+1 : デフォルト出力
+2 : デバッグ出力</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>--prop=PROPFILE</p></td>
+<td><p>プロパティ―ファイルをユーザー指定のものにする。（デフォルト値はpiou/data/props.properties）</p></td>
+</tr>
+<tr class="row-even"><td><p>--ppdir=PPDIR</p></td>
+<td><p>擬ポテンシャル格納ディレクトリーをデフォルト以外のものにする(デフォルト値は$HOME/.piouファイルに記述されている)</p></td>
+</tr>
+<tr class="row-odd"><td><p>-s SPECFILE, --specfile=SPECFILE</p></td>
+<td><p>入力仕様定義ファイルをユーザー指定のものにする（デフォルト値はpiou/config/phase.spec）</p></td>
+</tr>
+<tr class="row-even"><td><p>-r, --recursive</p></td>
+<td><p>起動したディレクトリーの下のすべてのサブディレクトリ―を再帰的にたどり、PHASE/計算フォルダーと判定された場合に入力ファイル正誤チェックを行う。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="geninp-py">
+<span id="ch08-10-geninp-py-section"></span><h3><span class="section-number">11.4.14. </span>入力ファイル生成ツールgeninp.py<a class="headerlink" href="#geninp-py" title="この見出しへのパーマリンク"></a></h3>
+<p>座標データを入力とし、ユーザー指定の方針に従いPHASE/0でそのまま実行できる入力ファイルを生成するスクリプトがgeninp.pyです。
+対話的にもバッチ処理的にも利用することができます。
+ここでは、対話的に利用する方法を説明します。</p>
+<p>まず、以下のコマンドを実行します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">geninp</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>すると、以下のように原子配置の種類を指定する指示が表示されます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">select</span> <span class="n">the</span> <span class="nb">type</span> <span class="n">of</span> <span class="n">the</span> <span class="n">atomic</span> <span class="n">coordinate</span> <span class="n">file</span>
+<span class="mf">0.</span>  <span class="n">phase_input</span>
+<span class="mf">1.</span>  <span class="n">phase_output</span>
+<span class="mf">2.</span>  <span class="n">VASP_input</span>
+<span class="mf">3.</span>  <span class="n">VASP_output</span>
+<span class="mf">4.</span>  <span class="n">OpenMX_input</span>
+<span class="mf">5.</span>  <span class="n">OpenMX_output</span>
+<span class="mf">6.</span>  <span class="n">XSF</span>
+<span class="mf">7.</span>  <span class="n">xyz</span>
+<span class="mf">8.</span>  <span class="n">cube</span>
+<span class="mf">9.</span>  <span class="n">cif</span>
+<span class="mf">10.</span> <span class="n">dmol</span>
+<span class="mf">11.</span> <span class="n">OpenBabel_interface</span>
+<span class="n">x</span><span class="o">.</span>  <span class="n">Exit</span>
+<span class="n">Please</span> <span class="n">enter</span> <span class="n">a</span> <span class="n">selection</span> <span class="p">(</span><span class="mi">0</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="o">/</span><span class="mi">6</span><span class="o">/</span><span class="mi">7</span><span class="o">/</span><span class="mi">8</span><span class="o">/</span><span class="mi">9</span><span class="o">/</span><span class="mi">10</span><span class="o">/</span><span class="mi">11</span><span class="o">/</span><span class="n">x</span><span class="p">)</span> <span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+</pre></div>
+</div>
+<p>対応する座標データ形式は、以下の通りです。</p>
+<ul class="simple">
+<li><p>PHASE/0入力</p></li>
+<li><p>PHASE/0出力</p></li>
+<li><p>VASP入力</p></li>
+<li><p>VASP出力</p></li>
+<li><p>OpenMX 入力</p></li>
+<li><p>OpenMX 出力</p></li>
+<li><p>XSF形式</p></li>
+<li><p>xyz形式</p></li>
+<li><p>cube 形式</p></li>
+<li><p>cif 形式 (ただし対称性は考慮しません)</p></li>
+<li><p>dmol 形式</p></li>
+</ul>
+<p>さらに、OpenBabel(<a class="reference external" href="http://openbabel.org/wiki/Main_Page">http://openbabel.org/wiki/Main_Page</a>) のインターフェースを備えています。
+OpenBabelがインストールされており、パスが適切に設定されていれば利用すことができます。
+OpenBabelインターフェースによって、OpenBabelが理解することのできる 100 以上の座標データフォーマットを扱うことが可能となっています。
+ただし伝統的に化学の分野で利用されているものなので、ほとんどのフォーマットは単位胞という概念を持たず、PHASE/0の入力のもとにするには不十分な場合も多い点にご留意ください。</p>
+<p>ここで座標データ形式を選択すると、次が表示されます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Please</span> <span class="n">enter</span> <span class="n">the</span> <span class="n">name</span> <span class="n">the</span> <span class="n">atomic</span> <span class="n">coordinate</span> <span class="n">file</span><span class="p">,</span> <span class="ow">or</span> <span class="nb">type</span> <span class="n">x</span> <span class="n">to</span> <span class="n">exit</span><span class="o">.</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>(... の部分には、種類に応じたデフォルトの座標データファイル名が出力されます)</p>
+<p>ここでは、座標データファイ ルのファイル名を指定します。
+環境によってはタブ補間が利用できます。</p>
+<p>適切なファイル名を入力すると、次が得られます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Please</span> <span class="n">enter</span> <span class="n">the</span> <span class="n">frame</span> <span class="n">no</span><span class="o">.</span> <span class="p">(</span><span class="n">the</span> <span class="n">last</span> <span class="n">frame</span> <span class="n">will</span> <span class="n">be</span> <span class="n">adopted</span> <span class="k">if</span> <span class="n">a</span> <span class="n">negative</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">specified</span><span class="p">),</span> <span class="ow">or</span> <span class="nb">type</span> <span class="n">x</span> <span class="n">to</span> <span class="n">exit</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>ここでは、複数の原子配置データを保持する座標データファイル出会った場合にどの座標データを使用するかを指定します。
+0 始まりの整数で利用したい原子配置の数値を指定します。
+あるいは、負の値を指定します。
+負の値を指定すると、一番最後に定義された原子配置データが採用されます。
+構造最適化を実施したあとの座標データを利用したい場合などには、負の値を指定するとよいでしょう。</p>
+<p>利用する原子配置を指定すると、次が得られます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.</span>  <span class="n">static</span>
+<span class="mf">1.</span>  <span class="n">stropt</span>
+<span class="mf">2.</span>  <span class="n">phonon</span>
+<span class="mf">3.</span>  <span class="n">dos</span>
+<span class="mf">4.</span>  <span class="n">md_nvt</span>
+<span class="mf">5.</span>  <span class="n">md_nve</span>
+<span class="mf">6.</span>  <span class="n">neb</span>
+<span class="n">a</span><span class="o">.</span>  <span class="n">apply</span> <span class="n">the</span> <span class="n">default</span> <span class="n">settings</span> <span class="n">here</span> <span class="n">after</span>
+<span class="n">x</span><span class="o">.</span>  <span class="n">Exit</span>
+<span class="n">Please</span> <span class="n">enter</span> <span class="n">a</span> <span class="n">selection</span> <span class="p">(</span><span class="mi">0</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="o">/</span><span class="mi">6</span><span class="o">/</span><span class="n">a</span><span class="o">/</span><span class="n">x</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+</pre></div>
+</div>
+<p>ここでは、どのような計算を実行するかを指定します。
+なお、この項目以降 ”a”を指定すると以後デフォルト値が採用され、そのまま入力データ作成フェーズへ移行します。
+また、いつでも ”x”を入力することによってこのプログラムを終了させることもできます。</p>
+<p>ここでは、以下を選択することができます。</p>
+<ul class="simple">
+<li><ol class="arabic simple" start="0">
+<li><p>static 1 点の SCF 計算を実行します。</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple">
+<li><p>stropt 構造最適化を実行します。</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>phonon Γ点での振動解析を実行します。</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="3">
+<li><p>dos 状態密度計算に適した入力を作成してくれます。</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="4">
+<li><p>md nvt 温度一定の分子動力学シミュレーションを実行します。時間刻みや質量、熱浴パラメーターなどはプログラムによって自動的に解決されます。</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="5">
+<li><p>md nve エネルギー一定の分子動力学シミュレーションを実行します。時間刻みや質量などはプログラムによって自動的に解決されます。</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="6">
+<li><p>neb Nudged elastic band 法による計算を行います。この項目を選択した場合、さらに始状態と終状態の原子配置も同じように聞かれます。</p></li>
+</ol>
+</li>
+</ul>
+<p>実行する計算のタイプを選んだあとは、出力ディレクトリーを指定します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Please</span> <span class="n">enter</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">output</span> <span class="n">directory</span><span class="p">,</span> <span class="ow">or</span> <span class="nb">type</span> <span class="n">x</span> <span class="n">to</span> <span class="n">exit</span><span class="o">.</span> <span class="p">[</span><span class="n">stropt</span><span class="p">]:</span>
+</pre></div>
+</div>
+<p>デフォルト値は、計算の種類によって変わります。</p>
+<p>次に対称性を考慮するかどうかを選びます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>take symmetry into account?
+0.  yes
+1.  no
+a.  apply the default settings here after
+x.  Exit
+Please enter a selection (0/1/a/x) [0]:
+</pre></div>
+</div>
+<p>0 を選ぶと対称性は考慮され、1 を選ぶと考慮されません。</p>
+<p>次にスピンを考慮するかどうかを選択します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>take spin into account?
+0.  yes
+1.  no
+a.  apply the default settings here after
+x.  Exit
+Please enter a selection (0/1/2/a/x) [1]:
+</pre></div>
+</div>
+<p>0 を入力した場合スピンは考慮され、1 を選んだ場合考慮されません。</p>
+<p>次に計算精度を選択します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">select</span> <span class="n">the</span> <span class="n">accuracy</span> <span class="n">of</span> <span class="n">the</span> <span class="n">calculation</span><span class="o">.</span>
+<span class="mf">0.</span>  <span class="n">low</span>
+<span class="mf">1.</span>  <span class="n">normal</span>
+<span class="mf">2.</span>  <span class="n">high</span>
+<span class="n">a</span><span class="o">.</span>  <span class="n">apply</span> <span class="n">the</span> <span class="n">default</span> <span class="n">settings</span> <span class="n">here</span> <span class="n">after</span>
+<span class="n">x</span><span class="o">.</span>  <span class="n">Exit</span>
+<span class="n">Please</span> <span class="n">enter</span> <span class="n">a</span> <span class="n">selection</span> <span class="p">(</span><span class="mi">0</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">a</span><span class="o">/</span><span class="n">x</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+</pre></div>
+</div>
+<p>0 を選ぶと低精度、1 を選ぶと通常の精度、2 を選ぶと高精度の計算を実行する入力ファイルが得られます。</p>
+<p>次に波動関数ソルバーおよび電荷密度混合法の設定方針を選びます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">select</span> <span class="n">how</span> <span class="n">aggressive</span> <span class="n">the</span> <span class="n">solvers</span> <span class="ow">and</span> <span class="n">charge</span><span class="o">-</span><span class="n">mixing</span> <span class="n">should</span> <span class="n">be</span> <span class="n">configured</span><span class="o">.</span>
+<span class="mf">0.</span>  <span class="n">very_conservative</span>
+<span class="mf">1.</span>  <span class="n">conservative</span>
+<span class="mf">2.</span>  <span class="n">normal</span>
+<span class="mf">3.</span>  <span class="n">aggressive</span>
+<span class="mf">4.</span>  <span class="n">very_aggressive</span>
+<span class="n">x</span><span class="o">.</span>  <span class="n">Exit</span>
+<span class="n">Please</span> <span class="n">enter</span> <span class="n">a</span> <span class="n">selection</span> <span class="p">(</span><span class="mi">0</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span><span class="n">x</span><span class="p">)</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+</pre></div>
+</div>
+<p>0 から 4 まで選択可能で、数値が大きいほどよりアグレッシブな設定となります。
+通常、3 程度が推奨されます。</p>
+<p>ここまで入力すると、原子配置データを読み込み、指定のディレクトリーへPHASE/0の入力データが出力されます。
+そのディレクトリーへ移行し、</p>
+<pre class="literal-block">% mpirun -n N ~/phase0_2024.01/bin/phase &amp;</pre>
+<p>などとすればPHASE/0による計算を簡単に実行することが可能です。</p>
+</section>
+</section>
+<section id="inputs-outputs-chapter">
+<span id="id16"></span><h2><span class="section-number">11.5. </span>入出力ファイル<a class="headerlink" href="#inputs-outputs-chapter" title="この見出しへのパーマリンク"></a></h2>
+<p>ここではいくつかの主要な入出力ファイルについて説明します。入力パラメータファイル（F_INP(=nfinp.data))と入出力ファイル設定ファイル（file_names.data  <a class="reference internal" href="../first_step/first_step.html#firststep-fnamesdata-section"><span class="std std-numref">3.2.4 章</span></a>  ）については他の章において詳しく説明しているので省きます。</p>
+<section id="f-pot">
+<h3><span class="section-number">11.5.1. </span>擬ポテンシャルファイル F_POT（入力）<a class="headerlink" href="#f-pot" title="この見出しへのパーマリンク"></a></h3>
+<section id="id17">
+<h4><span class="section-number">11.5.1.1. </span>フォーマット<a class="headerlink" href="#id17" title="この見出しへのパーマリンク"></a></h4>
+<p>擬ポテンシャルファイルのフォーマットについて説明します。</p>
+<p>例として、Si 原子の擬ポテンシャルの最初の部分を以下に示します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   14   4   3   0   2  : zatom, ival, iloc, itpcc
+ldapw91  : name                                                      |
+     2.160000    0.860000    1.605400   -0.605400  :   alp,cc
+   1501   96.000000   60.000000  :   nmesh,  xh, rmax
+VALL
+ -0.14250064037552332E+07 -0.14102392478975291E+07 -0.13956251181755565E+07
+ -0.13811624288404209E+07 -0.13668496105922471E+07 -0.13526851103651347E+07
+ -0.13386673911985729E+07 -0.13247949320589846E+07 -0.13110662276746516E+07
+ -0.12974797883723934E+07 -0.12840341399159116E+07 -0.12707278233458301E+07
+ -0.12575593948213934E+07 -0.12445274254637859E+07 -0.12316305012010917E+07
+ -0.12188672226148657E+07 -0.12062362047882713E+07 -0.11937360771558125E+07
+ -0.11813654833546225E+07 -0.11691230810772763E+07 -0.11570075419261454E+07
+ -0.11450175512692606E+07 -0.11331518080976552E+07 -0.11214090248841981E+07
+ -0.11097879274438950E+07 -0.10982872547956155E+07 -0.10869057590252746E+07
+ -0.10756422051504281E+07 -0.10644953709862572E+07 -0.10534640470129563E+07
+ -0.10425470362444966E+07 -0.10317431540987322E+07 -0.10210512282688706E+07
+ -0.10104700985962711E+07 -0.99999861694454885E+06 -0.98963564707499891E+06
+ ...
+ ...
+</pre></div>
+</div>
+<p>擬ポテンシャルを格納したファイルの最初の複数の連続した行には、#
+で始まるコメント文を記入する
+ことができます。もしコメント文を書き入れると、PHASE
+を走らせたときに、標準出力 (output000)に、そのコメント文が出力されます。</p>
+<p>プログラム PHASE に擬ポテンシャルデータを読み込ませるには、その最初の4行
+(コメント文がある場合には、コメント文以降の4行目まで)に、
+以下のパラメーターの値が指定されている必要があります。</p>
+<p>1行目　natomn, ival, iloc, itpcc, igncpp</p>
+<p>これらの変数は、それぞれ、原子番号<span class="math notranslate nohighlight">\(Z\)</span>、価電子の数<span class="math notranslate nohighlight">\(Z_{v}\)</span>、
+局在軌道の方位量子数<span class="math notranslate nohighlight">\(l_{\text{loc}}\)</span> に1を加えた値、
+コアチャージ補正の有(=1)無(=0)、
+擬ポテンシャルデータの形式GNCPP1(=1)、GNCPP2(=2)の指定に使われます。</p>
+<p>2行目　xctype</p>
+<p>交換相関相互エネルギーの型を指定します。 選択できるのは、LDAPW91、GGAPBE
+の何れかです。</p>
+<p>3行目　alp1, alp2, cc1, cc2</p>
+<p>これらのパラメーターを<span class="math notranslate nohighlight">\(\alpha_{1},\alpha_{2},c_{1},c_{2}\)</span>と書くと、PHASE の中では、コア部分の擬ポテンシャルを</p>
+<div class="math notranslate nohighlight">
+\[V_{\text{core}} = - \frac{Z_{v}}{r}\{ c_{1}\text{erf}(\sqrt{\alpha_{1}}r) + c_{2}\text{erf}(\sqrt{\alpha_{2}}r)\}\]</div>
+<p>という式で近似して計算します。 ただし、<span class="math notranslate nohighlight">\(\mathrm{erf}( \cdot )\)</span>
+はガウスの誤差関数です。 また、2つの係数 <span class="math notranslate nohighlight">\(c_{1}\)</span> と <span class="math notranslate nohighlight">\(c_{2}\)</span>
+の間には <span class="math notranslate nohighlight">\(c_{1} + c_{2} = 1\)</span> の関係があります。</p>
+<p>4行目　nmesh, xh, rmax</p>
+<p>動径方向のメッシュを</p>
+<div class="math notranslate nohighlight">
+\[r_{i} = r_{\max}{\exp\ }((i - N_{\text{mesh}})/x_{h})\mspace{6mu}(i = 1,\cdots,N_{\text{mesh}})\]</div>
+<p>の式にしたがって生成します。ただし、<span class="math notranslate nohighlight">\(N_{\text{mesh}}\)</span>
+は動径方向のメッシュの数を表します。</p>
+<p>価電子4個を持つ原子番号14の Si 原子の、LDAPW91法による擬ポテンシャルであることが、これらの行から分かります。</p>
+<p>5行目(コメント文がある場合には6行目)に書かれている VALL というのは、
+PHASE のプログラム内で擬ポテンシャルのチェック用に使われる記号です。</p>
+<p>その次の行からが擬ポテンシャルの実際のデータです。
+このデータの最初のブロックは、遮蔽された全電子ポテンシャル (screened All
+Electron potential、<span class="math notranslate nohighlight">\(V_{\text{scr}}^{\text{AE}}(r)\)</span>)
+に関するもので、そのデータ形式は、</p>
+<blockquote>
+<div><p>do ir = 1, nmesh</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(V_{\text{scr}}^{\text{AE}}(ir)\)</span></p>
+</div></blockquote>
+<p>end do</p>
+</div></blockquote>
+<p>という形になっています。</p>
+<p>第2のブロックは、遮蔽された局所ポテンシャル (screened local potential、
+<span class="math notranslate nohighlight">\(V_{scr,l_{\text{loc}}}^{\text{PP}}(r,l)\)</span>) に関するものです。
+<span class="math notranslate nohighlight">\(V_{\text{scr}}^{\text{AE}}(r)\)</span>同様、そのデータ形式は、</p>
+<blockquote>
+<div><p>do ir = 1, nmesh</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(V_{scr,l_{\text{loc}}}^{\text{PP}}(ir,iloc)\)</span></p>
+</div></blockquote>
+<p>end do</p>
+</div></blockquote>
+<p>となります。</p>
+<p>第3のブロックは、価電子の電荷密度 (valence charge density、
+<span class="math notranslate nohighlight">\(n_{v}(r)\)</span>) に、球面の面積 <span class="math notranslate nohighlight">\(4\pi r^{2}\)</span> をかけたものです。
+これを <span class="math notranslate nohighlight">\(\rho_{v}(r)\)</span> とすると
+(<span class="math notranslate nohighlight">\(\rho_{v}(r) = 4\pi r^{2}n_{v}(r)\)</span>)、そのデータは、</p>
+<blockquote>
+<div><p>do ir = 1, nmesh</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(\rho_{v}(r)\)</span></p>
+</div></blockquote>
+<p>end do</p>
+</div></blockquote>
+<p>と書かれています。</p>
+<p>これらの3ブロックの記述が終った後に、軌道別に擬波動関数と擬ポテンシャルの
+データが出力されます。
+その形式は、ノルム保存の場合とウルトラソフトの場合で全く異なります。</p>
+<p>詳しくは、CIAO のユーザーマニュアルをご参照ください。</p>
+</section>
+<section id="inouts-recpp-section">
+<span id="id18"></span><h4><span class="section-number">11.5.1.2. </span>推奨擬ポテンシャルファイル<a class="headerlink" href="#inouts-recpp-section" title="この見出しへのパーマリンク"></a></h4>
+<p>現バージョンの擬ポテンシャルファイルセットはphase_pp_2014です。元素によっては複数の擬ポテンシャルファイルが存在しますが、推奨擬ポテンシャルファイルは下記の通りです。バージョン2020.01以降、擬ポテンシャルファイルの指定がない場合はこの推奨擬ポテンシャルファイルが採用されます。</p>
+<p>GGA-PBE</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>H_ggapbe_paw_nc_01m.pp, He_ggapbe_paw_us_01.pp, Li_ggapbe_paw_nc_01m.pp,
+Be_ggapbe_paw_nc_01m.pp, B_ggapbe_paw_us_01m.pp, C_ggapbe_paw_us_01.pp,
+N_ggapbe_paw_us_01m.pp, O_ggapbe_paw_us_02m.pp, F_ggapbe_paw_us_01m.pp,
+Ne_ggapbe_paw_us_01.pp, Na_ggapbe_paw_nc_01m.pp, Mg_ggapbe_paw_nc_01m.pp,
+Al_ggapbe_paw_nc_01.pp, Si_ggapbe_paw_nc_01m.pp, P_ggapbe_paw_nc_01m.pp,
+S_ggapbe_paw_nc_01m.pp, Cl_ggapbe_paw_nc_01m.pp, Ar_ggapbe_paw_us_02.pp,
+K_ggapbe_paw_us_01m.pp, Ca_ggapbe_paw_us_01m.pp, Sc_ggapbe_paw_us_01.pp,
+Ti_ggapbe_paw_us_02.pp, V_ggapbe_paw_us_02.pp, Cr_ggapbe_paw_us_02.pp,
+Mn_ggapbe_paw_us_02.pp, Fe_ggapbe_paw_us_02.pp, Co_ggapbe_paw_us_01.pp,
+Ni_ggapbe_paw_us_01.pp, Cu_ggapbe_paw_us_02m.pp, Zn_ggapbe_paw_us_01m.pp,
+Ga_ggapbe_paw_us_01m.pp, Ge_ggapbe_paw_nc_01m.pp, As_ggapbe_paw_nc_01m.pp,
+Se_ggapbe_paw_nc_01m.pp, Br_ggapbe_paw_nc_01.pp, Kr_ggapbe_paw_nc_01.pp,
+Rb_ggapbe_paw_us_01.pp, Sr_ggapbe_paw_us_01m.pp, Y_ggapbe_paw_us_02.pp,
+Zr_ggapbe_paw_us_02.pp, Nb_ggapbe_paw_us_02.pp, Mo_ggapbe_paw_us_02.pp,
+Tc_ggapbe_paw_us_02.pp, Ru_ggapbe_paw_us_01.pp, Rh_ggapbe_paw_us_01.pp,
+Pd_ggapbe_paw_us_01.pp, Ag_ggapbe_paw_us_01.pp, Cd_ggapbe_paw_us_01.pp,
+In_ggapbe_paw_us_01.pp, Sn_ggapbe_paw_us_01m.pp, Sb_ggapbe_paw_us_01.pp,
+Te_ggapbe_paw_us_02.pp, I_ggapbe_paw_us_02.pp, Xe_ggapbe_paw_us_01.pp,
+Cs_ggapbe_paw_us_01m.pp, Ba_ggapbe_paw_us_01m.pp, La_ggapbe_paw_us_02.pp,
+Ce_ggapbe_paw_us_02.pp, Pr_ggapbe_paw_us_01.pp, Nd_ggapbe_paw_us_01.pp,
+Pm_ggapbe_paw_us_01.pp, Sm_ggapbe_paw_us_01.pp, Eu_ggapbe_paw_us_01.pp,
+Gd_ggapbe_paw_us_01.pp, Tb_ggapbe_paw_us_01.pp, Dy_ggapbe_paw_us_01.pp,
+Ho_ggapbe_paw_us_01.pp, Er_ggapbe_paw_us_01.pp, Tm_ggapbe_paw_us_01.pp,
+Yb_ggapbe_paw_us_01.pp, Lu_ggapbe_paw_us_01.pp, Hf_ggapbe_paw_us_03.pp,
+Ta_ggapbe_paw_us_03.pp, W_ggapbe_paw_us_01.pp, Re_ggapbe_paw_us_01.pp,
+Os_ggapbe_paw_us_01.pp, Ir_ggapbe_paw_us_01m.pp, Pt_ggapbe_paw_us_01m.pp,
+Au_ggapbe_paw_us_01m.pp, Hg_ggapbe_paw_us_01.pp, Tl_ggapbe_paw_us_01.pp,
+Pb_ggapbe_paw_us_01.pp, Bi_ggapbe_paw_us_02.pp, Po_ggapbe_paw_us_02.pp,
+At_ggapbe_paw_us_02.pp, Rn_ggapbe_paw_us_02.pp, Fr_ggapbe_paw_us_01.pp,
+Ra_ggapbe_paw_us_01.pp, Ac_ggapbe_paw_us_01.pp, Th_ggapbe_paw_us_01.pp,
+Pa_ggapbe_paw_us_01.pp, U_ggapbe_paw_us_01.pp, Np_ggapbe_paw_us_01.pp,
+Pu_ggapbe_paw_us_01.pp, Am_ggapbe_paw_us_01.pp, Cm_ggapbe_paw_us_01.pp,
+Bk_ggapbe_paw_us_01.pp, Cf_ggapbe_paw_us_01.pp, Es_ggapbe_paw_us_01.pp,
+Fm_ggapbe_paw_us_01.pp, Md_ggapbe_paw_us_01.pp, No_ggapbe_paw_us_01.pp,
+Lr_ggapbe_paw_us_01.pp, Rf_ggapbe_paw_us_01.pp, Db_ggapbe_paw_us_01.pp,
+Sg_ggapbe_paw_us_01.pp, Bh_ggapbe_paw_us_01.pp, Hs_ggapbe_paw_us_01.pp,
+Mt_ggapbe_paw_us_01.pp, Ds_ggapbe_paw_us_01.pp, Rg_ggapbe_paw_us_01.pp
+</pre></div>
+</div>
+<p>LDA-PW91</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Ge_ldapw91_paw_nc_01.pp
+</pre></div>
+</div>
+</section>
+</section>
+<section id="k-f-kpoint-kpoint-data">
+<h3><span class="section-number">11.5.2. </span>サンプリングk点ファイル F_KPOINT （=kpoint.data）（入力）<a class="headerlink" href="#k-f-kpoint-kpoint-data" title="この見出しへのパーマリンク"></a></h3>
+<p>主として, ekcalやphaseによる（電荷密度分布（F_CHGT）を固定した）バンド構造計算を行う際に利用するファイルで（通常のSCF計算にも使えます）、
+計算すべき<span class="math notranslate nohighlight">\(k\)</span>点の情報が記述してあります。
+入力パラメータファイルにおいて、<span class="math notranslate nohighlight">\(k\)</span>点サンプリングの方法として“file”を指定した場合、必須のファイルとなります。
+このファイルはバンド計算のためには通常、band_kpoint.plスクリプト( <a class="reference internal" href="#band-kpoint-pl-section"><span class="std std-numref">11.4.7 章</span></a> )を使って作成します。
+直接エディターなどで作成する機会は多くないと思われますが、以下参考のため記述します.</p>
+<p>F_KPOINTファイルは、典型的には次のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>141 141         (a)
+0 50 50 100 1   (b)
+0 49 49 100 1
+0 48 48 100 1
+0 47 47 100 1
+0 46 46 100 1
+0 45 45 100 1
+0 44 44 100 1
+0 43 43 100 1
+   ......
+   ......
+   ......
+</pre></div>
+</div>
+<ol class="loweralpha">
+<li><p>始めの数は<span class="math notranslate nohighlight">\(k\)</span>点の個数で、2番目の数は状態密度を求めるときの<span class="math notranslate nohighlight">\(k\)</span>点ごとの重み（<span class="math notranslate nohighlight">\(w_k\)</span>）の総和<span class="math notranslate nohighlight">\(W\)</span>です。この例の場合、<span class="math notranslate nohighlight">\(k\)</span>点の個数141個で、重みの総和<span class="math notranslate nohighlight">\(W\)</span>も141となります。</p></li>
+<li><p>5つの整数が並んでいますが、最初の4 つは、それぞれ<span class="math notranslate nohighlight">\(k\)</span>点を次式のように定義した場合の<span class="math notranslate nohighlight">\(n_{1},n_{2},n_{3},n_{d}\)</span>になります(ここで<span class="math notranslate nohighlight">\(\overrightarrow{b_{1}},\overrightarrow{b_{2}},\overrightarrow{b_{3}}\)</span>は逆格子ベクトルです)。5 番目の数は、状態密度を求めるときのk点ごとの重み（<span class="math notranslate nohighlight">\(w_k\)</span>）になります。この<span class="math notranslate nohighlight">\(w_k\)</span>の総和が(a)の<span class="math notranslate nohighlight">\(W\)</span>と一致するようにする必要があります。ekcalやphaseによる固定電荷計算によりバンド構造を計算する場合には全て１を割り当てます。</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\overrightarrow{k} =  \frac{n_{1}}{n_{d}}\overrightarrow{b_{1}} + \frac{n_{1}}{n_{d}}\overrightarrow{b_{2}} + \frac{n_{3}}{n_{d}}\overrightarrow{b_{3}}\]</div>
+</div></blockquote>
+</li>
+</ol>
+<p>(b)の型の行が141個連続します。</p>
+<p>F_KPOINT （=kpoint.data）を使って状態密度を計算する際には（また通常のSCF計算でも）、各<span class="math notranslate nohighlight">\(k\)</span>点における固有状態の寄与が（<span class="math notranslate nohighlight">\(w_k/W\)</span>）で与えられます。</p>
+</section>
+<section id="f-dos-dos-data">
+<h3><span class="section-number">11.5.3. </span>状態密度ファイル F_DOS（=dos.data）（出力）<a class="headerlink" href="#f-dos-dos-data" title="この見出しへのパーマリンク"></a></h3>
+<p>F_DOS識別子によって指定されるファイルには、状態密度の計算結果が記入されます。既定のファイル名はdos.dataです。</p>
+<section id="id19">
+<h4><span class="section-number">11.5.3.1. </span>全状態密度<a class="headerlink" href="#id19" title="この見出しへのパーマリンク"></a></h4>
+<p>ファイルフォーマットとしては、まず、スピンを考慮していない計算では全状態密度のデータが次のように記述されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>  No.   E(hr.)        dos(hr.)         E(eV)          dos(eV)              sum
+    6  -0.20528      0.0000000000    -11.949000      0.0000000000        0.0000000000
+   16  -0.20491      0.0000000000    -11.939000      0.0000000000        0.0000000000
+   26  -0.20455      0.0000000000    -11.929000      0.0000000000        0.0000000000
+   ...
+   ...
+   ...
+END
+</pre></div>
+</div>
+<p>ここで No.の列は状態に割り振られた番号、
+E(hr.)はハートリー単位のエネルギー、
+dos(hr.)はハートリー単位でエネルギーを表した場合の状態密度、
+E(eV)は電子ボルト単位でのエネルギー、
+dos(eV)は電子ボルト単位でエネルギーを表した場合の状態密度、
+sumは積算状態密度にそれぞれ対応します。他方、スピンを考慮した計算の場合以下のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>No.  E(hr.)    dos_up(hr.)       dos_down(hr.)      E(eV)         dos_up(eV)        dos_down(eV)      sum_up   sum_down sum_total
+  1  -1.5451      0.0000000000      0.0000000000       -45.4403      0.0000000000      0.0000000000    0.0000    0.0000    0.0000
+ 11  -1.5441      0.0000000000      0.0000000000       -45.4131      0.0000000000      0.0000000000    0.0000    0.0000    0.0000
+ 21  -1.5431      0.0000000000      0.0000000000       -45.3859      0.0000000000      0.0000000000    0.0000    0.0000    0.0000
+ 31  -1.5421      0.0000000000      0.0000000000       -45.3587      0.0000000000      0.0000000000    0.0000    0.0000    0.0000
+ 41  -1.5411      0.0000000000      0.0000000000       -45.3315      0.0000000000      0.0000000000    0.0000    0.0000    0.0000
+ 51  -1.5401      0.0000000000      0.0000000000       -45.3043      0.0000000000      0.0000000000    0.0000    0.0000    0.0000
+</pre></div>
+</div>
+<p>dos_up, dos_downはそれぞれアップスピンとダウンスピンの状態密度、
+sum_upとsum_downはそれぞれアップスピンとダウンスピンの
+積算状態密度に相当します。sum_totalはsum_upとsum_downの和です。</p>
+<p>原子分割局所状態密度、層分割局所状態密度を計算した場合、
+さらにこの後にどのような状態密度かを表す識別用の行の後に対応するデータが記述されます。
+なお、
+スピンを考慮した計算としない計算の違いは全状態密度の場合と同様なので以後省略します.</p>
+</section>
+<section id="id20">
+<h4><span class="section-number">11.5.3.2. </span>原子分割状態密度<a class="headerlink" href="#id20" title="この見出しへのパーマリンク"></a></h4>
+<p>原子分割状態密度の場合、次のような記述が得られます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ALDOS     num_atom =       1
+  No.   E(hr.)        dos(hr.)         E(eV)          dos(eV)              sum
+    6  -0.84950      0.0000000000    -26.189850      0.0000000000        0.0000000000
+   16  -0.84850      0.0000000002    -26.162639      0.0000000000        0.0000000000
+                                 ...
+                                 ...
+END
+ALDOS     num_atom =       2
+                                 ...
+                                 ...
+</pre></div>
+</div>
+<p>原子分割状態密度はALDOSという文字列から始まる行以降からEND行まで記述されます。
+ALDOSの次に記述されている、num_atoms = 1 などの情報は、
+対応する原子のインデックスです。
+このインデックスは入力ファイルにて指定した原子の順番と同じとなります。</p>
+</section>
+<section id="id21">
+<h4><span class="section-number">11.5.3.3. </span>層分割局所状態密度<a class="headerlink" href="#id21" title="この見出しへのパーマリンク"></a></h4>
+<p>層分割局所状態密度の場合次のような記述が得られます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LAYERDOS   num_layer =       1
+  No.   E(hr.)        dos(hr.)         E(eV)          dos(eV)              sum
+    6  -0.84950      0.0000000000    -26.189850      0.0000000000        0.0000000000
+   16  -0.84850      0.0000000002    -26.162639      0.0000000000        0.0000000000
+                                 ...
+                                 ...
+END
+LAYERDOS     num_layer =       2
+                                 ...
+                                 ...
+</pre></div>
+</div>
+<p>基本的には原子分割局所状態密度と同等ですが、
+識別子名がLAYERDOSとなっていること、
+num_layerで入力ファイルにて指定した層番号が記述されること、
+などの違いがあります。</p>
+</section>
+</section>
+<section id="f-enf-nfefn-data">
+<h3><span class="section-number">11.5.4. </span>エネルギー履歴ファイル F_ENF（=nfefn.data）（出力）<a class="headerlink" href="#f-enf-nfefn-data" title="この見出しへのパーマリンク"></a></h3>
+<p>F_ENF識別子によって指定されるファイルには、
+系の全エネルギーや原子に働く力の最大値、
+さらに分子動力学シミュレーションを
+行った場合はイオンの運動エネルギーや保存量なども記述されます。
+構造緩和を行った場合と分子動力学シミュレーションを行った場合とで
+出力内容が異なるので、それぞれについて説明します。</p>
+<section id="id22">
+<h4><span class="section-number">11.5.4.1. </span>構造緩和計算<a class="headerlink" href="#id22" title="この見出しへのパーマリンク"></a></h4>
+<p>典型的な構造緩和を行った後のF_ENFファイルの例を示します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>iter_ion, iter_total, etotal, forcmx
+    1      24     -108.4397629733        0.0086160410
+    2      40     -108.4401764388        0.0076051917
+    3      56     -108.4405310817        0.0068758156
+    4      73     -108.4410640011        0.0065717365
+    5      94     -108.4414256084        0.0099533097
+    6     113     -108.4414317178        0.0094159378
+                 ........
+                 ........
+                 ........
+</pre></div>
+</div>
+<p>各列は各々次のような量に対応します。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>iter_ion</p></td>
+<td><p>イオンの更新回数です。</p></td>
+</tr>
+<tr class="row-even"><td><p>iter_total</p></td>
+<td><p>SCF ループの更新回数です。</p>
+<p>この数字は通算の値が記述されます。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>etotal</p></td>
+<td><p>全エネルギーを、ハートリー単位で出力します。</p></td>
+</tr>
+<tr class="row-even"><td><p>forcmx</p></td>
+<td><p>原子に働く力の最大値を原子単位(hartree/bohr)で記述します。
+この値が入力ファイルにて与えた構造緩和の収束判定を満たすまで計算は実行されます。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id23">
+<h4><span class="section-number">11.5.4.2. </span>分子動力学法計算<a class="headerlink" href="#id23" title="この見出しへのパーマリンク"></a></h4>
+<p>分子動力学法計算の場合、下記のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> iter_ion, iter_total, etotal, ekina, econst, forcmx
+1      18    -7.8953179624     0.0000000000    -7.8953179624     0.0186964345
+2      30    -7.8953851218     0.0000665502    -7.8953185716     0.0183575425
+3      43    -7.8955768901     0.0002565396    -7.8953203505     0.0173392067
+                     ........
+                     ........
+                     ........
+</pre></div>
+</div>
+<p>構造緩和の場合とほぼ同様ですが、新たな列が追加されます。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>ekina</p></td>
+<td><p>系の運動エネルギー</p></td>
+</tr>
+<tr class="row-even"><td><p>econst</p></td>
+<td><p>系の保存量、
+すなわちエネルギー一定の分子動力学シミュレーションの場合系の全エネルギー、
+温度一定の分子動力学シミュレーションの場合系の全エネルギーに熱浴のエネルギーを加えた量です。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id24">
+<h4><span class="section-number">11.5.4.3. </span>格子最適化計算<a class="headerlink" href="#id24" title="この見出しへのパーマリンク"></a></h4>
+<p>格子の最適化を行った場合、下記のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>iter_unitcell, iter_ion, iter_total, etotal, forcmx, stressmx
+1 1 25 -181.4043211381 0.0019960638
+1 2 33 -181.4043560304 0.0004826299
+1 3 40 -181.4043582176 0.0000016495 0.0002327496
+2 1 49 -181.4044223602 0.0000572790 0.0002273231
+3 1 58 -181.4044833189 0.0001158383 0.0002220365
+                       ........
+                       ........
+                       ........
+</pre></div>
+</div>
+<p>通常の構造最適化のケースに加え、以下の列が加えられます。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>iter_unitcell</p></td>
+<td><p>格子の更新回数</p></td>
+</tr>
+<tr class="row-even"><td><p>stressmx</p></td>
+<td><p>ストレステンソルの最大値</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="f-dynm-nfdynm-data">
+<h3><span class="section-number">11.5.5. </span>原子座標履歴ファイル F_DYNM（=nfdynm.data）（出力）<a class="headerlink" href="#f-dynm-nfdynm-data" title="この見出しへのパーマリンク"></a></h3>
+<p>F_DYNM識別子によって指定されるファイルには、
+各原子の座標とそれに働く力が記述されます。
+構造緩和や分子動力学シミュレーションを
+行った場合はイオンの更新の回数分だけデータが書き込まれます。
+典型的なF_DYNMファイルの中身を以下に記述します。なお、
+このファイルにおいて利用される単位系はすべて原子単位系です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#
+#   a_vector =         9.2863024980        0.0000000000        0.0000000000
+#   b_vector =        -4.6431512490        8.0421738710        0.0000000000                (a)
+#   c_vector =         0.0000000000        0.0000000000       10.2158587136
+#   ntyp =        2 natm =        9                                                        (b)
+# (natm-&gt;type)     1    1    1    1    1    1    2    2    2                               (c)
+# (speciesname)     1 :   O                                                                (d)
+# (speciesname)     2 :   Si
+#
+ cps and forc at (iter_ion, iter_total =     1      24 )                                   (e)
+    1    3.161057370    1.169332082    1.214972077   -0.004058   -0.005565   -0.004966     (f)
+    2    6.693102525    2.152889944    4.620258315    0.006945   -0.001028   -0.004994
+    3    4.075293851    4.719951845    8.025544553   -0.002872    0.006394   -0.004796
+    4   -1.482093879    6.872841789    5.595600399   -0.004362    0.005502    0.004993
+    5   -0.567857398    3.322222026    9.000886637   -0.002792   -0.006296    0.004965
+    6    2.049951276    5.889283925    2.190314161    0.006974    0.000708    0.004795
+    7    4.921740324    0.000000000    3.405282833    0.001436    0.000122    0.000068
+    8   -2.460870162    4.262352150    6.810569070   -0.000612    0.001305   -0.000066
+    9    2.182281087    3.779821719   10.215855308   -0.000660   -0.001143    0.000001
+ cps and forc at (iter_ion, iter_total =     2      40 )
+    1    3.156999743    1.163767576    1.210005993   -0.002904   -0.005755   -0.003892
+    2    6.700048015    2.151861938    4.615264365    0.006567    0.000186   -0.003832
+    3    4.072421499    4.726345880    8.020748072   -0.003503    0.005487   -0.003829
+    4   -1.486455954    6.878343743    5.600593135   -0.003122    0.005780    0.003831
+    5   -0.570648922    3.315925959    9.005851266   -0.003532   -0.005392    0.003892
+    6    2.056925355    5.889992076    2.195109289    0.006503   -0.000290    0.003828
+    7    4.923176344    0.000121757    3.405351146    0.000397   -0.000013    0.000018
+    8   -2.461482612    4.263656762    6.810503226   -0.000210    0.000337   -0.000017
+    9    2.181621403    3.778679157   10.215856638   -0.000197   -0.000341    0.000000
+                                        ........
+                                        ........
+                                        ........
+                                        ........
+                                        ........
+</pre></div>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><ol class="loweralpha simple">
+<li></li>
+</ol>
+</td>
+<td><p>セルベクトルが書かれています。a_vector、b_vector、c_vector
+にそれぞれa 軸、b 軸、c 軸のベクトルが記述されています。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p>ntyp =
+の後には使用されている原子種の数が記述されています。この例では2です。また、natm =
+の後には原子数が書かれています。この例では9 です。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p>(natm-&gt;type) の後には、各原子に対する原子種指定番号が書かれています。この例だと、1
+番目から6 番目の原子には1 の原子種指定番号が、7 番目から9 番目の原子には2 の原子種指定番号が割り当てられます。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p>(speciesname) の後には、原子種指定番号と原子種の対応関係が書かれています。この例では、原子種指定番号1 の原子種はO(酸素)、原子種指定番号2 の原子種はSi(珪素)ということになります。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p>各ステップでの情報が記述されています。この例ではイオンの更新回数が1 回, SCF の更新回数が24 回となります。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p>実際の原子の場所とその原子に働いている力が記述されています。1 番目の列は原子のID、2 番目から4 番目の列が原子の場所のx,y,z座標、5 番目から6 番目の列が原子に働く力のx,y,z 座標となります。もし、入力ファイルにおいてprintlevelブロックのvelocity 変数を2 に設定していた場合、7 番目から9番目の列に速度が原子単位で出力されます。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="f-chr-nfchr-cube">
+<h3><span class="section-number">11.5.6. </span>電荷密度ファイル F_CHR（=nfchr.cube）（出力）<a class="headerlink" href="#f-chr-nfchr-cube" title="この見出しへのパーマリンク"></a></h3>
+<p>F_CHRファイルには実空間における電荷密度のデータが記述されます。ただし、
+ここではPHASEのデフォルトの出力ではなく、
+file_typeとしてcubeを指定した場合に得られるGaussian
+Cube形式のファイルについて説明します。PHASEデフォルトの出力を可視化することはできません.
+なるべくGaussian Cube形式のファイルをご利用いただくことをお勧めします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>This is a title line for the bulk Si                                               (a)
+SCF Total Density
+    8    0.0000    0.0000    0.0000                                                (b)
+   20  0.513000  0.000000  0.000000                                                (c)
+   20  0.000000  0.513000  0.000000
+   20  0.000000  0.000000  0.513000
+   14  4.000000  1.282500  1.282500  1.282500                                      (d)
+   14  4.000000  8.977500  8.977500  8.977500
+   14  4.000000  1.282500  6.412500  6.412500
+   14  4.000000  8.977500  3.847500  3.847500
+   14  4.000000  6.412500  1.282500  6.412500
+   14  4.000000  3.847500  8.977500  3.847500
+   14  4.000000  6.412500  6.412500  1.282500
+   14  4.000000  3.847500  3.847500  8.977500
+ 0.87897E-01  0.80457E-01  0.63811E-01  0.47743E-01  0.35993E-01  0.26628E-01      (e)
+ 0.18342E-01  0.12084E-01  0.83725E-02  0.65941E-02  0.60774E-02  0.65941E-02
+ 0.83725E-02  0.12084E-01  0.18342E-01  0.26628E-01  0.35993E-01  0.47743E-01
+ 0.63811E-01  0.80457E-01  0.80457E-01  0.76575E-01  0.63379E-01  0.51118E-01
+ 0.43367E-01  0.35993E-01  0.26413E-01  0.17302E-01  0.11265E-01  0.80672E-02
+ 0.65941E-02  0.62411E-02  0.68963E-02  0.88010E-02  0.12493E-01  0.18342E-01
+ 0.26413E-01  0.37600E-01  0.53180E-01  0.70418E-01  0.63811E-01  0.63379E-01
+                                  ........
+                                  ........
+                                  ........
+                                  ........
+                                  ........
+</pre></div>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><ol class="loweralpha simple">
+<li></li>
+</ol>
+</td>
+<td><p>１行目はタイトルやコメント領域です。この内容は入力パラメータファイル（F_INP）から指定することもできます。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p>8は原子の個数、&quot;0.0000 0.0000 0.0000&quot;は原点です。原点はPHASEでは常に(0,0,0)です。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p>セルの情報が与えられています。たとえば、“20 0.513000 0.000000
+0.000000”とある場合、一つ目の軸（ベクトル）を20分割したベクトルを直交座標系で表すと（0.513,0.00,0.00）であることを意味します。単位はBohr です。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p>一つ目の数字は原子番号です。今の例では14なので、シリコンであることが分かります。次の4.00000という数字は、価電子数です。
+その隣の三つの数字は対応する原子のx,y,z座標です。単位はBohrです。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p>実際の電荷密度の情報が書き出されています。まずz座標、
+次にy座標、最後にx座標が変化するような順で出力されます。</p>
+<div class="line-block">
+<div class="line">(1,1,1)  (1,1,2)  ......  (1,1,20)  (1,2,1)  (1,2,2)</div>
+<div class="line">......  (1,20,20)  (2,1,1)  ......</div>
+<div class="line">(20,20,19)  (20,20,20)</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="f-cntn-continue-data">
+<h3><span class="section-number">11.5.7. </span>継続計算用ファイル F_CNTN（=continue.data）（入出力）<a class="headerlink" href="#f-cntn-continue-data" title="この見出しへのパーマリンク"></a></h3>
+<p>このファイルには, 変更する可能性のある継続計算用のデータが記述されています。
+たとえば、継続計算を行う際に電子状態の収束判定を変更したい場合や、すでに収束した計算を再度継続して計算したい場合などは このファイルを編集する必要があります。
+その内容は、たとえば以下のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> iteration, iteration_ionic, iteration_electronic
+        19         1        19                                                      (a)
+ Ionic System  (natm)         2                                                     (b)
+  (pos)
+  0.1249999999999999D+00  0.1250000000000001D+00  0.1250000000000001D+00            (c)
+  0.8749999999999994D+00  0.8749999999999994D+00  0.8749999999999994D+00
+  (cps)
+  0.1282864712563094D+01  0.1282864712563093D+01  0.1282864712563093D+01            (d)
+  0.8980052987941646D+01  0.8980052987941646D+01  0.8980052987941646D+01
+  (cpd)
+  0.0000000000000000D+00  0.0000000000000000D+00  0.0000000000000000D+00
+  0.0000000000000000D+00  0.0000000000000000D+00  0.0000000000000000D+00
+  (cpo(  1))
+  0.0000000000000000D+00  0.0000000000000000D+00  0.0000000000000000D+00
+  0.0000000000000000D+00  0.0000000000000000D+00  0.0000000000000000D+00
+  (cpo(  2))
+  0.0000000000000000D+00  0.0000000000000000D+00  0.0000000000000000D+00
+  0.0000000000000000D+00  0.0000000000000000D+00  0.0000000000000000D+00
+  (cpo(  3))
+  0.0000000000000000D+00  0.0000000000000000D+00  0.0000000000000000D+00
+  0.0000000000000000D+00  0.0000000000000000D+00  0.0000000000000000D+00
+ Total Energy
+ -0.7851066208137508D+01 -0.7851066208137508D+01                                    (e)
+ isolver
+        17
+convergence
+         2                                                                          (f)
+edelta_ontheway
+  0.1000000000000000D-07                                                            (g)
+</pre></div>
+</div>
+<p>代表的な項目について説明します。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><ol class="loweralpha simple">
+<li></li>
+</ol>
+</td>
+<td><p>積算した更新回数、イオンの更新回数、SCF計算の更新回数が出力されます。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p>原子の数が出力されます。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p>原子の座標が、セルベクトルに対する値で出力されます。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p>原子の座標が、直交座標系で、Bohr単位で出力されます。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p>一つ前のステップと現在のステップの全エネルギーが出力されます。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p>収束状況が出力されます。</p>
+<p>0: 未収束、1: SCFは収束しているがイオンの更新は未収束、2: 収束済み</p>
+<p>を意味します。特に2の場合で継続計算を行うと、計算開始と同時にポスト処理に入ります。「一旦は収束したもの、の条件を変更した後に継続計算を行いたい」などの状況においては、この値を0としてください。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="7">
+<li></li>
+</ol>
+</td>
+<td><p>SCFの収束判定の値が出力されます。
+計算途中にてSCF計算の収束判定を変更する場合、
+入力ファイルだけではなくこちらも変更してください。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="f-energ-nfenergy-data">
+<h3><span class="section-number">11.5.8. </span>固有値データファイル F_ENERG（=nfenergy.data）（出力ファイル）<a class="headerlink" href="#f-energ-nfenergy-data" title="この見出しへのパーマリンク"></a></h3>
+<p>ekcalによる固有値計算の結果が書き込まれるファイルです。
+典型的な例を以下に記します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> num_kpoints =    117                                                         (a)
+ num_bands   =      8                                                         (b)
+ nspin       =      1                                                         (c)
+ Valence band max   =   0.233846                                              (d)
+ nk_converged =      117                                                      (e)
+ ik =    1 (  0.500000  0.500000  0.000000 )
+ ik =    2 (  0.487805  0.487805  0.000000 )
+ ik =    3 (  0.475610  0.475610  0.000000 )
+ ik =    4 (  0.463415  0.463415  0.000000 )
+ ik =    5 (  0.451220  0.451220  0.000000 )
+ ik =    6 (  0.439024  0.439024  0.000000 )
+...
+...
+...
+=== energy_eigen_values ===
+ ik =    1 (  0.000000  0.500000  0.500000 )                                  (f)
+     -0.0484324576     -0.0484324576      0.1258094928      0.1258094928      (g)
+      0.2619554301      0.2619554301      0.6015285208      0.6015285208
+=== energy_eigen_values ===
+ ik =    2 (  0.000000  0.490000  0.490000 )
+     -0.0540717201     -0.0427149632      0.1258687739      0.1258687739
+      0.2607026807      0.2633829927      0.6006243932      0.6006243932
+                           ......
+                           ......
+                           ......
+</pre></div>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><ol class="loweralpha simple">
+<li></li>
+</ol>
+</td>
+<td><p><span class="math notranslate nohighlight">\(k\)</span>点の数が書いてあります。この例では117個です。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p>バンドの数が記述してあります。この例では8です。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p>スピン自由度が記述してあります。1か2の値をとります。
+この例では1であり、スピン分極を考慮しない計算に対応します。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p>フェルミエネルギーの値が書いてあります。
+半導体/絶縁体の場合価電子帯の上端のエネルギーが記述されます。
+単位はハートリーです。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p>計算した<span class="math notranslate nohighlight">\(k\)</span>点が記述されます。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p>以下、固有値の情報が記述されます。まずこの行で、
+どの<span class="math notranslate nohighlight">\(k\)</span>点に対応する固有値データかが分かります。
+この例では、1番目の<span class="math notranslate nohighlight">\(k\)</span>で、
+その座標は逆格子ベクトルを基底として(0,0.5,0.5)となります。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="7">
+<li></li>
+</ol>
+</td>
+<td><p>固有値のデータが、バンドの数だけ出力されます。
+単位はハートリーです。</p></td>
+</tr>
+</tbody>
+</table>
+<p>スピンを考慮した計算の場合(上記の(c)が2の場合)もほぼ同様のファイル形式ですが、上記の(e)の隣に“UP”か“DONW”と記述される、という違いがあります。
+それぞれ多数派スピンと少数派スピンに対応する固有値が書き出されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                           ......
+                           ......
+                           ......
+=== energy_eigen_values ===
+ ik =    1 (  0.000000  0.000000  0.000000)    UP
+     -0.1998699758      0.0267639589      0.0267639589      0.0267639589
+      0.0725171077      0.0725171077      1.0289118953      1.0289118953
+      1.0289118953      1.1650173104      1.1650173104      1.1650173104
+      1.2129026022      1.2129026022      1.2994754011      1.2994754011
+      1.2994754011      1.6365336765      2.2629596795      2.2629596795
+=== energy_eigen_values ===
+ ik =    2 (  0.000000  0.000000  0.000000)  DOWN
+     -0.1960420390      0.1062941746      0.1062941746      0.1062941746
+      0.1799862148      0.1799862148      1.0183970612      1.0183970612
+      1.0183970612      1.2174266166      1.2174266166      1.2192701193
+      1.2192701193      1.2192701193      1.3289165100      1.3289165100
+      1.3289165100      1.6910264603      2.2876818717      2.2876818717
+                           ......
+                           ......
+                           ......
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../uvsor/uvsor.html" class="btn btn-neutral float-left" title="10. 誘電応答解析機能 UVSOR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, PHASEシステム研究会.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

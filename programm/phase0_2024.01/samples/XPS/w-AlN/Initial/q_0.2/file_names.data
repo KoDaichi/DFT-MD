@@ -1,0 +1,5 @@
+ &fnames
+ F_INP    = './nfinp1.data'
+ F_POT(1) = '../../pseudo/Al_ggapbe_paw_001_nocorehole.gncpp2'
+ F_POT(2) = '../../pseudo/N_ggapbe_paw_002_nocorehole.gncpp2'
+ /

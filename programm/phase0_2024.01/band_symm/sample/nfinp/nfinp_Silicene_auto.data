@@ -1,0 +1,72 @@
+structure{
+    atom_list{
+        atoms{
+	#default weight = 1
+            #tag element rx ry rz
+             Si 0.333333333 0.6666666666 0.017470833
+             Si -0.333333333 -0.6666666666 -0.017470833
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass zeta deviation
+         Si 14 51196.4212 0.0 1.83
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+        a = 7.3536079394
+        b = 7.3536079394
+        c = 22.6767 
+        alpha = 90.00 
+        beta = 90.00 
+        gamma = 120
+    }
+    symmetry{
+	method = automatic
+        tspace{
+            lattice_system = hexagonal 
+        }
+    }
+}
+accuracy{
+    ksampling{
+	method = file
+    }
+    cutoff_wf = 20.25 Rydberg
+    cutoff_cd = 81.00 Rydberg
+    xctype = ggapbe 
+    num_bands = 12
+    initial_charge_density = file
+    ek_convergence{
+        num_max_iteration = 500 
+        sw_eval_eig_diff = on 
+        delta_eigenvalue = 1.e-5 
+        succession = 2 
+        num_extra_bands = 2 
+    }
+}
+control{
+    cpumax = 6 hour
+    max_iteration = 100000 
+    condition = fixed_charge
+}
+printoutlevel{
+    base = 1 
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n dts dte itr var prec cmix submat
+         lm+msd -1 * * * tanh on 1 on
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs rmxe itr var prec istr nbmix update
+         1 broyden2 0.30 0.30 500 linear on 3 5 RENEW
+    }
+}
+structure_evolution{
+    method = cg 
+}
+postprocessing{
+	sw_band_symmetry_analysis = ON
+}

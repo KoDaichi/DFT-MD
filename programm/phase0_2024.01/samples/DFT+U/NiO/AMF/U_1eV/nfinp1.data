@@ -1,0 +1,97 @@
+Control{
+    cpumax = 23 hour
+    max_iteration = 100000
+    condition = initial
+}
+accuracy{
+    cutoff_wf = 25.00 rydberg
+    cutoff_cd = 225.00 rydberg
+    num_bands = 30
+
+    ksampling{
+        method = monk
+        mesh{
+           nx = 4, ny =  4, nz =  4
+        }
+    }
+    smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+!    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+
+    hubbard{
+        sw_hubbard = on
+        dftu_type = AMF
+        projectors{
+            #units eV
+            #tag no ueff
+             1 1.0
+             2 1.0
+        }
+    }
+    projector_list{
+        projectors{
+            #tag group l radius
+             1  2   2.5
+             2  2   2.5
+        }
+    }
+    paw = on
+}
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+  a_vector =   2.7795  1.6047  9.0778
+  b_vector =  -2.7795  1.6047  9.0778
+  c_vector =   0.0000 -3.2095  9.0778
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+    }
+! --
+    magnetic_state = ferro
+    atom_list{
+        coordinate_system = internal ! {internal|cartesian}
+        atoms{
+            #tag element rx ry rz     proj_group
+   Ni1       0.000000000       0.000000000       0.000000000 1
+   Ni2       0.500000000       0.500000000       0.500000000 2
+     O       0.250000000       0.250000000       0.250000000
+     O      -0.250000000      -0.250000000      -0.250000000
+        }
+    }
+    element_list{
+        #tag element atomicnumber moment
+         Ni1 28  2.0
+         Ni2 28 -2.0
+         O 8 0.0
+    }
+}
+printlevel{
+  magmom = 2
+  gap = 2
+}
+wavefunction_solver {
+  solvers {
+  #tag sol till_n
+          pkosugi  2
+          rmm3  -1
+  }
+  rmm { edelta_change_to_rmm = 1.0e-5 }
+}
+
+charge_mixing {
+  mixing_methods {
+  #tag   method rmxs
+          broyden2 0.3
+  }
+}

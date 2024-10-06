@@ -1,0 +1,80 @@
+Control{
+    condition = initial
+    cpumax = 3 day
+}
+accuracy{
+    cutoff_wf = 20.0 rydberg
+    cutoff_cd = 80.0 rydberg
+    paw = off
+    num_bands = 8
+    ksampling{
+        mesh{
+            nx = 2
+            ny = 2
+            nz = 2
+        }
+    }
+    smearing{
+        method = parabolic
+        width = 0.02 eV
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-10 hartree
+        succession = 3
+    }
+    force_convergence{
+        max_force = 0.1e-3
+    }
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+}
+structure{
+    unit_cell_type = bravais
+    unit_cell{
+        a = 10.17512
+        b = 10.17512
+        c = 10.17512
+        alpha = 90.0
+        beta = 90.0
+        gamma = 90.0
+    }
+    symmetry{
+       method = automatic
+       tspace{
+           lattice_system = facecentered
+       }
+    }
+    atom_list{
+        coordinate_system = internal
+        atoms{
+            #tag element rx ry rz
+             Si 0.125 0.125 0.125
+             Si 0.875 0.875 0.875
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass
+         Si 14 28.0855
+    }
+}
+Phonon{
+    sw_phonon = on
+    sw_vibrational_modes = on
+    sw_calc_force = on
+    displacement = 0.1
+    lattice{
+        l1 = 2
+        l2 = 2
+        l3 = 2
+    }
+    dos{
+        mesh{
+            nx = 10
+            ny = 10
+            nz = 10
+        }
+    }
+    method = dos
+}
+

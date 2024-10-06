@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. はじめに &mdash; PHASE/0 Manual 2024.01 ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/phase0.css?v=84baaed2" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=df52f328"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="2. PHASE/0のインストール" href="../install/install.html" />
+    <link rel="prev" title="第一原理電子状態計算ソフトウェアPHASE/0 2024ユーザーマニュアル" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PHASE/0 Manual
+              <img src="../_static/image1.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. はじめに</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#phase">1.1. PHASEシステムの概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phase-0">1.2. PHASE/0とは？</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#phase-0-phase-0">1.2.1. PHASE/0の主な特徴、機能（PHASE/0で何が計算できるか？）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.2.2. PHASE/0のプログラム構成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1.2.3. 利用可能な動作環境（計算機環境要件）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phase-0-2d3d">1.2.4. PHASE/0の機能（2D並列版と3D並列版の比較）</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">1.3. マニュアルの構成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">1.4. PHASE/0の入手方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">1.5. PHASE/0のライセンス</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">1.5.1. PHASEシステム・ソフトウェア使用許諾条件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#license-to-use-phase-system-software-terms-and-conditions-of-the-phase-system-software-license">1.5.2. License to Use PHASE System Software Terms and Conditions of the PHASE System Software License</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">1.6. PHASE/0の更新履歴</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">1.7. PHASE/0の引用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#history">1.8. HISTORY</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contact-address">1.9. CONTACT ADDRESS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">2. PHASE/0のインストール</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_step/first_step.html">3. PHASE/0の基本的な利用方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_parameters/input_parameters.html">4. 入力パラメータファイル：nfinp.data（詳細版）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/basics.html">5. 基本機能を利用した計算例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../electronic_structure/electronic_structure.html">6. 電子状態解析：バンド構造と状態密度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html">7. 高度な電子状態計算</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis/analysis.html">8. 解析機能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supplement/supplement.html">11. 補遺</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PHASE/0 Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>はじめに</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/introduction/introduction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction-chapter">
+<span id="id1"></span><h1><span class="section-number">1. </span>はじめに<a class="headerlink" href="#introduction-chapter" title="この見出しへのパーマリンク"></a></h1>
+<section id="phase">
+<h2><span class="section-number">1.1. </span>PHASEシステムの概要<a class="headerlink" href="#phase" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASEシステムは、電子状態計算計算プログラム（第一原理分子動力学法計算プログラム）PHASE/0、量子伝導特性計算プログラムASCOT、原子全電子計算・擬ポテンシャル作成プログラムCIAOなどのナノシミュレーションのプログラム・パッケージ群から構成されるシステムです。</p>
+<figure class="align-default">
+<img alt="../_images/introduction_fig1.svg" src="../_images/introduction_fig1.svg" /></figure>
+<table class="longtable docutils align-default" id="id12">
+<caption><span class="caption-number">表 1.1 </span><span class="caption-text">PHASEシステムの主要なプログラム・パッケージ</span><a class="headerlink" href="#id12" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>プログラム・パッケージ</p></th>
+<th class="head"><p>プログラム</p></th>
+<th class="head"><p>概要</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PHASE/0</p>
+<p>（第一原理電子状態計算プログラム</p>
+</td>
+<td><p>phase, ekcal</p>
+<p>(旧PHASEパッケージ)</p>
+</td>
+<td><p>密度汎関数理論に基づく擬ポテンシャル法による平面波基底の第一原理電子状態計算プログラムです。これらを使って、全エネルギー、電荷密度分布、電子の状態密度、バンド構造、安定な原子構造などの計算ができます。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>epsmain, tdlrmain</p>
+<p>(旧UVSORパッケージ)</p>
+</td>
+<td><p>Phaseの計算結果を用いて、固体誘電体の誘電率を計算するプログラムです。これらのプログラムは、材料の電子系及び格子系の誘電率を計算できます。ゲート絶縁膜材料の誘電率をほぼ定量的に計算することができます。
+格子誘電率が大きいhigh-k材料誘電率の予測及び解析に有効です。</p></td>
+</tr>
+<tr class="row-even"><td><p>CIAO</p>
+<p>（原子全電子計算・擬ポテンシャル作成プログラム）</p>
+</td>
+<td><p>ciao</p></td>
+<td><p>CIAOは、密度汎関数理論に基づき、原子の全電子状態を第一原理計算し、得られた全電子ポテンシャルから擬ポテンシャルを計算するプログラムです。</p></td>
+</tr>
+<tr class="row-odd"><td><p>ASCOT</p>
+<p>（量子伝導特性計算プログラム）</p>
+</td>
+<td><p>ascot</p></td>
+<td><p>ASCOTは、非平衡グリーン関数法を用いて、電子状態および量子伝導特性を計算するプログラムです。</p></td>
+</tr>
+<tr class="row-even"><td><p>PHASE Viewer</p>
+<p>（GUI）</p>
+</td>
+<td><p>phase-viewer</p></td>
+<td><p>PHASEの入力データ作成・編集、計算実行、計算結果の可視化を行うグラフィカル・ユーザー・インターフェース（GUI）です。</p></td>
+</tr>
+</tbody>
+</table>
+<p>本マニュアルは、電子状態計算計算プログラム（第一原理分子動力学法計算プログラム）PHASE/0と関連するツール群を対象としています。</p>
+</section>
+<section id="phase-0">
+<h2><span class="section-number">1.2. </span>PHASE/0とは？<a class="headerlink" href="#phase-0" title="この見出しへのパーマリンク"></a></h2>
+<section id="phase-0-phase-0">
+<h3><span class="section-number">1.2.1. </span>PHASE/0の主な特徴、機能（PHASE/0で何が計算できるか？）<a class="headerlink" href="#phase-0-phase-0" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE/0
+は，密度汎関数法、第一原理擬ポテンシャル法に基づく電子状態計算プログラムです。実験結果にフィッティングするパラメーターがないため、未知の物質に対する物性予測を（近似の範囲内で）精度良く計算することが出来ます。計算された電子状態（波動関数）を用いて様々な物理量の解析が可能です。原子配置に関しては、構造最適化、分子動力学法計算、化学反応経路解析など様々な解析が可能です。PHASE/0の主な機能を以下の表にまとめます。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>主な機能</p></th>
+<th class="head"><p>得られる物理量など
+（現象・挙動、物性など）</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>電子状態計算</p></td>
+<td><p>状態密度分布（DOS）、
+バンド構造、
+電荷密度分布</p></td>
+</tr>
+<tr class="row-odd"><td><p>エネルギー、力計算</p></td>
+<td><p>エネルギー、原子に働く力、
+格子定数、弾性パラメーター、
+応力テンソル</p></td>
+</tr>
+<tr class="row-even"><td><p>構造最適化（緩和）</p></td>
+<td><p>安定な原子配置</p></td>
+</tr>
+<tr class="row-odd"><td><p>分子動力学法計算</p></td>
+<td><p>原子の運動</p></td>
+</tr>
+<tr class="row-even"><td><p>振動解析</p></td>
+<td><p>振動数・振動モード</p></td>
+</tr>
+<tr class="row-odd"><td><p>陽電子寿命解析</p></td>
+<td><p>陽電子寿命</p></td>
+</tr>
+<tr class="row-even"><td><p>STM像解析</p></td>
+<td><p>STM像</p></td>
+</tr>
+<tr class="row-odd"><td><p>化学反応解析</p></td>
+<td><p>化学反応経路、エネルギー障壁</p></td>
+</tr>
+</tbody>
+</table>
+<p>PHASE/0の主な特徴を以下にまとめます。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>計算手法</p></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td></td>
+<td><p>第一原理計算</p></td>
+<td><p>実験によるパラメータフィットがないため、未知の物質や実験の困難な系に対する物性予測が可能ハイブリ          ッド汎関数などの高精度な電子状態計算手法を利用することも可能</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>密度汎関数法</p></td>
+<td><p>物性分野での解析に広く使用されているLDA法やGGA法などの密度汎関数法による信頼性の高い計算が可能</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>擬ポテンシャル</p></td>
+<td><p>イオンコアの影響を擬ポテンシャルによって取り扱うことにより、高精度な解析計算が可能</p></td>
+</tr>
+<tr class="row-odd"><td><p>計算機能</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>物性解析機能</p></td>
+<td><p>多様な物性解析機能を利用することにより、様々な実験との比較が可能</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>構造解析機能</p></td>
+<td><p>構造最適化、分子動力学法による時間発展、反応経路解析などの原子配置に関する解析が可能</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>大規模計算</p></td>
+<td><p>MPI,
+OpenMPを利用した並列計算により、数十万コア以上の超大規模並列計算まで対応</p></td>
+</tr>
+<tr class="row-odd"><td><p>ユーザーフレンドリ</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>入力データ</p></td>
+<td><p>入力ファイルをタグ形式にして,
+初めて使用するユーザーでも,
+入力パラメータの物理的意味が理解し易いように構成。</p>
+<p>様々な設定が可能であると同時に、ほとんどのパラメータに既定値が設定されているため、非常にシンプルな設定でも計算することが可能。</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>ツール</p></td>
+<td><p>バンド構造, 状態密度,
+電荷密度分布などの計算結果をグラフ化するツールなど、結果の解析に便利なツールが付属</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>動作環境</p></td>
+<td><p>個人ユースのパソコン（WindowsPC）から最先端のスパコンまで</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>ユ
+ーザインターフェース</p></td>
+<td><p>GUI（PHASE-Viewer）による操作が可能</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id2">
+<h3><span class="section-number">1.2.2. </span>PHASE/0のプログラム構成<a class="headerlink" href="#id2" title="この見出しへのパーマリンク"></a></h3>
+<p>プログラムパッケージPHASE/0には、以下のプログラム、ツールなどが含まれています。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>プログラムパッケージ
+PHASE/0</p></th>
+<th class="head"><p>概要</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>プログラム</p></td>
+<td><p>phase</p></td>
+<td><p>SCF計算、分子動力学法計算を行います。</p>
+<p>また収束した電荷密度分布から状態密度やバンド分散を計算することができます。</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>ekcal</p></td>
+<td><p>状態密度計算、バンド計算においてk点の個数が多い場合に使う補助プログラムとしてekcalがあります。これらの処理を簡便に行うための補助スクリプトファイルがいくつか用意されています。</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>epsmain</p></td>
+<td><p>Phaseの計算結果に基づき、電子系誘電関数を計算します。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>tdlrmain</p></td>
+<td><p>Phaseの計算結果に基づき、線形応答時間依存密度汎関数法（LR-TDDFT）により誘電関数を計算します。</p></td>
+</tr>
+<tr class="row-even"><td><p>ツール</p></td>
+<td><p>band_kpoint.pl</p></td>
+<td><p>バンド計算用の<strong>k</strong>点のリストを生成するPerlスクリプト</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>dos.pl</p></td>
+<td><p>状態密度のグラフ（EPS画像）を作成するPerlスクリプト</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>band.pl</p></td>
+<td><p>バンド構造のグラフ（EPS画像）を作成するPerlスクリプト</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id13">
+<img alt="../_images/introduction_fig2.svg" src="../_images/introduction_fig2.svg" /><figcaption>
+<p><span class="caption-number">図 1.1 </span><span class="caption-text">PHASE/0のプログラム構成</span><a class="headerlink" href="#id13" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id3">
+<h3><span class="section-number">1.2.3. </span>利用可能な動作環境（計算機環境要件）<a class="headerlink" href="#id3" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE/0プログラムはFortran90とCで記述されています。これらのコンパイラが使える計算機システムが必要です。大学の計算機センターなどの一般利用可能なシステムでは通常使用することが可能です。並列計算をする場合にはMPIライブラリがインストールされている必要があります。</p>
+<p>必要（利用可能）なソフトウェア、ライブラリ</p>
+<ul class="simple">
+<li><p>Fortran90コンパイラ、Cコンパイラ（必須）</p></li>
+<li><p>MPIライブラリ（並列計算に必須）</p></li>
+<li><p>行列演算ライブラリLAPACK, BLAS（オプション）</p></li>
+<li><p>FFTライブラリFFTW（オプション）</p></li>
+<li><p>Perl（オプション）・・・・PHASEツールで必要</p></li>
+<li><p>Gnuplot（オプション）・・・・PHASEツールで必要</p></li>
+</ul>
+<p>本マニュアルで記述する操作についてはLinux（Unix）を使用しているものとしています。お使いのシステムが異なる場合には、適宜読み替えてください。</p>
+</section>
+<section id="phase-0-2d3d">
+<h3><span class="section-number">1.2.4. </span>PHASE/0の機能（2D並列版と3D並列版の比較）<a class="headerlink" href="#phase-0-2d3d" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE/0には、2D並列版と3D並列版の２つの並列版プログラムがあります。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>並列化手法</p></th>
+<th class="head"><p>ソースプログラム</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2D並列版</p></td>
+<td><p>k点並列 ＋ エネルギー（バンド）並列</p></td>
+<td><p>src_phase</p></td>
+</tr>
+<tr class="row-odd"><td><p>3D並列版</p></td>
+<td><p>k点並列 ＋ エネルギー（バンド）並列 ＋ G点並列</p></td>
+<td><p>src_phase_3d</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>機能</p></th>
+<th class="head"><p>2D並列版</p></th>
+<th class="head"><p>3D並列版</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>構造最適化</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>単位胞最適化</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>状態密度</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>局所状態密度</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>射影状態密度</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>電荷密度出力</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>部分電荷密度出力</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>最大局在化ワニア関数</p></td>
+<td><p>✔</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>バンド構造</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>実空間法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>ストレステンソル</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>仕事関数</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>XPS解析</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>振動解析，フォノンバンド</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>分子動力学</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>DFT+U法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>ハイブリッド汎関数法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>ESM法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>DFT-D2法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>vdW-DF法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>電荷密度予測</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>波動関数予測</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>NEB法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>blue moon法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>メタダイナミクス法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>RTP-TDDFT</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>LR-TDDFT</p></td>
+<td><p>✔</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>ノンコリニア磁性</p></td>
+<td><p>✔</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>スピン軌道相互作用</p></td>
+<td><p>✔</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>陽電子寿命解析</p></td>
+<td><p>✔</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>PAW法</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>電子系誘電関数</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>ボルン有効電荷</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-odd"><td><p>格子系誘電関数</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+<tr class="row-even"><td><p>圧電定数</p></td>
+<td><p>✔</p></td>
+<td><p>✔</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="id4">
+<h2><span class="section-number">1.3. </span>マニュアルの構成<a class="headerlink" href="#id4" title="この見出しへのパーマリンク"></a></h2>
+<p>マニュアルは、以下のような章構成になっています。</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#introduction-chapter"><span class="std std-ref">はじめに</span></a></p></td>
+<td><p>PHASEシステムプログラムパッケージPHASE/0の概要について説明しています。</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../install/install.html#install-chapter"><span class="std std-ref">PHASE/0のインストール</span></a></p></td>
+<td><p>バイナリプログラムを作る（コンパイルする）方法を説明しています。</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../first_step/first_step.html#first-step-chapter"><span class="std std-ref">PHASE/0の基本的な利用方法</span></a></p></td>
+<td><p>PHASE/0の計算手順などの最も基本的な利用方法を説明しています。PHASE/0の計算の流れが概観できます。</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters"><span class="std std-ref">入力パラメータファイル：nfinp.data（詳細版）</span></a></p></td>
+<td><p>入力パラメータファイルのリファレンスマニュアルとして使用できます。多くのパラメータについては知らなくてもPHASE/0は利用可能です。高度な利用をする際などに参照すると良いと思われます。</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../basics/basics.html#basics-chapter"><span class="std std-ref">基本機能を利用した計算例</span></a></p></td>
+<td><p>PHASE/0の基本的な機能を利用した計算例を幾つか示しています。チュートリアルとして使用できます。ここを読みながら<a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters"><span class="std std-ref">入力パラメータファイル：nfinp.data（詳細版）</span></a>
+の必要な項目を参照すると良いかも知れません。</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../electronic_structure/electronic_structure.html#estructure-chapter"><span class="std std-ref">電子状態解析：バンド構造と状態密度</span></a></p></td>
+<td><p>状態密度計算やバンド構造計算機能を説明しています。</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advestructure-chapter"><span class="std std-ref">高度な電子状態計算</span></a></p></td>
+<td><p>GGA/LDAを超える高度な電子状態計算について説明します。</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../analysis/analysis.html#analysis-chapter"><span class="std std-ref">解析機能</span></a></p></td>
+<td><p>様々な解析機能について説明します。</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../ion_dynamics/ion_dynamics.html#ion-dynamics-chapter"><span class="std std-ref">原子ダイナミクス</span></a></p></td>
+<td><p>原子ダイナミクスに関する機能について説明します。</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../uvsor/uvsor.html#uvsor-chapter"><span class="std std-ref">誘電応答解析機能 UVSOR</span></a></p></td>
+<td><p>誘電応答解析を行う方法を説明します。</p></td>
+</tr>
+</tbody>
+</table>
+<p>初めて本マニュアルを読む方は、<a class="reference internal" href="../first_step/first_step.html#first-step-chapter"><span class="std std-ref">PHASE/0の基本的な利用方法</span></a> に続けて <a class="reference internal" href="../basics/basics.html#basics-chapter"><span class="std std-ref">基本機能を利用した計算例</span></a> を読むことを推奨します。<a class="reference internal" href="../basics/basics.html#basics-chapter"><span class="std std-ref">基本機能を利用した計算例</span></a> を読む際に出てきた入力パラメータについては <a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters"><span class="std std-ref">入力パラメータファイル：nfinp.data（詳細版）</span></a> を参照してください。その後、<a class="reference internal" href="../electronic_structure/electronic_structure.html#estructure-chapter"><span class="std std-ref">電子状態解析：バンド構造と状態密度</span></a> 以降については必要に応じて読むことを推奨します。</p>
+</section>
+<section id="id5">
+<h2><span class="section-number">1.4. </span>PHASE/0の入手方法<a class="headerlink" href="#id5" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASE/0のソースコード、サンプル、マニュアルなどは <a class="reference external" href="https://azuma.nims.go.jp/cms1/downloads/software">ダウンロードサイト</a> から無償でダウンロードすることができます。ダウンロードするにはユーザー登録が必要です。ダウンロード用のユーザーIDをお持ちでない場合は、 <a class="reference external" href="https://azuma.nims.go.jp/cms1/downloads/software/reg">登録フォーム</a> に進んでください。</p>
+</section>
+<section id="id8">
+<h2><span class="section-number">1.5. </span>PHASE/0のライセンス<a class="headerlink" href="#id8" title="この見出しへのパーマリンク"></a></h2>
+<section id="id9">
+<h3><span class="section-number">1.5.1. </span>PHASEシステム・ソフトウェア使用許諾条件<a class="headerlink" href="#id9" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEシステム研究会は、次の条件や制限のもとで、PHASEシステム・ソフトウェアを無償で使用することを許諾する。なお、利用者がPHASEシステム・ソフトウェアをダウンロードした時点で、利用者は本使用許諾条件の各条項に同意したものとみなす。</p>
+<ol class="arabic simple">
+<li><p>PHASEシステム・ソフトウェアの定義</p></li>
+</ol>
+<blockquote>
+<div><p>PHASEシステム・ソフトウェア（「PHASEシステム　プログラムパッケージ」と同義）とは、東京大学生産技術研究所 革新的シミュレーション研究センター（以下 革新センター）で管理・公開している平成24年度までの「イノベーション基盤シミュレーションソフトウェアの研究開発プロジェクト」の成果物を基に開発し、現在PHASEシステム研究会が管理しているソフトウェアである。
+PHASEシステム・ソフトウェアは、ソースプログラム、オブジェクトプログラム、仕様書、設計書、データ、実行結果、マニュアルなど、原則として、PHASEシステム研究会から公開するもの全てを含む。ただし、利用者の便宜のために配布プログラムパッケージに同包したサードパーティ製ソフトウェアBLAS、LAPACK、ScaLAPACK、EigenK、EigenExa、およびEsmPackなどは除く。</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>使用許諾の範囲</p></li>
+</ol>
+<blockquote>
+<div><p>利用者がPHASEシステム・ソフトウェアを無償で使用できる行為には、自己のためにPHASEシステム・ソフトウェアを、翻訳（コンパイル）することによりバイナリを作成する行為、任意のデータを用いて実行する行為、その結果を利用者の自己のために使用および公表する行為、および自己のために改変したソフトウェアを翻訳してこれを実行する行為が含まれる。ただし、自己のために当該ソフトウェアを改変しそれを実行し、その結果を公表する場合には、次項に従うこととする。これら以外の行為（複製・頒布など）は７項で示す場合を除き禁止する。利用者の便宜のために配布プログラムパッケージに同包したサードパーティ製ソフトウェアBLAS、LAPACK、ScaLAPACK、EigenK、EigenExaおよびEsmPackなどを使用する場合は、それぞれのソフトウェアの使用許諾条件に従うこととする。これらサードパーティ製ソフトウェアの使用許諾条件は、対応するソフトウェアのサイト、BLAS、LAPACK、ScaLAPACK、libEigen、およびEsmPackディレクトリ内のlicense.txt、ソースファイル、あるいはマニュアルに記述されている。</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>改変における遵守事項</p></li>
+</ol>
+<blockquote>
+<div><p>利用者が改変したソフトウェアを使用して得た結果を公表する場合には、改変内容を特定できる説明を添付して公表するとともに、PHASEシステム研究会に改変部分を含むソースプログラムを提出する義務がある。提出されたソースプログラムは、PHASEシステム・ソフトウェアとしてPHASEシステム研究会から公開される可能性がある。公開時期については、提出者とPHASEシステム研究会の間で協議して決定する。公開の際には、本規約第２項に則り、他の利用者に使用を許諾しなければならない。改変した部分の著作権は改変者が保持することができる。
+目的の如何を問わず、PHASEシステム・ソフトウェア内部コードの『著作権表示』記載部分を修正する行為は、改変者氏名や改変日時などの改変記録を追加する場合を除き、禁止する。</p>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>利用者義務</p></li>
+</ol>
+<blockquote>
+<div><p>PHASEシステム・ソフトウェアを利用した結果を公表する場合には、使用したPHASEシステム・ソフトウェアの名前、バージョンを明示するとともに、適切な論文またはURLを引用しなれければならない。
+利用者がPHASEシステム・ソフトウェアのバグや不具合を発見した場合、PHASEシステム研究会に報告すること。</p>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><p>無保証</p></li>
+</ol>
+<blockquote>
+<div><p>PHASEシステム・ソフトウェアは、その品質や性能あるいは実行結果について、利用者に対してはいかなる保証もしない。利用者は自己の責任において使用することに同意することとし、もし使用することにより損害が生じた場合には、第三者への損害や被害の修復も含みその結果責任は全て利用者に帰することとする。</p>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li><p>利用者が本使用許諾条件に違反した場合</p></li>
+</ol>
+<blockquote>
+<div><p>利用者が本使用許諾条件に違反した場合には、利用者は、PHASEシステム研究会がその状態を是正するために必要と認めて行う措置に無条件に従わなくてはならない。</p>
+</div></blockquote>
+<ol class="arabic simple" start="7">
+<li><p>公的機関および事業者が普及促進のために使用する場合</p></li>
+</ol>
+<blockquote>
+<div><p>公的機関および事業者がPHASEシステム・ソフトウェアの普及促進のために、第三者へのバイナリの頒布およびバイナリの使用を許諾する権利を得たい場合は、PHASEシステム研究会に申請することとする。PHASEシステム研究会はその頒布及び使用の可否を判断し、特定非営利活動法人物質材料科学ソフトウェア研究会へ答申する。特定非営利活動法人物質材料科学ソフトウェア研究会も可と判断し、契約が必要な場合、申請者は特定非営利活動法人物質材料科学ソフトウェア研究会との間で契約を締結する。PHASEシステム研究会は、PHASEシステム・ソフトウェアのバイナリを作成しこれを提供するか、あるいは申請者がバイナリを作成するのに必要なソフトウェアと情報の提供を行う。</p>
+</div></blockquote>
+<p>－ 以上 －</p>
+<div class="right-aligned">
+<ul">
+  <li class="style-none">制定：平成26年5月9日</li>
+  <li class="style-none">改訂：令和6年2月29日</li>
+</ul>
+</div>
+<br></section>
+<section id="license-to-use-phase-system-software-terms-and-conditions-of-the-phase-system-software-license">
+<h3><span class="section-number">1.5.2. </span>License to Use PHASE System Software Terms and Conditions of the PHASE System Software License<a class="headerlink" href="#license-to-use-phase-system-software-terms-and-conditions-of-the-phase-system-software-license" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE System consortium gives explicit permission for anyone to use any or all of the software contained in the PHASE System program package that is maintained and made publicly available at the Phase System consortium site free of charge, subject to the terms and conditions detailed below.</p>
+<ol class="arabic simple">
+<li><p>Definition of PHASE System Software</p></li>
+</ol>
+<blockquote>
+<div><p>PHASE System Software, which is same with “the PHASE system program packages”, is any software maintained by PHASE System consortium and developed based on the software products which had been maintained by the Center for Research on Innovative Simulation Software (CISS) at the Institute of Industrial Science, the University of Tokyo and made publicly available at the CISS site until the end of 2012 fiscal year.
+The PHASE System Software contains all of source programs, object programs, specifications, design specifications, data, implementation results, and instruction manuals, except for third-party software contents contained in the PHASE distribute packages for user convenience, e.g., BLAS, LAPACK, ScaLAPACK, EigenK, EigenExa, and EsmPack, etc.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Extent of Free Use</p></li>
+</ol>
+<blockquote>
+<div><p>Users may use PHASE System Software free of charge to run their own data, and use any results obtained for their own personal use. Users also have the rights to copy, to modify PHASE System Software, to compile and run the modified software, and to use and make public their obtained results. However, users need to obey the described rule in the following item 3 of this document when to use and make public their results by using their modified PHASE System software. Other conducts, e. g., making a copy (copies) of the PHASE System Software and distributing it (them) to other users, etc., are not allowed except for the cases described in the item 7 of this document. For the other third-party software contents, e.g., BLAS, LAPACK, ScaLAPACK, EigenK, EigenExa and EsmPack, etc, which are contained in the PHASE distribute packages for user convenience, users must obey to the license descriptions in the corresponding software URL sites or manuals, “license.txt”s or the source files in directories of BLAS, LAPACK, ScaLAPACK, ligEigen, and EsmPack, or the instruction manuals of the PHASE System Software.</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Rules for Modification</p></li>
+</ol>
+<blockquote>
+<div><p>If the user creates a modified version of PHASE System Software by modifying the software itself, by incorporating it into other software, or any other means; then uses it and makes public his or her obtained results, the user is obligated to make public with an explanation detailing how the software was modified, and the user is obligated to transfer the software which contains the modified part(s) to PHASE System consortium. The transferred software may be disclosed by the PHASE System consortium as a part of the PHASE System Software. A date of disclosing the transferred software is decided through a consultation between the transferred user and the PHASE System consortium. When the transferred software is disclosed, the user who transferred the software gives the rights that are given to users of the PHASE System Software to any users according to the description written in the item 2 of this document. The user who transferred the software can hold a copyright of the modified part.
+Modification of the “copyright notice” of a source file contained in the PHASE System Software is prohibited in any reason except to update or add to modification records such as altering the name of the program modifier or the date of modification.</p>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>User Obligations</p></li>
+</ol>
+<blockquote>
+<div><p>To publicly acknowledge that results have been achieved using PHASE System Software, users are obligated to clearly display the name, and version, show an appropriate reference or the download URL site.
+We request that users report any bugs or problems they discover in using the PHASE System Software to PHASE System consortium.</p>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><p>No Warranty</p></li>
+</ol>
+<blockquote>
+<div><p>CISS, PHASE System consortium, and other concerned parties disclaim all warranties with respect to the quality, the performance, or the results of PHASE System Software, either expressed or implied. The user assumes sole responsibility for the use of the PHASE System Software including any damages or losses arising out of the use of the PHASE System software.</p>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li><p>Violations of Terms and Conditions</p></li>
+</ol>
+<blockquote>
+<div><p>If a user is found to be in violation of these Terms and Conditions, he or she agrees to immediately pursue any and all steps required by PHASE System consortium to get back into compliance.</p>
+</div></blockquote>
+<ol class="arabic simple" start="7">
+<li><p>Use for Promoting Popularization by Public Organizations and Companies</p></li>
+</ol>
+<blockquote>
+<div><p>If a public organization or a company intends to have rights to distribute PHASE System Software and to give permissions to use the software to third users for promoting popularization of the PHASE System Software, the public organization or the company must file an application with PHASE System consortium before using the PHASE System software. The PHASE System consortium decides if the public organization or the company could have rights to distribute and to give permissions to use, then submits a report of the decision to “non-profit-organization of materials science software consortium (NPOMSSC)”. If both the decisions by the PHASE System consortium and by NPOMSSC are positive, NPOMSSC concludes a contract of license agreement with the applied public organization or the applied company, if NPOMSSC decides to have the contract. The PHASE System consortium compiles and gives executable binary programs of the PHASE System software, or helps with giving information to make executable binary programs to the public organization or the company, after the positive decisions by the PHASE System consortium and NPOMSSC.</p>
+</div></blockquote>
+<div class="right-aligned">
+<ul">
+  <li class="style-none">enacted: May 9, 2014</li>
+  <li class="style-none">revised: Feb 29, 2024</li>
+</ul>
+</div>
+<br></section>
+</section>
+<section id="id10">
+<h2><span class="section-number">1.6. </span>PHASE/0の更新履歴<a class="headerlink" href="#id10" title="この見出しへのパーマリンク"></a></h2>
+<dl class="simple">
+<dt>PHASE/0 2024.01 2024/06 公開</dt><dd><ul class="simple">
+<li><p>band_symmプログラムを更新しました。詳しくはband_symmのマニュアルを参照してください。</p></li>
+<li><p>ハイブリッド汎関数としてGau-PBEを利用することができるようになりました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#id21"><span class="std std-numref">7.3.1 章</span></a> )</p></li>
+<li><p>X-ray Emission Spectroscopy (XES) のスペクトルを計算することができるようになりました (<a class="reference internal" href="../analysis/analysis.html#section-xes"><span class="std std-numref">8.10 章</span></a> )</p></li>
+<li><p>局所バンド構造の計算ができるようになりました (<a class="reference internal" href="../electronic_structure/electronic_structure.html#advanced-local-band"><span class="std std-numref">6.5 章</span></a> )</p></li>
+<li><p>射影バンド機能とバンドアンフォールディング機能を組み合わせて利用することができるようになりました (<a class="reference internal" href="../electronic_structure/electronic_structure.html#advanced-projected-band-unfold-section"><span class="std std-numref">6.8 章</span></a> )</p></li>
+<li><p>フォノンバンドの縦波・横波比率を抽出することができるようになりました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#project-phonon-band-to-atoms-section"><span class="std std-numref">9.2.4 章</span></a> )</p></li>
+<li><p>フォノンバンドのアンフォールディングができるようになりました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#phonon-band-unfolding-section"><span class="std std-numref">9.2.6 章</span></a> )</p></li>
+<li><p><a class="reference external" href="https://docs.deepmodeling.com/projects/deepmd/en/master/">deepmd</a> 形式の教師データを出力することができるようになりました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-neural-network-potential"><span class="std std-numref">9.11 章</span></a> )</p></li>
+<li><p>高精度なSTM像を得ることができるようになりました( <a class="reference internal" href="../analysis/analysis.html#section-stm"><span class="std std-numref">8.2 章</span></a> )</p></li>
+<li><p>分散並列行列対角化ライブラリー <a class="reference external" href="https://www.r-ccs.riken.jp/labs/lpnctrt/projects/eigenexa/">EigenExa</a> とリンクすることができるようになりました ( <a class="reference internal" href="../install/install.html#section-install-eigenexa"><span class="std std-numref">2.5 章</span></a> )</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>PHASE/0 2023.01 2023/06 公開</dt><dd><ul class="simple">
+<li><p>利用できる拘束条件を追加しました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-constraints-bluemoon"><span class="std std-numref">9.7 章</span></a> )</p></li>
+<li><p>SCF計算を高速化しました (<a class="reference internal" href="../supplement/supplement.html#supplement-section-scf-speedup"><span class="std std-numref">11.2 章</span></a> , <a class="reference internal" href="../input_parameters/input_parameters.html#control-speedup-options-section"><span class="std std-numref">4.3.2 章</span></a> <a class="reference internal" href="../input_parameters/input_parameters.html#input-param-kosugi-davidson"><span class="std std-numref">4.6.2.1 章</span></a> )</p></li>
+<li><p>初期波動関数の作成方法を改良しました。一部の収束しづらい問題の収束性が改善します (<a class="reference internal" href="../input_parameters/input_parameters.html#input-initial-wf-and-chg"><span class="std std-numref">4.4.6 章</span></a> )</p></li>
+<li><p>格子最適化の際格子と座標を同時に最適化することができるようになりました。この方法を用いることによって、多くの問題で従来よりも少ない計算時間で収束解を得ることができます (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#advanced-latopt-sametime"><span class="std std-numref">9.3.5 章</span></a> )</p></li>
+<li><p>Libxcライブラリーとリンクすることができるようになりました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-libxc-section"><span class="std std-numref">7.11 章</span></a> )</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2022.01 2022/12 公開</dt><dd><ul class="simple">
+<li><p>バルクの電子バンドを表面ブリルアンゾーンに射影して描画することができるようになりました (<a class="reference internal" href="../electronic_structure/electronic_structure.html#projected-surface-band-section"><span class="std std-numref">6.9 章</span></a> )</p></li>
+<li><p>フォノンバンドを原子群に射影したり (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#project-phonon-band-to-atoms-section"><span class="std std-numref">9.2.4 章</span></a> ) バルクのフォノンバンドを表面ブリルアンゾーンに射影したり(<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#project-phonon-band-to-surface-bz-section"><span class="std std-numref">9.2.5 章</span></a> )することができるようになりました</p></li>
+<li><p>ブロッキングパラメーターを自動調整することができるようになりました (<a class="reference internal" href="../input_parameters/input_parameters.html#control-blocksize-section"><span class="std std-numref">4.3.1 章</span></a> )</p></li>
+<li><p>剛体ダイナミクス機能を追加しました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-rigid-body-dynamics"><span class="std std-numref">9.10 章</span></a> )</p></li>
+<li><p>Energy Density Analysis を行うことができるようになりました (<a class="reference internal" href="../analysis/analysis.html#section-analysis-eda"><span class="std std-numref">8.16 章</span></a> )</p></li>
+<li><p>コリニア計算のポスト処理としてスピン軌道相互作用を取り込むことができるようにしました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#section-advanced-spin-orbit-from-postproc"><span class="std std-numref">7.13.2.4 章</span></a> )</p></li>
+<li><p>Distributed-memory FFTW とリンクすることができるようになりました (<a class="reference internal" href="../install/install.html#section-install-mpifftw"><span class="std std-numref">2.4 章</span></a> )</p></li>
+<li><p>分子動力学シミュレーションなどを行う際水素との結合を凍結することができるようになりました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-ion-dynamics-fix-bond"><span class="std std-numref">9.4.7.5 章</span></a> )</p></li>
+<li><p>ベーダー解析の補正が旧型式の擬ポテンシャルを用いても行えるようになりました (<a class="reference internal" href="../analysis/analysis.html#section-bader-charge"><span class="std std-numref">8.3 章</span></a> )</p></li>
+<li><p>圧力一定の分子動力学シミュレーションのオプションを追加しました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-npt-md"><span class="std std-numref">9.4.6 章</span></a> )</p></li>
+<li><p>PIMDコードのエンジンとして用いることができるようになりました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-ion-dynamics-pimd"><span class="std std-numref">9.12 章</span></a> )</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2021.02 2022/02 公開</dt><dd><ul class="simple">
+<li><p>原子周囲の局所ポテンシャルの平均値を出力することができるようになりました(<a class="reference internal" href="../analysis/analysis.html#advanced-localpot-av-section"><span class="std std-numref">8.6 章</span></a> )</p></li>
+<li><p>Dimer法が使えるようになりました(<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-dimer-method"><span class="std std-numref">9.6 章</span></a> )</p></li>
+<li><p>ランジュバン熱浴が使えるようになりました(<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-md-langevin"><span class="std std-numref">9.4.5.5 章</span></a> )</p></li>
+<li><p>計算中に一部計算条件を変更することができるようになりました(<a class="reference internal" href="../first_step/first_step.html#change-settings-during-scf"><span class="std std-numref">3.3.6 章</span></a> )</p></li>
+<li><p>XANES計算機能において <em>k</em> 点並列が使えるようになりました (<a class="reference internal" href="../analysis/analysis.html#section-elnes-xanes"><span class="std std-numref">8.9 章</span></a> )</p></li>
+<li><p>富岳及びFX系マシンに対応しました（Makefileを同梱しています）</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2021.01 2021/09 公開</dt><dd><ul class="simple">
+<li><p>帯電欠損状態評価機能を追加しました。(<a class="reference internal" href="../analysis/analysis.html#section-taiden"><span class="std std-numref">8.7 章</span></a> )</p></li>
+<li><p>Methfessel-Paxton スメアリングに対応しました。(<a class="reference internal" href="../input_parameters/input_parameters.html#section-methfessel-paxton"><span class="std std-numref">4.4.3.4 章</span></a> )</p></li>
+<li><p>高精度な局所状態密度計算機能を追加しました。(<a class="reference internal" href="../electronic_structure/electronic_structure.html#advanced-accurate-ldos-section"><span class="std std-numref">6.2.5 章</span></a> )</p></li>
+<li><p>高精度XPS計算機能を追加しました。(<a class="reference internal" href="../analysis/analysis.html#section-xps"><span class="std std-numref">8.8 章</span></a> )</p></li>
+<li><p>新しい構造最適化手法を追加しました。(<a class="reference internal" href="../input_parameters/input_parameters.html#basics-lbfgs-section"><span class="std std-numref">4.9.1.1 章</span></a> )</p></li>
+<li><p>機械学習ポテンシャル作成支援機能を追加しました。(<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-neural-network-potential"><span class="std std-numref">9.11 章</span></a> )</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2020.01 2020/12 公開</dt><dd><ul class="simple">
+<li><p>バンドアンフォールディング計算機能を追加しました(<a class="reference internal" href="../electronic_structure/electronic_structure.html#advanced-band-unfold-section"><span class="std std-numref">6.7 章</span></a> )</p></li>
+<li><p>射影バンド構造計算機能を追加しました(<a class="reference internal" href="../electronic_structure/electronic_structure.html#advanced-projected-band"><span class="std std-numref">6.4 章</span></a> )</p></li>
+<li><p>NEB法を改良しました(<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-neb"><span class="std std-numref">9.5 章</span></a> )</p></li>
+<li><p>DFT+U法を改良しました(<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-dftu-section"><span class="std std-numref">7.2 章</span></a> )</p></li>
+<li><p>構造最適化手法として，FIRE法を追加しました(<a class="reference internal" href="../basics/basics.html#basics-fire-section"><span class="std std-numref">5.4.1.2 章</span></a> )</p></li>
+<li><p>一部の原子のみを対象とする振動解析が行えるようになりました(<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#advanced-phonon-partial"><span class="std std-numref">9.1.4 章</span></a> )</p></li>
+<li><p>全体的なハンドリングの向上を図りました</p></li>
+<li><p>推奨擬ポテンシャルを自動的に選定することができるようになりました(<a class="reference internal" href="../first_step/first_step.html#firststep-defpp-section"><span class="std std-numref">3.2.3.4 章</span></a> , <a class="reference internal" href="../supplement/supplement.html#inouts-recpp-section"><span class="std std-numref">11.5.1.2 章</span></a> )</p></li>
+<li><p>並列パラメーターを自動的に選定することができるようになりました(<a class="reference internal" href="../first_step/first_step.html#firststep-autores-para-section"><span class="std std-numref">3.3.2.5 章</span></a> )</p></li>
+<li><p>入力パラメーターファイルにおいて，二項演算による数値指定が可能となりました(<a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters-binaryop-section"><span class="std std-numref">4.1.5 章</span></a> )</p></li>
+<li><p>必須設定項目を減らしました（元素指定 <a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters-atomtyp"><span class="std std-numref">4.5.3 章</span></a> ，電荷密度のカットオフエネルギー <a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters-cutoff"><span class="std std-numref">4.4.1 章</span></a> ，k点サンプリング <a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters-2020-kp"><span class="std std-numref">4.4.3.2 章</span></a> など）</p></li>
+<li><p>“密度”よる<strong>k</strong>点メッシュ指定対応しまし(<a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters-2020-kp"><span class="std std-numref">4.4.3.2 章</span></a> )</p></li>
+<li><p>異なるカットオフエネルギーで出力された波動関数・電荷密度データを読み込むことができるようになりました(<a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters-differenet-wfcut"><span class="std std-numref">4.4.7 章</span></a> )</p></li>
+<li><p>ログファイルにエンドマークが出力されるようになりました(<a class="reference internal" href="../first_step/first_step.html#firststep-endmark-section"><span class="std std-numref">3.4.3 章</span></a> )</p></li>
+<li><p>open core法が使えるようになりました(<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-opencore-section"><span class="std std-numref">7.12 章</span></a> )</p></li>
+<li><p>状態密度図作成用の新しいスクリプトを追加しました(<a class="reference internal" href="../supplement/supplement.html#cmd-tools-dospy-section"><span class="std std-numref">11.4.6 章</span></a> )</p></li>
+<li><p>一部計算機能の高速化/省メモリ化を実施しました</p>
+<ul>
+<li><p>誘電関数計算</p></li>
+<li><p>固定電荷計算</p></li>
+<li><p>ストレステンソル計算</p></li>
+<li><p>非局所ポテンシャル計算</p></li>
+</ul>
+</li>
+<li><p>SX-Aurora TSUBASA用のMakefileを追加しました (Makefile.Aurora; 2次元版のみ)</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2019.02 2020/03 公開</dt><dd><ul class="simple">
+<li><p>座標データを別ファイルで指定できるようにしました( <a class="reference internal" href="../input_parameters/input_parameters.html#input-param-coord-from-file"><span class="std std-numref">4.5.8 章</span></a> )</p></li>
+<li><p>有限電場機能を追加しました(<a class="reference internal" href="../analysis/analysis.html#section-finite-electric-field"><span class="std std-numref">8.12 章</span></a> )</p></li>
+<li><p>PBESol汎関数に対応しました(<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-pbesol-section"><span class="std std-numref">7.9 章</span></a> )</p></li>
+<li><p>メタGGAに対応しました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-metagga-section"><span class="std std-numref">7.10 章</span></a> )</p></li>
+<li><p>ハイブリッド汎関数法によるバンド構造計算に対応しました(<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-hybrid-band-section"><span class="std std-numref">7.3.4 章</span></a> )</p></li>
+<li><p>チェックポイントファイルが出力できるようにしました(<a class="reference internal" href="../first_step/first_step.html#first-step-checkpoint-section"><span class="std std-numref">3.3.5 章</span></a> )</p></li>
+<li><p>四重極子計算機能に対応しました(<a class="reference internal" href="../analysis/analysis.html#advanced-xanes-quad-section"><span class="std std-numref">8.9.8 章</span></a> )</p></li>
+<li><p>Bader解析に適した電荷密度を出力することができるようにしました(<a class="reference internal" href="../analysis/analysis.html#section-bader-charge"><span class="std std-numref">8.3 章</span></a> )</p></li>
+<li><p>格子最適化の振る舞いを改善しました(<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#advanced-latopt-reuse-wfchg-section"><span class="std std-numref">9.3.4 章</span></a> )</p></li>
+<li><p>入力ファイル正誤チェックツールを追加しました(<a class="reference internal" href="../supplement/supplement.html#ch08-10-inpcheck-py-section"><span class="std std-numref">11.4.13 章</span></a> )</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2019.01 2019/04 公開</dt><dd><ul class="simple">
+<li><p>分子動力学シミュレーション機能を改良しました。</p>
+<ul>
+<li><p>Nose-Hoover chain法が使えるようになりました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#advanced-nvtmd-section"><span class="std std-numref">9.4.5 章</span></a> )</p></li>
+<li><p>&quot;温度プロファイル&quot;を設定することができるようになりました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#advanced-nvtmd-section"><span class="std std-numref">9.4.5 章</span></a> )</p></li>
+<li><p>原子群をある領域に閉じ込めることができるようになりました</p></li>
+</ul>
+</li>
+<li><p>BoltzTraPに対応しました(<a class="reference internal" href="../analysis/analysis.html#section-boltztrap"><span class="std std-numref">8.15 章</span></a> )</p></li>
+<li><p>DFT-D3法に対応しました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-vdwcorr-section"><span class="std std-numref">7.6 章</span></a> )</p></li>
+<li><p>ストレステンソル補正機能を改良しました。</p></li>
+<li><p>ASLのFFTWラッパーが使えるようになりました。</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2018.01 2018/08 公開</dt><dd><ul class="simple">
+<li><p>以下の機能が三次元版で利用できるようになりました</p>
+<ul>
+<li><p>ベリー位相計算機能</p></li>
+<li><p>PDOS</p></li>
+<li><p>固定電荷計算</p></li>
+</ul>
+</li>
+<li><p>3D版に，低並列で利用する場合の高速化のオプションを追加しました</p></li>
+<li><p>Atomic Simulation Environment (ASE)用のPythonスクリプトを追加しました。</p></li>
+<li><p>SC-DFT法に対応しました(<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-scdft-section"><span class="std std-numref">7.4 章</span></a> )</p></li>
+<li><p>ハイブリッド汎関数法を高速化しました。</p></li>
+<li><p>PAW法に非球面積分のオプションを追加しました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#paw-gloption-section"><span class="std std-numref">7.1.4 章</span></a> )</p></li>
+<li><p>ESM法を高速化しました。</p></li>
+<li><p>不具合を修正しました。</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2017.01 2018/02 公開</dt><dd><ul class="simple">
+<li><p>圧力一定の分子動力学シミュレーション法を実装しました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-npt-md"><span class="std std-numref">9.4.6 章</span></a> )</p></li>
+<li><p>3軸並列版にストレステンソル，vdW-DF計算機能を加えました。</p></li>
+<li><p>ボルン有効電荷を簡単に計算できるようにしました (<a class="reference internal" href="../analysis/analysis.html#section-borncharge"><span class="std std-numref">8.11 章</span></a> )</p></li>
+<li><p>双極子補正機能に対応しました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-dipole-section"><span class="std std-numref">7.8 章</span></a> )</p></li>
+<li><p>対称化プログラム(band_symm)を更新しました。</p></li>
+<li><p>不具合を修正しました。</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2016.01 2017/05 公開</dt><dd><ul class="simple">
+<li><p>化学ポテンシャル一定のシミュレーション法を実装しました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-constant-chemical-potential"><span class="std std-numref">9.9 章</span></a> )</p></li>
+<li><p>ハイブリッド汎関数計算機能を高速化しました。（3軸並列版）</p></li>
+<li><p>不具合を修正しました。</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2015.01 2015/10 公開</dt><dd><ul class="simple">
+<li><p>ELNES / XANES解析機能を実装しました (<a class="reference internal" href="../analysis/analysis.html#section-elnes-xanes"><span class="std std-numref">8.9 章</span></a> )</p></li>
+<li><p>構造を群論に基づいて簡約化するプログラムband_symmを追加しました。</p></li>
+<li><p>計算事例を追加しました。（スピン軌道相互作用をとりいれたバンド構造計算およびXANES解析計算）</p></li>
+<li><p>PAW法の不具合を修正しました。この修正によって、系によっては以前よりも収束性が向上しました（sw_PAW=onでDFT+UあるいはGGA+U法を使っている場合、以前の版ではこの版よりも全エネルギーが高くなる場合がありました）。</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2014.03 2014/12公開</dt><dd><ul class="simple">
+<li><p>ハイブリッド汎関数計算機能を高速化・省メモリー化しました。（2軸並列版）。</p></li>
+<li><p>vdW-DF計算機能を高速化しました。（2軸並列版）。</p></li>
+<li><p>非局所ポテンシャルの実空間積分機能を3軸並列（G点並列）版に実装しました。</p></li>
+<li><p>波動関数予測機能を3軸並列（G点並列）版に実装しました。</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2014.02 2014/07公開</dt><dd><ul class="simple">
+<li><p>ESM法を3軸並列（G点並列）版に実装しました。</p></li>
+<li><p>ハイブリッド汎関数の使用方法を改善しました。</p></li>
+<li><p>ハイブリッド汎関数の計算機能を改良しました。ハイブリッド汎関数の計算において、波動関数ソルバーpdavidson法とpkosugiを使用可能にしました。</p></li>
+<li><p>不具合を修正しました。</p></li>
+<li><p>マニュアルを改訂しました。</p></li>
+</ul>
+</dd>
+<dt>PHASE/0 2014.01 2014/04公開</dt><dd><ul class="simple">
+<li><p>波動関数ソルバー、電荷密度混合法の自動設定機能を追加しました (<a class="reference internal" href="../input_parameters/input_parameters.html#input-param-wfsol2"><span class="std std-numref">4.8 章</span></a> )</p></li>
+<li><p>構造更新時の波動関数、電荷密度の予測機能を追加しました (<a class="reference internal" href="../input_parameters/input_parameters.html#input-param-wfpred"><span class="std std-numref">4.9.3 章</span></a> )</p></li>
+<li><p>時間依存型密度汎関数法計算を追加しました (<a class="reference internal" href="../uvsor/uvsor.html#uvsor-lrtddft-section"><span class="std std-numref">10.6 章</span></a> )</p></li>
+<li><p>有効遮蔽体（ESM）法等の計算機能のインターフェースを追加しました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-section-esm"><span class="std std-numref">7.7 章</span></a>)</p></li>
+<li><p>格子最適化機能等を追加しました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-unitcell-optimization"><span class="std std-numref">9.3 章</span></a> )</p></li>
+<li><p>仕事関数の計算機能を追加しました (<a class="reference internal" href="../analysis/analysis.html#section-workfunc"><span class="std std-numref">8.5 章</span></a>)</p></li>
+<li><p>波動関数ソルバー（修正Davidson法等）を改良（高速化）しました。</p></li>
+<li><p>汎関数の計算機能を改良（高速化）しました。</p></li>
+<li><p>相互作用の計算機能を改良（高速化）しました。</p></li>
+<li><p>系の計算、スピン軌道相互作用計算機能を追加しました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-noncollinear-section"><span class="std std-numref">7.13 章</span></a> )</p></li>
+<li><p>原子配置のチェック機能を追加しました。</p></li>
+<li><p>構造最適化機能にCG法の改良版を追加しました。</p></li>
+<li><p>計算機能を改良しました。</p></li>
+<li><p>非局所ポテンシャルや欠損電荷の演算を実空間で行うことができるようにしました (<a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters-rspace-section"><span class="std std-numref">4.4.8 章</span></a> )</p></li>
+<li><p>誘電応答解析プログラムUVSORを統合しました。</p></li>
+<li><p>3軸並列（G点並列）版の機能を拡充しました。</p></li>
+<li><p>不具合を修正しました。</p></li>
+</ul>
+</dd>
+<dt>バージョン 11.00 2012/06公開</dt><dd><ul class="simple">
+<li><p>新しい波動関数ソルバーを導入しました。</p></li>
+<li><p>ハイブリッド汎関数の計算機能を改良しました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-hybrid-section"><span class="std std-numref">7.3 章</span></a> ) ウルトラソフト擬ポテンシャル対応、k点を間引いた計算対応など</p></li>
+<li><p>構造最適化機能のGDIIS、BFGS法の継続計算に対応しました。</p></li>
+<li><p>ウルトラソフト擬ポテンシャルを用いた局所状態密度計算を高速化しました。</p></li>
+<li><p>構造最適化、分子動力学法計算の計算中における状態密度、電荷密度の出力に対応しました。</p></li>
+<li><p>多くの不具合を修正しました。</p></li>
+<li><p>3軸並列（G点並列）版を公開しました。</p></li>
+</ul>
+</dd>
+<dt>バージョン 10.01 2011/08公開</dt><dd><ul class="simple">
+<li><p>スピンを考慮している系の収束性が向上しました。</p></li>
+<li><p>GGAに関する不具合を修正しました。
+<em>この修正によって，従来のバージョンと全エネルギーの絶対値は一致しなくなります。</em></p></li>
+</ul>
+</dd>
+<dt>バージョン 10.00 2011/06公開</dt><dd><ul class="simple">
+<li><p>電子状態計算の収束性が向上しました。</p></li>
+<li><p>PAW法に対応しました ( <a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#paw-section"><span class="std std-numref">7.1 章</span></a> )</p></li>
+<li><p>メタダイナミクスに対応しました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-meta-dynamics"><span class="std std-numref">9.8 章</span></a> )</p></li>
+<li><p>van der Waals密度汎関数のセルフコンシステントな実装を行いました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-vdwdf-section"><span class="std std-numref">7.5 章</span></a> )</p></li>
+<li><p>構造最適化にBFGS法が利用できるようになりました。</p></li>
+<li><p>PHASE TOOLSに新たなスクリプトを加えました (<a class="reference internal" href="../supplement/supplement.html#commands-and-tools-convpy"><span class="std std-numref">11.4.12 章</span></a> )</p></li>
+<li><p>擬ポテンシャルの読み込みに関する不具合を修正しました。
+<em>この修正によって，従来のバージョ ンと全エネルギーの絶対値は一致しなくなります。</em></p></li>
+</ul>
+</dd>
+<dt>バージョン 9.00 2010/06公開</dt><dd><ul class="simple">
+<li><p>キャッシュチューニング、BLAS化をさらに進め、高速化を行いました。</p></li>
+<li><p>ファンデルワールス相互作用を考慮することができるようになりました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-vdwdf-section"><span class="std std-numref">7.5 章</span></a> )</p></li>
+<li><p>自由エネルギー計算が行えるようになりました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-constraints-bluemoon"><span class="std std-numref">9.7 章</span></a> )</p></li>
+<li><p>DFT+U法を利用して、バ ンド構造の計算ができるようになりました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-dftu-section"><span class="std std-numref">7.2 章</span></a> )</p></li>
+<li><p>ハイブリッド汎関数が利用できるようになりました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-hybrid-section"><span class="std std-numref">7.3 章</span></a> )</p></li>
+</ul>
+</dd>
+<dt>バージョン 8.01 2010/03公開</dt><dd><ul class="simple">
+<li><p>BLASを利用した高速化に対応しました。</p></li>
+</ul>
+</dd>
+<dt>バージョン 8.00 2009/06公開</dt><dd><ul class="simple">
+<li><p>拘束条件付きの動力学を追跡する機能が追加されました (<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#section-constraints-bluemoon"><span class="std std-numref">9.7 章</span></a> )</p></li>
+<li><p>DFT+U法による構造最適化/分子動力学シミュレーションに対応しました (<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advanced-dftu-section"><span class="std std-numref">7.2 章</span></a> )</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h2><span class="section-number">1.7. </span>PHASE/0の引用<a class="headerlink" href="#id11" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASE/0を利用して成果（論文発表など）をあげた場合には、コードを使用したことを記載すると共に、以下の文献の引用をお願いいたします。</p>
+<ul>
+<li><p>共通に引用</p>
+<p><a class="reference external" href="https://azuma.nims.go.jp/">https://azuma.nims.go.jp/</a></p>
+<p>Takahiro Yamasaki, Akiyoshi Kuroda, Toshihiro Kato, Jun Nara, Junichiro Koga, Tsuyoshi Uda, Kazuo Minami, and Takahisa Ohno,
+&quot;Multi-axis Decomposition of Density Functional Program for Strong Scaling up to 82,944 Nodes on the K Computer: Compactly Folded 3D-FFT Communicators in the 6D Torus Network&quot;
+Computer Physics Communications 244, 264-276 (2019).
+<a class="reference external" href="https://doi.org/10.1016/j.cpc.2019.04.008">https://doi.org/10.1016/j.cpc.2019.04.008</a></p>
+</li>
+<li><p>誘電関数計算機能（旧UVSOR）を利用した場合</p>
+<p>Tomoyuki Hamada and Takahisa Ohno,
+&quot;First-Principles Broadband Dielectric Spectroscopy&quot;
+Journal of the Australian Ceramic Society, vol. 47, pp.61-64 (2011)</p>
+</li>
+</ul>
+</section>
+<section id="history">
+<h2><span class="section-number">1.8. </span>HISTORY<a class="headerlink" href="#history" title="この見出しへのパーマリンク"></a></h2>
+<p>The original version of this set of the computer programs &quot;PHASE&quot; was developed by the members of the Theory Group of Joint Research Center for Atom Technology (JRCAT), based in Tsukuba, in the period 1993-2001.
+The names of the contributors to the original version are Hideki Katagiri, Koichi Kato, Tsuyoshi Miyazaki, Yoshitada Morikawa, Hideaki Sawada, Toshihiro Uchiyama, Tsuyoshi Uda, and Takahiro Yamasaki.</p>
+<p>These contributors has agreed with that the Institute of Industrial Science (IIS), the University of Tokyo, distributes this program as a free software.</p>
+<p>Since 2002, this set has been tuned and new functions have been added to it as a part of the national project ”Frontier Simulation Software for Industrial Science (FSIS)”, which is supported by the IT program of the Ministry of Education, Culture, Sports, Science and Technology (MEXT) of Japan.
+The program was developed further mainly by T. Yamasaki. T. Uda, Takenori Yamamoto, Hideaki Tsukioka, Masakuni Okamoto, Hideo Mizouchi, Kiyoshi Betsuyaku, and Kazuki Mae contributed to the improvement of the code.
+The tetrahedron interpolation codes developed by Noriaki Hamada, Akira Yanase, and Kiyoyuki Terakura was included.
+The symmetrization code developed by A. Yanase and N. Hamada was also included.
+The manual and tutorial were written by Makoto Itoh with the cooperation by Mineo Saito, H. Tsukioka, T. Yamamoto, and T. Yamasaki.
+The sample calculations were prepared by T. Yamamoto, H. Tsukioka, and Hiroyoshi Momida.</p>
+<p>Since 2006, this program set has been developed as a part of the national project ”Revolutionary Simulation Software (RSS21)”, which is supported by the next-generation IT program of MEXT of Japan.
+Since 2008, this program set has been developed as a part of the national project ”Research and Development of Innovative Simulation Software”, which is supported by the next-generation IT program of MEXT of Japan.</p>
+<p>Since 2013, this program set has been further developed centering on PHASE System Consortium.</p>
+<p>The activity of development of this program set has been supervised by Takahisa Ohno.</p>
+</section>
+<section id="contact-address">
+<h2><span class="section-number">1.9. </span>CONTACT ADDRESS<a class="headerlink" href="#contact-address" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASE System Consortium</p>
+<p>E-mail: <a class="reference external" href="mailto:phase_system&#37;&#52;&#48;nims&#46;go&#46;jp">phase_system<span>&#64;</span>nims<span>&#46;</span>go<span>&#46;</span>jp</a> URL <a class="reference external" href="https://azuma.nims.go.jp">https://azuma.nims.go.jp</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="第一原理電子状態計算ソフトウェアPHASE/0 2024ユーザーマニュアル" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../install/install.html" class="btn btn-neutral float-right" title="2. PHASE/0のインストール" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, PHASEシステム研究会.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

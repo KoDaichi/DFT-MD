@@ -1,0 +1,79 @@
+control{
+    condition = initial
+}
+accuracy{
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{
+              nx = 6, ny = 6, nz =  4
+        }
+    }
+
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 270.0 Rydberg
+
+    smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.05 eV
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+    num_bands = 25
+
+!    initial_wavefunctions = atomic_orbital
+    initial_charge_density =  atomic_charge_density
+
+!    paw = on
+}
+structure{
+    atom_list{
+        coordinate_system = internal    ! {internal|cartesian}
+        atoms{
+	    #default mobile=on
+            #tag element rx ry rz
+             N 0.3333333333333333333 0.666666666666666666 0.0
+             N -0.333333333333333333 0.333333333333333333 0.5
+             Ga 0.333333333333333333 0.666666666666666666 0.381
+             Ga -0.33333333333333333 0.333333333333333333 0.881
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber moment  mass
+             Ga        31         0.0
+              N        7         0.0
+    }
+
+    unit_cell{
+        #units angstrom
+        a = 3.1891
+        b = 3.1891
+        c = 5.1855
+        alpha = 90
+        beta = 90
+        gamma = 120.0
+    }
+
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+    }
+}
+structure_evolution{
+  stress { sw_stress_correction = on }
+  lattice{
+    sw_optimize_lattice = on
+  }
+}
+postprocessing{
+   charge{
+         sw_charge_rspace = off
+         filetype = cube
+         sw_add_corecharge_rspace = on
+!         eval_corecharge_on_Gspace = on
+   }
+}

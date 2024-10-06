@@ -1,0 +1,16 @@
+##############################
+bulk:
+       4 atom model
+       a0 = 5.472608 Ang, b0 = 3.869718 Ang,  c0 = 3.869718 A
+
+surf:
+       34 atom thin slab model
+       a0 = 5.472608 Ang, b0 = 3.869718 Ang
+
+##############################
+bulk/band
+     plot the bulk bands projcted onto the surface BZ.
+
+surf/band
+     plot the bulk bands at the background of surface bands.
+

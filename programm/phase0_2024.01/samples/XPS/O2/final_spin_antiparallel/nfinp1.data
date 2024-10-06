@@ -1,0 +1,97 @@
+control{
+    condition = initial
+    cpumax = 23 hour
+    max_scf_iteration = 100000000
+}
+accuracy{
+    ksampling{
+        method = gamma
+    }
+
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 270.0 Rydberg
+
+    smearing{
+            method = parabolic ! {parabolic|tetrahedral}
+            width  = 0.002 hartree
+   }
+   scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+   force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 12
+
+!    initial_wavefunctions = atomic_orbital
+    initial_charge_density =  atomic_charge
+!
+    paw = on
+    core_electrons{
+       sw_opencore = on
+       sw_xc_opencore_ae_only = on
+       spin_orientation = anti_parallel
+       sw_fix_core_spin_pol = on
+    }
+}
+structure{
+    atom_list{
+        coordinate_system = internal
+        atoms{
+            #units angstrom
+            #tag element rx ry rz 
+Ox   -0.044036875180553443  0.000000000000000000  0.000000000000000000
+O     0.044036875180553443  0.000000000000000000  0.000000000000000000
+        }  
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber moment
+                 O       8        1.0  
+                 Ox      8        1.0  
+    }
+
+    unit_cell_type = Bravais 
+    unit_cell{
+        #units angstrom
+        a =  14.00
+        b =  14.00
+        c =  14.00
+        alpha = 90.00 
+        beta = 90.00 
+        gamma = 90.00 
+    }
+
+    magnetic_state = ferro
+    charged_state{
+       additional_charge = 1.0
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitve
+        }
+    }
+}
+postprocessing{
+   electrostatic_potential{
+      sw_write_electrostatic_pot = on
+   }
+    charged_defect{
+        correction{
+            sw_calc_extfnv_correction = on
+            dielectric_constant{
+               exx = 1.00
+               eyy = 1.00
+               ezz = 1.00
+            }
+            position{
+               atom_id = 2
+            }
+        }
+    }
+   corelevels{
+     sw_calc_core_energy = on
+   }
+}

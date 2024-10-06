@@ -1,0 +1,14 @@
+ &fnames
+ F_INP    = './nfinp1.data'
+ F_POT(1) = '../pp/Mg_ggapbe_paw_002_nocorehole.gncpp2'
+ F_POT(2) = '../pp/O_ggapbe_paw_002_nocorehole.gncpp2'
+
+ F_EFERMI = '../scf_final/nfefermi.data'
+ F_CHGT   = '../scf_final/nfchgt.data'
+ F_CNTN_BIN_PAW   = '../scf_final/continue_bin_paw.data'
+
+ F_CORE_ENERGY_INITIAL = '../scf_initial/core_energy.data'
+ F_CORE_ENERGY_FINAL   = '../scf_final/core_energy.data'
+
+ F_ZAJ    = '/dev/null'
+ &end

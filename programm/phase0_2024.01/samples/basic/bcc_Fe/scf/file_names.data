@@ -1,0 +1,8 @@
+&fnames
+ F_INP    = './input_bcc_Fe.data'
+ F_POT(1) = '../../../pp/Fe_ggapbe_paw_us_02.pp'
+ F_ENERG  = './nfenergy.data'
+ F_CHGT   = './nfcharge.data'
+ F_ZAJ    = './zaj.data'
+/
+

@@ -1,0 +1,82 @@
+control{
+  condition = initial
+  max_iteration = 1000000000
+}
+accuracy{
+  num_bands = 34
+  ksampling{
+    method = gamma
+  }
+  cutoff_wf = 12.5 hartree
+  cutoff_cd = 112.5 hartree
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-10 hartree
+    succession = 1
+  }
+  force_convergence{
+    max_force = 0.0001 hartree/bohr
+  }
+}
+structure{
+  atom_list{
+    atoms{
+      #tag    element    rx    ry    rz    mobile    weight
+            C    0.48322950755    0.48966917021    0.64784058741    on    1
+            C    0.62123885308    0.51887844305    0.58475022241    on    1
+            C    0.63146717691    0.45951465726    0.44240172902    on    1
+            C    0.51676810572    0.51032891647    0.35215908886    on    1
+            C    0.37876071138    0.48112326585    0.41525187036    on    1
+            C    0.36853552118    0.54048669391    0.55760207738    on    1
+            Cl    0.474553909796    0.547573358846    0.775009132821    on    1
+            H    0.471859249454    0.375061160671    0.662421721807    on    1
+            Cl    0.63970432468    0.65747757823    0.57772839318    on    1
+            H    0.70215318401    0.47909955108    0.648955217    on    1
+            H    0.72962284804    0.48398225669    0.39745510408    on    1
+            H    0.62594096235    0.34879105528    0.44895995447    on    1
+            H    0.52764760248    0.61996149768    0.33820571954    on    1
+            H    0.5236319558    0.46452977873    0.2515877589    on    1
+            H    0.2978477099    0.52090293428    0.35104515451    on    1
+            H    0.3641102385    0.37117821706    0.42082061357    on    1
+            H    0.37406436464    0.6512085821    0.55104108184    on    1
+            H    0.2703791799    0.5160226486    0.60254490695    on    1
+    }
+  }
+  unit_cell{
+    a_vector = 18.8972599215 0.0 0.0
+    b_vector = 0.0 18.8972599215 0.0
+    c_vector = 0.0 0.0 18.8972599215
+  }
+  element_list{
+    #tag    element    atomicnumber    mass    zeta    deviation
+          C    6    21894.5796446    0    1.83
+          Cl    17    64625.9232174    0    1.83
+          H    1    1837.35097885    0    1.83
+  }
+  symmetry{
+    method = automatic
+  }
+}
+structure_evolution{
+  method = quench
+}
+wavefunction_solver{
+  solvers{
+    #tag    sol    till_n
+          mddavidson    2
+          rmm3    -1
+  }
+  rmm{
+    edelta_change_to_rmm = 0.005 hartree
+  }
+}
+charge_mixing{
+  mixing_methods{
+    #tag    no    method    rmxs
+          1    pulay    0.4
+  }
+}
+printoutlevel{
+  base = 1
+}

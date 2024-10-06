@@ -1,0 +1,66 @@
+Control{
+    condition = initial
+    cpumax = 23 hour
+}
+accuracy{
+    cutoff_wf =  20.00  rydberg
+    cutoff_cd =  80.00  rydberg
+
+    num_bands = 8
+    ksampling{
+       mesh{  nx = 2, ny =  2, nz =  2 }
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+}
+structure{
+    unit_cell_type = bravais
+    unit_cell{
+        a = 10.17512
+        b = 10.17512
+        c = 10.17512
+        alpha = 90.0
+        beta = 90.0
+        gamma = 90.0
+    }
+    symmetry{
+        method = automatic
+    }
+    atom_list{
+       atoms{
+       #tag   element  rx       ry       rz 
+Si    0.000374715602051749 -0.000910954068064749  0.000374715602051748
+Si    0.246753217976005412  0.250696310800537003  0.246753217976005412
+Si    0.499089045931935482  0.500374715602051490  0.000374715602051748
+Si    0.750696310800536670  0.746753217976006800  0.246753217976005412
+Al    0.501624262385357622  0.001624262385357031  0.501624262385357622
+P     0.754548116973133509  0.254548116973131622  0.754548116973133509
+Si    0.000374715602051749  0.500374715602051490  0.499089045931935482
+Si    0.246753217976005412  0.746753217976006800  0.750696310800536670
+       }
+    }
+    reference_cell{
+       a_vector =  0.00000       5.08756        5.08756
+       b_vector =  5.08756       0.00000        5.08756
+       c_vector =  5.08756       5.08756        0.00000
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+                          Al        13
+                          P         15
+    }
+}
+Phonon{
+    sw_phonon = on
+    sw_vibrational_modes = on
+    sw_calc_force = on
+    displacement = 0.1
+
+    method = band
+    use_qpoint_data_file = yes
+
+    phonon_band_unfolding{
+       sw_phonon_band_unfolding = on
+    }
+}

@@ -1,0 +1,84 @@
+Control{
+    max_iteration = 100000
+    condition = initial
+}
+accuracy{
+    cutoff_wf = 25.00 rydberg
+    cutoff_cd = 225.00 rydberg
+
+    num_bands = 30
+    ksampling{
+        method = monk
+          mesh{  nx = 4, ny =  4, nz =  4  }
+    }
+
+    smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 2
+    }
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+    hubbard{
+        sw_hubbard = on
+        projectors{
+            #units eV
+            #tag no ueff
+             1 5.0
+             2 5.0
+        }
+    }
+    projector_list{
+        projectors{
+            #tag group radius l
+             1 2.5 2
+             2 2.5 2
+             3 1.8 1
+        }
+    }
+}
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+        #units angstrom
+        a_vector =  4.1770 2.0885 2.0885
+        b_vector =  2.0885 4.1770 2.0885
+        c_vector =  2.0885 2.0885 4.1770
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+    }
+! --
+    magnetic_state = ferro
+    atom_list{
+        coordinate_system = cartesian ! {internal|cartesian}
+        atoms{
+            #units angstrom
+            #tag element rx ry rz     proj_group
+             Ni1 0.000 0.000 0.000        1
+             Ni2 4.177 4.1770 4.1770      2
+             O   2.0885 2.0885 2.0885     3
+             O   6.2655 6.2655 6.2655     3
+        }
+    }
+    element_list{
+        #tag element atomicnumber moment
+         Ni1 28  2.0
+         Ni2 28 -2.0
+         O 8 0.0
+    }
+}
+printoutlevel{
+    magmom = 2
+}
+postprocessing{
+   orbital_population{
+     sw_write_orb_dens_mat_file = on
+   }
+}

@@ -1,0 +1,82 @@
+Control{
+	condition = initial
+}
+
+accuracy{
+	cutoff_wf =  25.0       rydberg
+	cutoff_cd = 225.0       rydberg
+	num_bands = 10
+	ksampling{
+		method = mesh ! {mesh|file|directin|gamma|monk}
+		mesh{  nx = 10, ny =  10, nz =  10   }
+
+	}
+	smearing{
+		method = tetrahedral   ! parabolic ! {parabolic|tetrahedral}
+		width  = 0.001 hartree
+	}
+	scf_convergence{
+		delta_total_energy = 1.e-10  hartree
+	}
+	force_convergence{
+		max_force = 0.1e-3
+	}
+	ek_convergence{
+		num_extra_bands = 3
+		sw_eval_eig_diff = on
+		delta_eigenvalue = 1.e-5
+		succession   = 3
+	}
+
+	initial_wavefunctions = matrix_diagon  ! matrix_diagon  !{random_numbers|matrix_diagion}
+            matrix_diagon{
+               cke_wf =  25.00  rydberg  ! cke_wf
+            }
+
+	initial_charge_density = Gauss !{Gauss|Very_broad|pseudopotentialfile}
+
+}
+
+structure{
+	unit_cell_type = primitive
+	unit_cell{
+		#units bohr
+		a_vector =  0.00000000000         3.47046370000          3.47046370000
+    b_vector =  3.47046370000         0.00000000000          3.47046370000
+		c_vector =  3.47046370000         3.47046370000          0.00000000000
+	}
+	symmetry{
+	     crystal_structure = fcc
+	     sw_inversion = on
+	}
+
+	magnetic_state = para   !{para|af|ferro}
+	atom_list{
+	     atoms{
+		#tag  rx       ry       rz       weight   element    mobile
+                     0.000    0.000     0.000       1        Cu        off
+	          }
+        }
+	element_list{
+	 #tag element  atomicnumber
+   	        Cu          29
+	}
+}
+
+structure_evolution{
+	method = gdiis
+	dt  = 100.0
+	gdiis{
+	    gdiis_box_size = 4
+	    gdiis_update = RENEW
+	    c_forc2gdiis = 0.0050
+	    c_iteration2GDIIS = 3
+	}
+	stress{
+	    sw_stress = off
+	}
+}
+
+printlevel{
+	base = 1
+}

@@ -1,0 +1,168 @@
+Control{
+    condition = initial   ! {initial|continuation|automatic}
+    cpumax = 2 day ! {sec|min|hour|day}
+    max_iteration = 10000000
+    multiple_replica_mode = ON
+    multiple_replica_max_iteration = 20
+}
+accuracy{
+    cutoff_wf =  20.0  rydberg
+    cutoff_cd =  80.0  rydberg
+    num_bands =  28
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{  nx = 2, ny =  2, nz =  1  }
+    }
+!    smearing{
+!        method = parabolic ! {parabolic|tetrahedral}
+!        width  = 0.001 hartree
+!    }
+    smearing{
+        method = parabolic
+        width = 0.03 hartree
+    }
+    scf_convergence{
+        delta_total_energy = 0.5e-7   hartree
+    }
+!    initial_wavefunctions = matrix_diagon  !{random_numbers|matrix_diagion}
+    initial_wavefunctions = atomic_orbitals  !{random_numbers|matrix_diagion}
+    initial_charge_density = atomic_charge_density
+    matrix_diagon{
+        cutoff_wf =  3.00  hartree
+    }
+    fcp{
+        sw_fcp= ON
+        mu = 9.0e-3
+        mass = 1000.0d0
+        relax_crit = 1.0d-5
+        tot_charge_first =  0.01785752
+        tot_charge_last  = -0.03361306
+    }
+}
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+         a_vector =  10.400      0.000      0.000
+         b_vector =   0.000     10.400      0.000
+         c_vector =   0.000      0.000     30.200
+    }
+    symmetry{
+        sw_inversion = off
+    }
+    atom_list{
+        coordinate_system = cartesian ! {cartesian|internal}
+        atoms{
+        #units angstrom
+                #tag  element  rx  ry  rz   mobile
+    Si    0.000000000000      0.000000000000      0.000000000000    off
+    Si    2.751721694800      2.751721694800      0.000000000000    off
+    Si    1.375860847400      1.375860847400      1.375860847400    off
+    Si    4.127582542200      4.127582542200      1.375860847400    off
+    Si    0.000000000000      2.751721694800      2.751721694800    off
+    Si    2.751721694800      0.000000000000      2.751721694800    off
+    Si    1.375860847400      4.127582542200      4.127582542200    off
+    Si    4.127582542200      1.375860847400      4.127582542200    off
+    Si    0.000000000000      0.000000000000      5.503443389600    off
+    Si    2.751721694800      2.751721694800      5.503443389600    off
+    Si    1.375860847400      1.375860847400      6.879304237000    off
+    H    1.644706293661      1.095414892118     11.000000000000     on
+    H    1.095414929519      1.644706317263     11.000000000000     on
+         }
+    }
+    element_list{
+            #tag element  atomicnumber  mass
+            #units atomic_mass
+            Si        14     28.085
+            H          1     1.008
+    }
+}
+multiple_replica{
+    method = nudged_elastic_band_method
+    accuracy{
+        dt = 40 au_time
+        neb_time_integral = quench
+        penalty_function = off
+        neb_convergence_condition = 3
+        neb_convergence_threshold = 5.0e-04
+    }
+    constraint{
+        ci_neb = off
+        sp_k_init = 0.03
+        sp_k_min = 0.03
+        sp_k_max = 0.03
+        sp_k_variable = OFF
+    }
+    structure{
+        number_of_replicas = 6
+        replicas{
+            #tag replica_number  howtogive_coordinates   end0  end1
+            1            proportional              0      -1 ! 0: end0, -1:end1
+            2            proportional              0      -1
+            3            proportional              0      -1
+            4            proportional              0      -1
+            5            proportional              0      -1
+            6            proportional              0      -1
+        }
+        endpoint_images = directin ! {no or nothing | file | directin}
+        howtogive_coordinates = from_endpoint_images
+        atom_list_end0{
+                 coordinate_system = cartesian ! {internal|cartesian}
+            atoms{
+            #units angstrom
+            #tag element rx ry rz
+            Si    0.000000000000      0.000000000000      0.000000000000
+            Si    2.751721694800      2.751721694800      0.000000000000
+            Si    1.375860847400      1.375860847400      1.375860847400
+            Si    4.127582542200      4.127582542200      1.375860847400
+            Si    0.000000000000      2.751721694800      2.751721694800
+            Si    2.751721694800      0.000000000000      2.751721694800
+            Si    1.375860847400      4.127582542200      4.127582542200
+            Si    4.127582542200      1.375860847400      4.127582542200
+            Si    0.000000000000      0.000000000000      5.503443389600
+            Si    2.751721694800      2.751721694800      5.503443389600
+            Si    1.375860847400      1.375860847400      6.879304237000
+            H    1.644706293661      1.095414892118     11.000000000000
+            H    1.095414929519      1.644706317263     11.000000000000
+            }
+        }
+        atom_list_end1{
+                 coordinate_system = cartesian ! {internal|cartesian}
+            atoms{
+            #units angstrom
+            #tag element rx  ry  rz
+            Si    0.000000000000      0.000000000000      0.000000000000
+            Si    2.751721694800      2.751721694800      0.000000000000
+            Si    1.375860847400      1.375860847400      1.375860847400
+            Si    4.127582542200      4.127582542200      1.375860847400
+            Si    0.000000000000      2.751721694800      2.751721694800
+            Si    2.751721694800      0.000000000000      2.751721694800
+            Si    1.375860847400      4.127582542200      4.127582542200
+            Si    4.127582542200      1.375860847400      4.127582542200
+            Si    0.000000000000      0.000000000000      5.503443389600
+            Si    2.751721694800      2.751721694800      5.503443389600
+            Si    1.375860847400      1.375860847400      6.879304237000
+            H    2.22686927     0.48813212     7.65400988
+            H    0.48813224     2.22686933     7.65400957
+            }
+        }
+    }
+}
+wavefunction_solver{
+    solvers{
+        #tag   sol    till_n
+          mddavidson     2
+          rmm3        -1
+    }
+    rmm{
+        edelta_change_to_rmm=1e-3
+    }
+}
+charge_mixing{
+    mixing_methods{
+    #tag no   method   rmxs
+          1  pulay  0.40
+    }
+}
+printoutlevel{
+    base=1
+}

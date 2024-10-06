@@ -1,0 +1,111 @@
+
+control{
+        condition = initial
+	max_iteration = 60000
+        sw_vdw_correction = on
+}
+
+accuracy{
+	cutoff_wf =  30.00  rydberg
+	cutoff_cd = 230.00  rydberg
+	num_bands = 24
+	xctype = ggapbe
+	initial_wavefunctions = atomic_orbitals
+	initial_charge_density = atomic_charge_density
+        ksampling{
+	  method = gamma
+        }
+        smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+        }
+        scf_convergence{
+          delta_total_energy = 1.0e-9
+        }
+        force_convergence{
+	  max_force = 1.0e-4
+	}
+	vdw_method = williams
+	vdw_radius = 20.0
+	vdw_scaling_factor = 0.8095
+	vdw_scaling_factor_r = 0.8
+	vdw_damping_factor = 3.0
+}
+
+structure{
+	unit_cell{
+	      #units angstrom
+              a = 15, b = 20, c = 15
+              alpha = 90, beta = 90, gamma = 90
+	}
+	symmetry{
+	      sw_inversion = off
+	}
+        atom_list{
+             coordinate_system = cartesian ! {cartesian|internal}
+             atoms{
+                 #units angstrom
+                 #default mobile=on
+#tag  element  rx        ry        rz   vdw
+H       1.1428  1.0257  0       H
+H       1.1428  -0.5128 0.8883  H
+H       1.1428  -0.5128 -0.8883 H
+C       0.7678  0       0       CTE
+C       -0.7678 0       0       CTE
+H       -1.1428 0.5128  -0.8883 H
+H       -1.1428 -1.0257 0       H
+H       -1.1428 0.5128  0.8883  H
+H       0       4.8257  -1.1428 H
+H       0.8883  3.2872  -1.1428 H
+H       -0.8883 3.2872  -1.1428 H
+C       0       3.8     -0.7678 CTE
+C       0       3.8     0.7678  CTE
+H       -0.8883 4.3128  1.1428  H
+H       0       2.7743  1.1428  H
+H       0.8883  4.3128  1.1428  H
+             }
+        }
+	element_list{
+	              #tag element  atomicnumber dev
+			   H         1           1.0
+			   C         6           2.0
+       }
+       vdw_list{
+             #tag type  c6  r0  p
+                   H     2.831179918  1.17  0.387
+                   CTE   22.67403316  1.70  1.061
+       }
+}
+
+wavefunction_solver{
+        solvers {
+        #tag    sol    till_n
+                mddavidson    1
+                rmm3       -1
+        }
+        rmm {
+          edelta_change_to_rmm = 1.d-3
+        }
+}
+
+charge_mixing{
+        mixing_methods {
+        #tag no   method    rmxs
+              1   pulay   0.40
+        }
+        sw_mix_charge_hardpart = OFF
+}
+
+!structure_evolution{
+!   method = cg
+!}
+
+Postprocessing{
+    dos{
+         sw_dos = off
+    }
+}
+
+printlevel{
+        base = 1
+}

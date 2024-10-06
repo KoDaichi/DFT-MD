@@ -1,0 +1,116 @@
+Control{
+	condition = initial
+	cpumax = 1 day ! {sec|min|hour|day}
+}
+
+accuracy{
+	cutoff_wf =  20.0  rydberg
+	cutoff_cd =  80.0  rydberg
+	num_bands =  28
+
+	ksampling{
+		method = monk  ! {mesh|file|directin|gamma}
+		mesh{  nx = 2, ny =  4, nz =  1  }
+                kshift{ k1 = 0.5, k2 = 0.5, k3 = 0.0 }
+	}
+
+	smearing{
+		method = parabolic ! {parabolic|tetrahedral}
+		width  = 0.001 hartree
+	}
+
+	scf_convergence{
+		delta_total_energy = 1.e-8   hartree
+		succession   = 2   !default value = 2
+	}
+
+	force_convergence{
+		max_force = 1.0e-3
+	}
+
+	initial_wavefunctions = matrix_diagon  !{random_numbers|matrix_diagion}
+        initial_charge_density = atomic_charge_density
+           matrix_diagon{
+	      cutoff_wf =  3.00  rydberg
+           }
+
+}
+
+structure{
+        unit_cell_type = primitive
+	unit_cell{
+		a_vector =  14.512      0.000      0.000
+    b_vector =   0.000      7.256      0.000
+		c_vector =   0.000      0.000     30.784
+	}
+
+	symmetry{
+           sw_inversion = off
+        }
+
+	magnetic_state = para   !{para|af|ferro}
+
+	atom_list{
+	coordinate_system = internal ! {cartesian|internal}
+	atoms{
+                #default element = Si, mobile = on
+                #tag   rx       ry       rz         element
+             0.2696777286918   0.5000000000000   0.6552485589480       H
+             0.7303078012424   0.5000000000000   0.6552434635149       H
+             0.3438379770298   0.5000000000000   0.5693121147999
+             0.6561430391349   0.5000000000000   0.5693085613798
+             0.2667772298369   0.0000000000000   0.4931588397631
+             0.7332057471799   0.0000000000000   0.4931564740015
+            -0.0000053006023   0.0000000000000   0.4191201643227
+             0.4999910842765   0.0000000000000   0.3982652194410
+            -0.0000062512419   0.5000000000000   0.3335511913621
+             0.4999950976168   0.5000000000000   0.3147593494722
+             0.2373152374823   0.5000000000000   0.2415931519922
+             0.7626735001712   0.5000000000000   0.2415904828256
+             0.2215069458910   0.2004542670499   0.1842477231510       H
+             0.2215069458910   0.7995457329502   0.1842477231510       H
+             0.7784753882933   0.2004562983583   0.1842436749902       H
+             0.7784753882933   0.7995437016417   0.1842436749901       H
+	     }
+	}
+	element_list{ #tag element  atomicnumber
+			Si        14
+			H          1  }
+}
+
+wavefunction_solver{
+	solvers{
+	    #tag   sol    till_n
+		  pdavidson   2
+		  RMM3       -1
+	}
+
+	rmm{
+	     edelta_change_to_rmm = 1.0e-3
+	}
+}
+
+charge_mixing{
+	mixing_methods{
+	#tag no   method   rmxs
+	      1  pulay  0.4
+	}
+}
+
+
+Postprocessing{
+	dos{
+		sw_dos = ON
+		deltaE   = 1.e-4 hartree
+		variance = 1.e-5 hartree
+		nwd_window_width    = 10
+	}
+	charge{
+		sw_charge_rspace    = ON
+		filetype            = cube  !{cube|density_only}
+		title  = "Si(001) p(2x1) surface terminated by H atoms"
+	}
+}
+printoutlevel{
+    base=1
+}

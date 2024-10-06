@@ -1,0 +1,120 @@
+Control{
+    condition = initial
+  ! condition = continuation
+    cpumax = 24 hour
+    max_iteration = 1000000
+}
+
+accuracy{
+    cutoff_wf =  36.0 rydberg
+    cutoff_cd = 144.0 rydberg
+    num_bands = 24
+    ksampling{
+      method = gamma
+      base_reduction_for_GAMMA = off
+      base_symmetrization_for_GAMMA = off
+    }
+    smearing{
+      method = parabolic
+      width  = 0.001 hartree
+    }
+    scf_convergence{
+      delta_total_energy = 1.0e-9 hartree
+      succession = 2
+    }
+    force_convergence{
+      max_force = 1.0e+3
+    }
+    initial_wavefunctions = random_numbers
+    initial_charge_density = Gauss
+}
+
+structure{
+    unit_cell_type = Bravais
+    unit_cell{
+      a = 10.00 angstrom
+      b = 10.00 angstrom
+      c = 10.00 angstrom
+      alpha = 90.0 degree
+      beta  = 90.0 degree
+      gamma = 90.0 degree
+    }
+    symmetry{
+      method = manual
+      sw_inversion = off
+    }
+    atom_list{
+        coordinate_system = cartesian
+        atoms{
+            #units angstrom
+            #default weight = 1 , mobile = 1
+            #tag element  rx  ry  rz
+!! C-C=1.399ang C-H=1.101ang
+C  4.3005   6.2116   5.0000
+C  5.6995   6.2116   5.0000
+C  6.3990   5.0000   5.0000
+C  5.6995   3.7884   5.0000
+C  4.3005   3.7884   5.0000
+C  3.6010   5.0000   5.0000
+H  3.7500   7.1651   5.0000
+H  6.2500   7.1651   5.0000
+H  7.5000   5.0000   5.0000
+H  6.2500   2.8349   5.0000
+H  3.7500   2.8349   5.0000
+H  2.5000   5.0000   5.0000
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass
+              H       1            1.0079
+              C       6            12.01
+    }
+}
+
+wavefunction_solver{
+    solvers{
+        #tag  sol till_n  dts  dte  itr  var   prec  cmix  submat
+            lm+msd      5  0.4   *    *   linear  on  1     on
+              rmm3     -1  0.4   *    *   linear  on  1     on
+    }
+    rmm{
+        edelta_change_to_rmm = 1.0e-3
+    }
+}
+
+charge_mixing{
+    mixing_methods{
+        #tag no  method   rmxs  rmxe  itr  var   prec  istr  nbmix  update
+               1  broyden2 0.20  *     *    linear  on     2    5    RENEW
+    }
+}
+
+structure_evolution{
+  method = quench
+  dt = 70.0
+}
+
+postprocessing{
+  charge{
+    sw_charge_rspace = off
+    filetype = cube
+    title = "structure.data"
+  }
+  dos{
+    sw_dos = off
+  }
+  rttddft{
+    sw_rttddft = off
+  ! sw_rttddft = on
+    time_step_delta = 0.1    !! dt (1 au = 0.0241888 fs)
+    time_step_max = 1000     !! simulation time = dt*time_step_max
+    ext_pulse_epsilon = 0.01, ext_pulse_kx = 1.0, ext_pulse_ky = 0.0, ext_pulse_kz = 0.0
+  }
+}
+
+printlevel{
+    base = 1
+    inputfile = 2
+    jobstatus = 0
+}

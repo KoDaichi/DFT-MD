@@ -1,0 +1,77 @@
+control{
+  condition = initial
+  max_iteration = 1000000000
+}
+accuracy{
+  num_bands = 30
+  ksampling{
+    mesh{
+      nx = 4
+      ny = 4
+      nz = 6
+    }
+  }
+  cutoff_wf = 25 rydberg
+  cutoff_cd = 225 rydberg
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-10 hartree
+    succession = 1
+  }
+  force_convergence{
+    max_force = 0.0001 hartree/bohr
+  }
+}
+structure{
+  atom_list{
+    atoms{
+      #tag    element    rx    ry    rz    mobile    weight
+            Ti    -0.0435376045175    0.0217688022587    0.101415764066    on    1
+            Ti    0.5    0.5    0.5    on    1
+            O    0.305300000218    0.305300000218    0    on    1
+            O    -0.305300000218    -0.305300000218    0    on    1
+            O    0.805300000218    0.194699999782    0.5    on    1
+            O    0.194699999782    0.805300000218    0.5    on    1
+    }
+  }
+  unit_cell{
+    a_vector = 8.68089098192 0.0 0.0
+    b_vector = 0.0 8.68089098192 0.0
+    c_vector = 0.0 0.0 5.5900362519
+  }
+  element_list{
+    #tag    element    atomicnumber    mass
+          Ti    22    87279.3666957
+          O    8    29164.9435988
+  }
+  symmetry{
+    method = automatic
+  }
+}
+structure_evolution{
+  method = bfgs
+  gdiis{
+    initial_method = cg
+    c_forc2gdiis = 0.01 hartree/bohr
+  }
+}
+wavefunction_solver{
+  solvers{
+    #tag    sol    till_n
+          mddavidson    2
+          rmm3    -1
+  }
+  rmm{
+    edelta_change_to_rmm = 0.005 hartree
+  }
+}
+charge_mixing{
+  mixing_methods{
+    #tag    no    method    rmxs
+          1    pulay    0.4
+  }
+}
+printoutlevel{
+  base = 1
+}

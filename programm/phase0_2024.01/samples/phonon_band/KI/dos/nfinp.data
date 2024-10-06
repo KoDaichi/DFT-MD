@@ -1,0 +1,74 @@
+Control{
+    condition = initial
+    cpumax = 1 day
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 2
+            ny = 2
+            nz = 2
+        }
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    num_bands = 8
+    cutoff_wf =  25.0 Rydberg
+    cutoff_cd = 225.0 Rydberg
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         I 53 231331.336
+         K 19 71271.4047
+    }
+    atom_list{
+        atoms{
+            #tag element rx ry rz
+             K 0.0 0.0 0.0
+             I 0.5 0.5 0.5
+        }
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 7.06 0.00 0.00
+        b_vector = 0.00 7.06 0.00
+        c_vector = 0.00 0.00 7.06
+    }
+    symmetry{
+        tspace{
+            lattice_system = facecentered
+        }
+        method = automatic
+    }
+    unit_cell_type = Bravais
+}
+Phonon{
+    displacement = 0.1
+    sw_vibrational_modes = on
+    lattice{
+        l1 = 2
+        l2 = 2
+        l3 = 2
+    }
+    dos{
+        mesh{
+            nx = 10
+            ny = 10
+            nz = 10
+        }
+    }
+    sw_calc_force = on
+    method = dos
+    sw_phonon = on
+    sw_lo_to_splitting = on
+    electronic_dielectric_constant{
+        exx = 2.6
+        eyy = 2.6
+        ezz = 2.6
+        exy = 0.0
+        eyz = 0.0
+        ezx = 0.0
+    }
+}

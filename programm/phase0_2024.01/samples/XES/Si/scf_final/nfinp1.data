@@ -1,0 +1,71 @@
+control{
+    condition = initial 
+}
+accuracy{
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+
+    ksampling{
+        method = monk 
+        mesh{
+            nx = 4
+            ny = 4 
+            nz = 4
+        }
+    }
+    num_bands = 24
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    smearing{
+           method = parabolic ! {parabolic|tetrahedral}
+           width  = 0.05 eV
+    }
+    paw = on
+    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge
+
+}
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz 
+ Si   0.00000   0.00000   0.00000
+ Si   0.25000   0.25000   0.25000
+ Si   0.50000   0.50000   0.00000
+ Si   0.75000   0.75000   0.25000
+ Si   0.50000   0.00000   0.50000
+ Si   0.75000   0.25000   0.75000
+ Si   0.00000   0.50000   0.50000
+ Si   0.25000   0.75000   0.75000
+        }
+    }
+    magnetic_state = ferro
+    charged_state{
+       additional_charge = 1.0
+    }
+    element_list{
+        #tag element atomicnumber moment
+                Si       14      
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+          #units angstrom
+          a     =  5.472605095550 , b = 5.472605095550 , c = 5.472605095550
+          alpha = 90,         beta  = 90,         gamma = 90
+    }
+    symmetry{
+        method = automatic
+    }
+}
+printlevel{
+   gap = 2
+}
+postprocessing{
+   CoreLevels{
+     sw_calc_core_energy = on
+  }
+}

@@ -1,0 +1,14 @@
+c ====<< & or & >>===
+c & : VPP, VP
+c $ : DEC, HP, SUN
+ &fnames
+ F_INP    = './input_relax_Si.data'
+ F_POT(1) = '../../../pp/Si_ggapbe_paw_nc_01m.pp'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = './nfchgt.data'
+ F_CNST   = './nfinp.cnst.data'
+ F_ENF    = './nfefn.data'
+ F_ENERG  = './nfenergy.data'
+ F_CNTN   = './continue.data'
+ F_ZAJ    = './zaj.data'
+ /

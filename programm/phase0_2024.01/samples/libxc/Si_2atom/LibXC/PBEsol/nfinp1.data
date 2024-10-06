@@ -1,0 +1,49 @@
+Control{
+        cpumax = 3600 sec  ! maximum cpu time
+        condition = initial
+}
+
+accuracy{
+  cutoff_wf =  25.00  rydberg
+  cutoff_cd =  225.00  rydberg
+  ksampling{
+     mesh{  nx = 8, ny =  8, nz =  8   }
+  }
+  num_bands = 8
+
+  xctype = libxc
+  libxc{
+!!      exch_id = 116,     corr_id = 133
+      exch_name = GGA_X_PBE_SOL,   corr_name = GGA_C_PBE_SOL
+  }
+
+  initial_wavefunctions = random_numbers
+  initial_charge_density = atomic_charge_density
+
+!  paw = on
+}
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+       a_vector =  0.0000000000        5.1300000000        5.1300000000
+       b_vector =  5.1300000000        0.0000000000        5.1300000000
+       c_vector =  5.1300000000        5.1300000000        0.0000000000
+    }
+    symmetry{
+       crystal_structure = diamond
+    }
+
+    atom_list{
+       atoms{
+       #tag  rx       ry         rz     element 
+       0.125     0.125     0.125     Si    
+       -0.125    -0.125    -0.125     Si    
+       }
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+    }
+}
+printlevel{
+   gap = 2
+}

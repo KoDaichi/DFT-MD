@@ -1,0 +1,1797 @@
+#!/bin/sh
+# configure
+# Makefile generator for PHASE
+# Copyright (C) 2007 Takenori YAMAMOTO
+echo 'GenMake ver 1200'
+
+# functions
+check_number()
+{
+i=0
+while [ ${i} -lt $1 ]
+do
+if [ "$i" = "$2" ]; then
+return 1
+fi
+i=`expr ${i} + 1`
+done
+return 0
+}
+
+get_number()
+{
+num="${#list[*]}"
+message1="$1"
+message2="$2"
+
+if [ ${num} -le 1 ]; then
+reply=0
+retval="${list[${reply}]}"
+return ${reply}
+fi
+
+while [ 0 -eq 0 ]
+do 
+
+echo "${message1}"
+i=0
+while [ ${i} -lt ${num} ]
+do
+echo " ${i}) ${list[${i}]}"
+i=`expr ${i} + 1`
+done
+echo " x) Exit"
+echo "${message2}"
+read reply
+#echo ${reply} >> config
+if [ -z "${reply}" ]; then
+reply=0
+elif [ "${reply}" = "x" ]; then
+exit 1
+fi
+
+check_number ${num} ${reply}
+if [ "${?}" = "1" ]; then
+break
+fi
+
+done
+retval="${list[${reply}]}"
+return ${reply}
+}
+
+get_dir()
+{
+defdir="$1"
+while [ 0 -eq 0 ]
+do
+
+echo "$2"
+read -e dir
+#echo "${dir}" >> config
+if [ -z "${dir}" ]; then
+dir=${defdir}
+elif [ "${dir}" = "x" ]; then
+exit 1
+fi
+
+if [ -d "${dir}" ]; then
+retval="${dir}"
+break
+else
+echo "Directory ${dir} does not exist."
+fi
+
+done
+}
+
+add_option()
+{
+n=${#list[*]}
+list[${n}]=$1
+}
+
+append_dir()
+{
+dir=$1
+shift
+libs=""
+for lib in ${*}
+do
+  libs="${libs} ${dir}/${lib}"
+done
+retval="${libs}"
+}
+
+append_WF_to_cppopt()
+{
+retval=""
+for cppopt in ${*}
+do
+  retval="${retval} -WF,${cppopt}"
+done
+}
+
+# configuration file
+rm -f config
+
+# Platform selection
+gnu_linux_ia32="GNU Linux (IA32)"
+gnu_linux_amd64="GNU Linux (EM64T/AMD64)"
+gnu_linux_ipf="GNU Linux (IPF)"
+sun_solaris_ia32="Sun Solaris (IA32)"
+sun_solaris_amd64="Sun Solaris (EM64T/AMD64)"
+sun_solaris_ultrasparc="Sun Solaris (UltraSPARC)"
+intel_mac_32bit="Intel-powered Mac (32bit)"
+intel_mac_64bit="Intel-powered Mac (64bit)"
+sgi_altix="SGI Altix"
+ibm_aix="IBM AIX"
+hitach_sr11000="HITATCH SR11000"
+fujitsu_vpp300="FUJITSU VPP300"
+fujitsu_vpp5000="FUJITSU VPP5000"
+nec_sx_series="NEC SX Series"
+earth_simulator="Earth Simulator"
+windows_mingw_ia32="MS Windows MinGW/MSYS (IA32)"
+windows_mingw_amd64="MS Windows MinGW/MSYS (EM64T/AMD64)"
+windows_sua_ia32="MS Windows SUA (IA32)"
+windows_sua_amd64="MS Windows SUA (EM64T/AMD64)"
+unset list
+add_option "${gnu_linux_ia32}"
+add_option "${gnu_linux_amd64}"
+#add_option "${gnu_linux_ipf}"
+#add_option "${sun_solaris_ia32}"
+#add_option "${sun_solaris_amd64}"
+#add_option "${sun_solaris_ultrasparc}"
+#add_option "${intel_mac_32bit}"
+#add_option "${intel_mac_64bit}"
+#add_option "${sgi_altix}"
+#add_option "${ibm_aix}"
+#add_option "${hitach_sr11000}"
+#add_option "${fujitsu_vpp300}"
+#add_option "${fujitsu_vpp5000}"
+add_option "${nec_sx_series}"
+#add_option "${earth_simulator}"
+#add_option "${windows_mingw_ia32}"
+#add_option "${windows_mingw_amd64}"
+#add_option "${windows_sua_ia32}"
+#add_option "${windows_sua_amd64}"
+
+get_number "Supported platforms" "Enter number of your platform. [0]"
+sel_plat="${retval}"
+echo "Selected platform:" ${sel_plat}
+
+# Compiler selection
+gnu_compiler="GNU compiler collection (gfortran)"
+g95_compiler="G95"
+intel_compiler="Intel Fortran compiler"
+pgi_compiler="PGI Fortran compiler"
+pathscale_compiler="PathScale Fortran compiler"
+sun_studio="Sun Studio Fortran compiler"
+ibm_xl="IBM XL Fortran compiler"
+hitachi_compiler="HITACHI Optimized Fortran compiler"
+vpp_cross_compiler="VPP Fortran cross compiler"
+vpp_native_compiler="VPP Fortran native compiler"
+sx_cross_compiler="Fortran90/SX cross compiler"
+sx_native_compiler="Fortran90/SX native compiler"
+es_cross_compiler="Fortran90/ES cross compiler"
+es_native_compiler="Fortran90/ES native compiler"
+unset list
+case ${sel_plat} in
+"${gnu_linux_ia32}"|"${gnu_linux_amd64}")
+add_option "${gnu_compiler}"
+#add_option "${g95_compiler}"
+add_option "${intel_compiler}"
+#add_option "${pgi_compiler}"
+#add_option "${pathscale_compiler}"
+	;;
+"${gnu_linux_ipf}")
+add_option "${gnu_compiler}"
+add_option "${g95_compiler}"
+add_option "${intel_compiler}"
+	;;
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}"|"${windows_sua_ia32}"|"${windows_sua_amd64}")
+add_option "${gnu_compiler}"
+add_option "${g95_compiler}"
+add_option "${intel_compiler}"
+add_option "${pgi_compiler}"
+	;;
+"${sun_solaris_ia32}"|"${sun_solaris_amd64}"|"${sun_solaris_ultrasparc}")
+add_option "${gnu_compiler}"
+add_option "${g95_compiler}"
+add_option "${sun_studio}"
+	;;
+"${intel_mac_32bit}"|"${intel_mac_64bit}")
+add_option "${gnu_compiler}"
+add_option "${g95_compiler}"
+add_option "${intel_compiler}"
+	;;
+"${sgi_altix}")
+add_option "${intel_compiler}"
+	;;
+"${ibm_aix}")
+add_option "${ibm_xl}"
+	;;
+"${hitach_sr11000}")
+add_option "${hitachi_compiler}"
+add_option "${ibm_xl}"
+	;;
+"${fujitsu_vpp300}")
+add_option "${vpp_cross_compiler}"
+add_option "${vpp_native_compiler}"
+	;;
+"${fujitsu_vpp5000}")
+add_option "${vpp_cross_compiler}"
+add_option "${vpp_native_compiler}"
+	;;
+"${nec_sx_series}")
+add_option "${sx_cross_compiler}"
+add_option "${sx_native_compiler}"
+	;;
+"${earth_simulator}")
+add_option "${es_cross_compiler}"
+add_option "${es_native_compiler}"
+	;;
+esac
+
+get_number "Supported compilers" "Enter number of a desired compiler. [0]"
+sel_comp=${retval}
+echo "Selected compiler:" ${sel_comp}
+
+# Programming-model selection
+pm_serial="Serial"
+pm_mpi="MPI parallel"
+pm_hybrid="SMP/MPI hybrid parallel"
+unset list
+add_option "${pm_serial}"
+add_option "${pm_mpi}"
+case ${sel_plat} in
+"${ibm_aix}"|"${hitach_sr11000}"|"${nec_sx_series}"|"${earth_simulator}")
+add_option "${pm_hybrid}"
+	;;
+esac
+
+#get_number "Supported programming-models" "Enter number of a desired programming-model. [0]"
+#sel_pm=${retval}
+#echo "Selected programming-model:" ${sel_pm}
+sel_pm="MPI parallel"
+
+# MPI library selection
+mpilib_default="System default"
+mpilib_dummy="dummy mpi library"
+mpilib_mpich1="MPICH1"
+mpilib_mpich2="MPICH2"
+mpilib_openmpi="Open MPI"
+mpilib_sgi="SGI MPT"
+mpilib_impi="Intel(R) MPI"
+
+if [ "${sel_pm}" != "${pm_serial}" ]; then
+unset list
+case ${sel_plat} in
+"${sgi_altix}"|"${ibm_aix}"|"${hitach_sr11000}"|"${fujitsu_vpp300}"|"${fujitsu_vpp5000}"|"${nec_sx_series}"|"${earth_simulator}")
+add_option "${mpilib_default}"
+	;;
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+add_option "${mpilib_mpich2}"
+	;;
+*)
+#add_option "${mpilib_mpich1}"
+#add_option "${mpilib_mpich2}"
+add_option "${mpilib_openmpi}"
+add_option "${mpilib_sgi}"
+if [ "${sel_comp}" = "${intel_compiler}" ];then
+add_option "${mpilib_impi}"
+fi
+	;;
+esac
+
+get_number "Supported MPI libraries" "Enter number of a desired MPI library. [0]"
+sel_mpilib=${retval}
+echo "Selected MPI library:" ${sel_mpilib}
+
+if [ "${sel_mpilib}" != "${mpilib_default}" ]; then
+#case ${sel_mpilib} in
+#"${mpilib_mpich1}")
+#mpidir="${HOME}/mpich"
+#mpilib="-lmpich -lfmpich"
+#use_pthead="yes"
+#	;;
+#"${mpilib_mpich2}")
+#case ${sel_plat} in
+#"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+#mpidir="/c/progra~1/DeinoMPI"
+#mpilib="fmpich2.lib"
+#	;;
+#*)
+#mpidir="${HOME}/mpich2"
+#mpilib="-lmpich -lfmpich"
+#use_pthread="yes"
+#	;;
+#esac
+#	;;
+#"${mpilib_openmpi}")
+#mpidir="${HOME}/openmpi"
+#case ${sel_plat} in
+#"${gnu_linux_ia32}"|"${gnu_linux_amd64}"|"${gnu_linux_ipf}")
+#mpilib="-lmpi"
+#	;;
+#*)
+#mpilib="-lmpi_f77 -lmpi"
+#	;;
+#esac
+#	;;
+#esac
+#get_dir "${mpidir}" "Enter MPI library directory. [${mpidir}]"
+#mpidir=${retval}
+#echo "Selected MPI library directory:" ${mpidir}
+echo
+else
+case ${sel_plat} in
+"${sgi_altix}")
+mpilib="-lmpi"
+	;;
+esac
+fi
+
+fi
+mpidir1=""
+if [ "${sel_pm}" = "${pm_serial}" ]; then
+sel_mpilib="${mpilib_dummy}"
+mpidir="./no_mpi"
+mpidir1="-I../no_mpi/include"
+mpilib=""
+nompi="NO_MPI=YES"
+fi
+
+# BLAS/LAPACK library selection
+bllib_netlib="Netlib BLAS/LAPACK"
+bllib_acml="AMD Core Math Library (ACML)"
+bllib_mkl="Intel Math Kernel Library (MKL)"
+bllib_sunperf="Sun Performance Library"
+bllib_scsl="SGI Cray Scientific Library (SCSL)"
+bllib_essl="IBM Engineering and Scientific Subroutine Library (ESSL)"
+bllib_hitachi="HITACHI BLAS/LAPACK"
+bllib_mathkeisan="MathKeisan BLAS/LAPACK"
+
+unset list
+case ${sel_plat} in
+"${gnu_linux_ia32}"|"${gnu_linux_amd64}"|"${windows_mingw_ia32}"|"${windows_mingw_amd64}"|"${windows_sua_ia32}"|"${windows_sua_amd64}")
+add_option "${bllib_netlib}"
+#add_option "${bllib_acml}"
+case ${sel_comp} in
+"${gnu_compiler}"|"${g95_compiler}"|"${intel_compiler}")
+add_option "${bllib_mkl}"
+	;;
+esac
+	;;
+"${gnu_linux_ipf}"|"${intel_mac_32bit}"|"${intel_mac_64bit}")
+add_option "${bllib_netlib}"
+add_option "${bllib_mkl}"
+	;;
+"${sun_solaris_ia32}"|"${sun_solaris_amd64}")
+add_option "${bllib_netlib}"
+add_option "${bllib_sunperf}"
+add_option "${bllib_acml}"
+	;;
+"${sun_solaris_ultrasparc}")
+add_option "${bllib_netlib}"
+add_option "${bllib_sunperf}"
+	;;
+"${sgi_altix}")
+add_option "${bllib_scsl}"
+add_option "${bllib_mkl}"
+	;;
+"${ibm_aix}")
+add_option "${bllib_netlib}"
+add_option "${bllib_essl}"
+	;;
+"${hitach_sr11000}")
+add_option "${bllib_netlib}"
+add_option "${bllib_hitachi}"
+add_option "${bllib_essl}"
+	;;
+"${fujitsu_vpp300}"|"${fujitsu_vpp5000}")
+add_option "${bllib_netlib}"
+	;;
+"${nec_sx_series}"|"${earth_simulator}")
+add_option "${bllib_mathkeisan}"
+	;;
+esac
+
+get_number "Supported BLAS/LAPACK" "Enter number of a desired library. [0]"
+sel_bllib=${retval}
+echo "Selected BLAS/LAPACK:" ${sel_bllib}
+
+case ${sel_bllib} in
+"${bllib_netlib}")
+netlib_lapack="liblapack.a libblas.a"
+bllib="-llapack -lblas"
+	;;
+"${bllib_acml}")
+bllib="-lacml"
+if [ "${sel_comp}" = "${intel_compiler}" ];then
+bllib="-lacml -Bdynamic"
+fi
+case ${sel_comp} in
+"${gnu_compiler}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+bldir="/opt/acml5.3.0/gfortran32/lib"
+	;;
+"${gnu_linux_amd64}")
+bldir="/opt/acml5.3.0/gfortran64/lib"
+	;;
+esac
+	;;
+"${intel_compiler}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+bldir="/opt/acml5.3.0/ifort32/lib"
+	;;
+"${gnu_linux_amd64}")
+bldir="/opt/acml5.3.0/ifort64/lib"
+	;;
+"${windows_mingw_ia32}")
+bllib="libacml_dll.lib"
+bldir="/c/progra~1/AMD/acml5.3.0/ifort32/lib"
+	;;
+"${windows_mingw_amd64}")
+bllib="libacml_dll.lib"
+bldir="/c/acml5.3.0/ifort64/lib"
+	;;
+esac
+	;;
+"${pgi_compiler}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+bldir="/opt/acml5.3.0/pgi32/lib"
+	;;
+"${gnu_linux_amd64}")
+bldir="/opt/acml5.3.0/pgi64/lib"
+	;;
+"${windows_mingw_ia32}")
+bllib="libacml_dll.lib"
+bldir="/c/progra~1/AMD/acml5.3.0/pgi32/lib"
+	;;
+"${windows_mingw_amd64}")
+bllib="libacml_dll.lib"
+bldir="/c/acml5.3.0/win64/lib"
+	;;
+esac
+	;;
+"${pathscale_compiler}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+bldir="/opt/acml5.3.0/pathscale32/lib"
+	;;
+"${gnu_linux_amd64}")
+bldir="/opt/acml5.3.0/pathscale64/lib"
+	;;
+esac
+	;;
+"${sun_studio}")
+case ${sel_plat} in
+"${sun_solaris_ia32}")
+bldir="/opt/acml5.3.0/sun32/lib"
+	;;
+"${sun_solaris_amd64}")
+bldir="/opt/acml5.3.0/sun64/lib"
+	;;
+esac
+	;;
+esac
+	;;
+"${bllib_mkl}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+bldir="/opt/intel/mkl/lib/ia32"
+bllib="-Wl,--start-group \${MKLHOME}/libmkl_scalapack_core.a \${MKLHOME}/libmkl_blacs_intelmpi.a \${MKLHOME}/libmkl_intel.a  \${MKLHOME}/libmkl_sequential.a  \${MKLHOME}/libmkl_core.a  -Wl,--end-group -Bdynamic"
+use_pthread="yes"
+	;;
+"${gnu_linux_amd64}")
+bldir="/opt/intel/mkl/lib/intel64"
+bllib="-Wl,--start-group \${MKLHOME}/libmkl_scalapack_lp64.a \${MKLHOME}/libmkl_blacs_intelmpi_lp64.a \${MKLHOME}/libmkl_intel_lp64.a  \${MKLHOME}/libmkl_sequential.a  \${MKLHOME}/libmkl_core.a -Wl,--end-group -Bdynamic"
+use_pthread="yes"
+	;;
+"${gnu_linux_ipf}")
+bldir="/opt/intel/mkl/9.1/lib/64"
+bllib="-lmkl_lapack -lmkl_ipf -lguide"
+use_pthread="yes"
+	;;
+"${intel_mac_32bit}")
+bldir="/Library/Frameworks/Intel_MKL.framework/Versions/9.1/lib_serial/32"
+bllib="-lmkl_lapack -lmkl_ia32"
+	;;
+"${intel_mac_64bit}")
+bldir="/Library/Frameworks/Intel_MKL.framework/Versions/9.1/lib_serial/em64t"
+bllib="-lmkl_lapack -lmkl_em64t"
+	;;
+"${sgi_altix}")
+bldir=""
+bllib="-lmkl_lapack -lmkl_ipf -lguide"
+use_pthread="yes"
+	;;
+"${windows_mingw_ia32}")
+bldir="/c/progra~1/Intel/MKL/9.1/lib_serial/ia32/lib"
+bllib="mkl_lapack.lib mkl_c_dll.lib"
+	;;
+"${windows_mingw_amd64}")
+bldir="/c/progra~1/Intel/MKL/9.1/lib_serial/em64t/lib"
+bllib="mkl_lapack.lib mkl_dll.lib"
+	;;
+esac
+	;;
+"${bllib_sunperf}")
+bldir="/opt/SUNWspro/prod/lib"
+bllib="-lsunperf"
+	;;
+"${bllib_scsl}")
+bldir=""
+bllib="-lscs"
+	;;
+"${bllib_essl}")
+bldir=""
+netlib_lapack="liblapack.a libblas.a"
+case ${sel_pm} in
+"${pm_serial}"|"${pm_mpi}")
+bllib="liblapack.a -lessl libblas.a"
+	;;
+"${pm_hybrid}")
+bllib="liblapack.a -lesslsmp libblas.a"
+	;;
+esac
+	;;
+"${bllib_hitachi}")
+bldir="/usr/local/lib"
+case ${sel_pm} in
+"${pm_serial}"|"${pm_mpi}")
+bllib="-llapack_sc -lblas_sc"
+	;;
+"${pm_hybrid}")
+bllib="-llapack -lblas"
+	;;
+esac
+	;;
+"${bllib_mathkeisan}")
+bldir=""
+case ${sel_pm} in
+"${pm_serial}")
+bllib="-llapack -lblas"
+	;;
+"${pm_mpi}")
+bllib="-lscalapack -lblacsF90init -lblacs -llapack -lblas"
+	;;
+"${pm_hybrid}")
+case ${sel_plat} in
+"${nec_sx_series}")
+bllib="-lscalapack -lblacsF90init -lblacs -llapack -lparblas"
+	;;
+"${earth_simulator}")
+bllib="-lscalapack -lcpp -lblacsF90init -lblacs -llapack -lparblas"
+	;;
+esac
+	;;
+esac
+	;;
+esac
+
+if [ -n "${bldir}" ]; then
+get_dir "${bldir}" "Enter BLAS/LAPACK library directory. [${bldir}]"
+bldir=${retval}
+echo "Selected BLAS/LAPACK library directory: ${bldir}"
+if [ "${sel_mpilib}" = "${mpilib_openmpi}" ];then
+bllib="-Wl,--start-group \${MKLHOME}/libmkl_scalapack_lp64.a \${MKLHOME}/libmkl_blacs_openmpi_lp64.a \${MKLHOME}/libmkl_intel_lp64.a  \${MKLHOME}/libmkl_sequential.a  \${MKLHOME}/libmkl_core.a -Wl,--end-group -Bdynamic"
+fi
+if [ "${sel_mpilib}" = "${mpilib_sgi}" ];then
+bllib="-Wl,--start-group \${MKLHOME}/libmkl_scalapack_lp64.a \${MKLHOME}/libmkl_blacs_sgimpt_lp64.a \${MKLHOME}/libmkl_intel_lp64.a  \${MKLHOME}/libmkl_sequential.a  \${MKLHOME}/libmkl_core.a -Wl,--end-group -Bdynamic"
+fi
+fi
+
+case ${sel_plat} in
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+case ${sel_comp} in
+"${gnu_compiler}"|"${g95_compiler}")
+if [ "${sel_bllib}" = "${bllib_netlib}" ]; then
+bldir="./"
+fi
+	;;
+*)
+case ${sel_bllib} in
+"${bllib_netlib}")
+    bldir=""
+    bllib="${netlib_lapack}"
+	;;
+*)
+append_dir "${bldir}" $bllib
+bllib="${retval}"
+	;;
+esac
+	;;
+esac
+	;;
+*)
+if [ "${sel_bllib}" = "${bllib_netlib}" ]; then
+bldir="./"
+fi
+	;;
+esac
+
+# FFT library selection
+fftlib_jrcat="Built-in FFT subroutnes"
+fftlib_fftw3="FFTW3 library"
+fftlib_mkl_fftw3="Intel MKL with FFTW3 interface"
+#fftlib_mkl_fftw3_gnu="Intel MKL with FFTW3 interface library built by gcc"
+fftlib_acml="AMD Core Math Library (ACML)"
+fftlib_mkl="Intel Math Kernel Library (MKL)"
+fftlib_sunperf="Sun Performance Library"
+fftlib_scsl="SGI Cray Scientific Library (SCSL)"
+fftlib_essl="IBM Engineering and Scientific Subroutine Library (ESSL)"
+fftlib_matrix="HITACHI MATRIX/MPP"
+fftlib_ssl2="FUJITSU SSL II"
+fftlib_asl="Advanced Scientific Library (ASL)"
+
+unset list
+case ${sel_plat} in
+"${gnu_linux_ia32}"|"${gnu_linux_amd64}"|"${windows_mingw_ia32}"|"${windows_mingw_amd64}"|"${windows_sua_ia32}"|"${windows_sua_amd64}")
+add_option "${fftlib_fftw3}"
+#add_option "${fftlib_acml}"
+case ${sel_comp} in
+"${gnu_compiler}"|"${g95_compiler}"|"${intel_compiler}")
+if [ "${sel_bllib}" = "${bllib_mkl}" ];then
+add_option "${fftlib_mkl_fftw3}"
+#add_option "${fftlib_mkl_fftw3_gnu}"
+fi
+#add_option "${fftlib_mkl}"
+	;;
+esac
+	;;
+"${gnu_linux_ipf}"|"${intel_mac_32bit}"|"${intel_mac_64bit}")
+add_option "${fftlib_fftw3}"
+add_option "${fftlib_mkl_fftw3}"
+#add_option "${fftlib_mkl}"
+	;;
+"${sun_solaris_ia32}"|"${sun_solaris_amd64}"|"${sun_solaris_ultrasparc}")
+add_option "${fftlib_fftw3}"
+#add_option "${fftlib_sunperf}"
+	;;
+"${sgi_altix}")
+add_option "${fftlib_fftw3}"
+add_option "${fftlib_scsl}"
+add_option "${fftlib_mkl_fftw3}"
+#add_option "${fftlib_mkl}"
+	;;
+"${ibm_aix}")
+add_option "${fftlib_fftw3}"
+#add_option "${fftlib_essl}"
+	;;
+"${hitach_sr11000}")
+add_option "${fftlib_matrix}"
+#add_option "${fftlib_essl}"
+	;;
+"${fujitsu_vpp300}"|"${fujitsu_vpp5000}")
+add_option "${fftlib_ssl2}"
+	;;
+"${nec_sx_series}"|"${earth_simulator}")
+if [ "${sel_plat}" = "${earth_simulator}" ]; then unset list; fi
+add_option "${fftlib_asl}"
+	;;
+esac
+
+get_number "Supported FFT libraries" "Enter number of a desired library. [0]"
+sel_fftlib=${retval}
+echo "Selected FFT library:" ${sel_fftlib}
+
+case ${sel_fftlib} in
+"${fftlib_fftw3}")
+fftlib="-lfftw3"
+fftdir="/usr/local/lib"
+	;;
+"${fftlib_acml}")
+fftlib="-lacml"
+case ${sel_comp} in
+"${gnu_compiler}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+fftdir="/opt/acml5.3.0/gfortran32/lib"
+	;;
+"${gnu_linux_amd64}")
+fftdir="/opt/acml5.3.0/gfortran64/lib"
+	;;
+esac
+	;;
+"${intel_compiler}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+fftdir="/opt/acml5.3.0/ifort32/lib"
+	;;
+"${gnu_linux_amd64}")
+fftdir="/opt/acml5.3.0/ifort64/lib"
+	;;
+"${windows_mingw_ia32}")
+fftlib="libacml_dll.lib"
+fftdir="/c/progra~1/AMD/acml5.3.0/ifort32/lib"
+	;;
+"${windows_mingw_amd64}")
+fftlib="libacml_dll.lib"
+fftdir="/c/acml5.3.0/ifort64/lib"
+	;;
+esac
+	;;
+"${pgi_compiler}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+fftdir="/opt/acml5.3.0/pgi32/lib"
+	;;
+"${gnu_linux_amd64}")
+fftdir="/opt/acml5.3.0/pgi64/lib"
+	;;
+"${windows_mingw_ia32}")
+fftlib="libacml_dll.lib"
+fftdir="/c/progra~1/AMD/acml5.3.0/pgi32/lib"
+	;;
+"${windows_mingw_amd64}")
+fftlib="libacml_dll.lib"
+fftdir="/c/acml5.3.0/win64/lib"
+	;;
+esac
+	;;
+"${pathscale_compiler}")
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+fftdir="/opt/acml5.3.0/pathscale32/lib"
+	;;
+"${gnu_linux_amd64}")
+fftdir="/opt/acml5.3.0/pathscale64/lib"
+	;;
+esac
+	;;
+"${sun_studio}")
+case ${sel_plat} in
+"${sun_solaris_ia32}")
+fftdir="/opt/acml5.3.0/sun32/lib"
+	;;
+"${sun_solaris_amd64}")
+fftdir="/opt/acml5.3.0/sun64/lib"
+	;;
+esac
+	;;
+esac
+	;;
+"${fftlib_mkl}")
+fftlib=""
+fftdir="/opt/intel/mkl/interfaces/fftw3xf"
+case ${sel_plat} in
+"${gnu_linux_ia32}")
+fftdir="/opt/intel/mkl/9.1/lib/32"
+fftlib="${fftlib} -lmkl_ia32 -lguide"
+use_pthread="yes"
+	;;
+"${gnu_linux_amd64}")
+fftdir="/opt/intel/mkl/9.1/lib/em64t"
+fftlib="${fftlib} -lmkl_em64t -lguide"
+use_pthread="yes"
+	;;
+"${gnu_linux_ipf}")
+fftdir="/opt/intel/mkl/9.1/lib/64"
+fftlib="${fftlib} -lmkl_ipf -lguide"
+use_pthread="yes"
+	;;
+"${intel_mac_32bit}")
+fftdir="/Library/Frameworks/Intel_MKL.framework/Versions/9.1/lib_serial/32"
+fftlib="${fftlib} -lmkl_ia32"
+	;;
+"${intel_mac_64bit}")
+fftdir="/Library/Frameworks/Intel_MKL.framework/Versions/9.1/lib_serial/em64t"
+fftlib="${fftlib} -lmkl_em64t"
+	;;
+"${windows_mingw_ia32}")
+fftdir="/c/progra~1/Intel/MKL/9.1/lib_serial/ia32/lib"
+fftlib="fftw3xf_ms.lib mkl_c_dll.lib"
+	;;
+"${windows_mingw_amd64}")
+fftdir="/c/progra~1/Intel/MKL/9.1/lib_serial/em64t/lib"
+fftlib="fftw3xf_ms.lib mkl_dll.lib"
+	;;
+esac
+	;;
+"${fftlib_scsl}")
+fftdir=""
+fftlib="-lscs"
+	;;
+"${fftlib_matrix}")
+fftdir=""
+fftlib="-lmatmpp_sc"
+	;;
+"${fftlib_ssl2}")
+fftdir=""
+fftlib="-lssl2vp"
+	;;
+"${fftlib_asl}")
+fftdir=""
+fftlib="-lasl"
+	;;
+esac
+
+#if [ "${sel_fftlib}" = "${fftlib_mkl_fftw3}" ]; then
+#fftlib="-lfftw3xf_intel"
+#fftlib="-lfftw3xf_gnu"
+#fftdir="/opt/intel/mkl/interfaces/fftw3xf"
+#fi
+
+#if [ "${sel_fftlib}" = "${fftlib_mkl_fftw3_gnu}" ]; then
+#fftlib="-lfftw3xf_intel"
+#fftlib="-lfftw3xf_gnu"
+#fftdir="/opt/intel/mkl/interfaces/fftw3xf"
+#fi
+
+if [ -n "${fftdir}" ]; then
+get_dir "${fftdir}" "Enter FFT library directory. [${fftdir}]"
+fftdir=${retval}
+echo "Selected FFT library directory: ${fftdir}"
+fi
+
+case ${sel_plat} in
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+append_dir "${fftdir}" $fftlib
+fftlib="${retval}"
+	;;
+esac
+
+# MPI parallel FFT selection
+#use_mpifft="no"
+#case ${sel_pm} in
+#"${pm_mpi}"|"${pm_hybrid}")
+#case ${sel_fftlib} in
+#"${fftlib_fftw3}"|"${fftlib_mkl_fftw3}"|"${fftlib_mkl}"|"${fftlib_matrix}"|"${fftlib_asl}")
+#echo "Do you want to use MPI parallel FFT? (yes/no) [no]"
+#read use_mpifft
+#echo "${use_mpifft}" >> config
+#if [ -z "${use_mpifft}" -o "${use_mpifft}" != "yes" ]; then
+#use_mpifft="no"
+#else
+#use_mpifft="yes"
+#fi
+#	;;
+#esac
+#	;;
+#esac
+
+#if [ "${use_mpifft}" = "yes" ]; then
+#echo "The MPI parallel FFT will be used."
+#else
+#echo "The MPI parallel FFT will not be used."
+#fi
+
+#DGEMM section
+#use_dgemm="no"
+#echo "Do you want to use DGEMM to speedup O(N^3) operations? (yes/no) [no]"
+#read use_dgemm
+#echo "${use_dgemm}" >> config
+#if [ -z "${use_dgemm}" -o "${use_dgemm}" != "yes" ]; then
+#use_dgemm="no"
+#else
+#use_dgemm="yes"
+#fi
+use_mpifft="yes"
+use_dgemm="yes"
+
+#ESM
+use_esm=""
+if [ "${sel_fftlib}" = "${fftlib_fftw3}" -o "${sel_fftlib}" = "${fftlib_mkl_fftw3}" -o "${sel_fftlib}" = "${fftlib_mkl_fftw3_gnu}" ];then
+echo "Do you want to enable the ESM feature? (yes/no) [yes]"
+read use_esm
+#echo "${use_esm}" >> config
+if [ -z "${use_esm}" -o "${use_esm}" = "yes" ]; then
+use_esm="yes"
+else
+use_esm=""
+fi
+fi
+
+#if [ "${use_dgemm}" = "yes" ]; then
+#echo "DGEMM will be used."
+#else
+#echo "DGEMM will not be used."
+#fi
+
+# Which of 32-bit and 64-bit CPUs ?
+case ${sel_plat} in
+"${gnu_linux_ia32}"|"${sun_solaris_ia32}"|"${intel_mac_32bit}"|"${windows_mingw_ia32}"|"${windows_sua_ia32}")
+bit="32"
+	;;
+*)
+bit="64"
+	;;
+esac
+# C/Fortran compilers, C preprocessor, and archiver
+case ${sel_comp} in
+"${gnu_compiler}")
+cc="gcc -m${bit}"
+if [ "${sel_pm}" = "${pm_serial}" ];then
+fc="gfortran -m${bit}"
+else
+fc="mpif90 -m${bit}"
+fi
+cpp=""
+ar="ar -vq"
+	;;
+"${g95_compiler}")
+cc="gcc -m${bit}"
+if [ "${sel_pm}" = "${pm_serial}" ];then
+fc="g95 -m${bit}"
+else
+fc="mpif90 -m${bit}"
+fi
+cpp=""
+ar="ar -vq"
+	;;
+"${intel_compiler}")
+case ${sel_plat} in
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+cc="cl"
+fc="ifort"
+cpp=""
+ar="sh ../ar.sh"
+	;;
+"${gnu_linux_ipf}"|"${sgi_altix}")
+cc="gcc"
+if [ "${sel_pm}" = "${pm_serial}" ];then
+fc="ifort"
+elif [ "${sel_pm}" = "${pm_mpi}" ];then
+if [ "${sel_mpilib}" = "${mpilib_impi}" ];then
+fc="mpiifort"
+else
+fc="mpif90"
+fi
+fi
+cpp=""
+ar="ar -vq"
+	;;
+*)
+cc="gcc -m${bit}"
+if [ "${sel_pm}" = "${pm_serial}" ];then
+fc="ifort"
+elif [ "${sel_pm}" = "${pm_mpi}" ];then
+if [ "${sel_mpilib}" = "${mpilib_impi}" ];then
+fc="mpiifort"
+else
+fc="mpif90"
+fi
+fi
+cpp=""
+ar="ar -vq"
+	;;
+esac
+	;;
+"${pgi_compiler}")
+cc="pgcc"
+fc="pgf95"
+cpp=""
+ar="ar -vq"
+	;;
+"${pathscale_compiler}")
+cc="pathcc"
+fc="pathf90"
+cpp=""
+ar="ar -vq"
+	;;
+"${sun_studio}")
+cc="cc"
+fc="f95"
+cpp=""
+ar="ar -vq"
+	;;
+"${ibm_xl}")
+cc="xlc"
+case ${sel_pm} in
+"${pm_serial}")
+fc="xlf95"
+	;;
+"${pm_mpi}")
+fc="mpxlf95_r -qnosmp"
+	;;
+"${pm_hybrid}")
+fc="mpxlf95_r"
+	;;
+esac
+cpp=""
+ar="ar -vq -X 32_64"
+	;;
+"${hitachi_compiler}")
+cc="cc"
+case ${sel_pm} in
+"${pm_serial}")
+fc="f90"
+	;;
+"${pm_mpi}"|"${pm_hybrid}")
+fc="mpif90"
+	;;
+esac
+cpp=""
+ar="ar -vq -X32_64"
+	;;
+"${vpp_cross_compiler}")
+case ${sel_plat} in
+"${fujitsu_vpp300}")
+cc="vccpx"
+	;;
+*)
+cc="vppcc"
+	;;
+esac
+case ${sel_pm} in
+"${pm_serial}")
+case ${sel_plat} in
+"${fujitsu_vpp300}")
+fc="frtpx"
+	;;
+*)
+fc="vppfrt"
+	;;
+esac
+	;;
+"${pm_mpi}")
+case ${sel_plat} in
+"${fujitsu_vpp300}")
+fc="frtpx -I/usr/lang/mpi2/include64"
+	;;
+*)
+fc="vppmpifrt"
+	;;
+esac
+	;;
+esac
+cpp="/usr/ccs/lib/cpp -P -C"
+ar="ar r"
+	;;
+"${vpp_native_compiler}")
+cc="cc"
+case ${sel_pm} in
+"${pm_serial}")
+fc="frt"
+	;;
+"${pm_mpi}")
+fc="mpifrt"
+	;;
+esac
+cpp="/usr/ccs/lib/cpp -P -C"
+ar="ar r"
+	;;
+"${sx_cross_compiler}")
+cc="sxc++"
+case ${sel_pm} in
+"${pm_serial}")
+fc="sxf90"
+	;;
+"${pm_mpi}"|"${pm_hybrid}")
+fc="sxmpif90"
+	;;
+esac
+cpp=""
+ar="sxar qv"
+	;;
+"${es_cross_compiler}")
+cc="esc++"
+case ${sel_pm} in
+"${pm_serial}")
+fc="esf90"
+	;;
+"${pm_mpi}"|"${pm_hybrid}")
+fc="esmpif90"
+	;;
+esac
+cpp=""
+ar="esar qv"
+	;;
+"${sx_native_compiler}"|"${es_native_compiler}")
+cc="c++"
+case ${sel_pm} in
+"${pm_serial}")
+fc="f90"
+	;;
+"${pm_mpi}"|"${pm_hybrid}")
+fc="mpif90"
+	;;
+esac
+cpp=""
+ar="ar qv"
+	;;
+esac
+
+# CPP flags
+# Platform specific flags
+case ${sel_plat} in
+"${gnu_linux_ia32}"|"${gnu_linux_amd64}")
+cppflags="-DLinux" 
+	;;
+"${gnu_linux_ipf}"|"${sgi_altix}")
+cppflags="-DLinux -D_CACHESIZE_FUNCTION_" 
+	;;
+"${sun_solaris_ia32}"|"${sun_solaris_ia32}"|"${sun_solaris_amd64}")
+cppflags="-DSUN" 
+	;;
+"${intel_mac_32bit}"|"${intel_mac_64bit}")
+cppflags="-DDARWIN" 
+	;;
+"${ibm_aix}")
+cppflags="-DAIX"
+	;;
+"${hitach_sr11000}")
+cppflags="-DHIUX -D_VECTOR -D_TIME_"
+	;;
+"${fujitsu_vpp300}")
+cppflags="-DVPP"
+	;;
+"${fujitsu_vpp5000}")
+cppflags="-DVPP"
+	;;
+"${nec_sx_series}"|"${earth_simulator}")
+case ${sel_plat} in
+"${nec_sx_series}")
+cppflags="-DSX"
+        ;;
+"${earth_simulator}")
+cppflags="-DSX -DES"
+        ;;
+esac
+case ${sel_pm} in
+"${pm_serial}")
+cppflags="${cppflags} -DNEC_TUNE1 -DNEC_TUNE2 -DNEC_TUNE3 -DNEC_TUNE4 -D_USE_ZHEEVD_ -D_USE_DSYEVD_"
+	;;
+"${pm_mpi}")
+cppflags="${cppflags} -DNEC_TUNE1 -DNEC_TUNE2 -DNEC_TUNE3 -DNEC_TUNE4 -D_USE_SCALAPACK_ -D_USE_ZHEEVD_ -D_USE_DSYEVD_"
+	;;
+"${pm_hybrid}")
+#cppflags="${cppflags} -DNEC_TUNE1 -DNEC_TUNE2 -DNEC_TUNE3 -DNEC_TUNE4 -DNEC_TUNE_SMP -DNEC_NO_FFT_TIMER -DNEC_TUNE_FFT -DNEC_TUNE_SOFT -DNEC_TUNE_HARD -DNEC_TUNE_INTG -DNEC_TUNE_MXCP -DNEC_ITER_REG -D_USE_ZHEEVD_ -D_USE_DSYEVD_ -D_USE_SCALAPACK_"
+cppflags="${cppflags} -DNEC_TUNE1 -DNEC_TUNE2 -DNEC_TUNE3 -DNEC_TUNE4 -DNEC_TUNE_SMP -DNEC_NO_FFT_TIMER -DNEC_TUNE_FFT -DNEC_TUNE_HARD -DNEC_TUNE_INTG -DNEC_TUNE_MXCP -DNEC_ITER_REG -D_USE_ZHEEVD_ -D_USE_DSYEVD_ -D_USE_SCALAPACK_"
+	;;
+esac
+	;;
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}"|"${windows_sua_ia32}"|"${windows_sua_amd64}")
+case ${sel_comp} in
+"${intel_compiler}")
+cppflags="-DWINDOWS" 
+	;;
+"${pgi_compiler}")
+cppflags="-DLinux -D_RPL_ERF_" 
+	;;
+esac
+	;;
+esac
+
+# Compiler specific flags
+case ${sel_comp} in
+"${gnu_compiler}")
+cppflags="${cppflags} " 
+	;;
+esac
+
+# FFT specific flags
+case ${sel_fftlib} in
+"${fftlib_jrcat}")
+case ${sel_plat} in
+"${fujitsu_vpp300}"|"${fujitsu_vpp5000}"|"${nec_sx_series}"|"${earth_simulator}")
+fft_object="ifft.o jrcat_fft.o"
+cppflags="$cppflags -DWF_JRCATFFT"
+#fft_object="jrcat_fft.o"
+#cppflags="$cppflags -DWF_JRCATFFT -DCD_JRCATFFT"
+	;;
+*)
+fft_object="jrcat_fft.o"
+cppflags="$cppflags -DJRCATFFT_WS -DCD_JRCATFFT_WS"
+	;;
+esac
+	;;
+"${fftlib_fftw3}"|"${fftlib_mkl_fftw3}"|"${fftlib_mkl_fftw3_gnu}")
+cppflags="$cppflags -DFFTW3"
+esm="YES"
+	;;
+"${fftlib_acml}")
+fft_object="acmlfft.o"
+cppflags="$cppflags -DACMLFFT"
+	;;
+"${fftlib_mkl}")
+fft_object="mklfft.o"
+cppflags="$cppflags -DMKLFFT"
+	;;
+"${fftlib_scsl}")
+cppflags="$cppflags -DSCSLFFT"
+	;;
+"${fftlib_matrix}")
+fft_object="jrcat_fft.o srfft.o"
+case ${sel_pm} in
+"${pm_serial}"|"${pm_mpi}")
+cppflags="$cppflags -DJRCATFFT_WS -DCD_JRCATFFT_WS -DSRFFT"
+	;;
+"${pm_hybrid}")
+cppflags="$cppflags -DJRCATFFT_WS -DCD_JRCATFFT_WS -DSRFFT -DSRFTOUTSMP"
+	;;
+esac
+	;;
+"${fftlib_asl}")
+cppflags="$cppflags -DASLFFT"
+	;;
+esac
+
+if [ "${use_mpifft}" = "yes" ]; then
+fft_object="${fft_object} mpifft.o"
+cppflags="$cppflags -D_MPIFFT_"
+fi
+
+# Programming-model specific flags
+if [ "${sel_pm}" = "${pm_serial}" ]; then
+case "${sel_comp}" in
+"${g95_compiler}"|"${intel_compiler}"|"${pathscale_compiler}")
+cppflags="$cppflags -D_NO_MPI_ -D_NO_ARG_DUMMY_"
+	;;
+*)
+cppflags="$cppflags -D_NO_MPI_"
+	;;
+esac
+fi
+
+if [ "${sel_fftlib}" != "${fftlib_fftw3}" -a "${sel_fftlib}" != "${fftlib_mkl_fftw3}" -a "${sel_fftlib}" != "${fftlib_mkl_fftw3_gnu}" ];then
+cppflags="$cppflags -DDISABLE_VDWDF"
+fi
+
+# flags applied to all cases
+cppflags="$cppflags -D_USE_DATE_AND_TIME_ -D_POT_SMOOTHING_ -DTRANSPOSE -DGGA_ATOMIC_WITH_NEW_GNCPP -DREMOVE_PC_FROM_FORCE -D_USE_LAPACK_ -D_USE_SCALAPACK_ -D_POSITRON_ -D_FAST_WAY_ -DUSE_NONBLK_COMM -D_HEAP_SORT_ -DFFT_ALLTOALL -DPOST3D -DRMM_NONLOCAL_NEW -D__EDA__ -DLIBRARY_BUILD"
+
+# append "-WF," to cpp options.
+if [ "${sel_comp}" = "${ibm_xl}" ]; then
+append_WF_to_cppopt ${cppflags}
+cppflags="${retval}"
+fi
+
+# append DGEMM related cpp options
+#if [ "${use_dgemm}" = "yes" ]; then
+cppflags="$cppflags -DRMM_NONLOCAL_NEW \${CPPESM}"
+#fi
+
+# Compiler and linker flags
+case ${sel_comp} in
+"${gnu_compiler}")
+cflags="-DINTEL"
+f77flags="-O2 -ffixed-form"
+f90flags="-O2 -ffree-form"
+f90flags_fixed="-ffixed-form"
+f90flags_free="-ffree-form"
+lflags=""
+	;;
+"${g95_compiler}")
+cflags="-DINTEL"
+f77flags="-O2 -ffixed-form"
+f90flags="-O2 -ffree-form"
+f90flags_fixed="-ffixed-form"
+f90flags_free="-ffree-form"
+lflags=""
+	;;
+"${intel_compiler}")
+case ${sel_plat} in
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+cflags="-nologo -DABSOFT"
+f77flags="-fpp -nowarn -nologo -iface:nomixed_str_len_arg -traceback"
+f90flags="-fpp -nowarn -nologo -iface:nomixed_str_len_arg -traceback"
+lflags="-static"
+	;;
+"${intel_mac_32bit}"|"${intel_mac_64bit}")
+cflags="-O -DINTEL -DDARWIN"
+f77flags="-traceback"
+f90flags="-traceback"
+f90flags_fixed="-extend_source -Fl -fixed"
+f90flags_free="-extend_source -Fl"
+lflags=""
+	;;
+"${sgi_altix}")
+cflags="-O -DINTEL"
+f77flags="-traceback"
+f90flags="-traceback"
+lflags=""
+	;;
+*)
+cflags="-O -DINTEL"
+f77flags="-traceback -extend-source"
+f90flags="-traceback -extend-source"
+lflags=""
+f90flags_fixed="-extend_source -Fl -fixed"
+f90flags_free="-extend_source -Fl"
+	;;
+esac
+	;;
+"${pgi_compiler}")
+case ${sel_plat} in
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+cflags="-O -DINTEL"
+f77flags="-Mcache_align -fastsse -Mref_externals -Mvect=sse -O3"
+f90flags="-Mcache_align -fastsse -Mref_externals -Mvect=sse -O3"
+lflags="-Mcache_align -fastsse -Mvect=sse -O3"
+	;;
+*)
+cflags="-O -DINTEL"
+f77flags="-Mcache_align -fastsse -Mref_externals -Mvect=sse -O3"
+f90flags="-Mcache_align -fastsse -Mref_externals -Mvect=sse -O3"
+lflags="-Bstatic -Mcache_align -fastsse -Mvect=sse -O3"
+	;;
+esac
+	;;
+"${pathscale_compiler}")
+cflags="-O -DINTEL"
+f77flags=""
+f90flags=""
+lflags=""
+	;;
+"${sun_studio}")
+cflags="-O -DINTEL"
+f77flags="-fast"
+f90flags="-fast"
+lflags=""
+	;;
+"${ibm_xl}")
+cflags="-O0 -DLOWERCASE -q64"
+#f77flags="-q64 -O2 -qsource -qfixed -qtbtable=full"
+#f90flags="-q64 -O2 -qsource -qfree -qsuffix=f=f90:cpp=F90 -qtbtable=full"
+f77flags="-q64 -O2 -qfixed -qtbtable=full"
+f90flags="-q64 -O2 -qfree -qsuffix=f=f90:cpp=F90 -qtbtable=full"
+lflags="-q64 -O2 -brename:.flush,.flush_"
+	;;
+"${hitachi_compiler}")
+case ${sel_pm} in
+"${pm_serial}"|"${pm_mpi}")
+cflags="-O0 -DABSOFT -64"
+f77flags="-64 -Oss -i,P -msg=w -noparallel"
+f90flags="-64 -Oss -i,P -msg=w -noparallel"
+lflags="-64 -Oss -noparallel"
+	;;
+"${pm_hybrid}")
+cflags="-O0 -DABSOFT -64"
+f77flags="-64 -Oss -i,P -msg=w -parallel"
+f90flags="-64 -Oss -i,P -msg=w -parallel"
+lflags="-64 -Oss -parallel"
+	;;
+esac
+	;;
+"${vpp_cross_compiler}"|"${vpp_native_compiler}")
+cflags="-O -DINTEL"
+#f77flags="-X7 -Fixed -Pdlt -Sw -Am -Oe -c -Wv,-md,-Of,-noalias"
+#f90flags="-X9 -Free -Pdlt -Sw -Am -Oe -c -Wv,-md,-Of,-noalias"
+f77flags="-X7 -Fixed -Sw -Am -Oe -c -Wv,-md,-Of,-noalias"
+f90flags="-X9 -Free -Sw -Am -Oe -c -Wv,-md,-Of,-noalias"
+lflags="-Oe -Wl,-J,-P,-t -dy"
+	;;
+"${sx_cross_compiler}"|"${sx_native_compiler}"|"${es_cross_compiler}"|"${es_native_compiler}")
+case ${sel_pm} in
+"${pm_serial}"|"${pm_mpi}")
+cflags="-pvctl,res=whole -init,stack=zero -c -O -I. -DINTEL"
+f77flags="-Cvopt -Wf '-L transform fmtlist' -Wf '-pvctl fullmsg noassume vwork=stack' -Wf '-pvctl res=whole -init stack=zero heap=zero'"
+f90flags="-Cvopt -Wf '-L transform fmtlist' -Wf '-pvctl fullmsg noassume vwork=stack' -Wf '-pvctl res=whole -init stack=zero heap=zero'"
+lflags="-ftrace -Wl,-h lib_cyclic"
+if [ "${use_mpifft}" = "yes" ]; then
+lflags="-Pmulti ${lflags}" 
+fi
+	;;
+"${pm_hybrid}")
+cflags="-Pmulti -pvctl,res=whole -init,stack=zero -c -O -I. -DINTEL"
+f77flags="-Pauto -Cvopt -Wf '-L transform fmtlist' -Wf '-pvctl fullmsg noassume vwork=stack' -Wf '-pvctl res=whole -init stack=zero heap=zero'"
+f90flags="-Pauto -Cvopt -Wf '-L transform fmtlist' -Wf '-pvctl fullmsg noassume vwork=stack' -Wf '-pvctl res=whole -init stack=zero heap=zero'"
+lflags="-Popenmp -ftrace -Wl '-Z2G' -Wf '-pvctl res=whole -init stack=zero heap=zero' -Wl,-h lib_cyclic"
+	;;
+esac
+	;;
+esac
+if [ -n "${mpidir}" ]; then
+f77flags="${f77flags} -I${mpidir}/include"
+f90flags="${f90flags} -I${mpidir}/include"
+fi
+
+case ${sel_plat} in
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+case ${sel_comp} in
+"${gnu_compiler}"|"${g95_compiler}")
+libtype="unix"
+	;;
+*)
+libtype="windows"
+	;;
+esac
+	;;
+*)
+libtype="unix"
+	;;
+esac
+
+case ${libtype} in
+"windows")
+libs=""
+libs="${libs} ${bllib}"
+libs="${libs} ${fftlib}"
+if [ -n "${mpilib}" ]; then
+libs="${libs} ${mpidir}/lib/${mpilib}"
+fi
+	;;
+*)
+libs=""
+if [ -n "${bldir}" ]; then
+libs="${libs} -L${bldir}"
+fi
+libs="${libs} ${bllib}"
+if [ -n "${fftdir}" ]; then
+libs="${libs} -L${fftdir}"
+fi
+libs="${libs} ${fftlib}"
+if [ -n "${mpidir}" -a -n "${mpilib}" ]; then
+case ${sel_comp} in
+"${intel_compiler}"|"${pgi_compiler}")
+case ${sel_plat} in
+"${intel_mac_32bit}"|"${intel_mac_64bit}")
+libs="${libs} -L${mpidir}/lib"
+	;;
+*)
+libs="${libs} -Bdynamic -L${mpidir}/lib"
+	;;
+esac
+	;;
+*)
+libs="${libs} -L${mpidir}/lib"
+	;;
+esac
+fi
+libs="${libs} ${mpilib}"
+if [ "${use_pthread}" = "yes" ]; then
+libs="${libs} -lpthread"
+fi
+	;;
+esac
+
+## For VPP300 at FUJITSU Laboratories ##
+case ${sel_plat} in
+"${fujitsu_vpp300}")
+link="vppld"
+if [ "${sel_pm}" != "${pm_serial}" ]; then
+libs="${libs} -L/usr/lang/mpi2/lib -lmpi -lfmpi -lmp -lcvp"
+fi
+	;;
+*)
+link="${fc}"
+	;;
+esac
+case ${sel_comp} in
+"${vpp_cross_compiler}"|"${vpp_native_compiler}")
+vpplist='-Pdlt -Z $*.list'
+	;;
+*)
+vpplist=""
+	;;
+esac
+########################################
+
+case ${sel_fftlib} in
+"${fftlib_fftw3}"|"${fftlib_mkl_fftw3}"|"${fftlib_mkl_fftw3_gnu}")
+libs="-L./ \${LESM} ${libs}"
+esac
+
+if [ "${sel_fftlib}" = "${fftlib_fftw3}" ];then
+fftincludedir="${fftdir}/../include"
+fi
+if [ "${sel_fftlib}" = "${fftlib_mkl_fftw3}" ];then
+fftincludedir="${bldir}/../../include/fftw"
+elif [ "${sel_fftlib}" = "${fftlib_mkl_fftw3_gnu}" ];then
+fftincludedir="${bldir}/../../include/fftw"
+fi
+
+cat <<here > Makefile
+.SUFFIXES:
+.SUFFIXES: .o .F .f .F90 .f90 .c .mod
+
+# Platform    : ${sel_plat}
+# Prog. model : ${sel_pm}
+# Compiler    : ${sel_comp}
+# BLAS/LAPACK : ${sel_bllib}
+# FFT         : ${sel_fftlib}
+###########################################################################
+###<< PLEASE CHANGE THE VARIABLES BELOW ACCORDING TO YOUR ENVIRONMENT >>###
+###########################################################################
+F90 = ${fc}
+CC  = ${cc}
+CPP = ${cpp}
+AR  = ${ar}
+LINK = ${link}
+F90FLAGS = ${f90flags}
+F77FLAGS = ${f77flags}
+CFLAGS = ${cflags}
+
+ESM = ${use_esm}
+ifdef ESM
+CPPESM=-DENABLE_ESM_PACK
+LESM=-lesm
+else
+CPPESM=
+endif
+${nompi}
+CPPFLAGS = ${cppflags}
+LFLAGS = ${lflags}
+F90FLAGS_FIXED = ${f90flags_fixed}
+F90FLAGS_FREE = ${f90flags_free}
+MKLHOME=${bldir}
+INCLUDE=-I${fftincludedir}
+LIBS = ${libs}
+
+LIBXC=
+ifdef LIBXC
+LIBXC_PATH=/usr/local
+LIBXC_INC=-I\$(LIBXC_PATH)/include
+LIBXC_LIB=-L\$(LIBXC_PATH)/lib -lxcf03 -lxc
+CPPFLAGS += -DLIBXC
+F90FLAGS += \$(LIBXC_INC)
+F77FLAGS += \$(LIBXC_INC)
+LIBS += \$(LIBXC_LIB)
+endif
+
+###########################################################################
+###<< PLEASE CHANGE THE VARIABLES ABOVE ACCORDING TO YOUR ENVIRONMENT >>###
+###########################################################################
+
+ifdef ESM
+ESM_LIB = libesm.a
+else
+ESM_LIB =
+endif
+LAPACK = ${netlib_lapack}
+FFTOBJECT = ${fft_object}
+OBJ_INPUTPARSE = input_parse.o
+here
+echo "" >> Makefile
+
+if [ "${sel_plat}" = "${nec_sx_series}" ]; then
+#if [ "${use_dgemm}" = "yes" ]; then
+cat <<'here'>> Makefile
+SX_DGEMM = YES
+
+here
+#fi
+fi
+
+cat Makefile.tmpl >> Makefile
+echo "" >> Makefile
+#cat Makefile.ekcal >> Makefile
+#echo "" >> Makefile
+
+cat <<'here' >> Makefile
+PHASE_OBJECTS = $(PHASE_LOWER_MODULES) $(FFTOBJECT) $(PHASE_UPPER_MODULES) $(PHASE_F_SUBROUTINES) $(PHASE_F_OTHERSUBS) $(PHASE_OBJECTSF77) $(OBJ_INPUTPARSE) $(EXT_XC_OBJ)
+
+EKCAL_OBJECTS = $(EKCAL_LOWER_MODULES) $(FFTOBJECT) $(EKCAL_UPPER_MODULES) $(EKCAL_F_SUBROUTINES) $(EKCAL_F_OTHERSUBS) $(EKCAL_OBJECTSF77) $(OBJ_INPUTPARSE) $(EXT_XC_OBJ)
+
+EPS_OBJECTS = $(EPS_LOWER_MODULES) $(FFTOBJECT) $(EPS_UPPER_MODULES) $(EPS_F_SUBROUTINES) $(EPS_F_OTHERSUBS) $(EPS_OBJECTSF77) $(OBJ_INPUTPARSE) $(EXT_XC_OBJ)
+
+TDLR_OBJECTS = $(TDLR_LOWER_MODULES) $(FFTOBJECT) $(TDLR_UPPER_MODULES) $(TDLR_F_SUBROUTINES) $(TDLR_F_OTHERSUBS) $(TDLR_OBJECTSF77) $(OBJ_INPUTPARSE) $(EXT_XC_OBJ)
+
+PHASE_LIB_OBJECTS = $(PHASE_OBJECTS) $(PHASE_INTERFACE)
+
+all : phase epsmain
+
+libphase.a : $(ESM_LIB) $(LAPACK) $(PHASE_LIB_OBJECTS)
+	$(AR) $@ $?
+
+ifdef ESM
+phase : $(ESM_LIB) $(LAPACK) $(PHASE_OBJECTS) $(NLOBJ)
+	$(LINK) $(PHASE_OBJECTS) $(NLOBJ) $(LFLAGS) $(LIBS) -o $@
+else
+phase : $(LAPACK) $(PHASE_OBJECTS) $(NLOBJ)
+	$(LINK) $(PHASE_OBJECTS) $(NLOBJ) $(LFLAGS) $(LIBS) -o $@
+endif
+
+ekcal : $(LAPACK) $(EKCAL_OBJECTS) $(NLOBJ)
+	$(LINK) $(EKCAL_OBJECTS) $(NLOBJ) $(LFLAGS) $(LIBS) -o $@
+
+epsmain : $(LAPACK) $(EPS_OBJECTS) $(NLOBJ)
+	$(LINK) $(EPS_OBJECTS) $(NLOBJ) $(LFLAGS) $(LIBS) -o $@
+
+tdlrmain : $(LAPACK) $(TDLR_OBJECTS) $(NLOBJ)
+	$(LINK) $(TDLR_OBJECTS) $(NLOBJ) $(LFLAGS) $(LIBS) -o $@
+
+ifdef NO_MPI
+libesm.a:
+	cd EsmPack; make INCLUDE="$(INCLUDE)" FORTRAN="$(F90)" LIBFLAG="$(LIBS)" MPIFLAG="" AR="$(AR)"
+else
+libesm.a:
+	cd EsmPack; make INCLUDE="$(INCLUDE)" FORTRAN="$(F90)" LIBFLAG="$(LIBS)" MPIFLAG="-D__MPI__" AR="$(AR)"
+endif
+
+liblapack.a:
+	cd LAPACK; make F77="$(F90)" F77FLAGS="$(F77FLAGS)" AR="$(AR)"
+
+libblas.a:
+	cd BLAS; make F77="$(F90)" F77FLAGS="$(F77FLAGS)" AR="$(AR)"
+
+$(OBJ_INPUTPARSE):$(@:.o=.c) $(@:.o=.h)
+	$(CC) -c $(CFLAGS) $(@:.o=.c)
+
+here
+
+case ${sel_comp} in
+"${vpp_cross_compiler}"|"${vpp_native_compiler}")
+cat <<'here' >> Makefile
+.f.o:
+	$(F90) -c $(F77FLAGS) -Pdlt -Z $*.list $*.f
+
+.f90.o:
+	$(F90) -c $(F90FLAGS) -Pdlt -Z $*.list $*.f90
+
+here
+	;;
+*)
+cat <<'here' >> Makefile
+.f.o:
+	$(F90) -c $(F77FLAGS) $*.f
+
+.f90.o:
+	$(F90) -c $(F90FLAGS) $*.f90
+
+here
+	;;
+esac
+
+if [ -n "${cpp}" ]; then
+case ${sel_comp} in
+"${vpp_cross_compiler}"|"${vpp_native_compiler}")
+cat <<'here' >> Makefile
+.F.o:
+	@echo cpping $*.F
+	$(CPP) $(CPPFLAGS) < $*.F > $*.f
+	$(F90) -c $(F77FLAGS) -Pdlt -Z $*.list $*.f
+	rm -f $*.f
+
+.F90.o:
+	@echo cpping $*.F90
+	$(CPP) $(CPPFLAGS) < $*.F90 > $*.f90
+	$(F90) -c $(F90FLAGS) -Pdlt -Z $*.list $*.f90
+	rm -f $*.f90
+
+here
+	;;
+*)
+cat <<'here' >> Makefile
+.F.o:
+	@echo cpping $*.F
+	$(CPP) $(CPPFLAGS) < $*.F > $*.f
+	$(F90) -c $(F77FLAGS) $*.f
+	rm -f $*.f
+
+.F90.o:
+	@echo cpping $*.F90
+	$(CPP) $(CPPFLAGS) < $*.F90 > $*.f90
+	$(F90) -c $(F90FLAGS) $*.f90
+	rm -f $*.f90
+
+here
+	;;
+esac
+
+else
+cat <<'here' >> Makefile
+.F.o:
+	$(F90) -c $(F77FLAGS) $(CPPFLAGS) $*.F
+
+.F90.o:
+	$(F90) -c $(F90FLAGS) $(CPPFLAGS) $*.F90
+
+here
+fi
+
+cat <<'here' >> Makefile
+clean:
+	\rm -f *.o *.mod *.a *.lib *.L *.list phase epsmain
+	\cd LAPACK; make clean
+	\cd BLAS; make clean
+	\cd EsmPack; make clean
+
+install: phase epsmain 
+	\mv -f phase ../bin/phase.3d
+	\mv -f epsmain ../bin/epsmain.3d
+here
+
+case ${sel_plat} in
+"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+sed -e "s/phase/phase.exe/g" -e "s/ekcal/ekcal.exe/g" Makefile > .tmp
+mv -f .tmp Makefile
+if [ "${sel_bllib}" = "${bllib_acml}" ]; then
+cat <<here >> Makefile
+	\\cp -f ${bldir}/* ../bin/
+here
+elif [ "${sel_fftlib}" = "${fftlib_acml}" ]; then
+cat <<here >> Makefile
+	\\cp -f ${fftdir}/* ../bin/
+here
+fi
+	;;
+esac
+
+replace="no"
+if [ "${sel_comp}" = "${intel_compiler}" -o "${sel_comp}" = "${pgi_compiler}" ]; then
+ if [ "${sel_plat}" = "${windows_mingw_ia32}" -o "${sel_plat}" = "${windows_mingw_amd64}" ]; then
+  replace="yes"
+ fi
+fi
+
+if [ "${replace}" = "yes" ]; then
+sed -e "s/\.o/.obj/g" -e "s/liblapack.a/lapack.lib/g" -e "s/libblas.a/blas.lib/g" Makefile > .tmp
+mv -f .tmp Makefile
+# BLAS and LAPACK
+cd BLAS
+sed -e "s/\.o/.obj/g" -e "s/libblas.a/blas.lib/g" Makefile.blas > Makefile
+cd ../LAPACK
+sed -e "s/\.o/.obj/g" -e "s/liblapack.a/lapack.lib/g" Makefile.lapack > Makefile
+cd ../
+else
+# BLAS and LAPACK
+cd BLAS
+cp -f Makefile.blas Makefile
+cd ../LAPACK
+cp -f Makefile.lapack Makefile
+cd ../
+fi
+
+## cissrun
+#rm -f cissrun
+#if [ "${sel_pm}" != "${pm_serial}" ]; then
+#if [ -n "${mpidir}" ]; then
+#
+#case ${sel_plat} in
+#"${windows_mingw_ia32}"|"${windows_mingw_amd64}")
+#cat <<here > cissrun
+##!/bin/sh
+#${mpidir}/bin/mpiexec.exe \$*
+#here
+#	;;
+#*)
+#cat <<here > cissrun
+##!/bin/sh
+#${mpidir}/bin/mpirun \$* </dev/null
+#here
+#	;;
+#esac
+#
+#else
+#
+#case ${sel_plat} in
+#"${ibm_aix}")
+#cat <<'here' > cissrun
+##!/bin/sh
+#if [ "$1" = "-np" -o "$1" = "-n" ]; then
+#shift
+#n=$1
+#shift
+#else
+#n=1
+#fi
+#if [ ! -f host.list ]; then
+#i=1
+#while [ ${i} -le ${n} ]; do
+#hostname >> host.list
+#i=`expr ${i} + 1`
+#done
+#fi
+#poe $1 -procs ${n} $*
+#here
+#	;;
+#*)
+#cat <<'here' > cissrun
+##!/bin/sh
+#mpirun $*
+#here
+#	;;
+#esac
+#
+#fi
+#
+#else
+#cat <<'here' > cissrun
+##!/bin/sh
+#if [ "$1" = "-np" -o "$1" = "-n" ]; then
+#shift
+#shift
+#fi
+#$*
+#here
+#fi
+#chmod 500 cissrun
+
+exit 0

@@ -1,0 +1,74 @@
+Control{
+    cpumax = 23 hour
+    condition = initial
+}
+accuracy{
+    paw = on
+    cutoff_wf =  27.5 rydberg
+    cutoff_cd = 275.0 rydberg
+
+    num_bands = 30
+
+    ksampling{
+        method = gamma
+    }
+
+    smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.05 eV
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-08 Hartree
+!        delta_total_energy = 1.0E-09 Hartree
+    }
+
+    force_convergence{
+        max_force = 2.0E+4 Hartree/Bohr
+    }
+
+!
+    spinorbit{
+        mode = pawpot
+    }
+
+    initial_wavefunctions = atomic_orbitals
+    pao_setting{
+       noise_amplitude = 0.0
+    }
+    initial_charge_density = atomic_charge_density
+
+}
+structure{
+    atom_list{
+        coordinate_system = cartesian ! {internal|cartesian}
+        atoms{ 
+              #units angstrom
+              #tag element   rx   ry   rz   mobile
+                     Pt    1.16748732047121648 0.0 0.0      on
+                     Pt   -1.16748732047121648 0.0 0.0      on
+        }
+    }
+    element_list{
+        #tag element atomicnumber  moment theta   phi
+                Pt         78       1.2    0      0
+    }
+    unit_cell_type = primitive
+    unit_cell{
+       #units angstrom
+        a_vector =  13.0 0.0 0.0
+        b_vector =  0.0  10.0 0.0
+        c_vector =  0.0  0.0  10.0
+    }
+   magnetic_state =  noncollinear
+
+    symmetry{
+        method = manual
+        tspace{
+            lattice_system = primitive
+             generators{
+                #tag rotation tx  ty  tz
+                     e        0   0    0
+             }
+        }
+    }
+}

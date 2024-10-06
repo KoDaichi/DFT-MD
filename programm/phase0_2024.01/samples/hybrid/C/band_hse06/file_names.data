@@ -1,0 +1,6 @@
+&fnames
+F_POT(1) = '../../../pp/C_ggapbe_paw_us_01.pp'
+F_CHGT   = '../hse06/nfchgt.data'
+F_SCF_ZAJ = '../hse06/zaj.data'
+F_HYBRIDINFO = '../hse06/nfhybridinfo.data'
+/

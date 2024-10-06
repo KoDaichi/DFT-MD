@@ -1,0 +1,87 @@
+Control{
+    condition = initial
+    cpumax = 10 day
+    max_iteration = 100000
+    max_mdstep = 8000
+}
+accuracy{
+    cutoff_wf = 20.0 rydberg
+    cutoff_cd = 80.0 rydberg
+    num_bands = 8
+    ksampling{
+        method = monk
+        mesh{
+            nx = 4
+            ny = 4
+            nz = 4
+        }
+    }
+    smearing{
+        method = parabolic
+        width = 0.001 hartree
+    }
+!    scf_convergence{
+!        delta_total_energy = 1.e-13 hartree
+!        succession = 1
+!    }
+    force_convergence{
+        max_force = 0.1e-04
+    }
+    initial_wavefunctions = atomic_orbitals
+}
+structure{
+    magnetic_state = para
+    unit_cell_type = primitive
+    unit_cell{
+        a_vector = 0.0000000000        5.1300000000        5.1300000000
+        b_vector = 5.1300000000        0.0000000000        5.1300000000
+        c_vector = 5.1300000000        5.1300000000        0.0000000000
+    }
+    atom_list{
+        atoms{
+            #tag element rx ry rz mobile thermo_group
+             Si 0.130 0.130 0.130 on 1
+             Si -0.130 -0.130 -0.130 on 1
+        }
+        coordinate_system = internal
+    }
+    element_list{
+        #tag element atomicnumber mass
+         Si 14 51577.50
+    }
+}
+structure_evolution{
+    method = temperature_control
+    dt = 1 fs
+    gdiis{
+        gdiis_box_size = 5
+        gdiis_update = RENEW
+        c_forc2gdiis = 0.0050
+        c_iteration2GDIIS = 3
+    }
+    temperature_control{
+        method = temperature_control
+        num_chain = 5
+        set_initial_velocity = on
+        thermostat{
+          #tag no temp tdamp
+                1 300  5000
+        }
+    }
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n
+            mddavidson 1
+            rmm3    -1
+    }
+    rmm{
+        edelta_change_to_rmm = 5.0e-3
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs
+         1 pulay 0.6
+    }
+}

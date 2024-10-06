@@ -1,0 +1,2 @@
+F90 = ifort -g -traceback -O2
+LINK = $(F90)

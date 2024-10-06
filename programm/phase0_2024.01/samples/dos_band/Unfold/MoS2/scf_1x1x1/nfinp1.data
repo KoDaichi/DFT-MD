@@ -1,0 +1,64 @@
+control{
+    condition = initial 
+    sw_vdw_correction = on
+}
+accuracy{
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+
+    ksampling{
+        method = monk 
+        mesh{
+            nx = 4
+            ny = 4 
+            nz = 1 
+        }
+    }
+    num_bands = 32
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    smearing{
+           method = parabolic ! {parabolic|tetrahedral}
+           width  = 0.05 eV
+    }
+    paw = on
+    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge
+
+    vdw_method = grimme
+}
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz vdw
+Mo    0.333333333333333481  0.666666666666666852  0.249999999999999944 Mo
+Mo    0.666666666666666741  0.333333333333333370  0.750000000000000111 Mo
+S     0.333333333333333481  0.666666666666666852  0.622272010018220301 S
+S     0.666666666666666741  0.333333333333333370  0.122272010018220051 S
+S     0.333333333333333481  0.666666666666666852  0.877727989981780032 S
+S     0.666666666666666741  0.333333333333333370  0.377727989981779977 S
+        }
+    }
+    element_list{
+        #tag element atomicnumber 
+                 Mo    42 
+                 S     16 
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+  a     =     6.079917982359 , b    =     6.079917982359 ,  c     =    23.361533926229
+  alpha =    90.000000000000 , beta =    90.000000000000 ,  gamma =   120.000000000000
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+    }
+}
+postprocessing{
+}

@@ -1,0 +1,106 @@
+Control{
+	condition = initial
+	max_iteration = 6000
+        use_additional_projector=off
+}
+
+accuracy{
+	cutoff_wf =  25  rydberg
+	cutoff_cd = 230  rydberg
+	num_bands = 16
+	ksampling{
+          method = mesh
+	  mesh { nx = 6, ny = 6, nz = 4 }
+	}
+	smearing{
+		method = tetrahedral ! {parabolic|tetrahedral}
+		width  = 0.001 hartree
+	}
+	scf_convergence{
+		delta_total_energy = 1.e-8  hartree
+	}
+
+	force_convergence{
+		max_force = 0.1e-3
+	}
+
+	!!initial_wavefunctions = matrix_diagon !{random_numbers|matrix_diagion}
+            matrix_diagon{
+               cutoff_wf = 15.00  rydberg
+            }
+
+        precalculation{
+           nel_Ylm = 9
+        }
+
+        initial_charge_density = Gauss
+
+}
+
+structure{
+        unit_cell_type = Bravais
+        unit_cell{
+           a= 5.80638 , b= 5.80638 , c= 9.296014
+           alpha=90, beta=90, gamma=120
+        }
+	symmetry{
+             tspace{
+                lattice_system = hexagonal
+                generators{
+                  #tag rotation tx ty tz
+                        2       0  0  1/2
+                       19       0  0  1/2
+                }
+             }
+	     sw_inversion = off
+	}
+
+	atom_list{
+	     coordinate_system = internal ! {cartesian|internal}
+	     atoms{
+              #default mobile = off
+             #tag   rx            ry            rz            element
+                     0.3333333333  0.6666666666  0.0000000000  Al
+                     0.6666666666  0.3333333333  0.5000000000  Al
+                     0.3333333333  0.6666666666  0.3821867004754  N
+                     0.6666666666  0.3333333333  0.8821867004754  N
+	     }
+	}
+	element_list{ #tag  element  atomicnumber
+			      Al        13
+			      N          7
+		    }
+}
+
+structure_evolution{
+     method = gdiis
+     dt  = 100.0
+     gdiis{
+       gdiis_box_size = 4
+       gdiis_update = RENEW
+       c_forc2gdiis = 0.0050
+       c_iteration2GDIIS = 3
+     }
+     stress{
+       sw_stress = off
+     }
+}
+
+printlevel{
+	base = 1
+	timing = 1
+	solver = 3
+	evdff  = 1
+	rmm    = 0
+	snl    = 0
+	gdiis  = 1
+	eigenvalue = 1
+	spg    = 1
+	kp     = 2
+	pulay  = 0
+        matdiagon = 1
+	vlhxcq = 0
+	totalcharge = 1
+	submat = 1
+	strcfctr = 0
+}

@@ -1,0 +1,119 @@
+control{
+    condition = fixed_charge
+    cpumax = 400 hour
+    max_iteration = 1000000
+    use_additional_projector=on
+}
+accuracy{
+!     base_reduction_for_GAMMA = on
+!     base_symmetrization_for_GAMMA =on
+    ksampling{
+        method = gamma
+    }
+    cutoff_wf = 20 Rydberg
+    cutoff_cd = 180 Rydberg
+!
+    scf_convergence{
+!        delta_total_energy = 1.0E-7 Hartree
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+    num_bands = 25
+        ek_convergence{
+                num_extra_bands = 0
+                num_max_iteration = 300
+                sw_eval_eig_diff = on
+                delta_eigenvalue = 1.e-6 rydberg
+                succession   = 3
+        }
+
+      smearing{
+!                method = tetrahedral ! {parabolic|tetrahedral}
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+        }
+     initial_wavefunctions = gaussian
+!     initial_charge_density = atomic_charge
+}
+structure{
+    atom_list{
+        coordinate_system = cartesian ! {internal|cartesian}
+        atoms{
+         #tag element rx ry rz 
+C -0.3394234195381266D-05  0.2664103904026815D+01 -0.1083075053330323D-13
+C  0.2306788595069543D+01  0.1331983422903750D+01 -0.1113331125583520D-13
+C -0.2306756596642233D+01  0.1331966430705197D+01 -0.9743948943770538D-14
+C  0.2306788688875304D+01 -0.1331976821693236D+01 -0.1060392059355973D-13
+C -0.2306768847308345D+01 -0.1331974366043303D+01 -0.1291074531032703D-13
+C  0.4309772220313056D-05 -0.2664118039539976D+01 -0.1161688161065824D-13
+H -0.3236509088114056D-04  0.4741405496747982D+01 -0.2151351173016732D-13
+H  0.4106322585020065D+01  0.2369396123479147D+01 -0.1931391205961570D-13
+H -0.4106237362500839D+01  0.2369322682901585D+01 -0.2073465771125845D-13
+H  0.4106264830910002D+01 -0.2369339023231447D+01 -0.1987870540268577D-13
+H -0.4106351869190312D+01 -0.2369375905380957D+01 -0.2316558108908630D-13
+H -0.2808037956343801D-04 -0.4741463101449146D+01 -0.2207192812082523D-13
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass zeta deviation
+         C   6  12.000  0.0 1.5
+         H   1  1.00    0.0 0.0
+    }
+    unit_cell_type = primitive
+    unit_cell{
+       #units angstrom
+        a_vector =  12.00 0.0 0.0
+        b_vector =  0.0  12.0 0.0
+        c_vector =  0.0  0.0  8.00
+    }
+    symmetry{
+           method = manual
+           tspace{
+              lattice_system = primitive
+              generators {
+                #tag rotation tx  ty  tz
+                      E         0   0   0
+               }
+           }
+        }
+}
+printoutlevel{
+    base = 1
+    parallel_debug = 0
+}
+spectrum{
+  type = PACS
+  LongWaveLimit = ON
+
+  momentum_transfer{
+     deltaq = 1.0E-4
+     nx = 1.0, ny = 0.0, nz = 0.0
+  }
+
+  tddft{
+     sw_tddft = ON
+     solver{
+       equation = BS
+        sw_NODA = ON
+     }
+     XC_Kernel{
+        kernel_type = ALDA-R
+     }
+     Coulomb_Kernel{
+         sw_NLF = OFF
+     }
+     Expansion{
+         NumGVec = 1100
+     }
+  }
+  energy{
+      low = 0.0 eV
+      high = 10.0 eV
+      step = 0.05 eV
+  }
+  BZ_integration{
+    method = l
+    width =  0.01 eV
+  }
+}

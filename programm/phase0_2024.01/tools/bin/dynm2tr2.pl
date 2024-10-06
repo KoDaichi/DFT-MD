@@ -1,0 +1,1 @@
+../../bin/dynm2tr2.pl

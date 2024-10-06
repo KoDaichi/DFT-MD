@@ -1,0 +1,5 @@
+&fnames
+ F_INP    = './nfinput.data'
+ F_POT(1) = '../../../../pp/Cu_ggapbe_paw_us_02m.pp'
+ F_CHGT      = '../scf/nfchgt.data'
+/

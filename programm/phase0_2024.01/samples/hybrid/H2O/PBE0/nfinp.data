@@ -1,0 +1,93 @@
+Control{
+    condition = initial
+    cpumax = 10 hour
+}
+accuracy{
+    cutoff_wf =  25.0 rydberg
+    cutoff_cd = 225.0 rydberg
+    num_bands = 8
+    ksampling{
+        method = gamma
+        base_reduction_for_GAMMA = OFF
+        base_symmetrization_for_GAMMA = OFF
+    }
+    smearing{
+        method = parabolic
+        width = 0.001 hartree
+    }
+    xctype = ggapbe
+    hybrid_functional{
+        sw_hybrid_functional = ON
+        functional_type = pbe0
+        sw_change_axis = on
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-6 hartree
+        succession = 2
+    }
+    initial_wavefunctions = file
+    initial_charge_density = file
+}
+structure{
+    unit_cell{
+        #units bohr degree
+        a = 10
+        b = 10
+        c = 10
+        alpha = 90.0
+        beta = 90.0
+        gamma = 90.0
+    }
+    symmetry{
+        sw_inversion = off
+    }
+    magnetic_state = para
+    atom_list{
+        coordinate_system = cartesian
+        atoms{
+            #tag element rx ry rz   mobile
+            H     0.000000000    1.434697246   -1.136803673  off
+            H     0.000000000   -1.434697246   -1.136803673  off
+            O     0.000000000    0.000000000    0.000000000  off
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass
+             H       1            1.00794
+             O       8           15.9994
+    }
+}
+structure_evolution{
+    method = cg
+    dt = 1 fs
+}
+wavefunction_solver{
+    solvers{
+        #tag sol    till_n dts  dte itr cmix submat
+             lm+MSD    -1     0.10 *   *   2    on
+    }
+    line_minimization{
+        dt_lower_critical = 1.0
+        dt_upper_critical = 5.0
+        delta_lmdenom = 1e-12
+    }
+    rmm{
+        edelta_change_to_rmm = 1.0e-6
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs rmxe itr prec istr nbmix update
+             1 broyden 0.10 0.70 40  yes  15   5     renew
+             2 simple  0.10 0.70 40  yes  *    *     *
+    }
+}
+Postprocessing{
+    dos{
+        sw_dos = OFF
+    }
+}
+printoutlevel{
+    base = 1
+}

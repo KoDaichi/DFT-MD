@@ -1,0 +1,79 @@
+Control{
+    condition = 0       ! {0|1|2|3}|{initial|continuation|fixed_charge|fixed_charge_continuation}
+    cpumax = 1 hour    ! {sec|min|hour|day}
+    max_iteration = 6000
+}
+
+accuracy{
+    cutoff_wf =  25  rydberg
+    cutoff_cd = 230  rydberg
+    num_bands = 16
+    ksampling{
+        method = mesh
+        mesh { nx = 6, ny = 6, nz = 4 }
+    }
+    smearing{
+       method = tetrahedral ! {parabolic|tetrahedral}
+       width  = 0.001 hartree
+    }
+    xctype = ldapw91
+    scf_convergence{
+        delta_total_energy = 1.e-10  hartree
+        succession   = 3   !default value = 3
+    }
+}
+
+structure{
+        unit_cell_type = bravais
+        unit_cell{
+           a= 5.80638 , b= 5.80638 , c= 9.296014
+           alpha=90, beta=90, gamma=120
+        }
+        strain{
+          sw_strained_cell = ON
+          e11 = <E11>, e22 = <E22>, e33 = <E33>
+          e23 = <E23>, e32 = <E32>
+          e31 = <E31>, e13 = <E13>
+          e12 = <E12>, e21 = <E21>
+        }
+
+    symmetry{
+             tspace{
+                lattice_system = hexagonal
+                generators{
+                  #tag rotation tx ty tz
+                        E       0  0  0
+                     !   2       0  0  1/2
+                     !  19       0  0  1/2           
+                }    
+             }
+         sw_inversion = 0
+    }
+
+    atom_list{
+         coordinate_system = internal ! {cartesian|internal}
+         atoms{
+              #default pdos = off, mobile = off
+             #tag   rx            ry            rz            element
+                     0.3333333333  0.6666666666  0.0000000000  Al
+                     0.6666666666  0.3333333333  0.5000000000  Al
+                     0.3333333333  0.6666666666  0.3820000000  N
+                     0.6666666666  0.3333333333  0.8820000000  N
+         }
+    }
+    element_list{ #tag  element  atomicnumber dev
+                  Al        13          1.825741858
+                  N          7          1.825741858
+            }
+}
+
+Postprocessing{
+   polarization{
+      sw_bp_property = OFF
+      property = piezoelectric_const
+   }
+}
+
+printlevel{
+    base = 1
+}

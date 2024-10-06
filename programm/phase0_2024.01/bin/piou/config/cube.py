@@ -1,0 +1,187 @@
+import logging
+logger = logging.getLogger('piou.config.cube')
+from piou import config
+from piou.data import elements
+
+class Cube(config.AtomConfigGenerator):
+    cubefile=None
+    def __init__(self,coord_file):
+        super().__init__()
+        self.cubefile = coord_file
+
+    def supports_volumetric_data(self):
+        return True
+
+    def _gen_atomic_configuration(self):
+        f=open(self.cubefile,'r')
+        linecount=0
+        nat=None
+        avec=None
+        bvec=None
+        cvec=None
+        conf=None
+        thevdata=[]
+        in_vdata=False
+        unit = config.BOHR
+        ndiv = []
+        shift=[0.0,0.0,0.0]
+        for line in f:
+            line=line.strip()
+            words=line.split()
+            if in_vdata:
+                for word in words:
+                    try:
+                        thevdata.append(float(word.strip().lower().replace('d','e')))
+                    except ValueError:
+                        logger.error('invalid volumetric data!!')
+                        return None
+            else:
+                linecount += 1
+                if linecount==3:
+                    try:
+                        nat=int(words[0])
+                        if len(words)>=4:
+                            for i in range(3):
+                                shift[i]=float(words[i+1])
+                    except ValueError:
+                        logger.error('failed to retrieve the number of atoms')
+                        return None
+                elif linecount==4:
+                    if len(words)>=4:
+                        avec=[]
+                        unit=self._do_cellvec(words[0],(words[1],words[2],words[3]),avec,ndiv)
+                elif linecount==5:
+                    if len(words)>=4:
+                        bvec=[]
+                        unit=self._do_cellvec(words[0],(words[1],words[2],words[3]),bvec,ndiv)
+                elif linecount==6:
+                    if len(words)>=4:
+                        cvec=[]
+                        unit=self._do_cellvec(words[0],(words[1],words[2],words[3]),cvec,ndiv)
+
+                if unit is None:
+                    return None
+
+                if avec is None or bvec is None or cvec is None:
+                    continue
+
+                if conf is None:
+                    conf = config.AtomConfig(\
+                    coordinate_system=config.CARTESIAN, length_unit=unit,\
+                    a_vector=avec,b_vector=bvec,c_vector=cvec)
+                    continue
+
+                if len(words)<5:
+                    continue
+
+                try:
+                    elem=elements.ElementInfo().get_element_name_from_atomic_number(int(words[0]))
+                    rx = float(words[2])
+                    ry = float(words[3])
+                    rz = float(words[4])
+                    conf.add_atom(element=elem,rx=rx-shift[0],ry=ry-shift[1],rz=rz-shift[2])
+                except ValueError:
+                    logger.error('invalid line : '+line)
+                    return None
+                except KeyError:
+                    logger.error('invalid line : '+line)
+                    return None
+                if conf.get_num_atom()==nat:
+                    in_vdata=True
+        f.close()
+        self._do_volumetric_data(conf,ndiv,thevdata)
+        logger.info(str(conf.get_volumetric_data()[0]))
+        return [conf]
+
+    def _do_cellvec(self,strndiv,strvec,thevec,thendiv):
+        unit=config.BOHR
+        try:
+            ndiv=float(strndiv)
+            if ndiv<0:
+                ndiv=-ndiv
+                unit=config.ANGSTROM
+            thevec.append(ndiv*float(strvec[0]))
+            thevec.append(ndiv*float(strvec[1]))
+            thevec.append(ndiv*float(strvec[2]))
+            thendiv.append(ndiv)
+        except ValueError:
+            logger.error('failed to retrieve the cell vector')
+            return None
+        return unit
+
+    def _do_volumetric_data(self,conf,ndiv,thevdata):
+        unitcell = conf.get_unit_cell()
+        if not unitcell.ready():
+            return
+        vdata = config.VolumetricData(unitcell=unitcell,n1=ndiv[0],n2=ndiv[1],n3=ndiv[2],vdata=thevdata)
+        conf.add_volumetric_data(vdata)
+
+    def export_atomic_configuration(self,atomic_coordinates,to_file=None,frame_no=None,all_frames=False):
+        import time
+        from piou.data import elements
+        atomic_coordinate = atomic_coordinates[0]
+        natm=atomic_coordinate.get_num_atom()
+        vd=atomic_coordinate.get_volumetric_data()
+        if vd is None:
+            logger.error('Volumetric Data must be defined in order to export data in Gaussian Cube format')
+            return 
+        elif not vd[0].has_enough_data():
+            logger.warn('the number of data for the volumetric data is not consistent')
+        vdata = vd[0]
+
+        file=open(to_file,'w')
+        file.write('Gaussian Cube file generated by the PHASE IO utility\n')
+        file.write(str('created on : '+time.strftime('%x %X'))+'\n')
+
+        origin = vdata.get_origin()
+        strorigin='0.0 0.0 0.0'
+        if len(origin)>=3:
+            strorigin = str(origin[0])+' '+str(origin[1])+' '+str(origin[2])
+        file.write(str(natm)+' '+strorigin+'\n')
+
+        ndiv = vdata.get_ndiv()
+        (div0,div1,div2)  = vdata.get_div(to_unit=config.BOHR)
+        file.write(str(int(ndiv[0]))+' '+str(div0[0])+' '+str(div0[1])+' '+str(div0[2])+'\n')
+        file.write(str(int(ndiv[1]))+' '+str(div1[0])+' '+str(div1[1])+' '+str(div1[2])+'\n')
+        file.write(str(int(ndiv[2]))+' '+str(div2[0])+' '+str(div2[1])+' '+str(div2[2])+'\n')
+
+        for atom in atomic_coordinate:
+            atomstr=str(elements.ElementInfo().get_element_info(atom.get_element_name())['atomic_number'])+' 1 '
+            (rx,ry,rz) = atom.get_pos(mode=config.CARTESIAN, to_unit=config.BOHR)
+            atomstr += ' '+str(rx)+' '+str(ry)+' '+str(rz)
+            file.write(atomstr+'\n')
+
+        vol = vdata.get_vdata()
+        nrow=6
+        currrow=0
+        for v in vol:
+            currrow += 1
+            file.write(str(v)+' ')
+            if currrow%nrow==0:
+                file.write('\n')
+                currrow=0
+        file.write('\n')
+
+# can also be done in the following way:
+#        n0=int(ndiv[0])
+#        n1=int(ndiv[1])
+#        n2=int(ndiv[2])
+#        for i0 in range(n0):
+#            for i1 in range(n1):
+#                for i2 in range(n2):
+#                    v = vdata.get_vdata_at(i0,i1,i2)
+#                    currrow += 1
+#                    if currrow%nrow==0:
+#                        file.write('\n')
+#                        currrow=0
+#                    file.write(str(v)+' ')
+
+        file.flush()
+        file.close()
+
+    def get_name(self):
+        return 'Gaussian cube format'
+
+    def get_defaultname(self,args):
+        return 'nfchr.cube'
+

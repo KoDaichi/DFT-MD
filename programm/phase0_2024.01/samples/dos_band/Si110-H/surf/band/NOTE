@@ -1,0 +1,17 @@
+TOOLS_DIR=../../../../tools
+
+$TOOLS_DIR/band_kpoint.pl bandkpt.in 
+
+## cat ../scf/potential_on_atoms.data | tail -18 | head -1
+##   17      -8.435574
+##
+## cat ../../bulk/scf/potential_on_atoms.data | tail -3 | head -1
+##    2      -5.866908
+
+## potential difference
+## echo   -8.435574  -5.866908 | awk '{print $1-$2}'
+## -2.56867 eV
+
+python3 $TOOLS_DIR/surface_projected_bulk_band.py ../../bulk/band/nfenergy.data bandkpt.in --e_range -2 2 --e_inc 0.5 --fig_format png --surf_band_file ./nfenergy.data --e_shift -2.56867
+
+

@@ -1,0 +1,70 @@
+Control{
+    condition = initial        !      {0|1|2|3}|{initial|continuation|fixed_charge|fixed_charge_continuation}
+    cpumax = 1 day             ! {sec|min|hour|day}
+}
+
+accuracy{
+    cutoff_wf =  25.0       rydberg
+    cutoff_cd = 225.0       rydberg
+    num_bands = 10
+    ksampling{
+        mesh{  nx = 10, ny =  10, nz =  10   }
+
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-10  hartree
+    }
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+
+}
+
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+        #units bohr degree
+        a_vector =  0.00000000000         3.47046370000          3.47046370000
+        b_vector =  3.47046370000         0.00000000000          3.47046370000
+        c_vector =  3.47046370000         3.47046370000          0.00000000000
+    }
+    symmetry{
+         crystal_structure = fcc
+         sw_inversion = on
+    }
+
+    magnetic_state = para   !{para|af|ferro}
+    atom_list{
+         atoms{
+        #tag  rx       ry       rz       weight   element
+                     0.000    0.000     0.000       1        Cu
+              }
+        }
+    element_list{
+     #tag element  atomicnumber
+               Cu          29
+    }
+}
+
+wavefunction_solver{
+    solvers{
+          #tag   no sol    till_n
+                1  lm+msd   -1
+    }
+    rmm{
+      edelta_change_to_rmm = 5.0e-3
+    }
+    submat{
+      before_renewal=on  ! default
+    }
+}
+
+charge_mixing{
+    mixing_methods{
+    #tag no   method   rmxs
+           1  broyden2  0.40
+    }
+}
+
+printlevel{
+    base = 1
+}

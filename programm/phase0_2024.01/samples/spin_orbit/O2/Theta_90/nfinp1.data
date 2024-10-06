@@ -1,0 +1,89 @@
+Control{
+    condition = initial
+}
+accuracy{
+    paw = on
+    cutoff_wf =  22.5 rydberg
+    cutoff_cd = 225.0 rydberg
+
+    num_bands = 24
+
+    ksampling{
+        method = gamma
+    }
+
+    smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+
+    force_convergence{
+        max_force = 2.0E+4 Hartree/Bohr
+    }
+
+!
+    spinorbit{
+        mode = pawpot
+    }
+
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+
+}
+structure{
+    atom_list{
+        coordinate_system = cartesian ! {internal|cartesian}
+        atoms{
+              #units angstrom
+              #tag element   rx   ry   rz   mobile
+                      O   0.613380829715549856 0.0 0.0      on
+                      O  -0.613380829715549856 0.0 0.0      on
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber  zeta    deviation theta   phi
+                O         8         0.166666   1.5    90.0   0.0
+    }
+    unit_cell_type = primitive
+    unit_cell{
+       #units angstrom
+        a_vector =  12.0 0.0 0.0
+        b_vector =  0.0  10.0 0.0
+        c_vector =  0.0  0.0  10.0
+    }
+   magnetic_state =  noncollinear
+
+    symmetry{
+        method = manual
+        tspace{
+            lattice_system = primitive
+             generators{
+                #tag rotation tx  ty  tz
+                     e        0   0    0
+             }
+        }
+    }
+}
+wavefunction_solver{
+    solvers{
+        #tag sol    till_n
+          pdavidson   5
+          RMM3       -1
+        }
+        rmm{
+             edelta_change_to_rmm = 5.0e-4
+        }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs
+         1   broyden2 0.08
+    }
+}
+printlevel{
+        base = 1
+}

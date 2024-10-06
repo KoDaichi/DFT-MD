@@ -1,0 +1,58 @@
+control{
+  condition = initial
+}
+accuracy{
+  num_bands = 48
+  ksampling{
+    kshift{
+      k3 = 0
+    }
+    mesh{
+      nx = 2
+      ny = 4
+      nz = 1
+    }
+  }
+  cutoff_wf = 20 rydberg
+  cutoff_cd = 80 rydberg
+  force_convergence{
+    max_force = 0.0001 hartree/bohr
+  }
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         Si 14 51196.4212
+    }
+    atom_list{
+        atoms{
+            #tag element rx ry rz weight
+    Si    4.457191014    5.442000000   12.029506153   2
+    Si    8.616889299    5.442000000   10.673558312   2
+    Si    3.871385225    1.814000000    9.319081085   2
+    Si   10.646464624    1.814000000    9.135097103   2
+    Si    0.051434031    1.814000000    6.874272412   2
+    Si    7.098413066    1.814000000    6.207982345   2
+    Si   -0.004452942    5.442000000    4.200390459   2
+    Si    7.255325886    5.442000000    3.623006362   2
+    Si    3.445644060    5.442000000    1.301760445   2
+    Si   11.068564547    5.442000000    1.312909393   2
+        }
+        coordinate_system = cartesian
+    }
+    unit_cell{
+       a_vector = 14.512 0.0    0.0
+       b_vector = 0.0    7.256  0.0
+       c_vector = 0.0    0.0   60.0
+    }
+    symmetry{
+        sw_inversion = on
+        method = automatic
+    }
+}
+postprocessing{
+   stm{
+     sw_stm = on
+   }
+}
+

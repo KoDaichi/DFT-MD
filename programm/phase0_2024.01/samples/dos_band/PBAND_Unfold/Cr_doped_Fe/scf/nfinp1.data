@@ -1,0 +1,82 @@
+control{
+    condition = initial 
+    cpumax = 46 hour
+    max_iteration = 1000000
+}
+accuracy{
+    cutoff_wf = 30 Rydberg
+    cutoff_cd = 270 Rydberg
+
+    ksampling{
+        mesh{
+            nx = 4
+            ny = 4
+            nz = 4
+        }
+        method = monk 
+    }
+      smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.05 eV
+        }
+
+    num_bands = 112
+
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+
+     initial_wavefunctions = atomic_orbital
+     initial_charge_density = atomic_charge
+
+    paw = on
+}
+structure{
+    unit_cell_type = Bravais 
+    unit_cell{
+      a = 10.704080685526 , b = 10.704080685526 , c = 10.704080685526
+         alpha =  90, beta = 90, gamma = 90
+    }
+
+    atom_list{
+        atoms{
+            #tag element rx ry rz
+Fe    0.000000000000000000  0.000000000000000000  0.000000000000000000
+Fe    0.250439983627536111  0.250439983627536167  0.250439983627536111
+Fe    0.499999999999999556  0.000000000000000000 -0.000000000000000000
+Fe    0.749560016372463833  0.250439983627536167  0.250439983627536111
+Fe    0.000000000000000000  0.499999999999999556  0.000000000000000000
+Fe    0.250439983627536111  0.749560016372463833  0.250439983627536111
+Fe    0.499999999999999556  0.499999999999999556  0.000000000000000000
+Fe    0.749560016372463833  0.749560016372463833  0.250439983627536111
+Fe    0.000000000000000000  0.000000000000000000  0.499999999999999556
+Fe    0.250439983627536111  0.250439983627536167  0.749560016372463833
+Fe    0.499999999999999556 -0.000000000000000000  0.499999999999999556
+Fe    0.749560016372463833  0.250439983627536167  0.749560016372463833
+Fe   -0.000000000000000000  0.499999999999999556  0.499999999999999556
+Fe    0.250439983627536111  0.749560016372463833  0.749560016372463833
+Cr    0.499999999999999556  0.499999999999999556  0.499999999999999556
+Fe    0.749560016372463833  0.749560016372463833  0.749560016372463833
+        }
+    }
+    magnetic_state = ferro
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+   }
+
+    element_list{
+        #tag element atomicnumber moment
+         Fe  26   2.0
+         Cr  24  -2.0
+    }
+}
+printoutlevel{
+    magmom = 3
+}

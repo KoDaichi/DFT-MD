@@ -1,0 +1,81 @@
+control{
+    condition = initial 
+}
+accuracy{
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+
+    ksampling{
+        method = monk 
+        mesh{
+            nx = 4
+            ny = 4 
+            nz = 4
+        }
+    }
+    num_bands = 32
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-5 Hartree/Bohr
+    }
+    smearing{
+           method = parabolic ! {parabolic|tetrahedral}
+           width  = 0.05 eV
+    }
+    paw = on
+    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge
+
+}
+structure{
+    atom_list{
+        atoms{
+            #default mobile=yes
+            #tag element rx ry rz 
+Si 0.469700 0.000000 0.000000
+Si 0.000000 0.469700 0.666667
+Si 0.530300 0.530300 0.333333
+O 0.413500 0.266900 0.119100
+O 0.266900 0.413500 0.547567
+O 0.733100 0.146600 0.785767
+O 0.586500 0.853400 0.214233
+O 0.853400 0.586500 0.452433
+O 0.146600 0.733100 0.880900
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass
+                Si       14       28.085
+                O         8       15.999
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+           #units angstrom
+ a =  4.916000000000000 , b =  4.916000000000000 , c = 5.405400000000000
+        alpha = 90,         beta  = 90,         gamma = 120
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+    }
+}
+printlevel{
+   gap = 2
+}
+structure_evolution {
+    stress{
+      sw_stress = on
+      sw_stress_correction = on
+      delta_ecut = 1.0
+   }
+   lattice{
+     sw_optimize_lattice = on
+!!     sw_uniform = on
+     sw_rebuild_pws = on
+   }
+}

@@ -1,0 +1,78 @@
+<input_style>
+NEW
+
+<method>
+PIMD
+
+<ensemble>
+NVT
+
+<dt>
+0.25d0
+
+<nstep>
+1000
+
+<temperature>
+300.d0
+
+<corrections>
+0  0
+
+<nbead>
+16
+
+<nref>
+5
+
+<nys>
+5
+
+<bath_type>
+MNHC
+
+<ncolor>
+1
+
+<nnhc>
+4
+
+<ipotential>
+PHASE0
+
+<phase0_proc>
+1 1 1
+
+<iboundary>
+  2
+14.36865687014571 -7.184328435072851 0.0 0.0
+0.0 12.443621867807988 0.0
+0.0 0.0 13.498240952339659
+
+<iprint_std>
+1
+
+<iprint_bond>
+10
+
+<iprint_eavg>
+10
+
+<iprint_rest>
+10
+
+<iprint_trj>
+10
+
+<iprint_xyz>
+10
+
+<iprint_dip>
+10
+
+<iprint_rdf>
+1
+
+<params_rdf>
+1.d0  8.d0  0.01d0
+

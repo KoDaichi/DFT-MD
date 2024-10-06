@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>第一原理電子状態計算ソフトウェアPHASE/0 2024ユーザーマニュアル &mdash; PHASE/0 Manual 2024.01 ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/phase0.css?v=84baaed2" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=df52f328"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/translations.js?v=4dbe4bdc"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="1. はじめに" href="introduction/introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            PHASE/0 Manual
+              <img src="_static/image1.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction/introduction.html">1. はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install/install.html">2. PHASE/0のインストール</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_step/first_step.html">3. PHASE/0の基本的な利用方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_parameters/input_parameters.html">4. 入力パラメータファイル：nfinp.data（詳細版）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics/basics.html">5. 基本機能を利用した計算例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="electronic_structure/electronic_structure.html">6. 電子状態解析：バンド構造と状態密度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html">7. 高度な電子状態計算</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis/analysis.html">8. 解析機能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="supplement/supplement.html">11. 補遺</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">PHASE/0 Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">第一原理電子状態計算ソフトウェアPHASE/0 2024ユーザーマニュアル</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="phase-0-2024">
+<h1>第一原理電子状態計算ソフトウェアPHASE/0 2024ユーザーマニュアル<a class="headerlink" href="#phase-0-2024" title="この見出しへのパーマリンク"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction/introduction.html">1. はじめに</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#phase">1.1. PHASEシステムの概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#phase-0">1.2. PHASE/0とは？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#id4">1.3. マニュアルの構成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#id5">1.4. PHASE/0の入手方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#id8">1.5. PHASE/0のライセンス</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#id10">1.6. PHASE/0の更新履歴</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#id11">1.7. PHASE/0の引用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#history">1.8. HISTORY</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#contact-address">1.9. CONTACT ADDRESS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="install/install.html">2. PHASE/0のインストール</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install/install.html#id1">2.1. 動作環境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/install.html#id2">2.2. 2次元版および3次元版について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/install.html#id3">2.3. インストール方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/install.html#distributed-memory-fftw-2022-01">2.4. Distributed-memory FFTWとリンクする方法（バージョン2022.01以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/install.html#eigenexa-2024-01">2.5. EigenExaとリンクする方法（バージョン2024.01以降）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="first_step/first_step.html">3. PHASE/0の基本的な利用方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="first_step/first_step.html#id1">3.1. PHASE/0の計算手順の概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_step/first_step.html#id2">3.2. 入力データの準備</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_step/first_step.html#id22">3.3. 計算の実行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_step/first_step.html#id39">3.4. 計算結果の確認</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_step/first_step.html#id48">3.5. 計算結果の解析、可視化</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="input_parameters/input_parameters.html">4. 入力パラメータファイル：nfinp.data（詳細版）</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#f-inp">4.1. 入力パラメータファイルの形式(F_INP ファイル)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#id7">4.2. 入力パラメータファイル nfinp.dataのタグ（キーワード）の一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#control">4.3. 全体的な計算条件設定（Control）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#accuracy">4.4. 計算精度の指定（Accuracy）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#structure">4.5. 原子構造（Structure）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#wavefunction-solver">4.6. 波動関数ソルバー（Wavefunction_Solver）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#charge-mixing">4.7. 電荷密度混合法（Charge_Mixing）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#input-param-wfsol2">4.8. 波動関数ソルバーおよび電荷密度混合法の自動設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#structure-evolution">4.9. 構造最適化 (Structure_evolution)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#postproccesing">4.10. 後処理（Postproccesing）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_parameters/input_parameters.html#printlevel">4.11. ログレベル（PrintLevel）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basics/basics.html">5. 基本機能を利用した計算例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id2">5.1. 全エネルギー計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id6">5.2. 対称性を考慮した計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id12">5.3. スピン分極を考慮した計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id21">5.4. 構造最適化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id27">5.5. 表面の計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id31">5.6. 原子・分子の計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id34">5.7. 電荷密度の出力</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id35">5.8. 波動関数の出力</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#section-total-density-of-states">5.9. 状態密度の計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#section-band-structure">5.10. バンド構造の計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/basics.html#id41">5.11. 格子定数</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="electronic_structure/electronic_structure.html">6. 電子状態解析：バンド構造と状態密度</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#id2">6.1. 全状態密度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#id3">6.2. 局所状態密度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#id12">6.3. 射影状態密度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#advanced-projected-band">6.4. バンド構造</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#advanced-local-band">6.5. 局所バンド構造（バージョン2024.01以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#id23">6.6. 射影バンド構造（バージョン2020.01以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#band-unfolding-2020-01">6.7. band-unfolding計算機能（2020.01以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#advanced-projected-band-unfold-section">6.8. 射影バンドアンフォールディング計算機能（2024.01以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronic_structure/electronic_structure.html#projected-surface-band-section">6.9. バルクの電子バンドの表面ブリルアンゾーンへの射影（バージョン2022.01以降）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html">7. 高度な電子状態計算</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#paw">7.1. PAW法による計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#dft-u">7.2. DFT+U 法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#advanced-hybrid-section">7.3. ハイブリッド汎関数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#sc-dft">7.4. SC-DFT法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#advanced-vdwdf-section">7.5. ファンデルワールス相互作用（非局所相関項）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#advanced-vdwcorr-section">7.6. ファンデルワールス相互作用補正機能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#esm">7.7. 有効遮蔽体法（ESM法）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#dipole">7.8. Dipole補正</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#pbesol-2019-02">7.9. PBEsol汎関数（バージョン2019.02以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#meta-gga-2019-02">7.10. meta-gga（バージョン2019.02以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#libxc-2023-01">7.11. Libxcライブラリー(バージョン2023.01以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#open-core-2020-01">7.12. Open core法（バージョン2020.01以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#advanced-noncollinear-section">7.13. ノンコリニア系の計算、スピン軌道相互作用計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_electronic_structure/advanced_electronic_structure.html#rttddft">7.14. 実時間処理型の時間依存密度汎関数理論（RTTDDFT）による光学スペクトル計算</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="analysis/analysis.html">8. 解析機能</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#section-partial-charge">8.1. 部分電荷密度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#stm">8.2. STM像</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#section-bader-charge">8.3. ベーダ―解析向け電荷密度ファイルの出力 (バージョン2019.02以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#section-stress-tensor">8.4. ストレステンソル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#section-workfunc">8.5. 仕事関数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#advanced-localpot-av-section">8.6. 原子周囲局所ポテンシャル出力機能（2021.02以降）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#section-taiden">8.7. 帯電欠損状態の評価 (バージョン2021.01以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#xps">8.8. XPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#elnes-xanes">8.9. ELNES / XANES解析機能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#xes-2024-01">8.10. XES解析機能 (バージョン2024.01以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#section-borncharge">8.11. ボルン有効電荷</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#section-finite-electric-field">8.12. 有限電場計算機能 (バージョン2019.02以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#id136">8.13. 陽電子寿命解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#section-wannier">8.14. ワニエ関数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#boltztrap-2019-01">8.15. BoltzTraPを利用した解析(バージョン2019.01以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis/analysis.html#energy-density-analysis-2022-01">8.16. Energy Density Analysis(バージョン2022.01以降)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#section-phonon">9.1. 振動解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#id13">9.2. フォノンバンド計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#section-unitcell-optimization">9.3. ストレステンソルを利用したユニットセル最適化機能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#section-molecular-dynamics">9.4. 分子動力学法シミュレーション</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#neb">9.5. NEB 法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#dimer">9.6. Dimer 法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#blue-moon">9.7. 拘束条件付きダイナミクスとBlue Moon 法による自由エネルギー解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#meta-dynamics">9.8. Meta-dynamics 法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#section-constant-chemical-potential">9.9. 化学ポテンシャル一定のシミュレーション</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#section-rigid-body-dynamics">9.10. 剛体ダイナミクス (バージョン2022.01以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#section-neural-network-potential">9.11. 機械学習によるニューラルネットワークポテンシャルの作成 (バージョン2021.01以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ion_dynamics/ion_dynamics.html#pimd-2022-01">9.12. PIMDコードを用いた経路積分分子動力学シミュレーション (バージョン2022.01以降)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="uvsor/uvsor.html#id1">10.1. はじめに</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uvsor/uvsor.html#id13">10.2. 計算手法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uvsor/uvsor.html#uvsor-epsilon">10.3. UVSOR-Epsilon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uvsor/uvsor.html#uvsor-berry-phonon">10.4. UVSOR-Berry-Phonon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uvsor/uvsor.html#id53">10.5. UVSOR-Berry-Phonon（改良版）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uvsor/uvsor.html#lr-tddft">10.6. 線形応答時間依存密度汎関数法（LR-TDDFT）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="supplement/supplement.html">11. 補遺</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="supplement/supplement.html#id2">11.1. 計算精度、収束性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="supplement/supplement.html#scf-2023-01">11.2. SCF計算の高速化 (バージョン2023.01以降)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="supplement/supplement.html#phase-0">11.3. PHASE/0 の単位系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="supplement/supplement.html#commands-tools-chapter">11.4. PHASE/0プログラム、ツールの実行方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="supplement/supplement.html#inputs-outputs-chapter">11.5. 入出力ファイル</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction/introduction.html" class="btn btn-neutral float-right" title="1. はじめに" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, PHASEシステム研究会.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

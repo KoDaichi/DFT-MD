@@ -1,0 +1,91 @@
+Control{
+    cpumax = 3 hour 
+    max_iteration = 25000 
+    condition = fixed_charge
+}
+accuracy{
+    cutoff_wf = 25 rydberg
+    cutoff_cd = 225.00 rydberg
+    num_bands = 20 
+    ksampling{
+        method = file
+    }
+    smearing{
+        method = tetrahedral 
+    }
+    xctype = ggapbe 
+    scf_convergence{
+        delta_total_energy = 1.e-10 hartree
+    }
+    matrix_diagon{
+        cutoff_wf = 12.25 rydberg
+    }
+    initial_wavefunctions = matrix_diagon 
+    ek_convergence{
+        num_max_iteration = 500 
+        sw_eval_eig_diff = on 
+        delta_eigenvalue = 1.e-7 
+        succession = 2 
+        num_extra_bands = 2 
+    }
+}
+structure{
+    unit_cell_type = Bravais 
+    unit_cell{
+        #units angstrom
+        a = 2.845 
+        b = 2.845 
+        c = 2.845 
+        alpha = 90 
+        beta = 90 
+        gamma = 90 
+    }
+    symmetry{
+        crystal_structure = bcc 
+    }
+    magnetic_state = ferro 
+    atom_list{
+        atoms{
+            #tag element rx ry rz
+             Fe 0.000 0.000 0.000
+        }
+    }
+    element_list{
+	#tag element  atomicnumber     zeta  dev
+            Fe 26 0.275 1.5
+	}
+}
+!wavefunction_solver{
+!    solvers{
+!        #tag sol till_n dts dte itr var prec cmix submat
+!         lm+MSD -1 0.2 1.0 200 tanh on 1 on
+!    }
+!    line_minimization{
+!        dt_lower_critical = 0.1 
+!        dt_upper_critical = 3.0 
+!    }
+!    rmm{
+!        imGSrmm = 1 
+!        rr_Critical_Value = 1.e-15 
+!        edelta_change_to_rmm = 1.0e-5 
+!    }
+!}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs rmxe itr var prec istr nbmix update
+         1 broyden2 0.30 0.30 40 * on 10 5 RENEW
+    }
+    charge_preconditioning{
+        amix = 0.90 
+        bmix = -1.00 
+    }
+}
+postprocessing{
+	sw_band_symmetry_analysis = ON
+}
+structure_evolution{
+	method = cg
+}
+printlevel{
+    base = 1 
+}

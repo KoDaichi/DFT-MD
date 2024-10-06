@@ -1,0 +1,151 @@
+Control{
+    condition = initial   ! {initial|continuation|automatic}
+    cpumax = 1 day ! {sec|min|hour|day}
+    max_iteration = 10000000
+    multiple_replica_mode = ON
+    multiple_replica_method = dimer
+    multiple_replica_max_iteration = 2000
+}
+accuracy{
+    cutoff_wf =  10.00  rydberg
+    cutoff_cd =  40.00 rydberg
+    num_bands =  28
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{  nx = 2, ny =  2, nz =  1  }
+    }
+    smearing{
+        method = parabolic ! {parabolic|tetrahedral}
+        width  = 0.001 hartree
+    }
+    xctype = ggapbe
+    scf_convergence{
+        delta_total_energy = 0.5e-7   hartree
+        succession   = 2
+    }
+!    initial_wavefunctions = matrix_diagon  !{random_numbers|matrix_diagion}
+!    initial_wavefunctions = atomic_orbitals  !{random_numbers|matrix_diagion}
+    initial_charge_density = atomic_charge_density
+    matrix_diagon{
+        cutoff_wf =  3.00  hartree
+    }
+}
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+         a_vector =  10.400      0.000      0.000
+         b_vector =   0.000     10.400      0.000
+         c_vector =   0.000      0.000     30.200
+    }
+    symmetry{
+        sw_inversion = off 
+    }
+    atom_list{
+        coordinate_system = cartesian ! {cartesian|internal}
+        atoms{
+        #units angstrom
+                #tag  element  rx  ry  rz   mobile
+    Si    0.000000000000      0.000000000000      0.000000000000    0
+    Si    2.751721694800      2.751721694800      0.000000000000    0
+    Si    1.375860847400      1.375860847400      1.375860847400    0    
+    Si    4.127582542200      4.127582542200      1.375860847400    0    
+    Si    0.000000000000      2.751721694800      2.751721694800    0    
+    Si    2.751721694800      0.000000000000      2.751721694800    0    
+    Si    1.375860847400      4.127582542200      4.127582542200    0    
+    Si    4.127582542200      1.375860847400      4.127582542200    0    
+    Si    0.000000000000      0.000000000000      5.503443389600    0    
+    Si    2.751721694800      2.751721694800      5.503443389600    0    
+    Si    1.375860847400      1.375860847400      6.879304237000    0    
+    H    1.644706293661      1.095414892118     11.000000000000    1
+    H    1.095414929519      1.644706317263     11.000000000000    1
+         }
+    }
+    element_list{ 
+            #tag element  atomicnumber
+            Si        14  
+            H          1  
+    }
+}
+structure_evolution{
+  fire{
+    initial_dt = 40 au_time
+  }
+}
+multiple_replica{
+    accuracy{
+        dt = 20 au_time
+        dimer_convergence_threshold = 5.0e-04
+    }
+    dimer{
+        delta_r = 0.01 angstrom
+        delta_theta = 0.001
+    }
+    structure{
+        endpoint_images = directin ! {no or nothing | file | directin}
+        howtogive_coordinates = from_endpoint_images
+        atom_list_end0{
+                 coordinate_system = cartesian ! {internal|cartesian}
+            atoms{
+            #tag element rx ry rz
+     Si    0.000000000    0.000000000    0.000000000
+     Si    5.200000010    5.200000010    0.000000000
+     Si    2.600000005    2.600000005    2.600000005
+     Si    7.800000015    7.800000015    2.600000005
+     Si    0.000000000    5.200000010    5.200000010
+     Si    5.200000010    0.000000000    5.200000010
+     Si    2.600000005    7.800000015    7.800000015
+     Si    7.800000015    2.600000005    7.800000015
+     Si    0.000000000    0.000000000   10.400000020
+     Si    5.200000010    5.200000010   10.400000020
+     Si    2.600000005    2.600000005   13.000000025
+      H    3.097280122    2.055109422   17.744537625
+      H    2.055055305    3.097281988   17.744543210
+            }
+        }
+        atom_list_end1{
+                 coordinate_system = cartesian ! {internal|cartesian}
+            atoms{
+            #tag element rx  ry  rz    
+    Si    0.000000000    0.000000000    0.000000000 
+    Si    5.200000010    5.200000010    0.000000000 
+    Si    2.600000005    2.600000005    2.600000005 
+    Si    7.800000015    7.800000015    2.600000005 
+    Si    0.000000000    5.200000010    5.200000010 
+    Si    5.200000010    0.000000000    5.200000010 
+    Si    2.600000005    7.800000015    7.800000015 
+    Si    7.800000015    2.600000005    7.800000015 
+    Si    0.000000000    0.000000000   10.400000020 
+    Si    5.200000010    5.200000010   10.400000020 
+    Si    2.600000005    2.600000005   13.000000025 
+     H    3.513689067    1.661979275   15.970543526
+     H    1.661478667    3.513697489   15.969801636
+            }
+        }
+    }
+}
+wavefunction_solver{
+    solvers{
+        #tag   sol    till_n  prec cmix submat
+          mddavidson     2       on    1   on
+          rmm3        -1       on     1   on
+    }
+    rmm{
+        edelta_change_to_rmm=1e-3
+    }
+    submat{
+        before_renewal=on
+        scalapack{
+          sw_scalapack = off
+        }
+    }
+
+}
+charge_mixing{
+    mixing_methods{
+    #tag no   method   rmxs   rmxe   prec istr  nbmix  update
+          1  pulay  0.40   0.40    on  3  5   anew
+    }
+}
+printoutlevel{
+    base=1
+}

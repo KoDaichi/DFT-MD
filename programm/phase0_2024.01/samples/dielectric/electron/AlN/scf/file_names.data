@@ -1,0 +1,8 @@
+c ====<< & or & >>===
+c & : VPP, VP
+c $ : DEC, HP, SUN
+ &fnames
+ F_INP    = './nfinput.data'
+ F_POT(1) = '../../../../pp/Al_ggapbe_paw_nc_01.pp'
+ F_POT(2) = '../../../../pp/N_ggapbe_paw_us_01m.pp'
+/

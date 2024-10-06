@@ -1,0 +1,5 @@
+&fnames
+F_CNTN_BIN = '../scf/continue_bin_stm.data'
+F_ZAJ      = '../scf/zaj.data'
+F_VLC      = '../scf/nfvlc.data'
+/

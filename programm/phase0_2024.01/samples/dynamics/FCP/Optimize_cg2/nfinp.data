@@ -1,0 +1,105 @@
+Control{
+    condition = initial
+}
+accuracy{
+    cutoff_wf = 20.0 rydberg
+    cutoff_cd = 80.0 rydberg
+    num_bands = 20
+    ksampling{
+        method = monk
+        mesh{
+            nx = 2
+            ny = 2
+            nz = 2
+        }
+    }
+    smearing{
+        method = parabolic
+        width = 0.03 hartree
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-8 hartree
+        succession = 1
+    }
+    force_convergence{
+        max_force = 2.0e-04 Hartree/Bohr
+    }
+    initial_wavefunctions = atomic_orbitals
+    fcp{
+        sw_fcp = ON
+        mu = 0.138
+        mass = 1000.0d0
+        temperature = 3.0d0
+        relax_crit = 1.0d-5
+    }
+}
+structure{
+    unit_cell{
+        #units bohr
+        a = 10.29000
+        b = 10.29000
+        c = 10.29000
+        alpha = 90.0
+        beta = 90.0
+        gamma = 90.0
+    }
+    symmetry{
+        sw_inversion = off
+    }
+    magnetic_state = para
+    atom_list{
+        atoms{
+          #default mobile = on
+            #tag element rx ry rz weight thermo_group
+             Si 0.2159672611 0.1235205209 0.1215156388 1 1
+             Si -0.1329067626 -0.1264216714 -0.1225370484 1 1
+             Si 0.1273740089 0.6305999369 0.6247606249 1 1
+             Si -0.1152089939 -0.6164829779 -0.6221565128 1 1
+             Si 0.6299472943 0.1341313888 0.6253193197 1 1
+             Si -0.6305720382 -0.1290073650 -0.6187967685 1 1
+             Si 0.6151271805 0.6206113965 0.1333834419 1 1
+             Si -0.6276524003 -0.6268549639 -0.1175099372 1 1
+        }
+        coordinate_system = internal
+    }
+    element_list{
+        #tag element atomicnumber mass
+         Si 14 51577.50
+    }
+}
+structure_evolution{
+    method = cg2
+    dt = 100.0
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n
+            mddavidson 1
+            rmm3    -1
+    }
+    rmm{
+        edelta_change_to_rmm = 5.0e-3
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs
+         1 pulay 0.60
+    }
+}
+Postprocessing{
+    dos{
+        sw_dos_Gaussdistrib = ON
+        deltaE_GaussD = 1.e-4 hartree
+        variance_GaussD = 1.e-5
+        nwd_window_width = 10
+    }
+    charge{
+        sw_charge_rspace = ON
+        filetype = cube
+        title = "This is a title line for the bulk Si8rnd2"
+    }
+}
+printoutlevel{
+    base = 1
+}

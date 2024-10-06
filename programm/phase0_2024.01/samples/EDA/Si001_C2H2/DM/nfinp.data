@@ -1,0 +1,71 @@
+Control{
+    condition = initial
+    cpumax = 1 day ! {sec|min|hour|day}
+}
+
+accuracy{
+    cutoff_wf =  20.0  rydberg
+    cutoff_cd =  80.0  rydberg
+
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{  nx = 2, ny =  4, nz =  1  }
+                kshift{ k1 = 0.5, k2 = 0.5, k3 = 0.0 }
+    }
+
+    smearing{
+        method = parabolic ! {parabolic|tetrahedral}
+        width  = 0.001 hartree
+    }
+    scf_convergence{
+      delta_total_energy = 1e-10
+    }
+    force_convergence{
+        max_force = 2.0e-4
+    }
+}
+
+structure{
+    unit_cell{
+        a_vector =  14.512      0.000      0.000
+        b_vector =   0.000      7.256      0.000
+        c_vector =   0.000      0.000     30.784
+    }
+
+    atom_list{
+    coordinate_system = internal ! {cartesian|internal}
+       atoms{
+                #tag   element rx       ry       rz         weight mobile
+            H    0.30874317781287197    0.5    0.7182235612056541    1  on
+            H    0.6782205357476374    0.5    0.7182235612056541    1  on
+            C    0.39989589242870655    0.5    0.6752529207916407    1  on
+            C    0.5870678211318029    0.5    0.6752529207916407    1  on
+            Si    0.3438379770298    0.5    0.5693121147999    1  on
+            Si    0.6561430391349001    0.5    0.5693085613798001    1  on
+            Si    0.2667772298369    0    0.4931588397631    1  on
+            Si    0.7332057471799001    0    0.4931564740015    1  on
+            Si    -5.3006023e-06    0    0.4191201643227    1  on
+            Si    0.4999910842765    0    0.3982652194410001    1  on
+            Si    -6.2512419e-06    0.5    0.33355119136210004    1  on
+            Si    0.49999509761680005    0.5    0.3147593494722    1  on
+            Si    0.23731523748230002    0.5    0.24159315199220002    1  on
+            Si    0.7626735001712001    0.5    0.24159048282560003    1  on
+            H    0.221506945891    0.2004542670499    0.18424772315100002    1  on
+            H    0.221506945891    0.7995457329502001    0.18424772315100002    1  on
+            H    0.7784753882933001    0.20045629835830003    0.18424367499020003    1  on
+            H    0.7784753882933001    0.7995437016417    0.1842436749901    1  on
+         }
+    }
+    element_list{ #tag element  atomicnumber
+            Si        14
+            C          6
+            H          1  }
+}
+structure_evolution{
+  method = lbfgs
+}
+postprocessing{
+  eda{
+    sw_eda = on
+  }
+}

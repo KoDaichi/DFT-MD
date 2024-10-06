@@ -1,0 +1,107 @@
+control{
+  condition = initial
+  cpumax = 23.5 hour
+  max_iteration = 1000000000
+  max_mdstep = 5000
+}
+accuracy{
+  num_bands = 72
+  ksampling{
+     method = gamma
+  }
+  cutoff_wf = 25 rydberg
+  cutoff_cd = 225 rydberg
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+}
+structure{
+  region1{
+    type = cylinder
+    radius = 3.5 angstrom
+    cylx = 5 angstrom
+    cyly = 5 angstrom
+  }
+  atom_list{
+    coordinate_system = cartesian
+    atoms{
+      #default mobile=on,thermo_group=1,region_group=1
+      #units angstrom
+      #tag    element    rx    ry    rz
+  H            4.231707        4.904619        6.374683
+  H            5.716594        4.994127        6.011627
+  O            5.118193        4.883964        6.766158
+  H            4.167342        5.876768        8.210465
+  H            5.481543        5.259672        8.697061
+  O            4.627457        5.590603        9.014168
+  H            5.591040        2.623714        0.762588
+  H            4.176346        2.716073        1.341225
+  O            5.090350        2.503218        1.583762
+  H            6.207538        2.813405        3.399388
+  H            6.903850        3.512144        2.228225
+  O            6.293724        3.674917        2.963607
+  H            4.825184        3.291878        5.097067
+  H            3.463649        3.030003        5.746954
+  O            4.341931        2.638409        5.625253
+  H            2.576861        4.389447        1.371601
+  H            2.544786        5.466572        0.283722
+  O            2.635992        4.510095        0.411662
+  H            3.240235        6.775283        1.958686
+  H            3.844439        5.591268        2.718788
+  O            3.030176        6.109799        2.631398
+  H            2.988624        4.590725        9.579442
+  H            2.797053        6.108706        9.640637
+  O            2.499079        5.317930        9.165854
+  H            6.744201        5.232948        4.319942
+  H            7.205617        5.499118        2.884338
+  O            7.491993        5.096849        3.718427
+  H            2.618892        4.352232        4.173599
+  H            2.534423        5.386435        5.299653
+  O            3.122567        5.061565        4.601025
+  H            4.971717        6.156257        4.396482
+  H            4.033360        6.917225        5.337292
+  O            4.859339        7.011364        4.838861
+  H            4.556430        5.143969        0.905998
+  H            5.112053        4.286795       -0.234724
+  O            5.356587        4.679405        0.617095
+  H            6.433422        7.053189       -0.357229
+  H            7.344626        5.879345        0.012240
+  O            6.447025        6.086364       -0.289407
+  H            5.068409        7.494503        2.735997
+  H            6.316442        7.120446        1.931506
+  O            5.348803        7.140267        1.878423
+  H            6.656385        3.674543        9.014479
+  H            7.470475        4.951007        8.785119
+  O            7.363796        4.211572        9.402688
+  H            5.346650        7.488520        8.341281
+  H            6.708549        6.835875        8.594253
+  O            6.156714        7.207400        7.889283
+    }
+  }
+  unit_cell{
+    #units angstrom
+    a_vector = 10 0 0.0
+    b_vector = 0.0 10 0.0
+    c_vector = 0.0 0.0 10
+  }
+  element_list{
+    #tag    element    atomicnumber    mass
+          O    8    29164.9435988
+          H    1    1837.35097885
+  }
+}
+structure_evolution{
+  dt = 0.5 fs
+  method = temperature_control
+  temperature_control{
+    thermostat{
+      #tag    qmass    temp    no
+            8000   500    1
+    }
+  }
+  predictor{
+    sw_wf_predictor = on
+  }
+}
+printoutlevel{
+  ipriforce=2
+}

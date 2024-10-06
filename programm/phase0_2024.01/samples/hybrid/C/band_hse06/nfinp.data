@@ -1,0 +1,54 @@
+Control{
+        condition = fixed_charge
+        fixed_charge_option{
+          kparallel = one_by_one
+        }
+}
+
+accuracy{
+        cutoff_wf =  25.0 rydberg
+        cutoff_cd = 225.0 rydberg
+        num_bands = 8
+        ksampling{
+                method = file
+                base_reduction_for_GAMMA = off
+                base_symmetrization_for_GAMMA = off
+        }
+        hybrid_functional{
+                sw_hybrid_functional = on
+                functional_type = hse06
+                sw_rspace = on
+                sw_change_axis = on
+        }
+}
+
+structure{
+        unit_cell{
+            #units angstrom
+            a = 3.58, b = 3.58, c = 3.58
+            alpha = 90, beta = 90, gamma = 90
+        }
+        symmetry{
+           crystal_structure = diamond
+        }
+        atom_list{
+                atoms{
+                #default element = C, mobile = 0
+                #tag   rx     ry     rz
+                       0.125  0.125  0.125
+                      -0.125 -0.125 -0.125
+                }
+        }
+        element_list{ #tag element  atomicnumber
+                           C       6
+        }
+}
+
+wavefunction_solver{
+    solvers{
+       #tag    sol     till_n
+            pkosugi   1
+            RMM3     -1
+    }
+}
+

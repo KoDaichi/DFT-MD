@@ -1,0 +1,54 @@
+Control{
+        condition=initial
+        cpumax = 3600 sec  ! maximum cpu time
+}
+
+accuracy{
+	cutoff_wf =  20.0  rydberg
+	cutoff_cd =  80.0  rydberg
+	num_bands = 8
+	initial_wavefunctions = matrix_diagon
+        ksampling{
+          mesh{  nx = 4, ny =  4, nz =  4   }
+        }
+}
+
+structure{
+	unit_cell_type = primitive
+	unit_cell{
+		a_vector =  0.0000000000        5.1300000000        5.1300000000
+	        b_vector =  5.1300000000        0.0000000000        5.1300000000
+		c_vector =  5.1300000000        5.1300000000        0.0000000000
+	}
+	symmetry{
+            crystal_structure = diamond
+	}
+
+	atom_list{
+	     atoms{
+		#tag  rx       ry         rz    element
+		      0.125     0.125     0.125      Si
+		     -0.125    -0.125    -0.125      Si
+	     }
+	}
+	element_list{ #tag element  atomicnumber
+			     Si       14
+	}
+}
+wavefunction_solver{
+	solvers{
+     #tag   sol  till_n     dts  dte   itr   var  prec submat cmix
+           lm+msd   +2     0.2  1.0    200  tanh    on  on    1
+           rmm3     -1     0.2  1.0    200  tanh    on  on    1
+	}
+	rmm{
+	     edelta_change_to_rmm = 1.0e-2
+	}
+}
+
+charge_mixing{
+	mixing_methods{
+	#tag no   method   rmxs
+	       1  broyden2  0.40
+	}
+}

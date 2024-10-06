@@ -1,0 +1,10 @@
+ &fnames
+ F_INP    = './nfinp1.data'
+ F_POT(1) = '../../../../pp/Si_ggapbe_paw_nc_01m.pp'
+ F_POT(2) = '../../../../pp/H_ggapbe_paw_nc_01m.pp'
+
+ F_KPOINT = './kpoint.data'
+ F_CHGT   = '../scf/nfchgt.data'
+ F_CNTN_BIN_PAW   = '../scf/continue_bin_paw.data'
+
+ /

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="3872"
+   height="1844"
+   overflow="hidden"
+   version="1.1"
+   id="svg229"
+   sodipodi:docname="introduction_fig1.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata233">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3828"
+     inkscape:window-height="2127"
+     id="namedview231"
+     showgrid="false"
+     inkscape:zoom="0.94757231"
+     inkscape:cx="1936"
+     inkscape:cy="837.57373"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g227" />
+  <defs
+     id="defs135">
+    <clipPath
+       id="clip0">
+      <rect
+         x="341"
+         y="344"
+         width="3872"
+         height="1844"
+         id="rect132" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#clip0)"
+     transform="translate(-341 -344)"
+     id="g227">
+    <path
+       d="m 356.2746,1060.3659 c 0,-3.72 3.151,-6.87 6.876,-6.87 h 2617.244 c 4.01,0 6.88,3.15 6.88,6.87 v 591.26 c 0,4.01 -2.87,6.87 -6.88,6.87 H 363.1506 c -3.725,0 -6.876,-2.86 -6.876,-6.87 z m 13.751,591.26 -6.875,-6.88 h 2617.244 l -6.87,6.88 v -591.26 l 6.87,6.88 H 363.1506 l 6.875,-6.88 z"
+       stroke-miterlimit="10"
+       id="path137"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <path
+       d="m 1228.7746,364.99591 v 252 h 1165 v -252 z"
+       id="path139"
+       inkscape:connector-curvature="0"
+       style="fill:#ccffff;fill-rule:evenodd" />
+    <path
+       d="m 1227.2746,363.49591 h 1172 v 256 h -1172 z m 4.82,253.714 -2.41,-2.285 h 1167.18 l -2.41,2.285 v -251.429 l 2.41,2.286 h -1167.18 l 2.41,-2.286 z"
+       stroke-miterlimit="10"
+       id="path141"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.29376599;stroke-linejoin:round;stroke-miterlimit:10" />
+    <text
+       font-weight="700"
+       font-size="86"
+       id="text145"
+       x="1267.9846"
+       y="483.99591"
+       style="font-weight:700;font-size:86px;font-family:'MS PGothic', 'MS PGothic_MSFontService', sans-serif">ポテンシャル作成プログラム<tspan
+   font-size="86"
+   x="1671.4097"
+   y="577.99591"
+   id="tspan143"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">CIAO</tspan>
+</text>
+    <path
+       d="m 3039.7746,1143.9959 v 257 h 1160 v -257 z"
+       id="path147"
+       inkscape:connector-curvature="0"
+       style="fill:#ccffff;fill-rule:evenodd" />
+    <path
+       d="m 3038.2746,1142.4959 h 1164 v 261 h -1164 z m 4.58,258.71 -2.29,-2.29 h 1159.44 l -2.3,2.29 v -256.42 l 2.3,2.29 h -1159.44 l 2.29,-2.29 z"
+       stroke-miterlimit="10"
+       id="path149"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <text
+       font-weight="700"
+       font-size="86"
+       id="text153"
+       x="3078.0547"
+       y="1266.996"
+       style="font-weight:700;font-size:86px;font-family:'MS PGothic', 'MS PGothic_MSFontService', sans-serif">量子伝導特性解析プログラム<tspan
+   font-size="86"
+   x="3463.1436"
+   y="1360.996"
+   id="tspan151"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">ASCOT</tspan>
+</text>
+    <path
+       d="m 1791.2746,623.66791 -11.18,8.021 -8.02,-11.172 10.89,-8.021 z m -22.35,16.328 -11.17,8.021 -8.03,-11.171 11.18,-8.022 z m -22.06,16.042 -11.18,8.308 -8.02,-11.173 10.89,-8.307 z m -22.35,16.329 -11.18,8.02 -8.02,-10.885 11.17,-8.308 z m -22.07,16.327 -11.17,8.021 -8.02,-11.171 10.88,-8.021 z m -22.35,16.042 -10.88,8.307 -8.31,-11.169 11.17,-8.022 z m -22.06,16.328 -11.18,8.022 -8.02,-10.885 10.89,-8.309 z m -22.35,16.328 -10.89,8.021 -8.31,-11.172 11.18,-8.018 z m -22.06,16.043 -11.18,8.306 -8.02,-11.172 11.17,-8.018 z m -22.35,16.328 -10.89,8.021 -8.31,-10.884 11.17,-8.31 z m -22.07,16.328 -11.17,8.021 -8.02,-11.173 11.17,-8.021 z m -22.35,16.043 -10.88,8.306 -8.31,-11.173 11.17,-8.018 z m -22.06,16.328 -11.18,8.021 -8.02,-10.888 11.18,-8.306 z m -22.06,16.327 -11.18,8.022 -8.31,-11.173 11.18,-8.021 z m -22.35,16.329 -11.18,8.021 -8.02,-11.173 11.18,-8.021 z m -22.07,16.042 -11.17,8.307 -8.31,-11.173 11.17,-8.307 z m -22.35,16.328 -11.17,8.022 -8.02,-10.888 11.17,-8.307 z m -22.06,16.328 -11.17,8.021 -8.03,-11.173 10.89,-8.021 z m -22.35,16.043 -11.17,8.306 -8.03,-11.172 11.18,-8.022 z m -22.06,16.328 -11.18,8.021 -8.02,-10.887 10.89,-8.307 z m -22.35,16.328 -11.18,8.021 -8.02,-11.173 11.18,-8.021 z m -22.07,16.043 -11.17,8.306 -8.02,-11.173 10.88,-8.021 z m -22.35,16.327 -10.88,8.022 -8.31,-10.888 11.17,-8.307 z m -22.06,16.328 -11.17,8.02199 -8.03,-11.17299 10.89,-8.021 z m -22.35,16.04299 -10.89,8.31 -8.31,-11.176 11.18,-8.022 z m -22.06,16.33 -11.18,8.3 -8.02,-11.17 10.89,-8.305 z m -22.35,16.33 -10.89,8.02 -8.31,-11.18 11.18,-8.02 z m -22.06,16.32 -11.18,8.03 -8.02,-11.18 11.17,-8.02 z m -22.36,16.05 -10.88,8.3 -8.31,-11.17 11.17,-8.02 z m -22.06,16.32 -11.17,8.03 -8.03,-10.89 11.18,-8.31 z m -22.35,16.33 -10.89,8.02 -8.31,-11.17 11.18,-8.02 z m -22.06,16.05 -11.17,8.3 -8.03,-11.17 11.18,-8.02 z m -22.07,16.32 -11.17,8.02 -8.31,-10.88 11.18,-8.31 z m -22.34,16.33 -11.18,8.02 -8.02,-11.17 11.17,-8.02 z m -22.07,16.04 -11.17,8.31 -8.03,-11.17 10.89,-8.02 z m -22.348,16.33 -11.176,8.02 -8.02,-10.88 11.172,-8.31 z m -22.063,16.33 -11.176,8.02 -8.023,-11.17 10.89,-8.02 z m -22.348,16.04 -11.176,8.31 -8.024,-11.17 11.176,-8.03 z m -22.067,16.33 -11.172,8.31 -8.024,-11.18 10.888,-8.3 z m -6.875,22.06 -45.559,7.73 21.203,-40.96 z"
+       stroke-miterlimit="10"
+       id="path155"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <path
+       d="m 1785.9946,611.49591 13.18,4.006 -3.72,13.164 -13.18,-3.72 z m 26.36,7.727 13.18,3.72 -3.73,13.163 -13.17,-3.72 z m 26.64,7.726 13.18,3.72 -4.01,13.164 -13.18,-3.72 z m 26.36,7.441 13.18,4.005 -3.73,13.164 -13.17,-4.006 z m 26.36,7.726 13.18,3.72 -3.73,13.164 -13.17,-3.721 z m 26.36,7.44 13.18,4.006 -3.73,13.164 -13.18,-3.72 z m 26.64,7.727 13.18,3.72 -4.01,13.45 -13.18,-4.007 z m 26.36,7.726 13.18,3.72 -3.73,13.164 -13.46,-3.72 z m 26.36,7.441 13.17,4.006 -3.72,13.162 -13.18,-4.005 z m 26.35,7.726 13.18,3.72 -3.72,13.165 -13.18,-3.721 z m 26.36,7.725 13.47,3.722 -4.01,13.163 -13.18,-3.722 z m 26.65,7.44 13.17,3.722 -3.72,13.451 -13.47,-4.007 z m 26.35,7.728 13.18,3.722 -3.72,13.163 -13.18,-3.722 z m 26.36,7.44 13.18,4.007 -3.73,13.162 -13.17,-4.006 z m 26.36,7.728 13.46,3.718 -4.01,13.163 -13.18,-3.718 z m 26.64,7.725 13.18,3.721 -4.01,13.163 -13.18,-3.721 z m 26.36,7.44 13.18,3.721 -3.73,13.448 -13.17,-4.003 z m 26.36,7.728 13.18,3.718 -3.73,13.166 -13.18,-3.722 z m 26.35,7.439 13.47,4.007 -4.01,13.163 -13.18,-3.718 z m 26.65,7.729 13.18,3.718 -4.02,13.162 -13.17,-3.718 z m 26.35,7.724 13.19,3.722 -3.73,13.163 -13.18,-3.722 z m 26.36,7.44 13.18,4.007 -3.72,13.163 -13.18,-4.007 z m 26.36,7.728 13.18,3.718 -3.72,13.163 -13.18,-3.718 z m 26.64,7.44 13.18,4.006 -4.01,13.163 -13.18,-3.721 z m 26.36,7.725 13.18,3.721 -3.72,13.451 -13.18,-4.006 z m 26.36,7.728 13.18,3.718 -3.73,13.166 -13.18,-3.722 z m 26.36,7.439 13.17,4.007 -3.72,13.163 -13.18,-4.007 z m 26.64,7.729 13.18,3.718 -4.01,13.162 -13.18,-3.717 z m 26.36,7.724 13.18,3.722 -3.73,13.163 -13.46,-3.722 z m 26.36,7.44 13.17,3.722 -3.72,13.447 -13.18,-4.006 z m 26.35,7.728 13.18,3.718 -3.72,13.167 -13.18,-3.722 z m 26.36,7.44 13.47,4.006 -4.02,13.163 -13.17,-4.006 z m 26.65,7.725 13.17,3.721 -3.72,13.163 -13.46,-3.718 z m 26.35,7.728 13.18,3.721 -3.72,13.163 -13.18,-3.721 z m 26.36,7.439 13.18,4.007 -3.73,13.163 -13.17,-4.007 z m 26.36,7.729 13.46,3.718 -4.01,13.163 -13.18,-3.718 z m 26.64,7.439 13.18,4.007 -4.01,13.163 -13.18,-3.722 z m 26.36,7.725 13.18,3.722 -3.73,13.163 -13.18,-3.719 z m 26.35,7.728 13.19,3.718 -3.73,13.166 -13.18,-3.721 z m 26.36,7.44 13.18,4.007 -3.72,13.162 -13.18,-4.006 z m 26.65,7.728 13.18,3.718 -4.01,13.163 -13.18,-3.718 z m 26.36,7.44 13.17,4.006 -3.72,13.163 -13.18,-3.721 z m 26.35,7.724 13.18,3.722 -3.72,13.448 -13.18,-4.007 z m 26.36,7.729 13.18,3.718 -3.73,13.163 -13.18,-3.719 z m 26.65,7.439 13.17,4.007 -4.01,13.163 -13.18,-4.007 z m 26.35,7.725 13.18,3.722 -3.72,13.163 -13.47,-3.719 z m 26.36,7.728 13.18,3.718 -3.73,13.167 -13.17,-3.722 z m 26.36,7.44 13.17,3.721 -3.72,13.449 -13.18,-4.007 z m 26.64,7.728 13.18,3.718 -4.01,13.163 -13.18,-3.718 z m 26.36,7.44 13.18,4.006 -3.73,13.16299 -13.46,-4.00599 z m 26.35,7.725 13.19,3.721 -3.73,13.16299 -13.18,-3.721 z m 26.36,7.72799 13.18,3.718 -3.72,13.166 -13.18,-3.722 z m 26.36,7.439 13.47,4.007 -4.01,13.16 -13.18,-4 z m 26.64,7.725 13.18,3.722 -3.72,13.16 -13.47,-3.72 z m 26.36,7.442 13.18,4.01 -3.72,13.16 -13.18,-3.72 z m 26.36,7.73 13.18,3.72 -3.72,13.16 -13.19,-3.72 z m 26.36,7.72 13.46,3.72 -4.01,13.17 -13.18,-3.72 z m 26.64,7.44 13.18,4.01 -4.01,13.16 -13.18,-4 z m 26.36,7.73 13.18,3.72 -3.73,13.16 -13.18,-3.72 z m 26.36,7.44 13.17,4 -3.72,13.17 -13.18,-3.72 z m 26.35,7.73 13.47,3.72 -4.01,13.45 -13.18,-4.01 z m 26.65,7.72 13.17,3.72 -4.01,13.17 -13.17,-3.72 z m 26.36,7.44 13.17,4.01 -3.72,13.16 -13.18,-4 z m 26.35,7.73 13.18,3.72 -3.72,13.16 -13.18,-3.72 z m 26.36,7.73 13.18,3.72 -3.73,13.16 -13.17,-3.72 z m 26.64,7.44 13.18,3.72 -4.01,13.45 -13.18,-4.01 z m 26.36,7.72 13.18,3.72 -3.73,13.17 -13.17,-3.72 z m 26.36,7.44 13.18,4.01 -3.73,13.16 -13.18,-4 z m 26.35,7.73 5.16,1.43 -3.72,13.16 -5.16,-1.43 z m 2.3,-13.74 34.09,31.2 -45.55,8.58 z"
+       stroke-miterlimit="10"
+       id="path157"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <path
+       d="m 1788.7446,612.49591 9.75,9.746 -9.75,9.747 -9.47,-9.747 z m 19.5,19.493 9.75,9.746 -9.75,9.745 -9.75,-9.745 z m 19.51,19.491 9.75,9.746 -9.75,9.747 -9.76,-9.747 z m 19.5,19.493 9.75,9.746 -9.75,9.745 -9.75,-9.745 z m 19.51,19.491 9.75,9.746 -9.75,9.747 -9.76,-9.747 z m 19.5,19.493 9.75,9.745 -9.75,9.747 -9.75,-9.747 z m 19.51,19.492 9.75,9.461 -9.75,9.745 -9.76,-9.46 z m 19.5,19.206 9.75,9.747 -9.75,9.746 -9.75,-9.746 z m 19.5,19.493 9.75,9.746 -9.75,9.746 -9.75,-9.746 z m 19.51,19.492 9.75,9.746 -9.75,9.747 -9.76,-9.747 z m 19.5,19.493 9.75,9.745 -9.75,9.747 -9.75,-9.747 z m 19.51,19.492 9.75,9.746 -9.75,9.746 -9.76,-9.746 z m 19.22,19.492 9.75,9.743 -9.47,9.461 -9.75,-9.461 z m 19.5,19.204 9.75,9.745 -9.75,9.747 -9.75,-9.747 z m 19.51,19.492 9.75,9.746 -9.75,9.746 -9.76,-9.746 z m 19.5,19.492 9.75,9.746 -9.75,9.746 -9.75,-9.746 z m 19.51,19.492 9.75,9.746 -9.75,9.746 -9.76,-9.746 z m 19.5,19.492 9.75,9.747 -9.75,9.746 -9.75,-9.746 z m 19.51,19.493 9.75,9.746 -9.75,9.746 -9.76,-9.746 z m 19.5,19.207 9.75,9.746 -9.75,9.74599 -9.75,-9.74599 z m 19.51,19.49199 9.75,9.742 -9.75,9.743 -9.76,-9.743 z m 19.5,19.485 9.75,9.75 -9.75,9.75 -9.75,-9.75 z m 19.5,19.5 9.76,9.74 -9.76,9.75 -9.75,-9.75 z m 19.51,19.49 9.75,9.74 -9.75,9.75 -9.75,-9.75 z m 19.5,19.49 9.75,9.75 -9.75,9.74 -9.75,-9.74 z m 19.22,19.49 9.75,9.46 -9.46,9.75 -9.76,-9.46 z m 19.51,19.21 9.75,9.75 -9.75,9.74 -9.76,-9.74 z m 19.5,19.49 9.75,9.75 -9.75,9.74 -9.75,-9.74 z m 19.51,19.49 9.75,9.75 -9.75,9.75 -9.76,-9.75 z m 19.5,19.5 9.75,9.74 -9.75,9.75 -9.75,-9.75 z m 19.5,19.49 9.76,9.74 -9.76,9.75 -9.75,-9.75 z m 19.51,19.49 9.75,9.75 -9.75,9.45 -9.75,-9.45 z m 19.5,19.2 5.46,5.45 -9.76,9.75 -5.45,-5.45 z m 10.33,-9.17 14.63,43.86 -43.89,-14.62 z"
+       stroke-miterlimit="10"
+       id="path159"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <path
+       d="m 394.7746,1267.9959 v 252 h 995 v -252 z"
+       id="path161"
+       inkscape:connector-curvature="0"
+       style="fill:#ccffff;fill-rule:evenodd" />
+    <path
+       d="m 393.2746,1266.4959 h 999 v 257 h -999 z m 4.583,254.7 -2.292,-2.29 h 994.419 l -2.29,2.29 v -252.4 l 2.29,2.29 h -994.419 l 2.292,-2.29 z"
+       stroke-miterlimit="10"
+       id="path163"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <text
+       font-weight="700"
+       font-size="86"
+       id="text169"
+       x="438.89859"
+       y="1389.996"
+       style="font-weight:700;font-size:86px;font-family:'MS Gothic', 'MS Gothic_MSFontService', sans-serif">電子状態計算プログラム<tspan
+   font-size="86"
+   x="631.44165"
+   y="1483.996"
+   id="tspan165"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">phase,</tspan>
+<tspan
+   font-size="86"
+   x="929.42865"
+   y="1483.996"
+   id="tspan167"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">ekcal</tspan>
+</text>
+    <path
+       d="m 1939.7746,1267.9959 v 252 h 995 v -252 z"
+       id="path171"
+       inkscape:connector-curvature="0"
+       style="fill:#ccffff;fill-rule:evenodd" />
+    <path
+       d="m 1938.2746,1266.4959 h 999 v 257 h -999 z m 4.58,254.7 -2.29,-2.29 h 994.42 l -2.29,2.29 v -252.4 l 2.29,2.29 h -994.42 l 2.29,-2.29 z"
+       stroke-miterlimit="10"
+       id="path173"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <text
+       font-weight="700"
+       font-size="86"
+       id="text181"
+       style="font-weight:700;font-size:86px;font-family:'MS PGothic', 'MS PGothic_MSFontService', sans-serif"
+       x="1983.0646"
+       y="1389.996">誘電応答計算プログラム<tspan
+   font-size="86"
+   x="2065.5857"
+   y="1482.996"
+   id="tspan175"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">epsmain, tdlrmain</tspan>
+</text>
+    <path
+       d="m 765.7746,1817.9959 v 358 h 1628 v -358 z"
+       id="path183"
+       inkscape:connector-curvature="0"
+       style="fill:#ccffff;fill-rule:evenodd" />
+    <path
+       d="m 764.2746,1816.4959 h 1632 v 362 h -1632 z m 4.585,359.71 -2.292,-2.29 h 1627.417 l -2.29,2.29 v -357.42 l 2.29,2.29 H 766.5676 l 2.292,-2.29 z"
+       stroke-miterlimit="10"
+       id="path185"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <text
+       font-weight="700"
+       font-size="86"
+       id="text197"
+       x="852.31763"
+       y="1939.996"
+       style="font-weight:700;font-size:86px;font-family:'MS PGothic', 'MS PGothic_MSFontService', sans-serif">グラフィカル・ユーザー・インターフェース<tspan
+   font-size="86"
+   x="1443.7047"
+   y="2045.996"
+   id="tspan187"
+   style="font-size:86px">（</tspan>
+<tspan
+   font-size="86"
+   x="1494.1327"
+   y="2033.996"
+   id="tspan189"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">GUI</tspan>
+<tspan
+   font-size="86"
+   x="1663.7537"
+   y="2045.996"
+   id="tspan191"
+   style="font-size:86px">）</tspan>
+<tspan
+   font-size="86"
+   x="1260.3276"
+   y="2134.9958"
+   id="tspan193"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">PHASE</tspan>
+<tspan
+   font-size="86"
+   x="1608.7396"
+   y="2134.9958"
+   id="tspan195"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">Viewer</tspan>
+</text>
+    <path
+       d="m 938.1396,1528.6559 603.725,260.81 -7.17,16.88 -603.718,-261.11 z m -6.304,37.17 -39.561,-47.18 61.634,-3.15 z m 608.879,203.34 39.56,46.9 -61.35,3.43 z"
+       stroke-miterlimit="10"
+       id="path199"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <text
+       font-weight="700"
+       font-size="72"
+       id="text201"
+       x="1616.8446"
+       y="1789.996"
+       style="font-weight:700;font-size:72px;font-family:'MS PGothic', 'MS PGothic_MSFontService', sans-serif">入力データ作成・編集、計算実行、計算結果の可視化</text>
+    <path
+       d="m 1357.7746,772.99591 h 866 v 212.623 l -30.35,30.37699 h -835.65 z"
+       id="path203"
+       inkscape:connector-curvature="0"
+       style="fill:#ffffcc;fill-rule:evenodd" />
+    <path
+       d="m 2193.7746,1015.9959 6.22,-23.77299 23.78,-6.227 z"
+       id="path205"
+       inkscape:connector-curvature="0"
+       style="fill:#cdcda4;fill-rule:evenodd" />
+    <path
+       d="m 2191.4946,1015.9209 6.02,-24.29699 c 0.29,-0.86 0.86,-1.43 1.72,-1.718 l 24.35,-6.002 c 0.86,-0.285 2,0 2.29,1.142 0.57,0.858 0.57,2.003 -0.29,2.576 l -30.36,30.30199 c -0.29,0.572 -0.86,0.572 -1.72,0.572 h -835.94 c -1.15,0 -2.29,-0.857 -2.29,-2.287 V 773.78391 c 0,-1.143 1.14,-2.288 2.29,-2.288 h 866.31 c 1.43,0 2.29,1.145 2.29,2.288 v 212.12 h -4.59 v -212.12 l 2.3,2.287 h -866.31 l 2.29,-2.287 v 242.42499 l -2.29,-2.288 h 835.94 l -1.43,0.858 30.36,-30.30199 2.01,3.714 -24.07,6.006 1.44,-1.431 -6.02,24.01599 z"
+       stroke-miterlimit="10"
+       id="path207"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <text
+       font-weight="700"
+       font-size="72"
+       id="text209"
+       x="1406.2847"
+       y="918.99591"
+       style="font-weight:700;font-size:72px;font-family:'MS PGothic', 'MS PGothic_MSFontService', sans-serif">擬ポテンシャル・ファイル</text>
+    <path
+       d="m 1387.2746,1386.4059 h 18.35 l 0.28,18.33 h -18.34 z m 36.7,0 h 18.34 l 0.29,18.33 h -18.35 z m 36.69,0 h 18.35 l 0.29,18.33 h -18.35 z m 36.7,0 h 18.35 l 0.28,18.33 h -18.35 z m 36.69,-0.29 h 18.35 l 0.29,18.33 h -18.35 z m 36.7,0 h 18.35 l 0.28,18.33 h -18.35 z m 36.69,0 h 18.35 l 0.29,18.33 h -18.35 z m 36.7,0 h 18.35 l 0.28,18.33 h -18.34 z m 36.69,0 h 18.35 l 0.29,18.33 h -18.35 z m 36.7,0 18.35,-0.29 0.28,18.34 -18.34,0.28 z m 36.7,-0.29 h 18.34 l 0.29,18.34 h -18.35 z m 36.69,0 h 18.35 l 0.29,18.34 h -18.35 z m 36.7,0 h 18.34 l 0.29,18.34 h -18.35 z m 36.69,0 h 18.35 l 0.29,18.34 h -18.35 z m 16.92,-18.33 55.04,27.21 -55.04,27.79 z"
+       stroke-miterlimit="10"
+       id="path211"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <path
+       d="m 1306.7746,1437.9959 h 692 v 160.13 l -22.91,22.87 h -669.09 z"
+       id="path213"
+       inkscape:connector-curvature="0"
+       style="fill:#ffffcc;fill-rule:evenodd" />
+    <path
+       d="m 1975.7746,1620.9959 4.6,-18.4 18.4,-4.6 z"
+       id="path215"
+       inkscape:connector-curvature="0"
+       style="fill:#cdcda4;fill-rule:evenodd" />
+    <path
+       d="m 1974.9346,1620.9359 4.59,-18.25 c 0,-0.86 0.86,-1.71 1.72,-1.71 l 18.34,-4.56 c 0.86,-0.29 2,0 2.29,1.14 0.57,0.86 0.57,1.99 -0.29,2.56 l -22.92,22.81 c -0.29,0.57 -0.86,0.57 -1.72,0.57 h -669.38 c -1.15,0 -2.29,-0.85 -2.29,-2.28 v -182.44 c 0,-1.14 1.14,-2.28 2.29,-2.28 h 692.31 c 1.43,0 2.29,1.14 2.29,2.28 v 159.64 h -4.59 v -159.64 l 2.3,2.28 h -692.31 l 2.29,-2.28 v 182.44 l -2.29,-2.28 h 669.38 l -1.43,0.85 22.92,-22.8 2.01,3.71 -18.34,4.55 1.72,-1.71 -4.59,18.25 z"
+       stroke-miterlimit="10"
+       id="path217"
+       inkscape:connector-curvature="0"
+       style="fill-rule:evenodd;stroke:#000000;stroke-width:0.286549;stroke-linejoin:round;stroke-miterlimit:10" />
+    <text
+       font-weight="700"
+       font-size="72"
+       id="text219"
+       x="1371.8947"
+       y="1559.996"
+       style="font-weight:700;font-size:72px;font-family:'MS Gothic', 'MS Gothic_MSFontService', sans-serif">電荷密度ファイル</text>
+    <path
+       d="m 882.7746,1072.9959 v 152 h 1660 v -152 z"
+       id="path221"
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-rule:evenodd" />
+    <text
+       font-weight="700"
+       font-size="86"
+       id="text225"
+       x="927.23462"
+       y="1198.996"
+       style="font-weight:700;font-size:86px;font-family:'MS PGothic', 'MS PGothic_MSFontService', sans-serif">第一原理電子状態計算プログラム<tspan
+   font-size="86"
+   x="2201.6946"
+   y="1186.996"
+   id="tspan223"
+   style="font-size:86px;font-family:Arial, Arial_MSFontService, sans-serif">PHASE</tspan>
+</text>
+  </g>
+</svg>

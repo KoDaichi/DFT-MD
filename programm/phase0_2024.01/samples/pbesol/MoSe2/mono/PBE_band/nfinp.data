@@ -1,0 +1,47 @@
+control{
+    condition = fixed_charge 
+}
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz
+            Mo    0.333333333364    0.666666666728    0.153846153838
+            Se    0.6666666667    0.333333333272    0.069973981598
+            Se    0.6666666667    0.333333333272    0.237718326104
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass zeta deviation
+         Mo 42 174886.851 0.0 1.83
+         Se 34 58452.3844 0.0 1.83
+    }
+    unit_cell{
+    a_vector = 6.2979819092 0.0 0.0
+    b_vector = -3.1489909546 5.454212326 -0.0
+    c_vector = 0.0 0.0 37.794519843
+    }
+    symmetry{
+        method = automatic 
+        tspace{
+            lattice_system = hexagonal 
+        }
+    }
+    unit_cell_type = bravais 
+}
+accuracy{
+    ksampling{
+        method = file
+    }
+    ek_convergence{
+      num_extra_bands = 12
+    }
+    cutoff_wf =  36 rydberg
+    cutoff_cd = 324 rydberg
+    num_bands = 32
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 5.0E-4 Hartree/Bohr
+    }
+}

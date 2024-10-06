@@ -1,0 +1,15 @@
+&fnames
+F_INP = './nfinp.data'
+F_POT(1) = '../../../pp/Si_ggapbe_paw_nc_01m.pp'
+F_DYNM = './nfdynm.data'
+F_ENF = './nfefn.data'
+F_CHR = './nfchr.cube'
+F_DOS = './dos.data'
+F_ENERG = './nfenergy.data'
+F_CHGT = './nfchgt.data'
+F_CNTN = './continue.data'
+F_CNTN_BIN = './continue_bin.data'
+F_KPOINT = './kpoint.data'
+F_MODE = './mode.data'
+F_EPSOUT = './eps.data'
+/

@@ -1,0 +1,4 @@
+ &fnames
+ F_INP    = './nfinput.data'
+ F_POT(1) = './Si_ldapw91_nc_01.pp'
+ &end

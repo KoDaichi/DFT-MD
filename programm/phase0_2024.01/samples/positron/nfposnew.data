@@ -1,0 +1,190 @@
+Control{
+	condition = initial      ! {0|1|2|3}|{initial|continuation|fixed_charge|fixed_charge_continuation}
+	cpumax = 9.5 hour     ! {sec|min|hour|day}
+	max_iteration = 6000
+	nfstopcheck = 1
+	positron = BULK
+!	ek{
+!	   use_intermediatefile = yes
+!	}
+}
+
+accuracy{
+	cutoff_wf =  50.00  rydberg  ! cke_wf
+	cutoff_cd =  200.00  rydberg  ! cke_cd
+	cutoff_pwf = 50.00 rydberg
+	num_bands = 8
+	ksampling{
+		!method = gamma
+		method = mesh ! {mesh|file|directin|gamma}
+		mesh{  nx = 4, ny =  4, nz =  4   }
+!                kpoints{
+!                !#tag kx ky kz denom weight
+!                       0  0  0   8    1
+!                       4  0  0   8    3
+!                       0  0  4   8    1
+!                       4  0  4   8    3
+!                }
+	}
+	smearing{
+		method = tetrahedral   ! parabolic ! {parabolic|tetrahedral}
+		width  = 0.001 hartree
+	}
+	scf_convergence{
+		delta_total_energy = 1.e-12  hartree
+		succession   = 2   !default value = 2
+	}
+	force_convergence{
+		max_force = 0.1e-3
+	}
+	ek_convergence{
+		num_extra_bands = 8
+		num_max_iteration = 300
+		sw_eval_eig_diff = on
+		delta_eigenvalue = 1.e-15 rydberg
+		succession   = 2
+	}
+
+	positron_convergence{
+		num_extra_bands = 8
+		delta_eigenvalue = 1.d-8 rydberg
+		succession = 6
+		num_max_iteration = 32000
+		dtim = 0.01
+		epsilon_ele = 12.00
+	}
+
+	initial_wavefunctions = matrix_diagon  ! matrix_diagon  !{random_numbers|matrix_diagion}
+            matrix_diagon{
+               cke_wf =  16.00  rydberg  ! cke_wf
+            }
+
+	initial_charge_density = Gauss !{Gauss|Very_broad|pseudopotentialfile}
+
+}
+
+structure{
+	unit_cell_type = primitive
+	unit_cell{
+		#units bohr degree
+		!a = 9.4960705500, b=9.4960705500, c=10.446230400,
+                !alpha=90.0, beta=90.0, gamma=120.0
+		a_vector =  0.00000000000        5.12779251360        5.12779251360
+	        b_vector =  5.12779251360        0.00000000000        5.12779251360
+		c_vector =  5.12779251360        5.12779251360        0.00000000000
+	}
+	symmetry{
+	     crystal_structure = diamond
+	     sw_inversion = on
+	}
+
+	magnetic_state = para   !{para|af|ferro}
+	atom_list{
+	     atoms{
+		#units  ! {angstrom(cartecian) | bohr(cartecian)}
+		#tag  rx       ry         rz       weight   element    mobile
+		     0.125     0.125     0.125       1          Si        1
+		     -0.125     -0.125     -0.125       1          Si        1
+	     }
+	}
+	element_list{
+	 #units angstrom
+	 #tag element  atomicnumber  qex   standard_deviation
+			 Si        14              0.0   3.5
+	}
+}
+
+structure_evolution{
+	method = gdiis
+	dt  = 100.0
+	gdiis{
+	    gdiis_box_size = 4
+	    gdiis_update = RENEW
+	    c_forc2gdiis = 0.0050
+	    c_iteration2GDIIS = 3
+	}
+	stress{
+	    sw_stress = 0
+	    iconstpw  = 0
+	}
+}
+
+wavefunction_solver{
+	! num_solvers = 3
+	solvers{
+	    #tag   id sol    till_n  dts  dte   itr   var  prec cmix submat
+             1 lm+msd 2 0.2 * * * on 3 on
+             2 rmm3  -1 0.2 * * * on 3 on
+!            1    MSD    3      0.2  *     *      *    on   3  on
+!            2  lm+MSD   80     0.2  *     *      *    on   3  on
+!            3  rmm2p    82     0.2  *     *      *    on   3  on
+!            4  lm+MSD  120     0.2  *     *      *    on   3  on
+!            5  rmm2p   125     0.2  *     *      *    on   3  on
+!            6  lm+MSD  150     0.2  *     *      *    on   3  on
+!            7  rmm2p   160     0.2  *     *      *    on   3  on
+!            8  lm+MSD   -1     0.2  *     *      *    on   3  on
+	}
+
+	line_minimization{
+	     dt_lower_critical = 1.0
+	     dt_upper_critical = 5.0
+	}
+
+	rmm{
+	     imGSrmm  = 1
+	     rr_Critical_Value = 1.e-15
+	     edelta_change_to_rmm = 1.0e-2
+	}
+
+	subspace_rotation{
+	     subspace_matrix_size = 20
+	     damping_factor = 1.00
+             before_renewal=on
+	}
+}
+
+charge_mixing{
+	mixing_methods{
+	#tag no   method   rmxs   rmxe   itr  var    prec istr  nbmix  update
+	       1   simple   0.90   0.95   40  linear  on
+	       2   simple   0.50   0.90  400  tanh    on
+	       3  broyden2  0.80    *     *     *     on     3    5     RENEW
+	}
+}
+
+Postprocessing{
+	dos{
+		sw_dos = ON
+		method = g  ! {gaussdistrib|tetrahedral}
+		! sw_dos_Gaussdistrib = ON
+		deltaE_dos          = 1.e-3 eV
+		variance_GaussD     = 1.e-3
+		nwd_window_width    = 10
+	}
+	charge{
+		sw_charge_rspace    = OFF
+		filetype            = density_only  ! cube {cube|density_only}
+		title  = "This is a title line for the bulk Si"
+	}
+}
+
+printlevel{
+	base = 1
+	timing = 1
+	fftmap = 2
+	solver = 1
+	evdff  = 0
+	rmm    = 0
+	snl    = 0
+	gdiis  = 1
+	eigenvalue = 1
+	inputfile = 2
+	spg    = 1
+	kp     = 2
+	pulay  = 0
+        matdiagon = 0
+	vlhxcq = 0
+	totalcharge = 2
+	submat = 0
+	strcfctr = 0
+}

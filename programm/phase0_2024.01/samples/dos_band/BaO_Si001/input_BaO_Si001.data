@@ -1,0 +1,160 @@
+Control{
+	condition = initial      ! {0|1|2|3}|{initial|continuation|fixed_charge|fixed_charge_continuation}
+	cpumax = 1 day    ! {sec|min|hour|day}
+	max_iteration = 60000
+}
+
+accuracy{
+        !fftsize{
+        !    factor_for_ChargeDensity = 0.5d0
+        !}
+	cutoff_wf =  25.00  rydberg
+	cutoff_cd = 230.00  rydberg
+	num_bands = 80
+	ksampling{
+		method = monk ! {monk|mesh|file|directin|gamma}
+		mesh{ nx=4, ny=4, nz=1}
+		kshift{ k1=0.5,k2=0.5,k3=0}
+	}
+	smearing{
+		method = parabolic ! {parabolic|tetrahedral}
+		width  = 0.002 hartree
+	}
+	scf_convergence{
+		delta_total_energy = 1.e-8 hartree
+		succession   = 2   !default value = 2
+	}
+	force_convergence{
+		max_force = 0.1e-3
+	}
+
+	initial_wavefunctions = matrix_diagon  !{random_numbers|matrix_diagion}
+            matrix_diagon{
+               cutoff_wf =  3.0 rydberg  ! cke_wf
+            }
+}
+
+structure{
+        unit_cell_type=bravais
+        unit_cell{
+	  !! a_Si=5.43 A, c-axis=5*a_Si
+	  !! (c.f. a_BaO=5.52 A)
+          #units angstrom degree
+          a = 3.83958982184, b= 3.83958982184, c= 27.15
+	  alpha=90.0, beta=90.0, gamma=90.0
+        }
+
+	symmetry{
+           !tspace{
+	   !   system = primitive
+           !   generators {
+	   !      !#tag rotation tx  ty  tz
+	   !            E         0   0   0
+	   !            C2z       0   0   0
+           !   }
+	   !}
+           method=automatic
+	   sw_inversion = off
+        }
+	magnetic_state = para  !{para|af|ferro}
+
+	atom_list{
+	     coordinate_system = internal ! {cartesian|internal}
+	     atoms{
+	     #default mobile=off
+#tag element  rx     ry     rz     num_layer
+      Ba       0.0000 0.5000 0.05   1
+      O        0.5000 0.0000 0.05   1
+      Ba       0.5000 0.0000 0.15   2
+      O        0.0000 0.5000 0.15   2
+      Ba       0.0000 0.5000 0.25   3
+      O        0.5000 0.0000 0.25   3
+      O        0.0000 0.5000 0.35   4
+      Si       0.0000 0.0000 0.40   5
+      Si       0.5000 0.0000 0.45   6
+      Si       0.5000 0.5000 0.50   7
+      Si       0.0000 0.5000 0.55   8
+      Si       0.0000 0.0000 0.60   9
+      O        0.5000 0.0000 0.65  10
+      Ba       0.5000 0.0000 0.75  11
+      O        0.0000 0.5000 0.75  11
+      Ba       0.0000 0.5000 0.85  12
+      O        0.5000 0.0000 0.85  12
+      Ba       0.5000 0.0000 0.95  13
+      O        0.0000 0.5000 0.95  13
+	     }
+	}
+	element_list{ #tag element  atomicnumber
+          Si            14
+          Ba            56
+          O              8
+        }
+}
+
+wavefunction_solver{
+        solvers{
+        #tag   sol    till_n
+               mddavidson   +2
+               rmm3     -1
+        }
+        rmm{
+           edelta_change_to_rmm=1e-3
+        }
+}
+
+charge_mixing{
+	mixing_methods{
+	 #tag no   method   rmxs
+	       1  pulay  0.40
+	}
+}
+
+structure_evolution{
+     stress{
+       sw_stress = on
+     }
+}
+
+Postprocessing{
+   dos{
+       sw_dos = ON
+   }
+   ldos{
+      sw_aldos = ON
+      !!hardpart_subroutine = 2
+      !!$sw_rspace = on
+      aldos{
+         crtdst = 6.0 bohr
+	 naldos_from = 1
+	 naldos_to   = 19
+      }
+      sw_layerdos = ON
+      layerdos{
+         slicing_way = by_atomic_positions !{regular_intervals|by_atomic_positions}
+	 deltaz = 1.0 angstrom
+	 normal_axis = 3
+	 crtdst = 3.5 bohr
+      }
+   }
+   charge{
+      sw_charge_rspace    = On
+      filetype            = cube
+      title  = "a BaO/Si(001) interface"
+      partial_charge{
+         sw_partial_charge = On
+         Erange_min = -0.50 eV
+         Erange_max =  0.50 eV
+         Erange_delta = 0.05 eV
+         partial_charge_filetype = individual !{individual or separate |integrated}
+      }
+   }
+}
+
+printoutlevel{
+    base=1
+    ipriinputfile = 2
+    timing_option{
+      sw_firstlevel_only = off
+      sw_flatten = on
+    }
+}

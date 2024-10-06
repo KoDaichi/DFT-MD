@@ -1,0 +1,61 @@
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz
+             Bi 0.038047921494658195 -0.0 0.06236377878071501
+             Bi 0.46195943646359433 0.5000000000059998 0.0890436978206749
+             Bi -0.03804056354182758 0.0 -0.0890436978206749
+             Bi -0.4619520785107637 -0.5000000000059998 -0.06236377878071501
+        }
+        coordinate_system = internal 
+    }
+    element_list{
+        #tag element atomicnumber
+         Bi 83
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 4.879995425985122 0.0 0.0 
+        b_vector = 0.0 4.409995866553523 0.0 
+        c_vector = 0.0 0.0 19.999981253964517 
+    }
+    symmetry{
+        method = automatic 
+    }
+    unit_cell_type = primitive 
+    magnetic_state = noncollinear 
+}
+accuracy{
+    ksampling{
+        method = file 
+    }
+    initial_charge_density = file 
+    xctype = ggapbe 
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+    paw = on 
+    spinorbit{
+        mode = pawpot 
+    }
+    num_bands = 54 
+    ek_convergence{
+        num_max_iteration = 500 
+        sw_eval_eig_diff = on 
+        delta_eigenvalue = 1.e-8 
+        succession = 5 
+        num_extra_bands = 5 
+    }
+}
+control{
+    cpumax = 2 hour
+    condition = fixed_charge 
+}
+printoutlevel{
+    base = 1 
+}
+charge_mixing{
+    sw_mix_charge_hardpart = on 
+}
+postprocessing{
+sw_band_symmetry_analysis = on
+}

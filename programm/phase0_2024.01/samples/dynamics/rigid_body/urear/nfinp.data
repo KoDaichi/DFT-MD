@@ -1,0 +1,84 @@
+Control{
+    condition = initial
+    max_iteration = 10000000
+    max_mdstep = 200
+}
+accuracy{
+    cutoff_wf =  30.0 rydberg
+    cutoff_cd = 300.0 rydberg
+    ksampling{
+        mesh{
+            nx = 2
+            ny = 2
+            nz = 2
+        }
+    }
+    scf_convergence{
+      delta_total_energy = 1e-12
+    }
+    force_convergence{
+      max_translational_force = 2e-4
+    }
+    torque_convergence{
+      max_torque = 2e-4
+    }
+}
+structure{
+  atom_list{
+    atoms{
+      #tag    element    rx    ry    rz    mobile rigid_body
+            C    0.0006812508800140048    0.5023999736374347    0.3346042508728596     on 1
+            C    0.5040186457938967    0.00028243276871284213    -0.3195974601906636   on 2
+            O    0.0008463415619001832    0.5029919322834406    0.6023803376399596     on 1
+            O    0.5064662741560865    0.004949716457284581    -0.5928559850773588     on 2
+            N    0.1509581764811962    0.6455874923907808    0.19369268674263734       on 1
+            N    0.6550118760379069    -0.1392084673266586    -0.1777482062181387      on 2
+            N    0.3650859911453833    0.15154004368623553    -0.17310197686082077     on 2
+            N    -0.14169451343357797    0.3655854345024432    0.18851706743322125     on 1
+            H    0.2584735678204725    0.7601187842031681    0.33888553177098296       on 1
+            H    0.7742456053228168    -0.23169474668436463    -0.2895403687094697     on 2
+            H    0.2624968587829169    0.2653004051999761    -0.287426294260986        on 2
+            H    -0.23992303121283934    0.2546619126656994    0.31274261660096236     on 1
+            H    0.16484908344764207    0.6485221915328011    -0.020152904317085996    on 1
+            H    0.6428165143888944    -0.12417041625979042    0.05730599675769439     on 2
+            H    0.40478388864392456    0.1500661146407174    0.05485912765686573      on 2
+            H    -0.13819512776392362    0.37809035493289855    -0.027973744576603524  on 1
+    }
+  }
+  rigid_body{
+    mobile=on
+  }
+  unit_cell{
+    a_vector = 10.6977388416 0.0 0.0
+    b_vector = 0.0 10.6977388416 0.0
+    c_vector = 0.0 0.0 8.904388875
+  }
+  element_list{
+    #tag    element    atomicnumber    mass    zeta    deviation
+          C    6    21894.579644561698    0    1.83
+          O    8    29164.943598801136    0    1.83
+          N    7    25532.49593768066    0    1.83
+          H    1    1837.350978847683    0    1.83
+  }
+}
+structure_evolution{
+!    method = temperature_control
+    method = quench
+    dt = 400
+    temperature_control{
+        method = velocity_scaling
+        num_thermostat = 1
+        set_initial_velocity = on
+        thermostat{
+            #tag temp qmass
+                  300 4000
+            }
+    }
+!    fire{
+!      initial_dt = 300
+!      dtmax = 1000
+!    }
+}
+printoutlevel{
+  iprifire=2
+}

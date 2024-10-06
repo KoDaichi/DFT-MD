@@ -1,0 +1,67 @@
+Control{
+        condition = 2
+        cpumax = 2 hour  ! maximum cpu time
+        max_iteration = 400001
+}
+
+accuracy{
+	cutoff_wf =  25.00  rydberg  ! cke_wf
+	cutoff_cd = 250.00  rydberg  ! cke_cd
+	num_bands = 9
+	xctype = ldapw91
+      ksampling{
+      }
+	ek_convergence{
+        sw_eval_eig_diff = on
+	  delta_eigenvalue = 1.e-8 hartree
+	  succession   = 3   !default value = 3
+	  num_extra_bands = 0
+	}
+     initial_wavefunctions = matrix_diagon
+}
+
+structure{
+	unit_cell{
+              a = 10.57637, b = 10.57637,  c = 10.57637 
+              alpha = 90, beta = 90, gamma = 90
+	}
+	symmetry{
+          tspace {
+            system = f
+            generators {
+            #tag rotation tx  ty  tz
+		  E         0   0   0
+            }
+          }
+	}
+
+	atom_list{
+	     coordinate_system = cartesian ! {cartesian|internal}
+	     atoms{
+		 #default mobile=no
+	 	 #tag  rx        ry        rz         element
+		       0.000     0.000     0.000      Ga
+		       2.6440925 2.6440925 2.6440925  As
+	     }
+	     displacement{
+              sw_displace_atom = on
+	        displaced_atom = <ATOM_ID>
+	        ux =  <Ux>
+	        uy =  <Uy>
+	        uz =  <Uz>
+	     }
+	}
+	element_list{ #tag id element  atomicnumber dev
+			     1      Ga       31      1.5 
+			     2      As       33      1.5     }
+}
+
+Berry_phase{
+  sw_berry_phase = on
+  g_index = <G_INDEX>
+  mesh{ n1 = <MESH_N1>, n2 = <MESH_N2>, J = <MESH_J> }
+}
+
+printoutlevel{
+  base = 1
+}

@@ -1,0 +1,88 @@
+Control{
+    condition = fixed_charge
+}
+accuracy{
+    cutoff_wf = 30.00 rydberg
+    cutoff_cd = 360.00 rydberg
+    num_bands = 40
+    ksampling{
+        !method = monk
+        method = mesh
+          mesh{  nx = 12, ny =  12, nz =  12  }
+    }
+
+    smearing{
+                method = tetrahedral ! {parabolic|tetrahedral}
+                !method = parabolic ! {parabolic|tetrahedral}
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    initial_wavefunctions=matrix_diagon
+    matrix_diagon{
+       cutoff_wf = 15 rydberg
+    }
+    ek_convergence{
+        delta_eigenvalue = 1e-5 hartree
+    }
+    hubbard{
+        sw_hubbard = on
+        projectors{
+            #units eV
+            #tag no ueff
+             1 5.0
+             2 5.0
+        }
+    }
+    projector_list{
+        projectors{
+            #tag group radius l
+             1 2.5 2
+             2 2.5 2
+        }
+    }
+}
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+        #units angstrom
+        a_vector =  4.1770 2.0885 2.0885
+        b_vector =  2.0885 4.1770 2.0885
+        c_vector =  2.0885 2.0885 4.1770
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+    }
+! --
+    magnetic_state = ferro
+    atom_list{
+        coordinate_system = cartesian ! {internal|cartesian}
+        atoms{
+            #units angstrom
+            #tag element rx ry rz     proj_group
+             Ni1 0.000 0.000 0.000        1
+             Ni2 4.177 4.1770 4.1770      2
+             O   2.0885 2.0885 2.0885     0
+             O   6.2655 6.2655 6.2655     0
+        }
+    }
+    element_list{
+        #tag element atomicnumber zeta
+         Ni1 28 0.15
+         Ni2 28 -0.15
+         O 8 0.0
+    }
+}
+
+printoutlevel{
+    base = 1
+    davidson = 0
+}
+postprocessing{
+    dos{
+        sw_dos=on
+    }
+}

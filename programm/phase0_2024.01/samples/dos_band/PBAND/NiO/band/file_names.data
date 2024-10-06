@@ -1,0 +1,16 @@
+ &fnames
+ F_INP    = './nfinp1.data'
+ F_POT(1) = '../../../../pp/Ni_ggapbe_paw_us_01.pp'
+ F_POT(2) = '../../../../pp/Ni_ggapbe_paw_us_01.pp'
+ F_POT(3) = '../../../../pp/O_ggapbe_paw_us_02m.pp'
+ F_KPOINT = './kpoint.data'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = '../scf/nfchgt.data'
+ F_CNST   = './nfinp.cnst.data'
+ F_ENF    = './nfefn.data'
+ F_ENERG  = './nfenergy.data'
+ F_CNTN   = './continue.data'
+ F_ZAJ    = './zaj.data'
+ F_PORB_DENS_MAT = '../scf/porb_density_matrix.data'
+ F_OCCMAT = '../scf/occmat.data'
+/

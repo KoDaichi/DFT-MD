@@ -1,0 +1,55 @@
+Control{
+        condition = initial
+        sw_dipole_correction = on
+}
+
+accuracy{
+	cutoff_wf =   25.00  rydberg
+	cutoff_cd =  225.00  rydberg
+	num_bands = 8
+	initial_wavefunctions = atomic_orbitals
+	initial_charge_density = atomic_charge_density
+        ksampling{
+          method = gamma
+        }
+	scf_convergence{
+	  delta_total_energy = 1.e-9
+	  succession = 2
+	}
+        !esm{
+        !  sw_esm = on
+        !}
+        dipole_correction{
+          amix = 1
+          direction = 3
+          vacuum{
+            rz = -0.5
+          }
+        }
+}
+
+structure{
+	unit_cell{
+	      a_vector =  20.0               0.0                0.0
+	      b_vector =   0.0              20.0                0.0
+        c_vector =   0.0               0.0               30.0
+	}
+	atom_list{
+             coordinate_system = cartesian
+	     atoms{
+		#tag  ry             rx       rz          element
+          -1.446816228    0.000    1.123327795 H
+           1.446816228    0.000    1.123327795 H
+           0.0            0.0      0.0         O
+	     }
+	}
+	element_list{
+                        #tag element  atomicnumber
+			    H             1
+			    O             8 }
+}
+postprocessing{
+  workfunc{
+    sw_workfunc = on
+  }
+}

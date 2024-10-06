@@ -1,0 +1,59 @@
+Control{
+        condition = initial
+        cpumax = 3600 sec  ! maximum cpu time
+        sw_fef = Off
+}
+
+accuracy{
+	cutoff_wf =   25.00  rydberg
+	cutoff_cd =  100.00  rydberg
+	num_bands = 20
+	!!$initial_wavefunctions = matrix_diagon
+        ksampling{
+           mesh{  nx = 4, ny =  4, nz =  4 }
+           base_reduction_for_GAMMA = OFF
+           kshift{ k1=0, k2=0, k3=0 }
+        }
+        fef{
+          electric_field{
+            ex = 1.e-4
+            ey = 0
+            ez = 0
+          }
+        }
+}
+
+structure{
+    unit_cell{
+            #units angstrom
+            a_vector =  5.463    0.00    0.00
+            b_vector =   0.00   5.463    0.00
+            c_vector =   0.00    0.00   5.463
+    }
+    symmetry{
+      method = automatic
+      tspace{
+        lattice_system = facecentered
+      }
+    }
+    atom_list{
+            coordinate_system = cartesian ! {cartesian|internal}
+            atoms{
+            #units bohr
+            #tag element  rx       ry       rz
+                 Al  1.2904    1.2904    1.2904
+                 P   9.0331    9.0331    9.0331
+            }
+         displacement{
+            sw_displace_atom = on
+            displaced_atom = <ATOM_ID>
+            ux =  <Ux>
+            uy =  <Uy>
+            uz =  <Uz>
+         }
+    }
+    element_list{ #tag element  atomicnumber
+                          Al        13
+                          P         15
+    }
+}

@@ -1,0 +1,30 @@
+.SUFFIXES: .o .f90 .F90
+
+FORTRAN = mpiifort -O0 -i-static -Bstatic -lpthread -openmp
+INCLUDE=/opt/intel/mkl/include/fftw
+MKLHOME=/opt/intel/mkl/lib/intel64
+LIBFLAG =  -Wl,--start-group ${MKLHOME}/libmkl_scalapack_lp64.a ${MKLHOME}/libmkl_blacs_intelmpi_lp64.a ${MKLHOME}/libmkl_intel_lp64.a  ${MKLHOME}/libmkl_sequential.a  ${MKLHOME}/libmkl_core.a ${MKLHOME}/libfftw3xf_gnu.a -Wl,--end-group -Bdynamic -lpthread
+OMPFLAG = -D__OPENMP
+#FFLAG   = -cpp -O3 -fbacktrace -I/usr/local/include $(OMPFLAG) $(LIBFLAG)
+FFLAG   = -I$(INCLUDE) -D__MPI__ $(OMPFLAG) #$(LIBFLAG)
+
+OBJ = qe_erf.o fft.o vector.o Ewald.o  Esm.o EsmInterface.o
+OBJ_P = qe_erf.o fft.o vector.o Ewald.o  Esm.o EsmPack.o
+
+AR = ar -vq
+
+.f90.o:
+	$(FORTRAN) -c $(FFLAG) $<
+.F90.o:
+	$(FORTRAN) -c $(FFLAG) $<
+
+all: libesm.a exe
+
+libesm.a: $(OBJ) $(OBJS_FREE) $(OBJS_FIXED1) $(OBJS_INTERFACE)
+	$(AR) $@ $?
+
+exe: $(OBJ_P) 
+	$(FORTRAN) $(FFLAG) $(OBJ_P) $(LIBFLAG) -o EsmPack.x  
+
+clean:
+	rm -f $(OBJ_P) $(OBJ) libesm.a EsmPack.x *.mod

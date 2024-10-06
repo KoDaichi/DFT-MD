@@ -1,0 +1,74 @@
+Control{
+	condition = initial
+	cpumax = 3 hour
+	max_iteration = 250
+}
+
+accuracy{
+	cutoff_wf =   25  rydberg
+	cutoff_cd =  225.00  rydberg
+	num_bands =  20
+	ksampling{
+                mesh{ nx = 10, ny = 10, nz = 10 }
+	}
+	scf_convergence{
+		delta_total_energy = 1.e-10  hartree
+	}
+
+	initial_wavefunctions = atomic_orbitals
+        initial_charge_density = atomic_charge_density
+}
+
+structure{
+        unit_cell_type = Bravais
+        unit_cell{
+                 #units angstrom
+                 a = 2.845, b = 2.845, c = 2.845
+                 alpha = 90, beta = 90, gamma = 90
+        }
+
+	symmetry{
+	     crystal_structure = bcc
+	}
+
+        magnetic_state = ferro
+
+	atom_list{
+	     atoms{
+		#tag  rx       ry         rz      element
+		     0.000     0.000     0.000          Fe
+	     }
+	}
+	element_list{ #tag element  atomicnumber     zeta  dev
+			         Fe            26    0.275  1.5 }
+
+}
+
+wavefunction_solver{
+	solvers{
+     #tag   sol  till_n
+           mddavidson +2
+           rmm3     -1
+	}
+	rmm{
+	     edelta_change_to_rmm = 5.0e-3
+	}
+}
+
+charge_mixing{
+        spin_density_mixfactor = 1
+	mixing_methods{
+	#tag no   method   rmxs
+	       1  broyden2  0.40
+	}
+}
+
+Postprocessing{
+	dos{
+		sw_dos = off
+	}
+}
+
+printlevel{
+	base = 1
+}

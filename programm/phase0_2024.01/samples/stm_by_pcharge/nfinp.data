@@ -1,0 +1,71 @@
+control{
+  condition = initial
+  max_iteration = 100000
+  cpumax = 10 day
+}
+accuracy{
+  num_bands = 48
+  ksampling{
+    mesh{
+      nx = 2
+      ny = 4
+      nz = 1
+    }
+  }
+  cutoff_wf = 20 rydberg
+  cutoff_cd = 80 rydberg
+  scf_convergence{
+    delta_total_energy = 1e-10 hartree
+    succession = 2
+  }
+  force_convergence{
+    max_force = 0.0001 hartree/bohr
+  }
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         Si 14 51196.4212
+    }
+    atom_list{
+        atoms{
+            #tag element rx ry rz weight
+    Si    4.457191014    5.442000000   12.029506153   2
+    Si    8.616889299    5.442000000   10.673558312   2
+    Si    3.871385225    1.814000000    9.319081085   2
+    Si   10.646464624    1.814000000    9.135097103   2
+    Si    0.051434031    1.814000000    6.874272412   2
+    Si    7.098413066    1.814000000    6.207982345   2
+    Si   -0.004452942    5.442000000    4.200390459   2
+    Si    7.255325886    5.442000000    3.623006362   2
+    Si    3.445644060    5.442000000    1.301760445   2
+    Si   11.068564547    5.442000000    1.312909393   2
+        }
+        coordinate_system = cartesian
+    }
+    unit_cell{
+       a_vector =        14.5120000000        0.0000000000        0.0000000000
+       b_vector =         0.0000000000        7.2560000000        0.0000000000
+       c_vector =         0.0000000000        0.0000000000        60.000000000
+    }
+    symmetry{
+        tspace{
+            lattice_system = primitive
+        }
+        sw_inversion = on
+        method = automatic
+    }
+}
+postprocessing{
+   charge{
+        sw_charge_rspace = on
+        filetype = cube
+        partial_charge{
+            sw_partial_charge = on
+            partial_charge_filetype = individual
+            Erange_min = 0 eV
+            Erange_max = 0 eV
+            Erange_delta = 1 eV
+        }
+    }
+}

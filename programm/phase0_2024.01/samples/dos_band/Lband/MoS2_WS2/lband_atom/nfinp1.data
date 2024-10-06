@@ -1,0 +1,84 @@
+control{
+    condition = fixed_charge
+!    sw_vdw_correction = on
+        fixed_charge_option{
+          kparallel = one_by_one
+        }
+}
+accuracy{
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+
+    ksampling{
+        method = file
+    }
+    num_bands = 60
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    smearing{
+           method = parabolic ! {parabolic|tetrahedral}
+           width  = 0.05 eV
+    }
+!    paw = on
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+
+!    vdw_method = grimme
+
+    projector_list{
+        projectors{
+            #tag no group l radius
+                 1    1   0   1.6
+                 2    1   1   1.8
+                 3    2   0   2.0
+                 4    2   1   2.0
+                 5    2   2   2.4
+                 6    3   0   2.0
+                 7    3   1   2.0
+                 8    3   2   2.4
+        }
+    }
+}
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz proj_group 
+S     0.666666666666666852  0.333333333333333370  0.123244449411807913 1 
+Mo    0.333333333333333315  0.666666666666666741  0.250000000000000056 2 
+S     0.666666666666666852  0.333333333333333370  0.376755550588192156 1 
+S     0.333333333333333315  0.666666666666666741  0.623054822874977710 1 
+W     0.666666666666666852  0.333333333333333370  0.749999999999999778 3 
+S     0.333333333333333315  0.666666666666666741  0.876945177125022290 1 
+        }
+    }
+    element_list{
+        #tag element atomicnumber
+                 Mo    42
+                 W     74
+                 S     16
+    }
+    unit_cell_type = Bravais
+    unit_cell{
+  a     =     6.106894987854 , b    =     6.106894987854 ,  c     =    23.465190625369
+  alpha =    90.0, beta =    90.0,  gamma =   120.0
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+    }
+}
+postprocessing{
+  lband{
+     sw_calc_wf_atom_decomposition = on
+!     sw_calc_wf_layer_decomposition = on
+!     layer_decomposition{
+!         normal_axis = 3
+!     }
+  }
+}

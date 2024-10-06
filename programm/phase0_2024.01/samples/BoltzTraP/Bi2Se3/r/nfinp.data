@@ -1,0 +1,86 @@
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz
+             Bi 0.0 0.0    0.3988734763550
+             Bi 0.0 0.0    0.6011265236450
+             Se 0.0 0.0    0.0000000000000
+             Se 0.0 0.0    0.2146795095937
+             Se 0.0 0.0    0.7853204904063
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass
+         Bi 83 380945.633
+         Se 34 232599.147
+    }
+    unit_cell{
+        #units angstrom
+        a = 4.18
+        b = 4.18
+        c = 28.7
+        alpha = 90
+        beta = 90
+        gamma = 120
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = rhombohedral
+        }
+    }
+    unit_cell_type = bravais
+    !!magnetic_state = noncollinear
+}
+accuracy{
+    ksampling{
+        mesh{
+            ny = 8
+            nx = 8
+            nz = 8
+        }
+    }
+    scf_convergence{
+        succession = 1
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+    num_bands = 28
+    initial_charge_density = atomic_charge_density
+    paw = on
+    !spinorbit{
+    !    mode = pawpot
+    !}
+}
+control{
+    condition = initial
+}
+printoutlevel{
+    base = 1
+    parallel_debug = 0
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n
+         mddavidson 2
+         rmm3 -1
+    }
+    rmm{
+        edelta_change_to_rmm = 1e-3
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs
+         1 pulay 0.40
+    }
+}
+postprocessing{
+    dos{
+        sw_dos = on
+    }
+}

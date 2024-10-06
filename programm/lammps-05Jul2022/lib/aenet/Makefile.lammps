@@ -1,0 +1,3 @@
+aenet_SYSINC  =
+aenet_SYSLIB  = -lgfortran
+aenet_SYSPATH =

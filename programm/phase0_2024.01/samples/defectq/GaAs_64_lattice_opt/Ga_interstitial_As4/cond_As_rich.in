@@ -1,0 +1,37 @@
+&VBM        #(eV)
+6.00887
+
+&band_gap        #(eV)
+1.424
+
+&Chemical_potentials #(Ha)
+Ga  -138.9838873703      # mu_GaAs_bulk -mu_As
+As   -87.9848825305
+
+#mu_Ga_bulk = -138.9586691142
+#mu_As_bulk =  -87.9848825305
+#mu_GaAs_bulk = -226.9687699008  # calculated from 64 atom host
+
+&Defects        #elements, number ( negative==vacancy, positive==impurity )
+Ga  1
+
+&Host_supercell_energy #(Ha)
+-7263.0006368270
+
+&Defective_supercell_energy # charge_state(q) and energy (Ha)
+-3 -7401.0278221842
+-2 -7401.3092694881
+-1 -7401.5884068189
+0 -7401.8588270304
+1 -7402.1272080112
+2 -7402.3634204564
+3 -7402.5976739472
+
+&Correction energy # charge_state(q) and energy (eV)
+-3 0.4207876744
+-2 0.1399443981
+-1 -0.0005494848
+0 0.0
+1 0.1630021021
+2 0.5132275287
+3 1.0305057108

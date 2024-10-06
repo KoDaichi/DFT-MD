@@ -1,0 +1,2 @@
+band_kpoint.pl bandqpt.in --outfile=qpoint.data --zdiv=50 --zshift=1
+

@@ -1,0 +1,9 @@
+c ====<< & or & >>===
+c & : VPP, VP 
+c $ : DEC, HP, SUN
+ &fnames
+ F_INP    = './nfinput.data'
+ F_POT(1) = '../../../Al_ldapw91_nc_01.gncpp2'
+ F_POT(2) = '../../../N_ldapw91_us_01.gncpp2'
+ F_CHGT   = '../<SCF_DIR>/nfchgt.data'
+ &end

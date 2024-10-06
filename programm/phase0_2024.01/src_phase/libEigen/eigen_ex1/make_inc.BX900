@@ -1,0 +1,12 @@
+# for Fujitsu BX900 compiler
+FF        = mpifrt
+FC        = mpifrt
+CC        = mpifcc
+CCFLAG    = -Kfast -KOMP -Kocl -X9 -Am
+CPPFLAG    = -Cpp
+INCFLAG   = -I./
+MODFLAG   = -M./
+BLAS      = -SSL2BLAMP
+SCALAPACK = -SCALAPACK
+LDFLAG    = -KOMP $(SCALAPACK) $(BLAS)
+

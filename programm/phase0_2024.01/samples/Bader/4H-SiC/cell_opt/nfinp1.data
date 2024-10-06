@@ -1,0 +1,92 @@
+control{
+    condition = initial
+    cpumax = 23 hour
+    max_iteration = 1000000
+}
+accuracy{
+    ksampling{
+        method = monk  ! {mesh|file|directin|gamma}
+        mesh{
+!              nx = 10, ny = 10, nz =  3
+              nx = 6, ny = 6, nz =  2
+        }
+!        kshift{
+!           k1=0, k2=0, k3=0
+!        }
+    }
+
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 270.0 Rydberg
+
+      smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.05 eV
+        }
+   scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 2
+    }
+    num_bands = 30
+
+!    initial_wavefunctions = atomic_orbital
+    initial_charge_density =  atomic_charge_density
+!
+     paw = on
+!
+}
+structure{
+    atom_list{
+        coordinate_system = internal    ! {internal|cartesian}
+        atoms{
+            #default mobile=on
+            #tag element rx ry rz
+Si    0.000000000000000000 -0.000000000000000000 -0.000206485555686219
+Si    0.000000000000000000 -0.000000000000000000  0.499793514444313913
+C     0.000000000000000000 -0.000000000000000000  0.187337797609578388
+C     0.000000000000000000 -0.000000000000000000  0.687337797609578693
+Si    0.333333333333333370  0.666666666666666519  0.249857279804187704
+Si   -0.333333333333333259  0.333333333333333259  0.749857279804187815
+C     0.333333333333333370  0.666666666666666519  0.438013983766132875
+C    -0.333333333333333259  0.333333333333333259  0.938013983766132986
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber moment  mass
+                Si      14        0.0    28.085
+                 C       6        0.0    12.011
+    }
+
+    unit_cell{
+a_vector =  0.5860686874510326D+01  0.0000000000000000D+00  0.0000000000000000D+00
+b_vector = -0.2930343437255186D+01  0.5075503716951970D+01  0.0000000000000000D+00
+c_vector =  0.0000000000000000D+00  0.0000000000000000D+00  0.1917602861652066D+02
+    }
+
+!    magnetic_state = ferro
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+!        sw_inversion = on
+    }
+}
+structure_evolution{
+  stress { sw_stress_correction = on }
+  lattice{
+    sw_optimize_lattice = on
+!
+!    fix_angle_alpha = yes
+!    fix_angle_beta = yes
+!    fix_angle_gamma = yes
+  }
+}
+postprocessing{
+   charge{
+         sw_charge_rspace = on
+         filetype = cube
+         sw_add_corecharge_rspace = on
+!         eval_corecharge_on_Gspace = on
+   }
+}

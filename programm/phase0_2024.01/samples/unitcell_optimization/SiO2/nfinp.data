@@ -1,0 +1,57 @@
+Control{
+	condition = initial
+	cpumax = 24 hour    ! {sec|min|hour|day}
+	max_iteration = 60000
+}
+
+accuracy{
+	cutoff_wf =  36.00  rydberg
+	cutoff_cd = 324.00  rydberg
+	num_bands = 32
+	ksampling{
+		method = monk ! {monk|mesh|file|directin|gamma}
+		mesh{ nx=2, ny=2, nz=2}
+	}
+}
+
+structure{
+        unit_cell_type=bravais
+        unit_cell{
+          #units bohr degree
+          a = 9.2, b= 9.2, c= 10.12, alpha=90.0, beta=90.0, gamma=120.0
+        }
+
+	symmetry{
+          method = automatic
+	}
+
+	atom_list{
+	     coordinate_system = cartesian ! {cartesian|internal}
+	     atoms{
+	     #default mobile=no
+#tag   rx             ry             rz            element
+       -2.136349214   -3.700265381    3.373333567   Si
+        4.272698428    0.000000000    0.000000000   Si
+       -2.136349214    3.700265381    6.746667135   Si
+        2.511045782    2.203258231    1.129569348   O
+        0.652554710   -3.276258553    4.502902914   O
+       -3.163600490    1.073000321    7.876236482   O
+        2.511045781   -2.203258231   -1.129569348   O
+        0.652554708    3.276258553    5.617097788   O
+       -3.163600489   -1.073000321    2.243764219   O
+         	}
+        }
+	element_list{ #units atomic_mass
+		      #tag element  atomicnumber  zeta  dev  mass
+                           Si       14            0.00  3.5  28.0855
+                           O         8            0.00  2.0  15.9994
+        }
+}
+structure_evolution{
+  lattice{
+     sw_optimize_lattice = on
+  }
+  stress{
+    sw_stress = on
+  }
+}

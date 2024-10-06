@@ -1,0 +1,11 @@
+ &fnames
+ F_INP    = './nfinput.data'
+ F_POT(1) = '../potential.Si'
+ F_POT(2) = '../potential.O'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = './nfchgt.data'
+ F_ENF    = './nfefn.data'
+ F_CNTN   = './continue.data'
+ F_ZAJ    = './zaj.data'
+ &end
+

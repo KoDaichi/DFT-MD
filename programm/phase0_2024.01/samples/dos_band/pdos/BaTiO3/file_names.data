@@ -1,0 +1,5 @@
+&fnames
+F_POT(1) = '../../../pp/Ba_ggapbe_paw_us_01m.pp'
+F_POT(2) = '../../../pp/O_ggapbe_paw_us_02m.pp'
+F_POT(3) = '../../../pp/Ti_ggapbe_paw_us_02.pp'
+/

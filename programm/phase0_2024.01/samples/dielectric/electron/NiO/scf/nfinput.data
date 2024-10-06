@@ -1,0 +1,99 @@
+Control{
+    condition = initial
+}
+accuracy{
+    cutoff_wf = 30.00 rydberg
+    cutoff_cd = 360.00 rydberg
+    num_bands = 40
+    ksampling{
+        method = monk
+          mesh {  nx = 6, ny =  6, nz =  6  }
+    }
+
+    smearing{
+!                method = tetrahedral ! {parabolic|tetrahedral}
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+    hubbard{
+        sw_hubbard = on
+        projectors{
+            #units eV
+            #tag no ueff
+             1 5.0
+             2 5.0
+        }
+    }
+    projector_list{
+        projectors{
+            #tag group radius l
+             1 2.5 2
+             2 2.5 2
+        }
+    }
+}
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+        #units angstrom
+        a_vector =  4.1770 2.0885 2.0885
+        b_vector =  2.0885 4.1770 2.0885
+        c_vector =  2.0885 2.0885 4.1770
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+    }
+! --
+    magnetic_state = ferro
+    atom_list{
+        coordinate_system = cartesian ! {internal|cartesian}
+        atoms{
+            #units angstrom
+            #tag element rx ry rz     proj_group
+             Ni1 0.000 0.000 0.000        1
+             Ni2 4.177 4.1770 4.1770      2
+             O   2.0885 2.0885 2.0885     0
+             O   6.2655 6.2655 6.2655     0
+        }
+    }
+    element_list{
+        #tag element atomicnumber zeta
+         Ni1 28  0.3
+         Ni2 28 -0.3
+         O 8 0.0
+    }
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n
+         mddavidson 1
+         rmm3    -1
+    }
+    rmm{
+         edelta_change_to_rmm=1e-3
+    }
+}
+charge_mixing{
+    sw_recomposing = on
+    spin_density_mixfactor = 4
+    mixing_methods{
+        #tag no method rmxs
+         1   broyden2 0.1
+    }
+}
+printoutlevel{
+    base = 1
+}
+postprocessing{
+    dos{
+        sw_dos=on
+    }
+}

@@ -1,0 +1,64 @@
+Control{
+    condition = initial
+    cpumax = 23 hour
+}
+accuracy{
+    cutoff_wf =  20.00  rydberg
+    cutoff_cd =  80.00  rydberg
+
+    num_bands = 8
+    ksampling{
+       mesh{  nx = 2, ny =  2, nz =  2 }
+    }
+}
+structure{
+    unit_cell_type = bravais
+    unit_cell{
+        a = 10.17512
+        b = 10.17512
+        c = 10.17512
+        alpha = 90.0
+        beta = 90.0
+        gamma = 90.0
+    }
+    symmetry{
+        method = automatic
+    }
+    atom_list{
+       atoms{
+       #tag   element  rx       ry       rz 
+                Si    0.00     0.00      0.00 
+                Si    0.25     0.25      0.25 
+                Si    0.50     0.50      0.00 
+                Si    0.75     0.75      0.25 
+                Si    0.50     0.00      0.50 
+                Si    0.75     0.25      0.75 
+                Si    0.00     0.50      0.50 
+                Si    0.25     0.75      0.75 
+       }
+    }
+    reference_cell{
+       a_vector =  0.00000       5.08756        5.08756
+       b_vector =  5.08756       0.00000        5.08756
+       c_vector =  5.08756       5.08756        0.00000
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+    }
+}
+printlevel{
+   gap = 2
+}
+Phonon{
+    sw_phonon = on
+    sw_vibrational_modes = on
+    sw_calc_force = on
+    displacement = 0.1
+
+    method = band
+    use_qpoint_data_file = yes
+
+    phonon_band_unfolding{
+       sw_phonon_band_unfolding = on
+    }
+}

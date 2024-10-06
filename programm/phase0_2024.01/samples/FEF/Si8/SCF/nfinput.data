@@ -1,0 +1,49 @@
+Control{
+        condition = automatic
+        sw_fef = Off
+}
+
+accuracy{
+	cutoff_wf =  20.0  rydberg
+	cutoff_cd =  80.0  rydberg
+	num_bands = 20
+	!!$initial_wavefunctions = matrix_diagon
+        ksampling{
+           mesh{  nx = 4, ny =  4, nz =  4 }
+           base_reduction_for_GAMMA = OFF
+           kshift{ k1=0, k2=0, k3=0 }
+        }
+        fef{
+          electric_field{
+            ex = 1.e-3
+            ey = 1.e-3
+            ez = 1.e-3
+          }
+        }
+}
+
+structure{
+    unit_cell{
+            a_vector =  10.26    0.00    0.00
+            b_vector =   0.00   10.26    0.00
+            c_vector =   0.00    0.00   10.26
+    }
+        atom_list{
+                coordinate_system = internal ! {cartesian|internal}
+                atoms{
+                #default element = Si, mobile = 1
+                #tag   rx       ry       rz
+                       0.125    0.125    0.125
+                      -0.125   -0.125   -0.125
+                       0.125    0.625    0.625
+                      -0.125   -0.625   -0.625
+                       0.625    0.125    0.625
+                      -0.625   -0.125   -0.625
+                       0.625    0.625    0.125
+                      -0.625   -0.625   -0.125
+                }
+        }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+    }
+}

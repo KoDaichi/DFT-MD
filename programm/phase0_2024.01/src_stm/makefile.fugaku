@@ -1,0 +1,4 @@
+F90FLAGS = -O3 -Kparallel,ocl,preex,array_private,auto,simd=2,openmp -c -V -Qa,d,i,p,t,x -Koptmsg=2
+F90 = frtpx $(F90FLAGS)
+LINK  = $(F90)
+

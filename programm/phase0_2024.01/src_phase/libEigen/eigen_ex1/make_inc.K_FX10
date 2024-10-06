@@ -1,0 +1,13 @@
+# for Fujitsu K or FX10 corss-compiler
+FF        = mpifrtpx
+FC        = mpifrtpx
+CC        = mpifccpx
+CCFLAG    = -Kfast,openmp,ocl,simd,XFILL -DTIMER_PRINT
+#CCFLAG    = -Kfast -Kopenmp -Kocl -Ksimd -KXFILL 
+CPPFLAG    = -Cpp
+INCFLAG   = -I./
+MODFLAG   = -M./
+BLAS      = -SSL2BLAMP
+SCALAPACK = -SCALAPACK
+LDFLAG    = -Kopenmp $(SCALAPACK) $(BLAS)
+

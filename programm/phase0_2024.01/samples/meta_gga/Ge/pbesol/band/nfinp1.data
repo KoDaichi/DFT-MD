@@ -1,0 +1,53 @@
+control{
+    condition = fixed_charge
+}
+accuracy{
+    cutoff_wf = 25.0 Rydberg
+    cutoff_cd = 100.0 Rydberg
+
+    ksampling{
+        method = file
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+   force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+
+    num_bands = 20
+
+!    initial_wavefunctions = atomic_orbital
+
+     smearing{
+               method = parabolic
+               width  = 0.002 hartree
+        }
+      xctype = pbesol
+}
+
+structure{
+    unit_cell_type = bravais
+    unit_cell{
+a     =    10.8332052956 , b    =    10.8332052956 ,  c     =    10.8332052956
+         alpha = 90, beta = 90, gamma = 90
+    }
+    symmetry{
+         method = automatic
+         tspace{
+             lattice_system = facecentered
+         }
+    }
+
+    atom_list{
+         atoms{
+         #tag  rx       ry         rz     element
+             0.125     0.125     0.125     Ge
+            -0.125    -0.125    -0.125     Ge
+         }
+    }
+    element_list{ #tag element  atomicnumber
+                         Ge        32
+    }
+}

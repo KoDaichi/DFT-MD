@@ -1,0 +1,86 @@
+Control{
+        condition = initial
+        cpumax = 6 hour  ! maximum cpu time
+	max_iteration = 300
+}
+
+accuracy{
+        paw = on
+	cutoff_wf =  25.00  rydberg  ! cke_wf
+	cutoff_cd = 230.00  rydberg  ! cke_cd
+	num_bands = 30
+        ksampling{
+	  method = mesh
+	  mesh{ nx=4, ny=4, nz=4}
+        }
+	smearing{
+	  method = tetrahedral
+	}
+        scf_convergence{
+          delta_total_energy = 1.0e-7
+        }
+	initial_wavefunctions = atomic_orbitals
+	initial_charge_density = atomic_charge_density
+	hubbard{
+           sw_hubbard = off
+	   projectors{
+	      #units eV
+	      #tag no ueff
+                   1  0.0
+                   2  0.0
+	   }
+	}
+	projector_list{
+	   projectors{
+	      #tag no group radius l
+                   1  1     2.3    2
+                   2  2     2.3    2
+	   }
+	}
+}
+
+structure{
+	unit_cell{
+	    #units angstrom
+            a = 3.03773073198, b = 3.03773073198, c = 14.8817805386
+            alpha = 90, beta = 90, gamma = 120
+	}
+	symmetry{
+      method = automatic
+	  tspace{
+             lattice_system = trigonal
+	  }
+	  sw_inversion = on
+	}
+	magnetic_state = ferro
+
+	atom_list{
+	     coordinate_system = internal ! {cartesian|internal}
+	     atoms{
+		 #default mobile=off
+	 	 #tag  rx        ry        rz     element weight proj_group
+		       0.000     0.000     0.000  Fe1     1      1
+		       0.000     0.000     0.500  Fe2     1      2
+		       0.000     0.000     0.250  O       2      0
+	     }
+	}
+	element_list{
+	              #tag element  atomicnumber zeta
+			   Fe1       26           0.3
+			   Fe2       26          -0.3
+			   O          8           0.0
+        }
+}
+
+Postprocessing{
+    dos{
+         sw_dos = on
+    }
+    pdos{
+         sw_pdos = on
+    }
+    charge{
+         sw_charge_rspace = ON
+	 filetype = cube
+    }
+}

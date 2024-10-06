@@ -1,0 +1,29 @@
+*マニュアル*
+PHASE/0のマニュアルは以下の場所にあります
+pdf版：doc/phase0_manual-ja.pdf
+html版：doc/html/index.html
+
+html版はRead the Docs (https://readthedocs.org/) においても公開しています。
+https://phase0.readthedocs.io/ja/latest/
+
+*インストール*
+インストール方法はマニュアルの記述のほか、以下のGitHubのリポジトリに説明があります。
+https://github.com/Materials-Science-Software-Consortium/phase0_install
+
+*チュートリアル*
+実行環境としてWSL (https://learn.microsoft.com/ja-jp/windows/wsl/install) を念頭においた
+チュートリアルがRead the Docsにおいて公開されています。
+https://phase0-tutorial-wsl.readthedocs.io/ja/latest/
+
+チュートリアルにおいて用いられている入力ファイルは以下のGitHubのリポジトリから取得することができます。
+https://github.com/Materials-Science-Software-Consortium/phase0_tutorial_wsl
+
+WSLだけでなくmacOSや一般的なGNU/Linuxにおいても実行することができます。
+
+*お問い合わせ*
+PHASEシステムソフトウェア利用に関する質問・回答・意見・要望などはGitHubの以下のリポジトリのIssuesから受け付けています。
+https://github.com/Materials-Science-Software-Consortium/PHASE_System_Software_QandA
+
+インストールおよびチュートリアルのリポジトリのIssuesからも受け付けています。
+https://github.com/Materials-Science-Software-Consortium/phase0_install
+https://github.com/Materials-Science-Software-Consortium/phase0_tutorial_wsl

@@ -1,0 +1,78 @@
+Control{
+    condition = 0       ! {0|1|2|3}|{initial|continuation|fixed_charge|fixed_charge_continuation}
+    cpumax = 1 hour    ! {sec|min|hour|day}
+    max_iteration = 6000
+}
+
+accuracy{
+    cutoff_wf =  25  rydberg
+    cutoff_cd = 230  rydberg
+    num_bands = 16
+    ksampling{
+        method = mesh
+        mesh { nx = 6, ny = 6, nz = 4 }
+    }
+    smearing{
+        method = tetrahedral ! {parabolic|tetrahedral}
+        width  = 0.001 hartree
+    }
+    xctype = ldapw91
+    scf_convergence{
+        delta_total_energy = 1.e-10  hartree
+        succession   = 3   !default value = 3
+    }
+}
+
+structure{
+   unit_cell_type = bravais
+   unit_cell{
+       a= 5.80638 , b= 5.80638 , c= 9.296014
+       alpha=90, beta=90, gamma=120
+   }
+
+    symmetry{
+             tspace{
+                lattice_system = hexagonal
+                generators{
+                  #tag rotation tx ty tz
+                        E       0  0  0
+                     !   2       0  0  1/2
+                     !  19       0  0  1/2           
+                }    
+             }
+         sw_inversion = 0
+    }
+
+    atom_list{
+         coordinate_system = cartesian ! {cartesian|internal}
+         atoms{
+              #default pdos = off, mobile = off
+             #tag   rx            ry            rz            element
+                     0.000000000    3.352315056    0.000000000  Al    
+                     2.903190000    1.676157528    4.648007000  Al    
+                     0.000000000    3.352315056    3.551077348  N     
+                     2.903190000    1.676157528    8.199084348  N     
+         }
+         displacement{
+            sw_displace_atom = on
+            displaced_atom = <ATOM_ID>
+            ux =  <Ux>
+            uy =  <Uy>
+            uz =  <Uz>
+         }
+    }
+    element_list{ #tag  element  atomicnumber dev
+                  Al        13          1.825741858
+                  N          7          1.825741858
+            }
+}
+
+Postprocessing{
+    dos{
+        sw_dos = ON
+                method = t
+    }
+}
+printlevel{
+    base = 1
+}

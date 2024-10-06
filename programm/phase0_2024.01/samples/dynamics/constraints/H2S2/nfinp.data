@@ -1,0 +1,113 @@
+Control{
+    condition = initial 
+    cpumax = 2.9 day
+    max_iteration = 600000000
+    driver = constraints
+}
+accuracy{
+    cutoff_wf = 25.00 rydberg
+    cutoff_cd = 225.00 rydberg
+    xctype = ggapbe 
+    initial_wavefunctions = matrix_diagon 
+    matrix_diagon{
+        cutoff_wf = 5.0 rydberg
+    }
+    ksampling{
+        method = gamma 
+        base_symmetrization_for_GAMMA = 1 
+        base_reduction_for_GAMMA = 1 
+    }
+    scf_convergence{
+        succession = 3 
+        delta_total_energy = 1.e-9 Hartree
+    }
+    force_convergence{
+        max_force = 5.e-4 Hartree/Bohr
+    }
+    num_bands = 12 
+}
+structure{
+    constrainable1{
+      mobile = off
+      monitor = on
+      type = dihedral_angle
+      atom1 = 2
+      atom2 = 4
+      atom3 = 3
+      atom4 = 1
+      reaction_coordinate{
+        sw_reaction_coordinate = on
+        init_value  = -179 degree
+        final_value =    0 degree
+        increment   =   10 degree
+      }
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 7.93765872 0.00 0.00 
+        b_vector = 0.00 7.93765872 0.00 
+        c_vector = 0.00 0.00 7.93765872 
+    }
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz mobile
+             H 3.6279807562 2.8390530729 4.9152792419 1
+             H 5.942555674 5.0102435678 4.8546215388 1
+             S 3.688644423 3.8270948439 3.9534258745 1
+             S 5.8335834548 4.022390876 3.8969597924 1
+        }
+        coordinate_system = cartesian 
+    }
+    element_list{
+        #tag element atomicnumber mass zeta deviation
+         H 1 1837.35097 * *
+         S 16 58452.3844 0.0 1.83
+    }
+    symmetry{
+        tspace{
+            lattice_system = primitive 
+        }
+    }
+    unit_cell_type = primitive 
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n dts dte itr var prec cmix submat
+         davidson +2 0.1 0.4 50 tanh off 1 off
+         rmm3     -1 0.1 0.4 50 tanh on 1 on
+    }
+    rmm{
+        edelta_change_to_rmm = 5.d-3 
+    }
+    submat{
+        before_renewal=on
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs rmxe itr var prec istr update
+         1 broyden2 0.3 0.3 1 linear on 5 RENEW
+         2 simple 0.2 0.5 15 linear on * *
+    }
+}
+printoutlevel{
+    base = 1 
+}
+structure_evolution{
+    method = damp 
+    dt = 60
+    damp{
+      resample_damping_parameters=off
+    }
+}
+postprocessing{
+    charge{
+        sw_charge_rspace = on 
+        filetype = cube 
+        title = "H2O" 
+    }
+    dos{
+        sw_dos = on 
+    }
+}

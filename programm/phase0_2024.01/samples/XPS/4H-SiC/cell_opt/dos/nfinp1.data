@@ -1,0 +1,87 @@
+control{
+    condition = initial
+    cpumax = 23 hour
+    max_scf_iteration = 100000000
+}
+accuracy{
+    xctype = revpbe
+    ksampling{
+        method = mesh  ! {mesh|file|directin|gamma}
+        mesh{
+              nx = 18, ny = 18, nz =  9
+        }
+    }
+
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 270.0 Rydberg
+
+    smearing{
+            method = tetrahedral ! {parabolic|tetrahedral}
+   }
+   scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+   force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 20
+
+!    initial_wavefunctions = atomic_orbital
+    initial_charge_density =  atomic_charge
+!
+    paw = on
+}
+structure{
+    atom_list{
+        coordinate_system = internal    ! {internal|cartesian}
+        atoms{
+            #default mobile=yes
+            #units Angstrom
+            #tag element rx ry rz 
+Si  0.0000000000000000D+00  0.0000000000000000D+00  0.0000
+C   0.0000000000000000D+00  0.0000000000000000D+00  0.1875
+Si  0.3333333333333333D+00  0.6666666666666666D+00  0.2500
+C   0.3333333333333333D+00  0.6666666666666666D+00  0.4375
+Si  0.0000000000000000D+00  0.0000000000000000D+00  0.5000
+C   0.0000000000000000D+00  0.0000000000000000D+00  0.6875
+Si -0.3333333333333333D+00  0.3333333333333333D+00  0.7500
+C  -0.3333333333333333D+00  0.3333333333333333D+00  0.9375
+        }  
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber moment
+                Si      14        0.0  
+                 C       6        0.0  
+    }
+
+    unit_cell_type = Bravais 
+    unit_cell{
+    #units angstrom
+    a = 3.094
+    b = 3.094
+    c = 10.128
+    alpha = 90
+    beta = 90
+    gamma = 120
+    }
+
+!    magnetic_state = ferro
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+    }
+}
+printlevel{
+   magmom = 2
+   gap = 2
+}
+postprocessing{
+  dos{
+    sw_dos = on
+    method = t
+  }
+}

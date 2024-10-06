@@ -1,0 +1,82 @@
+control{
+  condition = initial
+}
+accuracy{
+  num_bands = 52
+  ksampling{
+    method=monk
+    mesh{
+      nx = 6
+      ny = 6
+      nz = 1
+    }
+  }
+  cutoff_wf = 30 rydberg
+  cutoff_cd = 300 rydberg
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-8
+  }
+  force_convergence{
+    max_force = 0.0005 hartree/bohr
+  }
+}
+structure{
+  atom_list{
+    atoms{
+      #tag    element    rx    ry    rz    mobile    weight
+            Fe    0.5    0.5    0    off    1
+            Fe    0    0    0.0948333333333    off    2
+            Fe    0    0    0.2845    off    2
+            Fe    0.5    0.5    0.189666666667    off    2
+    }
+  }
+  ferromagnetic_state{
+    sw_fix_total_spin=off
+    total_spin=14
+    spin_fix_period=5
+  }
+  unit_cell{
+    a_vector = 5.3762704477 0.0 0.0
+    b_vector = 0.0 5.3762704477 0.0
+    c_vector = 0.0 0.0 28.3458898822
+  }
+  element_list{
+    #tag    element    atomicnumber    mass    zeta
+          Fe    26    101802.230406    0.375
+  }
+  symmetry{
+    method = automatic
+    sw_inversion = on
+  }
+  magnetic_state=ferro
+}
+structure_evolution{
+  method = gdiis
+  gdiis{
+    initial_method = cg
+    c_forc2gdiis = 0.005 hartree/bohr
+  }
+}
+wavefunction_solver{
+  solvers{
+    #tag    sol    till_n
+          mddavidson    1
+          rmm3       -1
+  }
+  rmm{
+    edelta_change_to_rmm = 5e-3 hartree
+  }
+}
+charge_mixing{
+  sw_recomposing=on
+  spin_density_mixfactor=4
+  mixing_methods{
+    #tag    no    method    rmxs
+          1    pulay    0.1
+  }
+}
+printoutlevel{
+  base = 1
+}

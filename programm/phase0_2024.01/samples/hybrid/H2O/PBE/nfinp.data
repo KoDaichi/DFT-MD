@@ -1,0 +1,92 @@
+Control{
+    condition = initial
+    cpumax = 1 hour
+}
+accuracy{
+    cutoff_wf =  25.0 rydberg
+    cutoff_cd = 225.0 rydberg
+    num_bands = 8
+    ksampling{
+        method = gamma
+        base_reduction_for_GAMMA = OFF
+        base_symmetrization_for_GAMMA = OFF
+    }
+    smearing{
+        method = parabolic
+        width = 0.001 hartree
+    }
+    hybrid_functional{
+        sw_hybrid_functional = OFF
+        sw_exchage_only = OFF
+        sw_screened_exchage = OFF
+        alpha = 0.25
+        omega = 0.11
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-8 hartree
+        succession = 2
+    }
+    force_convergence{
+        delta_force = 1e-04
+    }
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+}
+structure{
+    unit_cell{
+        #units bohr degree
+        a = 10
+        b = 10
+        c = 10
+        alpha = 90.0
+        beta = 90.0
+        gamma = 90.0
+    }
+    symmetry{
+      method = automatic
+    }
+    magnetic_state = para
+    atom_list{
+        coordinate_system = cartesian
+        atoms{
+            #tag element rx ry rz   mobile
+            H     0.000000000    1.434697246   -1.136803673  on
+            H     0.000000000   -1.434697246   -1.136803673  on
+            O     0.000000000    0.000000000    0.000000000
+          }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass
+             H       1            1.00794
+             O       8           15.9994
+    }
+}
+wavefunction_solver{
+    solvers{
+        #tag sol    till_n
+             lm+MSD 10
+             rmm3   -1
+    }
+    line_minimization{
+        dt_lower_critical = 1.0
+        dt_upper_critical = 5.0
+    }
+    rmm{
+        edelta_change_to_rmm = 1.0e-6
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs rmxe itr
+             1 broyden 0.10 0.40 40
+    }
+}
+Postprocessing{
+    dos{
+        sw_dos = OFF
+    }
+}
+printoutlevel{
+    base = 1
+}

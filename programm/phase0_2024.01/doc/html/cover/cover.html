@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>第一原理電子状態計算ソフトウェアPHASE/0 2021ユーザーマニュアル &mdash; PHASE/0 Manual 2024.01 ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/phase0.css?v=84baaed2" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=df52f328"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PHASE/0 Manual
+              <img src="../_static/image1.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">1. はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">2. PHASE/0のインストール</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_step/first_step.html">3. PHASE/0の基本的な利用方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_parameters/input_parameters.html">4. 入力パラメータファイル：nfinp.data（詳細版）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/basics.html">5. 基本機能を利用した計算例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../electronic_structure/electronic_structure.html">6. 電子状態解析：バンド構造と状態密度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html">7. 高度な電子状態計算</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis/analysis.html">8. 解析機能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supplement/supplement.html">11. 補遺</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PHASE/0 Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">第一原理電子状態計算ソフトウェアPHASE/0 2021ユーザーマニュアル</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/cover/cover.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="phase-0-2021">
+<h1>第一原理電子状態計算ソフトウェアPHASE/0 2021ユーザーマニュアル<a class="headerlink" href="#phase-0-2021" title="この見出しへのパーマリンク"></a></h1>
+<p><img alt="image1" src="../_images/image1.png" /></p>
+<p>12.0.01 (2021/08)</p>
+<p><a class="reference external" href="https://azuma.nims.go.jp">https://azuma.nims.go.jp</a></p>
+<p><strong>PHASE System</strong></p>
+<p><strong>COPYRIGHT of the program codes</strong></p>
+<p>Copyright (C) of the original version: Hideki Katagiri, Koichi Kato,
+Tsuyoshi Miyazaki, Yoshitada Morikawa, Hideaki Sawada, Toshihiro
+Uchiyama, Tsuyoshi Uda, Takahiro Yamasaki.</p>
+<p>Copyright (C) of the developed version by the national projects FSIS,
+RSS21, and RISS has been managed by the Institute of Industrial Science
+(IIS), the University of Tokyo.</p>
+<p>The Institute of Industrial Science (IIS) has a right to distribute the
+program set developed from the original version as a free software.</p>
+<p><strong>HISTORY</strong></p>
+<p>The original version of this set of the computer programs &quot;PHASE&quot; was
+developed by the members of the Theory Group of Joint Research Center
+for Atom Technology (JRCAT), based in Tsukuba, in the period 1993-2001.
+The names of the contributors to the original version are Hideki
+Katagiri, K. Kato, T. Miyazaki, Y. Morikawa, H. Sawada, T. Uchiyama, T.
+Uda and T. Yamasaki. These contributors has agreed with that the
+Institute of Industrial Science (IIS), the University of Tokyo,
+distributes this program as a free software.</p>
+<p>Since 2002, this program set had been intensively developed as a part of
+the following national projects supported by the Ministry of Education,
+Culture, Sports, Science and Technology (MEXT) of Japan; &quot;Frontier
+Simulation Software for Industrial Science (FSIS)&quot; from 2002 to 2005,
+&quot;Revolutionary Simulation Software (RSS21)&quot; from 2006 to 2008. &quot;Research
+and Development of Innovative Simulation Software (RISS)&quot; from 2008 to
+2013. These projects is lead by the Center for Research on Innovative
+Simulation Software (CISS), the Institute of Industrial Science (IIS),
+the University of Tokyo.</p>
+<p>Since 2013, this program set has been further developed centering on
+PHASE System Consortium.</p>
+<p>The activity of development of this program set has been supervised by
+Takahisa Ohno.</p>
+<p><strong>CONTACT ADDRESS</strong></p>
+<p>PHASE System Consortium</p>
+<p>E-mail: <a class="reference external" href="mailto:phase_system&#37;&#52;&#48;nims&#46;go&#46;jp">phase_system<span>&#64;</span>nims<span>&#46;</span>go<span>&#46;</span>jp</a> URL <a class="reference external" href="https://azuma.nims.go.jp">https://azuma.nims.go.jp</a></p>
+<p>* When distributing the software &quot;PHASE&quot; duplications, the user must
+attach the full text in this file.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, PHASEシステム研究会.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

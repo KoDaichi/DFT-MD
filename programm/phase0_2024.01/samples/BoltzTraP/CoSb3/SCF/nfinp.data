@@ -1,0 +1,96 @@
+structure{
+    atom_list{
+        atoms{
+            #units angstrom
+            #default mobile = on
+            #tag element rx ry rz
+             Sb    0.0000000000000   0.1588915095766   0.3342310285944
+             Sb    0.0000000000000  -0.1588915095766  -0.3342310285944
+             Sb    0.0000000000000   0.1588915095766  -0.3342310285944
+             Sb    0.0000000000000  -0.1588915095766   0.3342310285944
+             Sb    0.3342310285944   0.0000000000000   0.1588915095766
+             Sb   -0.3342310285944   0.0000000000000  -0.1588915095766
+             Sb   -0.3342310285944   0.0000000000000   0.1588915095766
+             Sb    0.3342310285944   0.0000000000000  -0.1588915095766
+             Sb    0.1588915095766   0.3342310285944   0.0000000000000
+             Sb    0.1588915095766  -0.3342310285944   0.0000000000000
+             Sb   -0.1588915095766   0.3342310285944   0.0000000000000
+             Sb   -0.1588915095766  -0.3342310285944   0.0000000000000
+             Co    0.2500000000000   0.2500000000000   0.2500000000000
+             Co    0.2500000000000  -0.2500000000000  -0.2500000000000
+             Co   -0.2500000000000   0.2500000000000  -0.2500000000000
+             Co   -0.2500000000000  -0.2500000000000   0.2500000000000
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass
+         Co 27 107427.994
+         Sb 51 221948.075
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 9.037 0.00 0.00
+        b_vector = 0.00 9.037 0.00
+        c_vector = 0.00 0.00 9.037
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = bodycentered
+        }
+    }
+    unit_cell_type = bravais
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 4
+            ny = 4
+            nz = 4
+        }
+        !method = mesh
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 1.0E-3 Hartree/Bohr
+    }
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+    num_bands = 58
+}
+control{
+    condition = initial
+}
+printoutlevel{
+    base = 1
+    parallel_debug = 0
+}
+wavefunction_solver{
+    solvers{
+        #tag sol till_n
+         mddavidson 2
+         rmm3 -1
+    }
+    rmm{
+        edelta_change_to_rmm = 1e-3
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method rmxs
+         1 pulay 0.40
+    }
+}
+postprocessing{
+    dos{
+        sw_dos = on
+    }
+    boltztrap{
+        sw_boltztrap = off
+        version = 1
+        prefix = CoSb3
+        header = "CoSb3 calculated by PHASE/0"
+    }
+}

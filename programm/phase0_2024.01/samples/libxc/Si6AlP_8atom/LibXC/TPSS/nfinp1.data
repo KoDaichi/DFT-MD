@@ -1,0 +1,64 @@
+Control{
+    condition = initial
+}
+accuracy{
+    cutoff_wf =  25.00  rydberg
+    cutoff_cd =  225.00  rydberg
+    ksampling{
+       mesh{  nx = 4, ny =  4, nz =  4  }
+    } 
+    num_bands = 24
+ 
+    xctype = libxc
+    libxc{
+       exch_name = MGGA_X_TPSS ,     corr_name = MGGA_C_TPSS
+    } 
+
+    initial_wavefunctions = random_numbers
+    initial_charge_density = atomic_charge_density
+
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    smearing{
+           method = parabolic ! {parabolic|tetrahedral}
+           width  = 0.05 eV
+    }
+}
+structure{
+    unit_cell_type = bravais
+    unit_cell{
+       #units angstrom
+        a = 5.43,  b = 5.43,  c = 5.43
+        alpha = 90, beta = 90, gamma = 90
+    }
+    symmetry{
+        method = automatic
+    }
+    atom_list{
+       atoms{
+          #default mobile=yes
+          #tag  element    rx       ry       rz
+                 Si        0.00     0.00     0.00
+                 Si        0.25     0.25     0.25
+                 Si        0.50     0.50     0.00
+                 Si        0.75     0.75     0.25
+                 Si        0.00     0.50     0.50
+                 Si        0.25     0.75     0.75
+                 Al        0.50     0.00     0.50
+                 P         0.75     0.25     0.75
+       }
+    }
+    element_list{ #tag element  atomicnumber
+                          Si        14
+                          Al        13
+                          P         15
+    }
+}
+printlevel{
+   gap = 2
+   totalcharge = 2
+}

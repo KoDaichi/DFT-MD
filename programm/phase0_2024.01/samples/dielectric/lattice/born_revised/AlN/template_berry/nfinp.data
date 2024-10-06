@@ -1,0 +1,44 @@
+Control{
+    condition = fixed_charge
+    fixed_charge_option { kparallel = one_by_one }
+}
+
+accuracy{
+    cutoff_wf =  25  rydberg
+    cutoff_cd = 230  rydberg
+    num_bands = 16
+}
+
+structure{
+   unit_cell{
+       a= 5.80638 , b= 5.80638 , c= 9.296014
+       alpha=90, beta=90, gamma=120
+   }
+
+    symmetry{
+        method = automatic
+    }
+
+    atom_list{
+         coordinate_system = cartesian ! {cartesian|internal}
+         atoms{
+              #default pdos = off, mobile = off
+             #tag   rx            ry            rz            element
+                     0.000000000    3.352315056    0.000000000  Al
+                     2.903190000    1.676157528    4.648007000  Al
+                     0.000000000    3.352315056    3.551077348  N
+                     2.903190000    1.676157528    8.199084348  N
+         }
+    }
+    element_list{ #tag  element  atomicnumber dev
+                  Al        13          1.825741858
+                  N          7          1.825741858
+            }
+}
+wavefunction_solver{
+    submat{
+      scalapack{
+        sw_scalapack = off
+      }
+    }
+}

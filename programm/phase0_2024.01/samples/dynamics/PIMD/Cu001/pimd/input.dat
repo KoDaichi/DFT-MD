@@ -1,0 +1,33 @@
+<input_style>
+NEW
+
+<method>
+GEOOPT
+
+<nstep>
+1000
+
+<ipotential>
+PHASE0
+
+<phase0_proc>
+1 1 1
+
+<iboundary>
+  2
+15.0 0.0 0.0
+0.0 15.0 0.0
+0.0 0.0 15.0
+
+<iprint_std>
+1
+
+<iprint_bond>
+10
+
+<iprint_xyz>
+1
+
+<iprint_dip>
+10
+

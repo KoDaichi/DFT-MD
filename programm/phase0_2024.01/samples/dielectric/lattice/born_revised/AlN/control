@@ -1,0 +1,14 @@
+property=zeff
+
+atom_list = 1 3
+mesh1 = 6 6 15
+mesh2 = 6 6 15
+mesh3 = 6 6 15
+
+scf_command = mpiexec -n NP ../../../../../bin/phase ne=NE nk=NK
+berry_command = mpiexec -n NP ../../../../../bin/ekcal ne=NE_B nk=1
+np   = 4
+ndir = 4
+ne   = 1
+nk   = 1
+ne_b = 1

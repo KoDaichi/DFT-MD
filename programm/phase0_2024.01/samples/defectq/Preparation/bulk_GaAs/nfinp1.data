@@ -1,0 +1,91 @@
+Control{
+    condition = initial
+    cpumax = 46 hour
+    max_iteration = 1000000
+    max_scf_iteration = 30
+}
+accuracy{
+    cutoff_wf = 30 Rydberg
+    cutoff_cd = 270 Rydberg
+
+    ksampling{
+        mesh{
+            nx = 8
+            ny = 8
+            nz = 8
+        }
+        method = monk
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+   force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 20
+
+    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge
+
+      smearing{
+                method = parabolic      ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+        }
+     paw = on
+}
+structure{
+    atom_list{
+        coordinate_system = internal ! {internal|cartesian}
+        atoms{
+            #default mobile=yes
+            #tag element rx ry rz
+Ga      0.00 0.00 0.00
+As      0.25 0.25 0.25
+        }
+   }
+!    magnetic_state = ferro
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber 
+                Ga     31         
+                As     33
+    }
+    unit_cell_type = bravais
+    unit_cell{
+!Cryst. Res. Technol.,1992,27,,97-100,Leszczynski M., Micovic M., Mendonca C.A.C., Ciepielewska A., Ciepielewski P.
+     #units angstrom
+    a =  5.6533
+    b =  5.6533
+    c =  5.6533
+      alpha = 90 , beta = 90 , gamma = 90
+    }
+
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = fcc
+        }
+    }
+}
+charge_mixing{
+        mixing_methods{
+        #tag no   method   rmxs   rmxe   prec istr  nbmix  update
+               1  pulay  0.10   0.10   on    3     15    RENEW
+        }
+}
+printlevel{
+   magmom = 2
+   gap = 2
+}
+structure_evolution {
+    stress{
+      sw_stress = on
+      sw_stress_correction = on
+   }
+   lattice{
+     sw_optimize_lattice = on
+     sw_uniform = on
+     sw_rebuild_pws = on
+   }
+}

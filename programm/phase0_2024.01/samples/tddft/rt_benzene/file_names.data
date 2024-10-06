@@ -1,0 +1,5 @@
+ &fnames
+ F_INP    = './input.data'
+ F_POT(1) = '../../pp/H_ggapbe_paw_nc_01m.pp'
+ F_POT(2) = './test_06_C_gga_nc_loc_d.gncpp2'
+/

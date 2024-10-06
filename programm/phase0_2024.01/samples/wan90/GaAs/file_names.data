@@ -1,0 +1,12 @@
+c ====<< & or & >>===
+ &fnames
+ F_INP    = './nfinput.data'
+ F_POT(1) = './31_Ga_lda_nc_loc_s2.pp'
+ F_POT(2) = './As_ggapbe_nc_01.pp'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = './nfchgt.data'
+ F_ENF    = './nfefn.data'
+ F_ZAJ    = './zaj.data'
+ F_CHR    = './nfchr.cube'
+ F_WANNIER = './nfwannier.cube'
+/

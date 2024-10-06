@@ -1,0 +1,89 @@
+Control{
+    cpumax = 100 day
+    max_iteration = 600000000
+    condition = initial 
+    driver = constraints
+}
+accuracy{
+    cutoff_wf = 25.00 rydberg
+    cutoff_cd = 225.00 rydberg
+    xctype = ggapbe 
+!    initial_wavefunctions = matrix_diagon 
+!    matrix_diagon{
+!        cutoff_wf = 5.0 rydberg
+!    }
+    ksampling{
+        method = gamma 
+        base_symmetrization_for_GAMMA = 1 
+        base_reduction_for_GAMMA = 1 
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-9 Hartree
+    }
+    force_convergence{
+        max_force = 5.e-4 
+    }
+    num_bands = 12 
+}
+structure{
+    constrainable1{
+      mobile = off
+      monitor = on
+      type = dihedral_angle
+      atom1 = 2
+      atom2 = 4
+      atom3 = 3
+      atom4 = 1
+      reaction_coordinate{
+        sw_reaction_coordinate = on
+        init_value  = -175 degree
+        final_value =    0 degree
+        increment   =   10 degree
+      }
+    }
+    unit_cell{
+        a_vector = 15.00 0.00 0.00 
+        b_vector = 0.00 15.00 0.00 
+        c_vector = 0.00 0.00 15.00 
+    }
+    atom_list{
+        coordinate_system = cartesian 
+        atoms{
+            #tag element rx ry rz mobile thermo_group
+             H 7.281750104 6.233182486 8.704018381 1 1
+             H 10.722055835 9.18794857 8.286475252 1 1
+             O 7.570555994 7.611410852 7.510655772 1 1
+             O 10.381205471 7.582015677 7.441853095 1 1
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass
+         H 1 1837.35097
+         O 8 29164.9435
+    }
+    symmetry{
+        tspace{
+            lattice_system = primitive 
+        }
+    }
+    unit_cell_type = primitive 
+}
+structure_evolution{
+    method = temperature_control
+    temperature_control{
+      thermostat{
+        #tag temp qmass
+             100  200
+      }
+    }
+    dt=30
+    n_md_step = 1200
+    predictor{
+      sw_wf_predictor = on
+    }
+}
+thermodynamic_integration{
+  nsteps = 1200
+  nequib = 500
+  nreac_coords = 19
+}

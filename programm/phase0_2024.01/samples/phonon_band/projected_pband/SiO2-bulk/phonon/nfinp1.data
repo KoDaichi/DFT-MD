@@ -1,0 +1,79 @@
+control{
+    condition = initial 
+}
+accuracy{
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+
+    ksampling{
+        method = monk 
+        mesh{
+            nx = 4
+            ny = 4 
+            nz = 4
+        }
+    }
+    num_bands = 32
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-5 Hartree/Bohr
+    }
+    smearing{
+           method = parabolic ! {parabolic|tetrahedral}
+           width  = 0.05 eV
+    }
+    paw = on
+    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge
+
+}
+structure{
+    atom_list{
+        atoms{
+            #default mobile=yes
+            #tag element rx ry rz key
+Si    0.484881332458900915 -0.000000000000000000 -0.000000000000000028 0
+Si   -0.000000000000000036  0.484881332458900860  0.666666666666666519 0
+Si    0.515118667541099029  0.515118667541098918  0.333333333333333259 0
+O     0.416288863303533707  0.239817415859135241  0.140937810378605866 0
+O     0.239817415859135297  0.416288863303533652  0.525728856288060764 0
+O     0.760182584140864814  0.176471447444398383  0.807604477045272273 0
+O     0.583711136696466126  0.823528552555601312  0.192395522954727421 0
+O     0.823528552555601645  0.583711136696466237  0.474271143711939125 0
+O     0.176471447444398383  0.760182584140864592  0.859062189621394023 0
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass
+                Si       14       28.085
+                O         8       15.999
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+  a     =     9.648740215610 , b    =     9.648740215610 ,  c     =    10.552667312922
+        alpha = 90,         beta  = 90,         gamma = 120
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = hexagonal
+        }
+    }
+}
+Phonon{
+    sw_phonon = on
+    sw_vibrational_modes = on
+    sw_calc_force = on
+    displacement = 0.05
+
+    lattice{
+        l1 = 2
+        l2 = 2
+        l3 = 2
+    }
+    method = band
+    use_qpoint_data_file = yes
+}

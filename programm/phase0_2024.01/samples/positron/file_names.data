@@ -1,0 +1,28 @@
+c ====<< & or & >>===
+c & : VPP, VP
+c $ : DEC, HP, SUN
+ &fnames
+ F_INP    = './nfposnew.data'
+ F_POT(1) = '../pp/Si_ggapbe_paw_nc_01m.pp'
+ F_KPOINT = './kpoint.data'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = './nfchgt.data'
+ F_CNST   = './nfinp.cnst.data'
+ F_CHR    = './charge.cube'
+ F_ENF    = './nfefn.data'
+ F_ENERG  = './nfenergy.data'
+ F_CNTN   = './continue.data'
+ F_ZAJ    = './zaj.data'
+/
+
+ &f_ldos_names
+ F_LDOS1  = './nfldos_s1.data'
+ F_LDOS   = './nfldos.data'
+/
+
+ &f_param_names
+ F_PARAM_MAIN = './parameters_decided'
+ F_PARAM_SUB  = './para_p.inc'
+ F_STDOUT     = './paramset.out'
+/
+c                           @(#)file_names.data 8.1 97/04/10 14:51:25

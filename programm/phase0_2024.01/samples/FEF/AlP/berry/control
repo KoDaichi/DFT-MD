@@ -1,0 +1,28 @@
+#overall control
+property=zeff
+cpumax=15000
+length_unit = bohr
+
+#directories under which the template files reside
+template_scf = template_scf
+template_berry = template_berry
+
+#parameters for the berry-phase calculation
+displacement = 0.05
+atom_list = 1 2
+#n1, n2, J for the first reciprocal vector
+mesh1 = 4 4 12
+#n1, n2, J for the second reciprocal vector
+mesh2 = 4 4 12
+#n1, n2, J for the third reciprocal vector
+mesh3 = 4 4 12
+
+#execution control
+scf_command = mpiexec -n NP ../../../../bin/phase ne=NE nk=NK
+berry_command = mpiexec -n NP ../../../../bin/ekcal ne=NE_B nk=1
+np   = 4 # number of total MPI processes
+ndir = 1 # number of directory parallelization
+ne   = 2 # band-parallelization for PHASE
+nk   = 2 # number of k-points handled in parallel
+ne_b = 4 # band-parallelization for ekcal
+

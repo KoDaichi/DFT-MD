@@ -1,0 +1,60 @@
+Control{
+    cpumax = 1 day
+    condition = initial
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 4
+            ny = 4
+            nz = 6
+        }
+        method = monk
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    num_bands = 38
+    cutoff_wf = 80 Rydberg
+    cutoff_cd = 720 Rydberg
+}
+printoutlevel{
+    base = 1
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         O 8 29164.9435
+         Ti 22 87279.3665
+    }
+    atom_list{
+        atoms{
+            #tag element rx ry rz mobile
+             Ti 0.00 0.00 0.00 on
+             Ti 0.50 0.50 0.50 on
+             O 0.3046 0.3046 0.00 on
+             O 0.8046 0.1954 0.50 on
+             O 0.1954 0.8046 0.50 on
+             O -0.3046 -0.3046 0.00 on
+        }
+    }
+    unit_cell{
+        a_vector = 8.679511481944893 0.0 0.0
+        b_vector = 0.0 8.679511481944893 0.0
+        c_vector = 0.0 0.0 5.5916992107718135
+    }
+    symmetry{
+        method = automatic
+        sw_inversion = on
+    }
+}
+
+structure_evolution{
+  lattice{
+    sw_optimize_lattice = on
+  }
+}
+

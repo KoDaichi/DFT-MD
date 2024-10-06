@@ -1,0 +1,59 @@
+control{
+  condition = initial
+  max_iteration = 1000000000
+}
+accuracy{
+  num_bands = 48
+  ksampling{
+    mesh{
+      nx = 2
+      ny = 4
+      nz = 1
+    }
+  }
+  cutoff_wf = 20 rydberg
+  cutoff_cd = 80 rydberg
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-10 hartree
+    succession = 1
+  }
+  force_convergence{
+    max_force = 0.0001 hartree/bohr
+  }
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         Si 14 51196.4212
+    }
+    atom_list{
+        atoms{
+            #tag element rx ry rz weight mobile
+             Si 0.34138 0.75 0.37105 2 on
+             Si 0.632536355 0.75 0.3587226684 2 on
+             Si 0.26229 0.25 0.29522 2 on
+             Si 0.73763 0.25 0.29519 2 on
+             Si 0.00 0.25 0.21632 2 on
+             Si 0.50 0.25 0.20432 2 on
+             Si 0.00 0.75 0.12903 2 on
+             Si 0.50 0.75 0.12284 2 on
+             Si 0.25 0.75 0.04301 2 on
+             Si 0.75 0.75 0.04301 2 on
+        }
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 7.679420223 0.00 0.00
+        b_vector = 0.00 3.8397101115 0.00
+        c_vector = 0.00 0.00 16.2901924024
+    }
+    symmetry{
+        sw_inversion = on
+        method = automatic
+    }
+}
+structure_evolution{
+  method = quench
+}

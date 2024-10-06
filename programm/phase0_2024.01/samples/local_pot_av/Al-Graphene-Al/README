@@ -1,0 +1,12 @@
+pp : pseudopotential
+
+scf-fine : SCF calc.
+
+cutoff_1.0_with_xc : local potential average with xc pot, radius of integration :1.0
+cutoff_2.0_with_xc : local potential average with xc pot, radius of integration :2.0
+
+cutoff_1.0_without_xc : local potential average without xc pot, 
+                        radius of integration :1.0
+cutoff_2.0_without_xc : local potential average without xc pot,
+                        radius of integration :2.0
+

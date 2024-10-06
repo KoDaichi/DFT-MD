@@ -1,0 +1,67 @@
+Control{
+    cpumax = 23.5 hour
+    condition = initial
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 3
+            ny = 8
+            nz = 1
+        }
+        method = monk
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+    num_bands = 184
+}
+printoutlevel{
+    base = 1
+}
+structure{
+    element_list{
+        #tag element atomicnumber mass
+         Pt 78 355606.909
+    }
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz mobile weight
+             Pt 0.0 0.0 0.0 * *
+             Pt 0.25 0.50 0.0451627627964922 * 2
+             Pt 0.0 0.0 0.09032552479872112 * 2
+             Pt 0.25 0.50 0.13548828669955465 * 2
+             Pt 0.0 0.0 0.1805116527988854 on 2
+             Pt 0.25 0.50 0.22499344143351557 on 2
+             Pt 0.0 0.0 0.2735162185440926 on 2
+             Pt 0.25 0.50 0.3121590412343783 on 2
+             Pt 0.5 0.0 0.0 * *
+             Pt 0.75 0.50 0.0451627627964922 * 2
+             Pt 0.5 0.0 0.09032552479872112 * 2
+             Pt 0.75 0.50 0.13548828669955465 * 2
+             Pt 0.5 0.0 0.1805116527988854 on 2
+             Pt 0.75 0.50 0.22499344143351557 on 2
+             Pt 0.5 0.0 0.2735162185440926 on 2
+        }
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 8.00 0.00 0.00
+        b_vector = 0.00 2.828427125 0.00
+        c_vector = 0.00 0.00 31.313708499
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+        sw_inversion = on
+    }
+    unit_cell_type = bravais
+}

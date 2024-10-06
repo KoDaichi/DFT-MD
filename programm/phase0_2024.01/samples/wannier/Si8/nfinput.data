@@ -1,0 +1,82 @@
+Control{
+        condition = initial
+}
+
+accuracy{
+        cutoff_wf =  20.00  rydberg
+        cutoff_cd =  80.00  rydberg
+        num_bands = 20
+        ksampling{
+                method = gamma ! {mesh|file|directin|gamma}
+                mesh{  nx = 4, ny =  4, nz =  4   }
+        }
+        smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.001 hartree
+        }
+        scf_convergence{
+                delta_total_energy = 1.e-8  hartree
+                succession   = 2   !default value = 2
+        }
+        force_convergence{
+                max_force = 0.1e-3
+        }
+}
+
+structure{
+        unit_cell{
+                a_vector =  10.26    0.00    0.00
+                b_vector =   0.00   10.26    0.00
+                c_vector =   0.00    0.00   10.26
+        }
+        atom_list{
+                coordinate_system = internal ! {cartesian|internal}
+                atoms{
+                #default weight = 1, element = Si
+                #tag   rx       ry       rz
+0.5 0.5 0.5
+0.25 0.25 0.25
+0.5 0 0
+0.25 -0.25 -0.25
+0 0.5 0
+-0.25 0.25 -0.25
+0 0 0.5
+-0.25 -0.25 0.25
+                }
+        }
+        element_list{ #tag element  atomicnumber
+                              Si       14
+        }
+}
+
+wavefunction_solver{
+        solvers{
+            #tag    sol    till_n
+                    mddavidson   2
+                    rmm3      -1
+        }
+        rmm{
+            edelta_change_to_rmm=5e-3
+        }
+}
+
+charge_mixing{
+        mixing_methods{
+        #tag no   method   rmxs
+              1   broyden2   0.40
+        }
+}
+
+Postprocessing{
+	wannier{
+                sw_wannier = ON
+		eps_grad   = 1.d-3
+		dt         = 1.d-4
+		max_iteration = 1000
+                filetype = cube
+	}
+}
+printoutlevel{
+        base = 1
+	inputfile = 2
+}

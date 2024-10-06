@@ -1,0 +1,7 @@
+&fnames
+F_INP = './nfinp.data'
+F_POT(1) = '../pp/Si_ggapbe_paw_nc_01m.pp'
+F_CHGT = './nfchgt.data'
+F_VLC = './nfvlc.cube'
+F_CHR = './nfchr.cube'
+/

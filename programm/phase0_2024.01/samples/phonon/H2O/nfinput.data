@@ -1,0 +1,90 @@
+Control{
+        condition = initial
+        cpumax = 1 day ! maximum cpu time
+	max_iteration = 6000
+}
+
+accuracy{
+	cutoff_wf =   25.00  rydberg
+	cutoff_cd =  225.00  rydberg
+	num_bands = 8
+	initial_wavefunctions = atomic_orbitals
+	initial_charge_density = atomic_charge_density
+        ksampling{
+          method = gamma
+        }
+	scf_convergence{
+	  delta_total_energy = 1.e-10
+	  succession = 3
+	}
+        force_convergence{
+          max_force = 1.e-4
+        }
+}
+
+structure{
+        unit_cell_type = primitive
+	unit_cell{
+	      a_vector =  15.0               0.0                0.0
+	      b_vector =   0.0              15.0                0.0
+              c_vector =   0.0               0.0               15.0
+	}
+	symmetry{
+	     tspace{
+                lattice_system = primitive
+                generators{
+                   #tag rotation tx ty tz
+                        C2z      0  0  0
+                        IC2x     0  0  0
+                }
+             }
+             sw_inversion = off
+	}
+
+        magnetic_state = para
+
+	atom_list{
+             coordinate_system = cartesian
+	     atoms{
+		#tag  rx             ry       rz          element
+   -1.442399231    0.000000000    1.126191510  H
+    1.442399231    0.000000000    1.126191510  H
+    0.000000000    0.000000000   -0.005814677  O
+
+	     }
+	}
+	element_list{
+                        #units atomic_mass
+                        #tag element  atomicnumber zeta  dev  mass
+			    H             1       1.00  0.5   1.00794
+			    O             8       0.17  1.0   15.9994  }
+}
+
+wavefunction_solver{
+	  solvers {
+        #tag sol    till_n
+              mddavidson 1
+              rmm3      -1
+        }
+	rmm {
+	  edelta_change_to_rmm = 1.d-3
+	}
+}
+
+charge_mixing{
+        mixing_methods {
+        #tag id method   rmxs
+              1  pulay 0.4
+        }
+}
+
+Phonon{
+   sw_phonon = on
+   sw_calc_force = on
+   sw_vibrational_modes = on
+   displacement = 0.05
+}
+
+printoutlevel{
+  base = 1
+}

@@ -1,0 +1,50 @@
+Control{
+    condition = initial
+}
+accuracy{
+    paw = off
+    cutoff_wf =   25.0  rydberg
+    cutoff_cd =  225.0  rydberg
+    num_bands =  20
+    ksampling{
+        mesh{
+            nx = 10
+            ny = 10
+            nz = 10
+        }
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-8  hartree
+    }
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+}
+structure{
+    unit_cell{
+           #units angstrom
+           a_vector =   2.92401773821286606549   0.000   0.000
+           b_vector =   0.000   2.92401773821286606549   0.000
+           c_vector =   0.000   0.000   2.92401773821286606549
+    }
+    symmetry{
+           method = automatic
+    }
+    magnetic_state = ferro
+    atom_list{
+         atoms{
+         #tag  rx       ry         rz      element
+             0.000     0.000     0.000         Cr1
+             0.500     0.500     0.500         Cr2
+         }
+    }
+    element_list{
+    #tag element  atomicnumber zeta
+          Cr1           24     0.3
+          Cr2           24    -0.3
+    }
+}
+
+printlevel{
+    base = 1
+}
+

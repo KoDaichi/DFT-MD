@@ -1,0 +1,48 @@
+--- src/ext/sfbasis.f90	2022-01-26 20:23:30.993784274 +0900
++++ src/ext/sfbasis.f90	2022-01-26 20:26:15.081418195 +0900
+@@ -880,20 +944,36 @@
+     double precision, dimension(3)       :: di_w_ijk, dj_w_ijk, dk_w_ijk
+     integer                              :: i
+ 
+-    call sfb_assert_init(sfb)
++    double precision                     :: h_cos
+ 
+-    fc_j = sfb_fc(d_ij, sfb%a_Rc)
+-    fc_k = sfb_fc(d_ik, sfb%a_Rc)
++    call sfb_assert_init(sfb)
++    
++    fc_j = sfb_fc(d_ij, sfb%a_Rc, kfc_a, a_h)
++    fc_k = sfb_fc(d_ik, sfb%a_Rc, kfc_a, a_h)
+     w_ijk = fc_j*fc_k
+-
+-    f = chebyshev_polynomial(cos_ijk, -1.0d0, 1.0d0, sfb%a_order)
+-
++    select case(switch_sfb)
++    case(-1)
++       f = chebyshev_polynomial(cos_ijk,  0.0d0, PI, sfb%a_order)
++    case(0)
++       f = chebyshev_polynomial(cos_ijk, -1.0d0, 1.0d0, sfb%a_order)
++    case(1)
++       h_cos = 0.5d0*(cos_ijk+1.d0)
++       f = chebyshev_polynomial(h_cos, -1.d0, 1.d0, sfb%a_order)
++    end select
++    
+     values(1:sfb%a_N) = w_ijk*f
+ 
+     if (present(deriv_i) .and. present(deriv_j) .and. present(deriv_k)) then
+-       dfc_j = sfb_fc_d1(d_ij, sfb%a_Rc)
+-       dfc_k = sfb_fc_d1(d_ik, sfb%a_Rc)
+-       df = chebyshev_polynomial_d1(cos_ijk, -1.0d0, 1.0d0, sfb%a_order)
++       dfc_j = sfb_fc_d1(d_ij, sfb%a_Rc, kfc_a, a_h)
++       dfc_k = sfb_fc_d1(d_ik, sfb%a_Rc, kfc_a, a_h)
++       select case(switch_sfb)
++       case(-1)
++          df = chebyshev_polynomial_d1(cos_ijk,  0.0d0, PI, sfb%a_order)
++       case(0)
++          df = chebyshev_polynomial_d1(cos_ijk, -1.0d0, 1.0d0, sfb%a_order)
++       case(1)
++          df = 0.5d0*chebyshev_polynomial_d1(h_cos, -1.0d0, 1.d0, sfb%a_order)
++       end select
+        id_ij2 = 1.0d0/(d_ij*d_ij)
+        id_ik2 = 1.0d0/(d_ik*d_ik)
+        id_ij_ik = 1.0d0/(d_ij*d_ik)

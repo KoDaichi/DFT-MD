@@ -1,0 +1,111 @@
+control{
+    condition = initial 
+    cpumax = 46 hour
+    max_iteration = 100000
+    max_scf_iteration = 60000
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 2
+            ny = 2 
+            nz = 2 
+        }
+        method = monk 
+    }
+    num_bands = 210
+    cutoff_wf = 30.0 Rydberg
+    cutoff_cd = 270.0 Rydberg
+
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+
+    force_convergence{
+        max_force = 2.0E-4 Hartree/Bohr
+    }
+
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+
+    paw = on
+    core_electrons{
+       sw_opencore = off
+       sw_xc_opencore_ae_only = on
+!       spin_orientation = anti_parallel
+!       sw_fix_core_spin_pol = on
+    }
+}
+structure{
+    atom_list{
+        atoms{
+            #tag element rx ry rz 
+PtX       0.0000000000        0.0000000000        0.0000000000
+Pt        0.2500000000        0.2500000000        0.0000000000
+Pt        0.2500000000        0.0000000000        0.2500000000
+Pt        0.0000000000        0.2500000000        0.2500000000
+Pt        0.5000000000        0.0000000000        0.0000000000
+Pt        0.7500000000        0.2500000000        0.0000000000
+Pt        0.7500000000        0.0000000000        0.2500000000
+Pt        0.5000000000        0.2500000000        0.2500000000
+Pt        0.0000000000        0.5000000000        0.0000000000
+Pt        0.2500000000        0.7500000000        0.0000000000
+Pt        0.2500000000        0.5000000000        0.2500000000
+Pt        0.0000000000        0.7500000000        0.2500000000
+Pt        0.5000000000        0.5000000000        0.0000000000
+Pt        0.7500000000        0.7500000000        0.0000000000
+Pt        0.7500000000        0.5000000000        0.2500000000
+Pt        0.5000000000        0.7500000000        0.2500000000
+Pt        0.0000000000        0.0000000000        0.5000000000
+Pt        0.2500000000        0.2500000000        0.5000000000
+Pt        0.2500000000        0.0000000000        0.7500000000
+Pt        0.0000000000        0.2500000000        0.7500000000
+Pt        0.5000000000        0.0000000000        0.5000000000
+Pt        0.7500000000        0.2500000000        0.5000000000
+Pt        0.7500000000        0.0000000000        0.7500000000
+Pt        0.5000000000        0.2500000000        0.7500000000
+Pt        0.0000000000        0.5000000000        0.5000000000
+Pt        0.2500000000        0.7500000000        0.5000000000
+Pt        0.2500000000        0.5000000000        0.7500000000
+Pt        0.0000000000        0.7500000000        0.7500000000
+Pt        0.5000000000        0.5000000000        0.5000000000
+Pt        0.7500000000        0.7500000000        0.5000000000
+Pt        0.7500000000        0.5000000000        0.7500000000
+Pt        0.5000000000        0.7500000000        0.7500000000
+        }
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+     #units angstrom
+        a = 7.92696,         b = 7.92696,         c = 7.92696
+        alpha = 90.00 
+        beta = 90.00 
+        gamma = 90.00 
+    }
+    magnetic_state = ferro
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }    
+        sw_use_magnetic_symmetry = on
+   }
+    element_list{
+        #tag element atomicnumber moment
+               Pt       78         0.0
+               PtX      78         1.0
+    }
+}
+postprocessing{
+   corelevels{
+     sw_calc_core_energy = on
+     corehole{
+         atom_id = 1
+         orbital = 4f
+     }
+   }
+}
+printlevel{
+   magmom = 2
+   gap = 2
+}

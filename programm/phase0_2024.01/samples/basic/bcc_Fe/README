@@ -1,0 +1,28 @@
+
+SCF
+1. move to "scf" folder
+2. do "mpirun ../../../bin/phase &"
+3. after 30 minutes, SCF calculation will end.
+4. be sure, "nfcharge.data" is generated.
+
+DOS
+1. move to "dos" folder
+2. do "mpirun ../../../bin/ekcal &"
+3. after 30 minutes, DOS calculation will end.
+4. be sure, "dos.data" is generated.
+5. in order to draw a graph, do
+   "../../../tools/bin/dos.pl dos.data 
+    -erange=-10,5 -with_fermi"
+6. do "ghostview density_of_states.eps"
+
+BAND
+1. move to "band" folder
+2. do "mpirun ../../../bin/ekcal &"
+3. after 30 minutes, BAND calculation will end.
+4. be sure, "nfenergy.data" is generated.
+5. in order to draw a graph, do
+   "../../../tools/bin/band.pl nfenergy.data 
+    ../tools/bandkpt_bcc_ghnpgn.in
+    -erange=-10,5 -with_fermi"
+6. do "ghostview band_structure.eps"
+

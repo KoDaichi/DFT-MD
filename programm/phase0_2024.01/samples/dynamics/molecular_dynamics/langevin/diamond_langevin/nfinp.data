@@ -1,0 +1,117 @@
+control{
+  condition = initial 
+  cpumax = 47.8 hour
+  max_mdstep = 10000
+}
+accuracy{
+  num_bands = 144
+  ksampling{
+    method = gamma
+  }
+  cutoff_wf = 25 rydberg
+  cutoff_cd = 225 rydberg
+  initial_wavefunctions = atomic_orbitals 
+  initial_charge_density = atomic_charge_density 
+  scf_convergence{
+    delta_total_energy = 1e-09 hartree
+    succession = 1 
+  }
+}
+structure{
+  atom_list{
+    atoms{
+      #default thermo_group=1
+      #tag    element    rx    ry    rz    weight    mobile
+            C    0.0625    0.0625    0.0625    1    on
+            C    0.9375    0.9375    0.9375    1    on
+            C    0.0625    0.3125    0.3125    1    on
+            C    0.9375    0.6875    0.6875    1    on
+            C    0.3125    0.0625    0.3125    1    on
+            C    0.6875    0.9375    0.6875    1    on
+            C    0.3125    0.3125    0.0625    1    on
+            C    0.6875    0.6875    0.9375    1    on
+            C    0.0625    0.0625    0.5625    1    on
+            C    0.9375    0.9375    0.4375    1    on
+            C    0.0625    0.3125    0.8125    1    on
+            C    0.9375    0.6875    0.1875    1    on
+            C    0.3125    0.0625    0.8125    1    on
+            C    0.6875    0.9375    0.1875    1    on
+            C    0.3125    0.3125    0.5625    1    on
+            C    0.6875    0.6875    0.4375    1    on
+            C    0.0625    0.5625    0.0625    1    on
+            C    0.9375    0.4375    0.9375    1    on
+            C    0.0625    0.8125    0.3125    1    on
+            C    0.9375    0.1875    0.6875    1    on
+            C    0.3125    0.5625    0.3125    1    on
+            C    0.6875    0.4375    0.6875    1    on
+            C    0.3125    0.8125    0.0625    1    on
+            C    0.6875    0.1875    0.9375    1    on
+            C    0.0625    0.5625    0.5625    1    on
+            C    0.9375    0.4375    0.4375    1    on
+            C    0.0625    0.8125    0.8125    1    on
+            C    0.9375    0.1875    0.1875    1    on
+            C    0.3125    0.5625    0.8125    1    on
+            C    0.6875    0.4375    0.1875    1    on
+            C    0.3125    0.8125    0.5625    1    on
+            C    0.6875    0.1875    0.4375    1    on
+            C    0.5625    0.0625    0.0625    1    on
+            C    0.4375    0.9375    0.9375    1    on
+            C    0.5625    0.3125    0.3125    1    on
+            C    0.4375    0.6875    0.6875    1    on
+            C    0.8125    0.0625    0.3125    1    on
+            C    0.1875    0.9375    0.6875    1    on
+            C    0.8125    0.3125    0.0625    1    on
+            C    0.1875    0.6875    0.9375    1    on
+            C    0.5625    0.0625    0.5625    1    on
+            C    0.4375    0.9375    0.4375    1    on
+            C    0.5625    0.3125    0.8125    1    on
+            C    0.4375    0.6875    0.1875    1    on
+            C    0.8125    0.0625    0.8125    1    on
+            C    0.1875    0.9375    0.1875    1    on
+            C    0.8125    0.3125    0.5625    1    on
+            C    0.1875    0.6875    0.4375    1    on
+            C    0.5625    0.5625    0.0625    1    on
+            C    0.4375    0.4375    0.9375    1    on
+            C    0.5625    0.8125    0.3125    1    on
+            C    0.4375    0.1875    0.6875    1    on
+            C    0.8125    0.5625    0.3125    1    on
+            C    0.1875    0.4375    0.6875    1    on
+            C    0.8125    0.8125    0.0625    1    on
+            C    0.1875    0.1875    0.9375    1    on
+            C    0.5625    0.5625    0.5625    1    on
+            C    0.4375    0.4375    0.4375    1    on
+            C    0.5625    0.8125    0.8125    1    on
+            C    0.4375    0.1875    0.1875    1    on
+            C    0.8125    0.5625    0.8125    1    on
+            C    0.1875    0.4375    0.1875    1    on
+            C    0.8125    0.8125    0.5625    1    on
+            C    0.1875    0.1875    0.4375    1    on
+    }
+  }
+  unit_cell{
+    #units angstrom
+    a_vector = 7.16226 0.0 0.0
+    b_vector = 0.0 7.16226 0.0
+    c_vector = 0.0 0.0 7.16226
+  }
+  element_list{
+    #tag    element    atomicnumber    mass    zeta    deviation
+          C    6    21894.5796446    0    1.83
+  }
+}
+structure_evolution{
+  dt = 1 fs
+  method = velocity_verlet 
+  temperature_control{
+    method = langevin
+    set_initial_velocity = on 
+    sw_shift_velocity = on
+    thermostat{
+      #tag temp
+            300
+    }
+  }
+  predictor{
+    sw_wf_predictor = on
+  }
+}

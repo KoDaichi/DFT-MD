@@ -1,0 +1,178 @@
+  _______________________________________________
+ |                    ___________                |
+ |     o---o          A T O M S K                |
+ |    o---o|                                     |
+ |    |   |o    Version Master-2018.11.16        |
+ |    o---o     (C) 2010 Pierre Hirel            |
+ |_______________________________________________|
+ *** I am hungry! :-p
+ debug: Entering GET_CLA
+ debug: Command-line arg #  1   : --create
+ debug: Command-line arg #  2   : hcp
+ debug: Command-line arg #  3   : 3.232
+ debug: Command-line arg #  4   : 5.180896
+ debug: Command-line arg #  5   : Zr
+ debug: Command-line arg #  6   : orient
+ debug: Command-line arg #  7   : [0001]
+ debug: Command-line arg #  8   : [0-110]
+ debug: Command-line arg #  9   : [2-1-10]
+ debug: Command-line arg # 10   : -properties
+ debug: Command-line arg # 11   : Zr_Cij.txt
+ debug: Command-line arg # 12   : -duplicate
+ debug: Command-line arg # 13   : 40
+ debug: Command-line arg # 14   : 40
+ debug: Command-line arg # 15   : 1
+ debug: Command-line arg # 16   : -dislocation
+ debug: Command-line arg # 17   : 0.501*box
+ debug: Command-line arg # 18   : 0.501*box
+ debug: Command-line arg # 19   : screw
+ debug: Command-line arg # 20   : Z
+ debug: Command-line arg # 21   : Y
+ debug: Command-line arg # 22   : 3.232
+ debug: Command-line arg # 23   : -select
+ debug: Command-line arg # 24   : out
+ debug: Command-line arg # 25   : cylinder
+ debug: Command-line arg # 26   : Z
+ debug: Command-line arg # 27   : 0.5*box
+ debug: Command-line arg # 28   : 0.5*box
+ debug: Command-line arg # 29   : 60
+ debug: Command-line arg # 30   : -fix
+ debug: Command-line arg # 31   : all
+ debug: Command-line arg # 32   : Zr_screw.cfg
+ debug: Command-line arg # 33   : lmp
+ debug: Command-line arg # 34   :
+ debug: file1, file2: Zr_screw.cfg,
+ debug: MODE_PARAM ARRAY:
+ debug: hcp
+ debug: 3.232
+ debug: 5.180896
+ debug:  Zr
+ debug: orient
+ debug: [0001]
+ debug: [0-110]
+ debug: [2-1-10]
+ debug: OPTIONS ARRAY:
+ debug: -prop Zr_Cij.txt
+ debug: -duplicate 40 40 1
+ debug: -dislocation 0.501*box 0.501*box screw Z Y 3.232
+ debug: -select out cylinder Z 0.5*box 0.5*box 60
+ debug: -fix all
+ debug: running mode: create
+ debug: Reading the [hkil] ...
+ debug: CREATE mode: outputfile: Zr_screw.cfg
+ debug: Entering GUESS_FORMAT...
+ debug: Check extension of the file: Zr_screw.cfg
+ debug: Extension: cfg
+ debug:  Scores of file formats:
+ debug:     ATSK    0.0000000000000000
+ debug:     BOP    0.0000000000000000
+ debug:     CFG   0.59999999999999998
+ debug:     CEL    0.0000000000000000
+ debug:     CIF    0.0000000000000000
+ debug:     CML    0.0000000000000000
+ debug:     COORAT  -0.40000000000000002
+ debug:     CSV    0.0000000000000000
+ debug:     DDPLOT    0.0000000000000000
+ debug:     DLPOLY    0.0000000000000000
+ debug:     FDF    0.0000000000000000
+ debug:     GIN    0.0000000000000000
+ debug:     IMD    0.0000000000000000
+ debug:     JEMS   0.0000000000000000
+ debug:     LMP    0.0000000000000000
+ debug:     LMC    0.0000000000000000
+ debug:     MOLDY    0.0000000000000000
+ debug:     PDB    0.0000000000000000
+ debug:     POSCAR    0.0000000000000000
+ debug:     QEPW    0.0000000000000000
+ debug:     QEOUT    0.0000000000000000
+ debug:     STR    0.0000000000000000
+ debug:     VESTA    0.0000000000000000
+ debug:     XMD    0.0000000000000000
+ debug:     XSF    0.0000000000000000
+ debug:     XV    0.0000000000000000
+ debug:     XYZ    0.0000000000000000
+ debug:     EXYZ    0.0000000000000000
+ debug:     SXYZ    0.0000000000000000
+ debug:  MAX SCORE:   0.59999999999999998
+ debug: Detected file format: cfg
+ >>> Creating system:
+ debug:  lattice type: hcp
+ debug: lattice constants:        3.232       3.232       5.181
+ debug:  System is hexagonal: T
+ debug:  orienting the system:
+ debug:         0.000000        0.000000        1.000000
+ debug:         0.000000       -1.000000        0.000000
+ debug:         2.000000       -1.000000        0.000000
+ debug:  Oriented unit cell vectors:
+ debug:         0.000000        0.000000        5.180896
+ debug:        -0.000000       -5.597988        0.000000
+ debug:         3.232000        0.000000        0.000000
+ debug:  Duplicating atoms inside oriented unit cell...
+ debug:  Estimated new number of atoms :           20
+ debug:  new NP in oriented cell:           4
+ debug:  final cell vectors:
+ debug:         5.180896        0.000000        0.000000
+ debug:         0.000000        5.597988        0.000000
+ debug:         0.000000       -0.000000        3.232000
+ ..> Hcp Zr with box vectors H1=[0001] H2=[0-110] H3=[2-1-10].
+ ..> System was successfully created.
+ debug: ENTERING OPTIONS
+ debug:  options_array size:            5
+ debug:  options_array(           1 ) : -prop Zr_Cij.txt
+ debug:  options_array(           2 ) : -duplicate 40 40 1
+ debug:  options_array(           3 ) : -dislocation 0.501*box 0.501*box screw Z Y 3.232
+ debug:  options_array(           4 ) : -select out cylinder Z 0.5*box 0.5*box 60
+ debug:  options_array(           5 ) : -fix all
+ debug: option: -prop Zr_Cij.txt
+ debug: Entering READ_PROPERTIES:
+ >>> Reading system properties from Zr_Cij.txt
+ debug: # Elastic constants of hcp zirconium
+ debug: # E. S. Fisher and C. J. Renken, Phys. Rev. 135, A482 (1964).
+ debug: elastic Voigt
+ debug: Elastic tensor (GPa):
+ debug:  0.155E+03   0.682E+02   0.646E+02   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.682E+02   0.155E+03   0.646E+02   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.646E+02   0.646E+02   0.172E+03   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.441E+02   0.000E+00   0.000E+00   0.441E+02
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.441E+02   0.000E+00   0.000E+00   0.441E+02
+ ..> Property 'elastic tensor' was read.
+ ..> Anisotropy ratio:  A = 2*C44 / (C11-C12) = 0.833
+ ..> Anisotropy factor: H = 2*C44 + C12 - C11 = -0.146E+02
+ ..> Finished reading system properties.
+ debug: Elastic tensor (GPa):
+ debug:  0.155E+03   0.682E+02   0.646E+02   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.682E+02   0.155E+03   0.646E+02   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.646E+02   0.646E+02   0.172E+03   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.441E+02   0.000E+00   0.000E+00   0.441E+02
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.441E+02   0.000E+00   0.000E+00   0.441E+02
+ debug: option: -duplicate 40 40 1
+ >>> Duplicating the system: 40 x 40 x 1
+ debug:  new NP =         6400
+ ..> System was successfully duplicated (6400 atoms).
+ debug: Elastic tensor (GPa):
+ debug:  0.155E+03   0.682E+02   0.646E+02   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.682E+02   0.155E+03   0.646E+02   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.646E+02   0.646E+02   0.172E+03   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.441E+02   0.000E+00   0.000E+00   0.441E+02
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.363E+02   0.000E+00   0.000E+00   0.363E+02   0.000E+00
+ debug:  0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.000E+00   0.441E+02   0.000E+00   0.000E+00   0.441E+02
+ debug: option: -dislocation 0.501*box 0.501*box screw Z Y 3.232
+ debug:    Input position: 0.501*box
+ debug:    Converted string: 0.501*207.23584000000000
+ debug: EXITING OPTIONS
+ \o/ Program terminated successfully!
+     Total time: 0.030 s.; CPU time: 0.030 s.
+  _________________________________________
+ |  X!X ERRORS:   1                        |
+ |_________________________________________|

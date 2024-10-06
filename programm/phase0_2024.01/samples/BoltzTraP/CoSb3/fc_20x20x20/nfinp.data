@@ -1,0 +1,86 @@
+control{
+    condition = fixed_charge
+    cpumax = 100 day
+    fixed_charge_option{
+      kparallel = one_by_one
+    }
+}
+structure{
+    atom_list{
+        atoms{
+            #units angstrom
+            #default mobile = on
+            #tag element rx ry rz
+             Sb    0.0000000000000   0.1588915095766   0.3342310285944
+             Sb    0.0000000000000  -0.1588915095766  -0.3342310285944
+             Sb    0.0000000000000   0.1588915095766  -0.3342310285944
+             Sb    0.0000000000000  -0.1588915095766   0.3342310285944
+             Sb    0.3342310285944   0.0000000000000   0.1588915095766
+             Sb   -0.3342310285944   0.0000000000000  -0.1588915095766
+             Sb   -0.3342310285944   0.0000000000000   0.1588915095766
+             Sb    0.3342310285944   0.0000000000000  -0.1588915095766
+             Sb    0.1588915095766   0.3342310285944   0.0000000000000
+             Sb    0.1588915095766  -0.3342310285944   0.0000000000000
+             Sb   -0.1588915095766   0.3342310285944   0.0000000000000
+             Sb   -0.1588915095766  -0.3342310285944   0.0000000000000
+             Co    0.2500000000000   0.2500000000000   0.2500000000000
+             Co    0.2500000000000  -0.2500000000000  -0.2500000000000
+             Co   -0.2500000000000   0.2500000000000  -0.2500000000000
+             Co   -0.2500000000000  -0.2500000000000   0.2500000000000
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass
+         Co 27 107427.994
+         Sb 51 221948.075
+    }
+    unit_cell{
+        #units angstrom
+        a_vector = 9.037 0.00 0.00
+        b_vector = 0.00 9.037 0.00
+        c_vector = 0.00 0.00 9.037
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = bodycentered
+        }
+    }
+    unit_cell_type = bravais
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 20
+            ny = 20
+            nz = 20
+        }
+        method = mesh
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 5.0E-4 Hartree/Bohr
+    }
+    smearing{
+        method = tetrahedral
+    }
+    ek_convergence{
+        delta_eigenvalue = 1e-4
+        num_extra_bands = 24
+    }
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+    num_bands = 96
+}
+postprocessing{
+    dos{
+        sw_dos = on
+    }
+    boltztrap{
+        sw_boltztrap = on
+        version = 1
+        header = "CoSb3 ksamp 20x20x20 bands 96"
+    }
+}

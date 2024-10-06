@@ -1,0 +1,5 @@
+&fnames
+F_POT(1) = '../../../../pp/Mo_ggapbe_paw_us_02.pp'
+F_POT(2) = '../../../../pp/S_ggapbe_paw_nc_01m.pp'
+F_CHGT = '../PBE/nfchgt.data'
+/

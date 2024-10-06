@@ -1,0 +1,48 @@
+control{
+    condition = fixed_charge 
+}
+structure{
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz mobile
+            W    0.333333333321    0.666666666641    0.249999999986
+            W    0.666666666658    0.333333333416    0.750000000001
+            S    0.333333333321    0.666666666641    0.623415769578
+            S    0.666666666658    0.333333333416    0.123415769606
+            S    0.333333333321    0.666666666641    0.876584230424
+            S    0.666666666658    0.333333333416    0.376584230409
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass zeta deviation
+         W 74 174886.851 0.0 1.83
+         S 16 58452.3844 0.0 1.83
+    }
+    unit_cell{
+    a_vector = 6.0268579246 -0.0 -0.0
+    b_vector = -3.0134289623 5.2194120677 0.0
+    c_vector = -0.0 -0.0 23.2870934013
+    }
+    symmetry{
+        method = automatic 
+        tspace{
+            lattice_system = hexagonal 
+        }
+    }
+    unit_cell_type = bravais 
+}
+accuracy{
+    ksampling{
+        method = file 
+    }
+    cutoff_wf =  36 rydberg
+    cutoff_cd = 324 rydberg
+    num_bands = 32
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 5.0E-4 Hartree/Bohr
+    }
+}

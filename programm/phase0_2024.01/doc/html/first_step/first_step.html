@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. PHASE/0の基本的な利用方法 &mdash; PHASE/0 Manual 2024.01 ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/phase0.css?v=84baaed2" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=df52f328"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="4. 入力パラメータファイル：nfinp.data（詳細版）" href="../input_parameters/input_parameters.html" />
+    <link rel="prev" title="2. PHASE/0のインストール" href="../install/install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PHASE/0 Manual
+              <img src="../_static/image1.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">1. はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">2. PHASE/0のインストール</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. PHASE/0の基本的な利用方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">3.1. PHASE/0の計算手順の概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.2. 入力データの準備</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">3.2.1. 計算に最低限必要なファイル</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nfinp-data">3.2.2. 入力パラメータファイル：nfinp.data（簡略版）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">3.2.2.1. 入力パラメータファイル例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#control">3.2.2.2. Controlブロック</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#accuracy">3.2.2.3. Accuracyブロック</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure">3.2.2.4. Structureブロック</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wavefunction-solver">3.2.2.5. Wavefunction_solverブロック</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#charge-mixing">3.2.2.6. Charge_mixingブロック</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#postproccesing">3.2.2.7. Postproccesingブロック</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">3.2.2.8. 入力パラメータファイルの最低限の設定項目</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#firststep-pp-section">3.2.3. 擬ポテンシャルファイル</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#paw">3.2.3.1. 擬ポテンシャルの種類（内殻の取り扱い方法）：フローズンコア型とPAW型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">3.2.3.2. 擬ポテンシャルファイルの入手方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">3.2.3.3. 擬ポテンシャルの指定方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#firststep-defpp-section">3.2.3.4. 推奨擬ポテンシャルの自動指定（バージョン2020.01以降）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#file-names-data">3.2.4. 入出力ファイル設定ファイルfile_names.data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id22">3.3. 計算の実行</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#phase">3.3.1. プログラムphaseの実行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">3.3.2. 並列計算について</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id24">3.3.2.1. 基本的な並列計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">3.3.2.2. ディレクトリ並列による計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">3.3.2.3. レプリカ並列による計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#k">3.3.2.4. <strong>k</strong>点数の調べ方</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#firststep-autores-para-section">3.3.2.5. 並列パラメーターの自動選定（バージョン2020.01以降）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">3.3.3. 計算状況の確認</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">3.3.4. 継続計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#first-step-checkpoint-section">3.3.5. チェックポイントファイルについて（バージョン2019.02以降）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id31">3.3.5.1. チェックポイントファイル出力の設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id32">3.3.5.2. 出力</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#change-settings-during-scf">3.3.6. 計算中の制御 (2021.02以降)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#firststep-fc-section">3.3.7. 固定電荷計算（状態密度計算、バンド構造計算）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id35">3.3.7.1. 状態密度の計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id36">3.3.7.2. バンド構造計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id37">3.3.7.3. 継続計算について</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38">3.3.7.4. 並列計算について</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#phaseekcal">3.3.7.5. PHASEとekcalの振る舞いの違いについて</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id39">3.4. 計算結果の確認</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id40">3.4.1. 計算終了の状況・要因・対応</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">3.4.2. 計算終了（正常終了、異常終了）の確認（バージョン2019.02以前）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#firststep-endmark-section">3.4.3. 計算終了（正常終了、異常終了）の確認（バージョン2020.01以降）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scf">3.4.4. SCF計算、構造緩和計算の収束状況の確認</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#output000-jobstatus000">3.4.5. 計算状況の確認（ログファイルoutput000 およびjobstatus000 )</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id43">3.4.5.1. サンプリング<strong>k</strong>点</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id44">3.4.5.2. 全エネルギー</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id45">3.4.5.3. スピン状態</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id46">3.4.5.4. 固有値および占有数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id47">3.4.5.5. SCF 計算あたりの計算時間</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jobstatus000">3.4.5.6. 計算の進捗状況（jobstatus000）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id48">3.5. 計算結果の解析、可視化</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nfefn-data">3.5.1. 全エネルギー、原子に働く力の最大値（エネルギー履歴ファイル nfefn.data)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id49">3.5.1.1. 構造緩和計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id50">3.5.1.2. 分子動力学法計算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51">3.5.1.3. 格子最適化計算</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nfdynm-data">3.5.2. 原子座標（原子座標履歴ファイルnfdynm.data)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nfchr-cube">3.5.3. 電荷密度（電荷密度ファイルnfchr.cube)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dos-data">3.5.4. 状態密度（状態密度ファイルdos.data)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nfenergy-data">3.5.5. バンド構造（固有値データファイルnfenergy.data)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../input_parameters/input_parameters.html">4. 入力パラメータファイル：nfinp.data（詳細版）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/basics.html">5. 基本機能を利用した計算例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../electronic_structure/electronic_structure.html">6. 電子状態解析：バンド構造と状態密度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html">7. 高度な電子状態計算</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis/analysis.html">8. 解析機能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ion_dynamics/ion_dynamics.html">9. 原子ダイナミクス</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uvsor/uvsor.html">10. 誘電応答解析機能 UVSOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supplement/supplement.html">11. 補遺</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PHASE/0 Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>PHASE/0の基本的な利用方法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/first_step/first_step.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="phase-0">
+<span id="first-step-chapter"></span><h1><span class="section-number">3. </span>PHASE/0の基本的な利用方法<a class="headerlink" href="#phase-0" title="この見出しへのパーマリンク"></a></h1>
+<p>ここでは、PHASE/0の基本的な利用方法を説明します。計算の手順を優先的に説明するために、詳細な説明は省いています。詳細な説明が必要な部分については3章以降を参照してください。</p>
+<p>この章以降ついてはPHASE/0をインストールしていることを前提とします。PHASE/0のインストールについては <a class="reference internal" href="../install/install.html#install-chapter"><span class="std std-numref">2 章</span></a> を参考にしてください。</p>
+<section id="id1">
+<h2><span class="section-number">3.1. </span>PHASE/0の計算手順の概要<a class="headerlink" href="#id1" title="この見出しへのパーマリンク"></a></h2>
+<p>PHASE/0に含まれるプログラムphaseで計算を実行するための大まかな手順は以下のようになっています。</p>
+<ol class="arabic simple">
+<li><p>入力データの準備</p></li>
+<li><p>計算の実行</p></li>
+<li><p>計算結果の確認</p></li>
+<li><p>計算結果の解析、可視化</p></li>
+</ol>
+<p>プログラムekcalによる計算は、phaseでSCF計算を収束させ電荷密度分布ファイルを出力したのちに行います。</p>
+<figure class="align-default" id="id52">
+<img alt="../_images/firststep_descri.svg" src="../_images/firststep_descri.svg" /><figcaption>
+<p><span class="caption-number">図 3.1 </span><span class="caption-text">PHASEを用いた電子状態計算の手順の概要</span><a class="headerlink" href="#id52" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id2">
+<h2><span class="section-number">3.2. </span>入力データの準備<a class="headerlink" href="#id2" title="この見出しへのパーマリンク"></a></h2>
+<section id="id3">
+<h3><span class="section-number">3.2.1. </span>計算に最低限必要なファイル<a class="headerlink" href="#id3" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE計算を実行するために最低限必要なファイルは、入力パラメータ・ファイルと擬ポテンシャル・ファイルの２つです。これらのファイルを用意して実行ディレクトリに置いてください。</p>
+<p>ファイル名を変更したい場合やファイルを実行ディレクトリ以外に置きたい場合は、入出力ファイル設定ファイルfile_names.dataも用意してください。</p>
+<p>入力データ</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>ファイル</p></th>
+<th class="head"><p>概要</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>入力パラメータファイル</p></td>
+<td><p>「どのようなモデル（原子配置など）に対して、どのような計算を行うか」を指定するファイルです。</p>
+<p>デフォルトのファイル名は&quot;nfinp.data&quot;です。</p>
+<p>既定値を多用したシンプルな入力については <a class="reference internal" href="#firststep-simple-input"><span class="std std-numref">3.2.2 章</span></a>
+で解説します。高度な利用が可能となる詳細な解説については  <a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters"><span class="std std-numref">4 章</span></a> を参照してください。また、具体的な利用例については<a class="reference internal" href="../basics/basics.html#basics-chapter"><span class="std std-numref">5 章</span></a> 、そのほか具体的な機能の利用の仕方については<a class="reference internal" href="../electronic_structure/electronic_structure.html#estructure-chapter"><span class="std std-numref">6 章</span></a>
+<a class="reference internal" href="../advanced_electronic_structure/advanced_electronic_structure.html#advestructure-chapter"><span class="std std-numref">7 章</span></a>
+<a class="reference internal" href="../analysis/analysis.html#analysis-chapter"><span class="std std-numref">8 章</span></a>
+<a class="reference internal" href="../ion_dynamics/ion_dynamics.html#ion-dynamics-chapter"><span class="std std-numref">9 章</span></a>
+<a class="reference internal" href="../uvsor/uvsor.html#uvsor-chapter"><span class="std std-numref">10 章</span></a>
+を必要に応じて参照してください。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャルファイル</p></td>
+<td><p>各元素の擬ポテンシャルのファイルです。詳細については
+<a class="reference internal" href="#firststep-pp-section"><span class="std std-numref">3.2.3 章</span></a> で解説します。</p>
+<p>利用する元素に応じてあらかじめ用意（ダウンロードまたは作成）しておく必要があります。デフォルトのファイル名は下記の通りです。</p>
+<ul class="simple">
+<li><p>バージョン2019.02以前：pot.01, pot.02, <span class="math notranslate nohighlight">\(\cdots\)</span></p></li>
+<li><p>バージョン2020.01以降： <a class="reference internal" href="#firststep-defpp-section"><span class="std std-numref">3.2.3.4 章</span></a> の説明に従って決まるファイル名</p></li>
+</ul>
+<p>デフォルトファイル名を使用しない場合にはfile_names.dataファイルでファイル名を設定してください。</p>
+<p>最大で16種まで設定可能です。</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>入出力ファイル設定ファイル</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>file_names.data</p></td>
+<td><p>ファイル名の指定に利用するファイルです。無くてもPHASEを使用することは可能です。その場合は全てのファイル名が既定値となります。このファイルを使用することにより、i)ファイル名、ii)ファイルの置き場所をユーザーが自由に設定することが可能となります。このファイルを使用する場合は、必ずこのファイル名で（変更不可）、実行ディレクトリに置く必要があります。詳細については <a class="reference internal" href="#firststep-fnamesdata-section"><span class="std std-numref">3.2.4 章</span></a> で解説します。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nfinp-data">
+<span id="firststep-simple-input"></span><h3><span class="section-number">3.2.2. </span>入力パラメータファイル：nfinp.data（簡略版）<a class="headerlink" href="#nfinp-data" title="この見出しへのパーマリンク"></a></h3>
+<p>入力パラメータファイル（nfinp.data）は、計算系（原子構造）や計算手法・計算条件の計算パラメータの設定を行います。入力パラメータファイルの詳細については、<a class="reference internal" href="../input_parameters/input_parameters.html#input-parameters"><span class="std std-numref">4 章</span></a> を参照ください。多くのパラメータにはデフォルト値が設定されていますので、それらを利用することによりユーザーが最低限指定しなければいけない部分は非常に少なくできます。ここではほぼ最小限の入力パラメータファイルについて説明します。</p>
+<section id="id4">
+<h4><span class="section-number">3.2.2.1. </span>入力パラメータファイル例<a class="headerlink" href="#id4" title="この見出しへのパーマリンク"></a></h4>
+<p>入力パラメータファイルは、タグ（キーワード）と中括弧｛｝で囲まれたブロックの階層構造となっています。計算パラメータについては、ブロック内でキーワードと値で指定します。</p>
+<p>Si ダイヤモンド結晶（2原子）の電子状態計算を行う場合の基本的な計算条件を記述した入力ファイル例です。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = initial
+  cpumax = 86400 sec
+  max_iteration = 10000
+}
+accuracy{
+  cutoff_wf = 25.0 rydberg
+  cutoff_cd = 100.0 rydberg
+  num_bands = 8
+  ksampling{
+    method = monk
+    mesh{
+      nx = 10
+      ny = 10
+      nz = 10
+    }
+  }
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-10
+    succession = 3
+  }
+  force_convergence{
+    max_force = 0.001 hartree/bohr
+  }
+}
+structure{
+  element_list{
+  #tag element atomicnumber
+      Si 14
+  }
+  unit_cell{
+    #units angstrom
+    a_vector = 0 2.732299538 2.732299538
+    b_vector = 2.732299538 0 2.732299538
+    c_vector = 2.732299538 2.732299538 0
+  }
+  unit_cell_type = bravais
+  atom_list{
+    atoms{
+      #tag element rx ry rz mobile
+          Si 0.125 0.125 0.125 0
+          Si -0.125 -0.125 -0.125 0
+    }
+    coordinate_system = internal
+  }
+}
+wavefunction_solver{
+  solvers{
+    #tag sol till_n prec cmix submat
+      pdavidson 1 on 1 on
+      rmm3 -1 on 1 on
+  }
+  rmm{
+    edelta_change_to_rmm=5e-5
+  }
+}
+charge_mixing{
+  mixing_methods{
+    #tag no method rmxs rmxe istr prec nbmix
+    1 pulay 0.40 0.40 3 on 15
+  }
+}
+Postprocessing{
+   dos{
+     sw_dos = ON
+     deltaE = 1.e-4 hartree
+   }
+   charge{
+     sw_charge_rspace = ON
+     filetype = cube !{cube|density_only}
+     title = &quot;This is a title line for the bulk Si&quot;
+   }
+}
+</pre></div>
+</div>
+<p>最上位のブロックは、以下のものがあります。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>control ブロック</p></td>
+<td><p>全体的な計算条件の設定</p></td>
+</tr>
+<tr class="row-even"><td><p>accracy ブロック</p></td>
+<td><p>計算精度の設定</p></td>
+</tr>
+<tr class="row-odd"><td><p>structure ブロック</p></td>
+<td><p>原子構造の設定</p></td>
+</tr>
+<tr class="row-even"><td><p>wavefunction_solver ブロック</p></td>
+<td><p>波動関数ソルバーの設定</p></td>
+</tr>
+<tr class="row-odd"><td><p>charge_mixing ブロック</p></td>
+<td><p>電荷密度混合法の設定</p></td>
+</tr>
+<tr class="row-even"><td><p>structure_evolution ブロック</p></td>
+<td><p>構造最適化、分子動力学法計算の設定</p></td>
+</tr>
+<tr class="row-odd"><td><p>postproccesingブロック</p></td>
+<td><p>後処理の設定</p></td>
+</tr>
+<tr class="row-even"><td><p>printlevelブロック</p></td>
+<td><p>ログ出力の設定</p></td>
+</tr>
+</tbody>
+</table>
+<p>以下の節で、各ブロックの入力パラメータを簡単に説明します。</p>
+</section>
+<section id="control">
+<h4><span class="section-number">3.2.2.2. </span>Controlブロック<a class="headerlink" href="#control" title="この見出しへのパーマリンク"></a></h4>
+<p>controlブロックでは、計算全体の制御に関するパラメータを指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = initial
+  cpumax = 86400 sec
+  max_iteration = 10000
+}
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>condition</p></td>
+<td><p>最初の計算、継続（リスタート）計算、電荷を固定した計算などの計算モードを指定します。initialは最初の計算、continuationは継続計算になります。</p></td>
+</tr>
+<tr class="row-even"><td><p>cpumax</p></td>
+<td><p>計算時間（計算を打ち切る時間）を指定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>max_iteration</p></td>
+<td><p>SCF計算を打ち切るイタレーション数を指定します。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="accuracy">
+<h4><span class="section-number">3.2.2.3. </span>Accuracyブロック<a class="headerlink" href="#accuracy" title="この見出しへのパーマリンク"></a></h4>
+<p>accuracyブロックでは、計算精度に関するパラメータを指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  cutoff_wf = 25.0 rydberg
+  cutoff_cd = 100.0 rydberg
+  num_bands = 8
+  ksampling{
+    method = monk
+    mesh{
+      nx = 10
+      ny = 10
+      nz = 10
+    }
+  }
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-10
+    succession = 3
+  }
+  force_convergence{
+    max_force = 0.001 hartree/bohr
+  }
+}
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>cutoff_wf</p></td>
+<td><p>波動関数の</p>
+<p>カットオフエネルギーを指定します。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>cutoff_cd</p></td>
+<td><p>電荷密度のカットオフエネルギーを指定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>num_bands</p></td>
+<td><p>計算するバンド数を指定します。</p></td>
+</tr>
+<tr class="row-even"><td><p>ksamplingブロック</p></td>
+<td><p><strong>k</strong>点サンプリングを指定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>method</p></td>
+<td><p><strong>k</strong>点サンプリングの方法を指定します。monk
+はMonkhorst-Pack法 <a class="reference internal" href="#monkhorst76" id="id5"><span>[Monkhorst76]</span></a> によるサンプリングです。</p></td>
+</tr>
+<tr class="row-even"><td><p>mesh</p></td>
+<td><p>逆空間の分割数を指定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>initial_wavefunctions</p></td>
+<td><p>波動関数の初期値の計算方法を指定します。</p>
+<p>atomic_charge_densityは、擬ポテンシャルファイルの
+原子の電荷密度から初期値を計算します。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>scf_convergenceブロック</p></td>
+<td><p>エネルギーによるSCF計算の収束判定条件を指定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>delta_total_energy</p></td>
+<td><p>エネルギーの変化量の閾値を指定します。エネルギーの変化量が、この閾値より小さい場合、SCF計算は収束したと判定します。</p></td>
+</tr>
+<tr class="row-even"><td><p>force_convergenceブロック</p></td>
+<td><p>原子に働く力によるSCF計算の収束判定条件を指定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>max_force</p></td>
+<td><p>原子に働く力の最大値の閾値を指定します。原子に働く力の最大値が、この閾値より小さい場合、SCF計算は収束したと判定します。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="structure">
+<h4><span class="section-number">3.2.2.4. </span>Structureブロック<a class="headerlink" href="#structure" title="この見出しへのパーマリンク"></a></h4>
+<p>入力パラメーターファイルにおいて原子配置を指定する方法</p>
+<p>structureブロックでは、原子構造を指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>structure{
+  element_list{
+    #tag element atomicnumber
+        Si 14
+  }
+  unit_cell{
+    #units angstrom
+    a_vector = 0 2.732299538 2.732299538
+    b_vector = 2.732299538 0 2.732299538
+    c_vector = 2.732299538 2.732299538 0
+  }
+  unit_cell_type = bravais
+  atom_list{
+    atoms{
+      #tag element rx ry rz mobile
+      Si 0.125 0.125 0.125 0
+      Si -0.125 -0.125 -0.125 0
+    }
+    coordinate_system = internal
+  }
+}
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>element_listブロック</p></td>
+<td><p>計算する系の元素のリストを指定します。</p>
+<p>この例では、元素はSi（シリコン）、その原子番号が14であることを意味しています。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>unit_cell ブロック</p></td>
+<td><p>ユニットセルのサイズ、形状を指定します。</p>
+<p>#units
+angstrom
+は、単位がオングストロームを意味します。</p>
+<p>a_vector、b_vector、c_vectorは、格子ベクトルを指定します。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>atom_listブロック</p></td>
+<td><p>元素と座標を指定します。</p>
+<p>この例では、Si原子が2個あり、その内部座標が0.125,
+0.125, 0.125としています。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>coordinate_system</p></td>
+<td><p>原子座標系を指定します。</p>
+<p>internalは、ユニットセルを基準とした内部座標系であることを意味しています。</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>入力パラメーターファイルとは異なるファイルで原子配置を指定する方法(バージョン2019.02以降)</p>
+<p>PHASE/0バージョン2019.02以降のバージョンにおいては、入力パラメーターファイルとは異なるファイルから原子配置を指定する方法が利用できます。詳しくは <a class="reference internal" href="../input_parameters/input_parameters.html#input-param-coord-from-file"><span class="std std-numref">4.5.8 章</span></a> を参照してください。</p>
+</section>
+<section id="wavefunction-solver">
+<h4><span class="section-number">3.2.2.5. </span>Wavefunction_solverブロック<a class="headerlink" href="#wavefunction-solver" title="この見出しへのパーマリンク"></a></h4>
+<p>wavefunction_solverブロックでは、波動関数の更新方法に関するパラメータを指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wavefunction_solver{
+  solvers{
+    #tag sol till_n prec cmix submat
+      pdavidson 1 on 1 on
+      rmm3 -1 on 1 on
+  }
+  rmm{
+    edelta_change_to_rmm=5e-5
+  }
+}
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>solversブロック</p></td>
+<td><p>波動関数ソルバーを指定します。</p>
+<p>この例では、最初の波動関数ソルバーはpdavidson法、2番目の波動関数ソルバーはRMM法としています。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>rmmブロック</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>edelta_change_to_rmm</p></td>
+<td><p>波動関数ソルバーをRMM法に変更する閾値を指定します。ここで指定する値よりもエネルギーの変化量が小さくなるとRMM法に移行します。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="charge-mixing">
+<h4><span class="section-number">3.2.2.6. </span>Charge_mixingブロック<a class="headerlink" href="#charge-mixing" title="この見出しへのパーマリンク"></a></h4>
+<p>charge_mixingブロックでは、電荷密度の更新方法（混合方法）に関するパラメータを指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>charge_mixing{
+  mixing_methods{
+    #tag no method rmxs rmxe istr prec nbmix
+      1 pulay 0.40 0.40 3 on 15
+  }
+}
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>mixing_methodsブロック</p></td>
+<td><p>電荷密度の更新方法（混合方法）を指定します。</p>
+<p>この例ではpulay法 <a class="reference internal" href="#pulay80" id="id6"><span>[Pulay80]</span></a> を指定しています。この他にbroyden2法 <a class="reference internal" href="#broyden65" id="id7"><span>[Broyden65]</span></a> , simple
+mixing法を指定することができます。</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="postproccesing">
+<h4><span class="section-number">3.2.2.7. </span>Postproccesingブロック<a class="headerlink" href="#postproccesing" title="この見出しへのパーマリンク"></a></h4>
+<p>Postproccesingブロックでは、後処理に関するパラメータを指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Postprocessing{
+   dos{
+     sw_dos = ON
+     deltaE = 1.e-4 hartree
+   }
+   charge{
+     sw_charge_rspace = ON
+     filetype = cube
+     title = &quot;This is a title line for the bulk Si&quot;
+   }
+}
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>dosブロック</p></td>
+<td><p>状態密度の計算パラメータを指定します。</p></td>
+</tr>
+<tr class="row-even"><td><p>sw_dos</p></td>
+<td><p>ONで状態密度の計算を行います。</p></td>
+</tr>
+<tr class="row-odd"><td><p>deltaE</p></td>
+<td><p>状態密度のエネルギー間隔を指定します。</p></td>
+</tr>
+<tr class="row-even"><td><p>chargeブロック</p></td>
+<td><p>電荷密度分布の出力パラメータを指定します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>sw_charge_rspace</p></td>
+<td><p>ONで出力用の電荷密度分布の計算を行います。</p></td>
+</tr>
+<tr class="row-even"><td><p>filetype</p></td>
+<td><p>電荷密度分布のファイル形式を指定します。</p>
+<p>cubeはGaussian CUBE系形式を指定してしいます。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>title</p></td>
+<td><p>出力のGaussian
+CUBE系形式のファイルにおけるタイトルを指定します。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id8">
+<h4><span class="section-number">3.2.2.8. </span>入力パラメータファイルの最低限の設定項目<a class="headerlink" href="#id8" title="この見出しへのパーマリンク"></a></h4>
+<p>ここで紹介した例では設定項目がそれなりにありますが、大部分のパラメータは多くの計算で共通に使用できます。そのため、異なる系を計算する場合に、ユーザーがわざわざ変更する必要はありません。</p>
+<p>ユーザーが必ず設定しなければならないのは、カットオフエネルギー、<strong>ｋ</strong>点、原子構造に関する設定です。入力パラメータファイルのAccuracyブロックにあるカットオフエネルギーの指定cutoff_wf, cutoff_cd, <strong>k</strong>点の指定ksampling, Structureブロックにある元素の指定 element_list, ユニットセルの指定 unit_cell, 原子座標の指定atom_listの部分です。</p>
+<p>先程の入力パラメータファイルの例において、ユーザーの設定部分をハイライトで示します。ユーザが計算したい系にあわせて、この部分を変更することにより、様々な系の計算をすることができます。ただし、最適な計算条件については、個々のパラメータを適切に設定する必要があります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = initial
+  cpumax = 86400 sec
+  max_iteration = 10000
+}
+accuracy{
+<span class="hll">  cutoff_wf = 25.0 rydberg
+</span><span class="hll">  cutoff_cd = 100.0 rydberg
+</span>  num_bands = 8
+  ksampling{
+    method = monk
+    mesh{
+<span class="hll">      nx = 10
+</span><span class="hll">      ny = 10
+</span><span class="hll">      nz = 10
+</span>    }
+  }
+  initial_wavefunctions = atomic_orbitals
+  initial_charge_density = atomic_charge_density
+  scf_convergence{
+    delta_total_energy = 1e-10
+    succession = 3
+  }
+  force_convergence{
+    max_force = 0.001 hartree/bohr
+  }
+}
+structure{
+  element_list{
+    #tag element atomicnumber
+<span class="hll">        Si 14
+</span>  }
+  unit_cell{
+    #units angstrom
+<span class="hll">    a_vector = 0 2.732299538 2.732299538
+</span><span class="hll">    b_vector = 2.732299538 0 2.732299538
+</span><span class="hll">    c_vector = 2.732299538 2.732299538 0
+</span>  }
+  unit_cell_type = bravais
+  atom_list{
+    atoms{
+      #tag element rx ry rz mobile
+<span class="hll">            Si 0.125 0.125 0.125 0
+</span><span class="hll">            Si -0.125 -0.125 -0.125 0
+</span>    }
+    coordinate_system = internal
+  }
+}
+wavefunction_solver{
+  solvers{
+    #tag sol till_n prec cmix submat
+      davidson 1 on 1 on
+      rmm3 -1 on 1 on
+  }
+  rmm{
+    edelta_change_to_rmm=5e-5
+  }
+}
+charge_mixing{
+  mixing_methods{
+      #tag no method rmxs rmxe istr prec nbmix
+          1 pulay 0.40 0.40 3 on 15
+  }
+}
+Postprocessing{
+  dos{
+    sw_dos = ON
+    deltaE = 1.e-4 hartree
+  }
+  charge{
+    sw_charge_rspace = ON
+    filetype = cube !{cube|density_only}
+    title = &quot;This is a title line for the bulk Si&quot;
+  }
+}
+</pre></div>
+</div>
+<p>ちなみに、上記の入力パラメータファイルに対し、最低限の設定項目のみを記述し、他の計算条件を省略（デフォルトを使用）した以下のような入力パラメータファイルでも、計算は可能です。上記の入力パラメータでは計算条件がデフォルトとは異なる部分があるため、上記と下記の入力パラメータファイルを用いた計算では、計算途中の状況が異なります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  cutoff_wf = 25.0 rydberg
+}
+structure{
+  unit_cell{
+    #units angstrom
+    a_vector = 0 2.732299538 2.732299538
+    b_vector = 2.732299538 0 2.732299538
+    c_vector = 2.732299538 2.732299538 0
+  }
+  atom_list{
+    atoms{
+      #tag element rx ry rz mobile
+          Si 0.125 0.125 0.125 0
+          Si -0.125 -0.125 -0.125 0
+    }
+  }
+}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="firststep-pp-section">
+<span id="id9"></span><h3><span class="section-number">3.2.3. </span>擬ポテンシャルファイル<a class="headerlink" href="#firststep-pp-section" title="この見出しへのパーマリンク"></a></h3>
+<p>擬ポテンシャルファイルは、元素ごとに用意する必要があります。例えば、水（H<sub>2</sub>O）の計算をする場合には、H原子とO原子の擬ポテンシャルファイルが必要になります。擬ポテンシャルファイルはポータルサイト（<a class="reference external" href="https://azuma.nims.go.jp/cms1/downloads/software">https://azuma.nims.go.jp/</a>）からダウンロードできます。自分でポテンシャルを作成する場合には、PHASE の関連プログラム CIAO で作成できます。CIAOについてはCIAOのマニュアルを参照してください。</p>
+<section id="paw">
+<h4><span class="section-number">3.2.3.1. </span>擬ポテンシャルの種類（内殻の取り扱い方法）：フローズンコア型とPAW型<a class="headerlink" href="#paw" title="この見出しへのパーマリンク"></a></h4>
+<p>PHASEの擬ポテンシャルは大きく分けてフローズンコア型とPAW型 <a class="reference internal" href="#blochl94" id="id10"><span>[Blöchl94]</span></a> の２種類があります。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>フローズンコア（凍結核）型</p></td>
+<td><p>内殻電子と核をイオン芯として完全に凍結させた状態として扱い、価電子状態だけを取り扱います。これはさらにノルム保存擬ポテンシャル <a class="reference internal" href="#troullier91" id="id11"><span>[Troullier91]</span></a>
+とウルトラソフト擬ポテンシャル<a class="reference internal" href="#vanderbilt90" id="id12"><span>[Vanderbilt90]</span></a> に分類できます。</p></td>
+</tr>
+<tr class="row-even"><td><p>PAW型</p></td>
+<td><p>PAW（Projector Augumented
+Wave）型のポテンシャル <a class="reference internal" href="#blochl94" id="id13"><span>[Blöchl94]</span></a>
+<a class="reference internal" href="#kresse99" id="id14"><span>[Kresse99]</span></a> では、内殻の電子密度を考慮した計算をします。</p></td>
+</tr>
+</tbody>
+</table>
+<p>特別な事情がない限りは、PAW型擬ポテンシャルの使用をお勧めします。
+PAW型の擬ポテンシャルを使って、フローズンコア型（非PAW法）の計算実行が可能です。
+一方フローズンコア型の擬ポテンシャルでは、PAW法の計算はできません。</p>
+</section>
+<section id="id15">
+<h4><span class="section-number">3.2.3.2. </span>擬ポテンシャルファイルの入手方法<a class="headerlink" href="#id15" title="この見出しへのパーマリンク"></a></h4>
+<p>ポータルサイト（<a class="reference external" href="https://azuma.nims.go.jp/cms1/downloads/software">https://azuma.nims.go.jp/</a>）から、周期表にある全ての元素の擬ポテンシャルファイルをダウンロードすることが可能です。</p>
+<p>公開している擬ポテンシャルファイルは、以下の命名規則にしたがってファイル名が決められています。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>元素名_交換相関エネルギーの計算方法_（PAW型_）擬ポテンシャル型_識別用の数字.pp
+</pre></div>
+</div>
+<p>例えばSi_ggapbe_paw_nc_01.pp という擬ポテンシャルファイルは、シリコンに対応する、一般化密度勾配近似(GGA)法 <a class="reference internal" href="#perdew96" id="id16"><span>[Perdew96]</span></a> によって交換相関エネルギーを計算する、PAW型で、ノルム保存擬ポテンシャル <a class="reference internal" href="#troullier91" id="id17"><span>[Troullier91]</span></a> （ncはnorm conserving（ノルム保存）の略）の、01番（一般に作成された順番で番号が付けられます）ということを表します。交換相関エネルギーの計算方法には一般化密度勾配近似法のほかに局所密度近似(LDA)法があり、ggapbeの部分がldapw91 <a class="reference internal" href="#perdew92" id="id18"><span>[Perdew92]</span></a> となります。擬ポテンシャル型がウルトラソフト型 <a class="reference internal" href="#vanderbilt90" id="id19"><span>[Vanderbilt90]</span></a> の場合にはncの部分がus（ultrasoftの略）となります。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>元素名：</p></td>
+<td><p>シリコン</p></td>
+</tr>
+<tr class="row-even"><td><p>交換相関エネルギーの計算方法</p></td>
+<td><p>ggapbe法</p></td>
+</tr>
+<tr class="row-odd"><td><p>擬ポテンシャル型：</p></td>
+<td><p>PAW型でノルム保存擬ポテンシャル
+（ncはnorm conserving（ノルム保存）の略）</p></td>
+</tr>
+<tr class="row-even"><td><p>識別用の番号：</p></td>
+<td><p>データの通し番号</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id20">
+<h4><span class="section-number">3.2.3.3. </span>擬ポテンシャルの指定方法<a class="headerlink" href="#id20" title="この見出しへのパーマリンク"></a></h4>
+<p>デフォルトの擬ポテンシャルファイル名は、入力パラメータファイルのタグelement_listで設定した元素順にpot.01, pot.02….です。</p>
+<p>file_name.dataファイルを用いた場合は、擬ポテンシャルのディレクトリ、ファイル名を指定できます。以下のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+F_POT(1) = ‘/home/user/phase_pp_paw_2014/Si_ggapbe_paw_nc_01.pp’
+F_POT(2) = ‘/home/user/phase_pp_paw_2014/O_ggapbe_paw_us_02m.pp’
+...
+/
+</pre></div>
+</div>
+<p>&amp;fnamesセクションを作り、そこでファイルのパスを指定します。F_POT(<em>N</em>)に<em>N</em>番目の元素の擬ポテンシャルファイルのパスを指定します。パスは、シングルクォート(‘)もしくはダブルクォート(“)で囲います。セクションの終わりはスラッシュ(/)です。</p>
+</section>
+<section id="firststep-defpp-section">
+<span id="id21"></span><h4><span class="section-number">3.2.3.4. </span>推奨擬ポテンシャルの自動指定（バージョン2020.01以降）<a class="headerlink" href="#firststep-defpp-section" title="この見出しへのパーマリンク"></a></h4>
+<p>バージョン2020.01以降より、擬ポテンシャルの指定がない場合は推奨擬ポテンシャルが元素名を縁に割り当てられるようになりました。この機能が動作するためには、擬ポテンシャルファイルセットphase_pp_paw_2014がどこかしらのディレクトリー（たとえば/home/user/phase_pp_paw_2014）に存在し、環境変数PHASE_PP_PATHがその位置を指すようになっている必要があります。環境変数は、下記の要領で設定することができます。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PHASE_PP_PATH</span><span class="o">=</span>/home/user/phase_pp_paw_2014<span class="w"> </span><span class="o">(</span>sh,<span class="w"> </span>bashなどの場合<span class="o">)</span>
+$<span class="w"> </span>setenv<span class="w"> </span>PHASE_PP_PATH<span class="w"> </span>/home/user/phase_pp_paw_2014<span class="w"> </span><span class="o">(</span>csh,<span class="w"> </span>tcshなどの場合<span class="o">)</span>
+</pre></div>
+</div>
+<p>また、元素名はO, O1, O2など元素名そのもの、もしくは元素名+数値という形式である必要があります。採用されるデフォルト擬ポテンシャルは、<a class="reference internal" href="../supplement/supplement.html#inouts-recpp-section"><span class="std std-numref">11.5.1.2 章</span></a> に示しています。ソースディレクトリーのdefaultppfilesにも記述されています。</p>
+</section>
+</section>
+<section id="file-names-data">
+<span id="firststep-fnamesdata-section"></span><h3><span class="section-number">3.2.4. </span>入出力ファイル設定ファイルfile_names.data<a class="headerlink" href="#file-names-data" title="この見出しへのパーマリンク"></a></h3>
+<p>入出力ファイル設定ファイルfile_names.dataは入力パラメータファイルなどのファイル名を設定するために使用します。無くてもPHASEを使用することは可能です。その場合は全てのファイルがデフォルトのファイル名になります。</p>
+<p>このファイルを使用することにより、i)ファイル名、ii)ファイルの置き場所、をユーザーが自由に設定することが可能になります。「file_names.data」そのもののファイル名は、変更不可です。</p>
+<p>このファイルを使用する場合は、必ずこのファイル名で実行ディレクトリに置く必要があります。</p>
+<p>file_names.dataのフォーマットは、以下のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+ファイル名キーワード = ’ファイル名（ファイルへのパス）
+...
+...
+/
+</pre></div>
+</div>
+<p>最後に、“/” が必要な点に注意してください。例えば、以下のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+F_INP = ’./nfinp.data
+F_POT(1) = ’./Si_ggapbe_nc_01.pp
+F_POT(2) = ’./O_ggapbe_us_02.pp
+F_CHGT = ’./nfchgt.data
+F_CHR = ’./nfchr.cube
+/
+</pre></div>
+</div>
+<p>ファイルへのパスは,実行ディレクトリからの相対パスでも、絶対パスでも使用できます。</p>
+<p>F_POT(n)は、入力パラメータファイルにおいてn番目に指定された原子種に対する擬ポテンシャルファイルを指定します。この例では、1番目に定義された元素Si の擬ポテンシャルファイルがSi ggapbe nc 01.pp 、2番目に定義された元素Oの擬ポテンシャルファイルがO ggapbe us 02.ppというファイルになります。</p>
+<p>主要なファイル名キーワードやデフォルトのファイル名を <a class="reference internal" href="#firststep-fnames-table"><span class="std std-numref">表 3.1</span></a> に示します。</p>
+<table class="longtable docutils align-default" id="firststep-fnames-table">
+<caption><span class="caption-number">表 3.1 </span><span class="caption-text">入出力ファイル設定ファイルfile_names.dataで設定可能なファイル一覧（主なもの）</span><a class="headerlink" href="#firststep-fnames-table" title="このテーブルへのパーマリンク"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>ファイル名</p>
+<p>キーワード</p>
+</th>
+<th class="head"><p>対応するプログラム</p></th>
+<th class="head"><p>入出力</p>
+<p>区別</p>
+</th>
+<th class="head"><p>デフォルトファイル名</p></th>
+<th class="head"><p>概要</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>F_INP</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>入力</p></td>
+<td><p>nfinp.data</p></td>
+<td><p>入力パラメータ・ファイル</p></td>
+</tr>
+<tr class="row-odd"><td><p>F_POT(n)</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>入力</p></td>
+<td><p>pot.01,</p>
+<p>pot.02,</p>
+<p>･･･</p>
+</td>
+<td><p>擬ポテンシャル・ファイル。この配列に与えられた名前のファイルを読みこみます。各元素に１つのポテンシャルファイルが必要になります。</p></td>
+</tr>
+<tr class="row-even"><td><p>F_STOP</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>入力</p></td>
+<td><p>nfstop.data</p></td>
+<td><p>繰り返し計算の途中で、実行を中断する繰り返し回数を指定する。</p></td>
+</tr>
+<tr class="row-odd"><td><p>F_KPOINT</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+</td>
+<td><p>入力</p></td>
+<td><p>kpoint.data</p></td>
+<td><p>サンプリングk点を設定する。</p>
+<p>主にバンド構造図計算時に利用。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>F_ENF</p></td>
+<td><p>phase</p></td>
+<td><p>出力</p></td>
+<td><p>nfefn.data</p></td>
+<td><p>SCF収束毎に全エネルギーと力の最大値が出力される。</p>
+<p>格子緩和時には、ストレス値も出力。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>F_DYNM</p></td>
+<td><p>phase</p></td>
+<td><p>出力</p></td>
+<td><p>nfdynm.data</p></td>
+<td><p>SCF収束毎に各原子位置と作用する力が出力される。</p>
+<p>分子動力学計算では各原子の速度も出力される。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>F_CHR</p></td>
+<td><p>phase</p></td>
+<td><p>出力</p></td>
+<td><p>nfchr.data</p></td>
+<td><p>電荷密度分布の出力ファイル。主に可視化に用いる。</p></td>
+</tr>
+<tr class="row-odd"><td><p>F_DOS</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+</td>
+<td><p>出力</p></td>
+<td><p>dos.data</p></td>
+<td><p>状態密度の計算結果</p></td>
+</tr>
+<tr class="row-even"><td><p>F_ENERG</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>出力</p></td>
+<td><p>nfenergy.data</p></td>
+<td><p>エネルギー固有値の計算結果</p></td>
+</tr>
+<tr class="row-odd"><td><p>F_EPSOUT</p></td>
+<td><p>epsmain</p></td>
+<td><p>出力</p></td>
+<td><p>eps.data</p></td>
+<td><p>誘電関数の計算結果</p></td>
+</tr>
+<tr class="row-even"><td><p>F_ZAJ</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>入出力</p></td>
+<td><p>zaj.data</p></td>
+<td><p>計算終了時に波動関数の内部データを書き出す。
+継続計算ではこれを読み込む。
+バイナリーファイル。</p></td>
+</tr>
+<tr class="row-odd"><td><p>F_CHGT</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>入出力</p></td>
+<td><p>nfchgt.data</p></td>
+<td><p>計算終了時に電荷密度の内部データを書き出す。
+継続計算ではこれを読み込む。
+固定電荷計算では入力データ（更新されない）。
+バイナリーファイル。</p></td>
+</tr>
+<tr class="row-even"><td><p>F_CNTN</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>入出力</p></td>
+<td><p>continue.data</p></td>
+<td><p>計算を中断する際に、継続する計算を再開するために必要な情報を書き出す。
+継続計算はこのファイルを入力として読み込む。</p></td>
+</tr>
+<tr class="row-odd"><td><p>F_CNTN_BIN</p></td>
+<td><p>phase</p></td>
+<td><p>入出力</p></td>
+<td><p>continue_bin.data</p></td>
+<td><p>計算を中断する際に、継続する計算を再開するために必要な情報を書き出す。
+継続計算はこのファイルを入力として読み込む。
+バイナリーファイル。</p></td>
+</tr>
+<tr class="row-even"><td><p>F_CNTN_BIN_PAW</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>入出力</p></td>
+<td><p>contine_bin_paw.data</p></td>
+<td><p>PAW法利用時限定。
+計算を中断する際に、継続する計算を再開するために必要な情報を書き出す。
+継続計算はこのファイルを入力として読み込む。
+固定電荷計算では入力データ（更新されない）。
+バイナリーファイル。</p></td>
+</tr>
+<tr class="row-odd"><td><p>F_STATUS</p></td>
+<td><p>phase</p>
+<p>ekcal</p>
+<p>epsmain</p>
+</td>
+<td><p>出力</p></td>
+<td><p>jobstatus00x</p></td>
+<td><p>計算状況の出力。</p>
+<p>繰り返し計算毎に更新される。</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="id22">
+<h2><span class="section-number">3.3. </span>計算の実行<a class="headerlink" href="#id22" title="この見出しへのパーマリンク"></a></h2>
+<section id="phase">
+<h3><span class="section-number">3.3.1. </span>プログラムphaseの実行<a class="headerlink" href="#phase" title="この見出しへのパーマリンク"></a></h3>
+<p>入力パラメータファイル、擬ポテンシャルファイルを実行ディレクトリに置きます。file_names.dataを使用する場合には、それも同じディレクトリに置いてください。</p>
+<p>１プロセッサ（１コア）の逐次計算を行う場合には、次のようにプログラムphaseを実行します。
+”../../phase0_2024.01/bin/” は、PHASEのバイナリーが置かれているディレクトリです。</p>
+<pre class="literal-block">% ../../phase0_2024.01/bin/phase</pre>
+<p>ただし、お使いの環境によってはMPIライブラリの実行コマンドを使用する必要があるかもしれません。</p>
+</section>
+<section id="id23">
+<h3><span class="section-number">3.3.2. </span>並列計算について<a class="headerlink" href="#id23" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE/0は、MPIライブラリにリンクしてコンパイルすることによって並列計算を行うことが可能です。PHASE/0には「2次元並列版」と「3次元並列版」がありますが、前者はバンドと<strong>k</strong>点に対する並列実行が、後者はバンド、<strong>k</strong>点に加え波動関数の展開係数に対する並列実行が可能です。3次元並列版には一部機能制限がありますが、多くのCPUコアが利用できる場合は非常に高速な計算を実行することが可能となっています。</p>
+<p>並列計算を行う場合には、お使いの計算機の利用するMPIライブラリの実行コマンドを使用します。詳細はお使いの計算機システムのマニュアルを参照ください。一般的なコマンドはmpirunです。</p>
+<section id="id24">
+<h4><span class="section-number">3.3.2.1. </span>基本的な並列計算<a class="headerlink" href="#id24" title="この見出しへのパーマリンク"></a></h4>
+<p>2次元版の場合、典型的には以下のようなコマンドになります。</p>
+<pre class="literal-block">% mpirun -np NP PHASE_INSTALL_DIR/phase0_2024.01/bin/phase ne=NE nk=NK</pre>
+<p>ここで、NP はMPI プロセス数、NE はバンド並列数、NKは<strong>k</strong>点並列数です。
+またPHASE_INSTALL_DIRをPHASE/0をインストールしたディレクトリとしました。NP=NE×NKという関係が満たされている必要があります。<strong>k</strong>点並列の方が効率は良い場合が多いので、<strong>k</strong>点並列は取れるだけ取ることが推奨されます。</p>
+<p>3次元版の場合、典型的には以下のようなコマンドとなります。</p>
+<pre class="literal-block">% mpirun -np NP PHASE_INSTALL_DIR/phase0_2024.01/bin/phase.3d ng=NG ne=NE nk=NK</pre>
+<p>ここでNGが波動関数の展開係数（<strong>G</strong>ベクトル）の並列数です。NP=NG×NE×NKという関係が満たされている必要があります。多くの場合NGをNEの2倍程度にすると良好なパフォーマンスが得られます。</p>
+</section>
+<section id="id25">
+<h4><span class="section-number">3.3.2.2. </span>ディレクトリ並列による計算<a class="headerlink" href="#id25" title="この見出しへのパーマリンク"></a></h4>
+<p>また、2次元版、3次元版共通で「ディレクトリ並列」機能を利用することも可能です。これは、事前に入力ファイルの置かれたディレクトリが複数ある場合にそのディレクトリごとに別個計算を行う機能です。この方法で計算を行うためには、まずは必要な入力の置かれた複数のディレクトリを作成します。つぎに、作成した計算ディレクトリの親ディレクトリにdirlistというファイル名のファイルを作成し、つぎのような内容を記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ND
+dir1
+dir2
+...
+</pre></div>
+</div>
+<p>ここでNDがディレクトリ並列の並列数（ディレクトリの数）、dir1, dir2,
+…が入力ファイルの置かれたディレクトリの名前です。以上の準備を行った上で、通常通りPHASEを実行します。ただし、2次元版の場合NP=ND×NE×NK、3次元版の場合はNP=ND×NG×NE×NKが満たされるように並列数を調整する必要があります。ディレクトリ並列機能は主にベリー位相計算を行うPerlスクリプトが利用することを想定して実装された機能ですが、ベリー位相計算に限らずあらゆる計算機能で利用することが可能です。ただし、並列化効率自体は非常に高い並列化手法ですが、最も時間のかかるディレクトリが律速になる点にはご注意ください。</p>
+</section>
+<section id="id26">
+<h4><span class="section-number">3.3.2.3. </span>レプリカ並列による計算<a class="headerlink" href="#id26" title="この見出しへのパーマリンク"></a></h4>
+<p>NEB法および拘束条件付き構造最適化、メタダイナミクス法においては「レプリカ並列」を利用した計算を行うことが可能です。この機能を利用するには、以下のようにPHASE/0を起動します。</p>
+<p>2次元版の場合：</p>
+<pre class="literal-block">% mpirun -np NP PHASE_INSTALL_DIR/phase0_2024.01/bin/phase nr=NR ne=NE nk=NK</pre>
+<p>3次元版の場合：</p>
+<pre class="literal-block">% mpirun -np NP PHASE_INSTALL_DIR/phase0_2024.01/bin/phase.3d nr=NR ng=NG ne=NE nk=NK</pre>
+<p>ここでNRはレプリカ並列数です。NP=NR×NG×NE×NKが満たされるように並列数を調整する必要があります。ディレクトリ並列の場合と同様並列化効率自体は非常に高い並列化手法ですが、「最も収束の遅いレプリカ」が律速になる点にご注意ください。</p>
+</section>
+<section id="k">
+<h4><span class="section-number">3.3.2.4. </span><strong>k</strong>点数の調べ方<a class="headerlink" href="#k" title="この見出しへのパーマリンク"></a></h4>
+<p>利用可能、もしくは最適な<strong>k</strong>点並列数は<strong>k</strong>点の数に依存しますが、実際に利用される<strong>k</strong>点の数は対称性によって減る場合があるので、事前には分かりません。これを調べるには、まず入力パラメータファイルのconditionをpreparationとします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = preparation
+}
+</pre></div>
+</div>
+<p>このようにしてPHASE/0を実行すると、時間のあまりかからない前処理のみが行われ、計算が終了します。得られたログファイル(output000ファイル)から<strong>k</strong>点の数を調べるには、以下のようなコマンドを発行します。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>%<span class="w"> </span>grep<span class="w"> </span>kv3<span class="w"> </span>output000
+!kp<span class="w"> </span><span class="nv">kv3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="w"> </span><span class="nv">nspin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+</pre></div>
+</div>
+<p>kv3/nspin が利用可能な<strong>k</strong>点並列数の上限となります。この例の場合kv3 = 70, nspin = 2と出力されていますので、<strong>k</strong>点並列数の上限は35となります。また、この上限の数を割り切れる数を採用した方が並列化効率は向上します。
+なお、実計算を実行する前にconditionパラメータを適切な値に編集し直すことを忘れないようにしてください。</p>
+</section>
+<section id="firststep-autores-para-section">
+<span id="id27"></span><h4><span class="section-number">3.3.2.5. </span>並列パラメーターの自動選定（バージョン2020.01以降）<a class="headerlink" href="#firststep-autores-para-section" title="この見出しへのパーマリンク"></a></h4>
+<p>バージョン2020.01以降、並列パラメーター (NE, NK, NG)の指定がない場合の振る舞いが変更されました。次のような指針によって決まるようになりました。</p>
+<ul class="simple">
+<li><p>2次元版 : 対称性を考慮した上で得られる<strong>k</strong>点数と総並列数NPが割り切れる最大の整数値がNK, NEはNP/NK.</p></li>
+<li><p>3次元版 : 対称性を考慮した上で得られる<strong>k</strong>点数と総並列数NPが割り切れる最大の整数値がNK, NGとNEはNE*NG=NP/NKを満たし、かつNE:NGが1:2に最も近くなる取り方</p></li>
+</ul>
+</section>
+</section>
+<section id="id28">
+<h3><span class="section-number">3.3.3. </span>計算状況の確認<a class="headerlink" href="#id28" title="この見出しへのパーマリンク"></a></h3>
+<p>SCF計算の途中経過は、ログファイルoutput000において、全エネルギーの変遷を見ることによって確認することができます。</p>
+<p>ログファイルoutput000において、TOTAL ENERGY FORで始まる部分にSCFイタレーションごとの全エネルギーが出力されます。</p>
+<p>以下のgrepコマンドを利用することにより、この部分のみを抽出することができます。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>%<span class="w"> </span>grep<span class="w"> </span>TH<span class="w"> </span>output000
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">1</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-30.526550119110<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.305266D+02<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>MATDIAGON<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">2</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.437912997629<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.911363D+00<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>PKOSUGI<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">3</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.451426343498<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.135133D-01<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>PKOSUGI<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">4</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.483230137370<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.318038D-01<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>PKOSUGI<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">5</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.494170407948<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.109403D-01<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>PKOSUGI<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">6</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.500019062197<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.584865D-02<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>PKOSUGI<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">7</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.501062835039<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.104377D-02<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>RMM3<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">8</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.501146250660<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.834156D-04<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>RMM3<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">     </span><span class="m">9</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.501182271744<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.360211D-04<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>RMM3<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+TOTAL<span class="w"> </span>ENERGY<span class="w"> </span>FOR<span class="w">    </span><span class="m">10</span><span class="w"> </span>-TH<span class="w"> </span><span class="nv">ITER</span><span class="o">=</span><span class="w">    </span>-31.501186337668<span class="w"> </span><span class="nv">EDEL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>-0.406592D-05<span class="w"> </span>:<span class="w"> </span><span class="nv">SOLVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SUBMAT<span class="w"> </span>+<span class="w"> </span>RMM3<span class="w"> </span>:<span class="w"> </span>Charge-Mixing<span class="w"> </span><span class="o">=</span><span class="w"> </span>BROYD2
+.............
+.............
+</pre></div>
+</div>
+<p>TOTAL ENERGY FOR ### -TH ITER= の部分に### 回目のSCF イタレーションにおける全エネルギーがハートリー単位（Ha）で出力されます（上記の例では、約-31Ha）。EDEL =のあとには、現在のSCFイタレーションと1 回前のイタレーションのエネルギー差がハートリー単位で出力されます。この値を原子数で除した値が入力パラメータファイルで設定した閾値（delta_total_energy）よりも小さくなるとSCF計算が収束したと見なされます。</p>
+<p>SOLVER =のあとには利用したソルバーの情報が出力されます。上記の例では1 回目がMATDIAGON, 2 回目と3 回目はP-Davidson, 4 回目以降が部分空間対角化（SUBMAT）を有効にしたRMM3 ソルバーであることが理解できます。このように履歴を調べながら、SCF 計算が収束へ向かっているかどうかを確認することができます。</p>
+</section>
+<section id="id29">
+<h3><span class="section-number">3.3.4. </span>継続計算<a class="headerlink" href="#id29" title="この見出しへのパーマリンク"></a></h3>
+<p>継続して計算を実行することができます。継続計算を実行するには、入力パラメータファイルのcontrol ブロックのcondition を編集します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+   condition = continuation
+}
+</pre></div>
+</div>
+<p>condition にcontinuation を指定すると継続計算を行います。automatic を指定すると、継続計算が可能な場合は継続計算、そうでない場合は最初からの計算を行います。condition のデフォルト値はautomatic です。継続計算では直前の計算での出力ファイルの一部を入力ファイルとして使用します。同じ実行ディレクトリで計算を実行する場合には特に配慮することはなく、継続計算を実行することが可能です。</p>
+</section>
+<section id="first-step-checkpoint-section">
+<span id="id30"></span><h3><span class="section-number">3.3.5. </span>チェックポイントファイルについて（バージョン2019.02以降）<a class="headerlink" href="#first-step-checkpoint-section" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE/0バージョン2019.02より、計算中に「チェックポイントファイル」が出力されるようになりました。この機能によって、ユーザーの指定に応じて継続計算に必要なファイル一式が出力されます。出力するタイミングは、SCF計算の回数、構造最適化の回数、計算時間、あるいはこれらの組み合わせから選ぶことができます。また、過去何回分のチェックポイントファイルを保存するか指定することもできます。何らかの要因で計算が異常終了してしまった場合も、チェックポイントファイルを活用することによって直前の状態から継続して計算を再開することができます。</p>
+<section id="id31">
+<h4><span class="section-number">3.3.5.1. </span>チェックポイントファイル出力の設定<a class="headerlink" href="#id31" title="この見出しへのパーマリンク"></a></h4>
+<p>入力パラメーターファイルに以下のようにcontrolブロックにおいてcheckpoint_fileブロックを挿入することによってチェックポイントファイルを出力させることができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  checkpoint_file{
+    iteration = 100
+    iteration_ionic = 10
+    cputime = 5 hour
+    nhistory = 5
+  }
+}
+</pre></div>
+</div>
+<p>iterationなどの変数には、何回に1回チェックポイントファイルを出力させたいかを指定します。0以下の値を指定した場合その条件ではチェックポイントファイルは出力されません。またnhistoryに2以上の値を指定すると古い履歴がディレクトリーに保存されるようになります。保存ディレクトリーの既定値はchkpnt<em>xx</em>です。<em>xx</em>には識別用の整数値が入ります。<em>xx</em>が若いほど古い履歴が保持されたディレクトリーとなります。</p>
+<p>checkpoint_fileブロックの下では以下の変数を利用することができます。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>変数</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>iteration</p></td>
+<td><p>SCF計算の回数でチェックポイントファイルを出力させる場合に設定する。</p>
+<p>既定値は0</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>iteration_ionic</p></td>
+<td><p>構造最適化や分子動力学シミュレーションの回数でチェックポイントファイルを出力させる場合に設定する。既定値は10</p></td>
+</tr>
+<tr class="row-even"><td><p>iteration_unitcell</p></td>
+<td><p>単位胞最適化の場合に、単位胞更新の回数でチェックポイントファイルを出力させる場合に設定する。既定値は0</p></td>
+</tr>
+<tr class="row-odd"><td><p>iteration_neb</p></td>
+<td><p>NEB法の場合に、NEB計算の更新回数でチェックポイントファイルを出力させる場合に設定する。既定値は0</p></td>
+</tr>
+<tr class="row-even"><td><p>iteration_reac</p></td>
+<td><p>反応座標を変化させる計算の場合に、反応座標の更新回数でチェックポイントファイルを出力させる場合に設定する。既定値は0</p></td>
+</tr>
+<tr class="row-odd"><td><p>cputime</p></td>
+<td><p>総計算時間でチェックポイントファイルを出力させる場合に設定する。単位は実時間で、s,
+min, hour, dayが利用できる。既定値は0.</p></td>
+</tr>
+<tr class="row-even"><td><p>nhistory</p></td>
+<td><p>チェックポイントファイルの履歴を保存したい場合に設定する。この値が2以上の場合にチェックポイントファイルの履歴が保存される。最新のチェックポイントファイルはカレントディレクトリーに保存され、古いチェックポイントファイルはchkpnt<em>xx</em>ディレクトリーに保存される。<em>xx</em>は、若い方が古い履歴に対応する。</p></td>
+</tr>
+</tbody>
+</table>
+<p>履歴を保存する場合chkpnt<em>xx</em>ディレクトリーに保存されますが、接頭文字列はfile_names.dataの記述によって変更することもできます。ファイルポインターF_CHKPNTを用います。たとえば、foobar<em>xxx</em>にしたい場合file_names.dataを以下のように記述します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;fnames
+...
+F_CHKPNT = ‘foobar’
+/
+</pre></div>
+</div>
+</section>
+<section id="id32">
+<h4><span class="section-number">3.3.5.2. </span>出力<a class="headerlink" href="#id32" title="この見出しへのパーマリンク"></a></h4>
+<p>継続計算に必要なファイル一式が出力として得られます。具体的には以下のファイル群です。</p>
+<ul class="simple">
+<li><p>continue.data, continue_bin.data, zaj.data, nfchgt.data : 継続計算に必要な基本的なファイル</p></li>
+<li><p>continue_bin_paw.data : PAW計算の場合に必要なファイル</p></li>
+<li><p>occmat.data : DFT+U計算の場合に必要なファイル</p></li>
+<li><p>neb_continue.data : NEB計算の場合に必要なファイル</p></li>
+</ul>
+<p>また、チェックポイントファイル出力時は以下のようにチェックポイントファイルが出力されたこととその理由がoutput000ファイルに記録されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>!** dumped checkpoint files because
+!** iteration_ionic
+!** met the criterion
+</pre></div>
+</div>
+</section>
+</section>
+<section id="change-settings-during-scf">
+<span id="id33"></span><h3><span class="section-number">3.3.6. </span>計算中の制御 (2021.02以降)<a class="headerlink" href="#change-settings-during-scf" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASE/0は計算中に入力ファイルを編集し、計算条件を変更することができるようになっています。
+以下の計算条件を計算中に変更することができます。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>“可動”な原子の変更</p></li>
+<li><p>SCF計算の収束判定条件の変更</p></li>
+<li><p>原子間力の収束判定条件の変更</p></li>
+<li><p>計算の最大繰り返し回数の変更</p></li>
+<li><p>ソルバー設定の変更</p></li>
+<li><p>ミキサー設定の変更</p></li>
+<li><p>カットオフエネルギーの変更</p></li>
+</ul>
+</div></blockquote>
+<p>計算中の計算条件変更は、もとの入力パラメーターファイルとは異なるファイル名の、同じ形式のファイルを介して行います。そのファイルはファイルポインターF_INP_MODを介して指定できます。デフォルトファイル名はnfinp_mod.dataです。このファイルが存在する場合に限り変更を検出し、変更があった場合に対応します。</p>
+<p>なおカットオフエネルギーの変更は現在実行中のSCF計算が終了し、原子配置を動かし、つぎのSCF計算に移行するタイミングで行われます。これはカットオフエネルギーを変更すると様々な処理を行う必要があるためです。</p>
+</section>
+<section id="firststep-fc-section">
+<span id="id34"></span><h3><span class="section-number">3.3.7. </span>固定電荷計算（状態密度計算、バンド構造計算）<a class="headerlink" href="#firststep-fc-section" title="この見出しへのパーマリンク"></a></h3>
+<p>状態密度計算、バンド計算において、k点の取り方を通常のSCF計算と変更する場合があります。このような計算も、PHASEもしくはekcalプログラムを利用して行うことができます。このような計算は、SCF計算により収束させた電荷密度を入力として利用し、計算中固定するので、「固定電荷計算」と呼ばれます。構造緩和や有限温度計算を行っていて、（SCF計算において）原子座標が入力パラメータデータにあるものから変化している場合には、入力パラメータファイルの原子座標も修正しておく（nfdynm.dataの最終構造を整形してatom_listブロック部に貼り付ける）か、nfdynm.dataの最終構造を直接読み込むように設定する（ <a class="reference internal" href="../input_parameters/input_parameters.html#input-param-coord-from-file"><span class="std std-numref">4.5.8 章</span></a> ）か、いずれかの手続きが（以下に述べる手続きに加えて）必要になります。</p>
+<section id="id35">
+<h4><span class="section-number">3.3.7.1. </span>状態密度の計算<a class="headerlink" href="#id35" title="この見出しへのパーマリンク"></a></h4>
+<p>SCF計算の計算結果の電荷密度ファイルnfchgt.dataを実行ディレクトリにコピーします。または、入出力ファイル設定ファイルfile_names.dataのF_CHGTにSCF計算の計算結果の電荷密度ファイル（のディレクトリ／ファイル名）を指定します。</p>
+<p>SCF計算結果の電荷密度を用いた計算を行うには、入力パラメータファイルのcontrol ブロックのcondition をfixed_chargeとします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+   condition = fixed_charge
+}
+</pre></div>
+</div>
+<p>また、Accuracyブロック内に固有値に関する収束条件を指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  ek_convergence{
+    delta_eigenvalue = 1e-5
+  }
+}
+</pre></div>
+</div>
+<p>次のようにプログラムekcalを実行します。
+&quot;phase0_2024.01/bin/&quot; は、PHASEがインストールされているディレクトリです。</p>
+<pre class="literal-block">% ../../phase0_2024.01/bin/ekcal</pre>
+</section>
+<section id="id36">
+<h4><span class="section-number">3.3.7.2. </span>バンド構造計算<a class="headerlink" href="#id36" title="この見出しへのパーマリンク"></a></h4>
+<p>SCF計算の計算結果の電荷密度ファイルnfchgt.dataを実行ディレクトリにコピーします。または、入出力ファイル設定ファイルfile_names.dataにおいて、F_CHGTにSCF計算の計算結果の電荷密度ファイル指定します。</p>
+<p>サンプリング<strong>k</strong>点の設定ファイルkpoint.dataを用意します。<strong>k</strong>点の設定ファイルkpoint.dataは、ツールband_kpoint.plを用いて作成します。以下のようなサンプリング<strong>k</strong>点の対称点のファイルbandkpt.inを用意します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>0.04 # k 点の間隔
+-0.8333333 0.8333333 0.8333333
+0.8333333 -0.8333333 0.8333333 # 逆格子ベクトル
+0.8333333 0.8333333 -0.8333333
+3 2 1 4 # W # k点の対称点 n1 n2 n3 nd # Symbol
+1 1 1 2 # L
+0 0 0 1 # {/Symbol G}
+1 1 0 2 # X
+3 2 1 4 # W
+5 3 0 8 # K
+</pre></div>
+</div>
+<p>各k点の対象点の指定において、n1/nd, n2/nd, n3/ndが各k点の対象点の逆格子空間の位置になります。例えば3 2 1 4 # Wでは、逆格子空間の3/4, 2/4, 1/4の位置にＷ点を指定しています。</p>
+<p>以下のようにツールband_kpoint.plを実行すると、サンプリング<strong>k</strong>点の設定ファイルkpoint.dataが作成されます。</p>
+<pre class="literal-block">% ../../phase0_2024.01/tools/bin/band_kpoint.pl bandkpt.in</pre>
+<p>SCF計算結果の電荷密度を用いた計算を行うには、入力パラメータファイルのcontrol ブロックのcondition をfixed_chargeとします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+   condition = fixed_charge
+}
+</pre></div>
+</div>
+<p>Accuracyブロック内に、k点サンプリングと、固有値に関する収束条件を指定します。作成したk点の設定ファイルを使用する場合には、ksamplingのmethodをファイルに指定します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>accuracy{
+  ksampling{
+    method = file
+  }
+  ek_convergence{
+    delta_eigenvalue = 1e-5
+    num_extra_bands = 10
+  }
+}
+</pre></div>
+</div>
+<p>上述のnum_extra_bandsパラメーターは所望のバンド数にさらに追加するバンドの数です。収束しづらい場合にこの値を増やすと劇的に収束性が向上する場合があります。</p>
+<p>次のようにプログラムekcal を実行します。
+&quot;phase0_2024.01/bin/&quot; は、PHASEがインストールされているディレクトリです。</p>
+<pre class="literal-block">% ../../phase0_2024.01/bin/ekcal</pre>
+</section>
+<section id="id37">
+<h4><span class="section-number">3.3.7.3. </span>継続計算について<a class="headerlink" href="#id37" title="この見出しへのパーマリンク"></a></h4>
+<p>固定電荷計算が途中で終了した場合、下記の要領でcondition変数にfixed_charge_continuationという値を与えれば継続計算を行うことができます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = fixed_charge_continuation
+}
+</pre></div>
+</div>
+<p>継続計算は、SCF計算の場合と同様正常終了した場合のみ可能です。</p>
+</section>
+<section id="id38">
+<h4><span class="section-number">3.3.7.4. </span>並列計算について<a class="headerlink" href="#id38" title="この見出しへのパーマリンク"></a></h4>
+<p>固定電荷計算は、基本的には通常のSCF計算と同様バンド、<strong>k</strong>点、3D版の場合は<strong>G</strong>点を分割した並列計算を行うことができます。ただし、ベリー位相計算は<strong>k</strong>点並列に対応していないので、ベリー位相計算を行う場合は<strong>k</strong>点並列を無効にするようにしてください。</p>
+</section>
+<section id="phaseekcal">
+<h4><span class="section-number">3.3.7.5. </span>PHASEとekcalの振る舞いの違いについて<a class="headerlink" href="#phaseekcal" title="この見出しへのパーマリンク"></a></h4>
+<p>固定電荷計算をPHASEで行うと、デフォルトの状態ではすべての<strong>k</strong>点を一括で処理するモードで動作します。ekcalのように<strong>k</strong>点を一点ずつ処理する場合、入力パラメーターファイルに以下のような記述を行います。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>control{
+  condition = fixed_charge
+  fixed_charge_option{
+    kparallel = one_by_one
+  }
+}
+</pre></div>
+</div>
+<p>いずれのモードでもバンド、<strong>k</strong>点、<strong>G</strong>点並列を組み合わせて利用することができます。ただし、ベリー位相計算の場合は上述のkparallelをone_by_oneとし、また<strong>k</strong>点並列を使わないようにしてください。</p>
+<p>なお、3D版にはekcalプログラムは付属しません。固定電荷計算もPHASEプログラムで実行するようにしてください。</p>
+</section>
+</section>
+</section>
+<section id="id39">
+<h2><span class="section-number">3.4. </span>計算結果の確認<a class="headerlink" href="#id39" title="この見出しへのパーマリンク"></a></h2>
+<section id="id40">
+<h3><span class="section-number">3.4.1. </span>計算終了の状況・要因・対応<a class="headerlink" href="#id40" title="この見出しへのパーマリンク"></a></h3>
+<p>計算終了の状況・要因・対応を以下にまとめます。</p>
+<table class="longtable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>計算状況</p></th>
+<th class="head"><p>プログ
+ラム実行の終了の要因</p></th>
+<th class="head"><p>対応</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>正常終了</p>
+<p>SCF計算が収束</p>
+<p>（
+構造緩和計算が終了）</p>
+</td>
+<td><p>SCF計算の収束判定条件を満たした場合</p>
+<p>全エネルギー変化量が閾値
+より小さくなった場合</p>
+</td>
+<td><p>計算終了</p>
+<p>解析計算を行う</p>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>構造緩和計算の収束判定条件を満たした場合</p>
+<p>原子に働く力の最大値が閾値より小さくなった場合</p>
+</td>
+<td></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><p>正常終了</p>
+<p>SCF計算が未収束</p>
+</td>
+<td><p>SCF計算の最大イタレー
+ション数に達した場合</p>
+<p>SCF計算のイタレーション数が、control
+ブロックのmax_iteration
+の値を超えた場合</p>
+</td>
+<td rowspan="3"><p>継続計算を行う</p></td>
+</tr>
+<tr class="row-odd"><td><p>ファイルnfstop.data
+で指定したイタレーション数を超えた場合</p>
+<p>デフォルトの設定では、１イタレーションおきに、nfstop.
+dataファイルを読み込みます。この方法を使うことにより、計算開始後でも、任意のタイミングで計算を終了させることができます。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>計算時間の最大時間に達した場合</p>
+<p>Controlブロックのcpumaxを計算時間が超えた場合</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>異常終了</p></td>
+<td><p>計算機トラブル</p>
+<p>入力パラメータファイルの記述ミス</p>
+<p>擬ポテンシャルファイルが存在しない</p>
+<p>（プログラム内部の問題）</p>
+</td>
+<td><p>入力データを見直して再計算</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id41">
+<h3><span class="section-number">3.4.2. </span>計算終了（正常終了、異常終了）の確認（バージョン2019.02以前）<a class="headerlink" href="#id41" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEの実行が正常に終了すると、ログファイル（output000 ファイル）の最後に以下のような情報が出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>       ......
+       ......
+&lt;&lt;Total elapsed CPU Time until now =    81.69520 (sec.)&gt;&gt;
+ closed filenumber =           31
+ closed filenumber =           52
+ closed filenumber =           53
+ closed filenumber =           55
+ closed filenumber =           42
+ closed filenumber =           43
+ closed filenumber =           44
+ closed filenumber =           75
+ closed filenumber =           65
+ closed filenumber =           66
+</pre></div>
+</div>
+<p>Total elapsed CPU Time until now
+=のあとに計算時間が出力されます。ログファイルの最後がこのようになっていなければPHASEは正常終了していません。なんらかの要因のため異常終了しています。その場合は、入力ファイルなどを変更して再計算してください。</p>
+</section>
+<section id="firststep-endmark-section">
+<span id="id42"></span><h3><span class="section-number">3.4.3. </span>計算終了（正常終了、異常終了）の確認（バージョン2020.01以降）<a class="headerlink" href="#firststep-endmark-section" title="この見出しへのパーマリンク"></a></h3>
+<p>バージョン2020.01以降、計算終了時にoutput000ファイルにエンドマーク（計算終了を表す文字列）が出力されるようになりました。エンドマークの例を以下に示します。</p>
+<p>max_iterationに到達した場合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span>     <span class="n">M</span>     <span class="n">A</span>     <span class="n">X</span>     <span class="n">X</span>  <span class="n">III</span>  <span class="n">TTTTTTT</span>  <span class="n">EEEEEEE</span>  <span class="n">RRRRRR</span>
+<span class="n">MM</span>   <span class="n">MM</span>    <span class="n">A</span> <span class="n">A</span>     <span class="n">X</span>   <span class="n">X</span>    <span class="n">I</span>      <span class="n">T</span>     <span class="n">E</span>        <span class="n">R</span>     <span class="n">R</span>
+<span class="n">M</span> <span class="n">M</span> <span class="n">M</span> <span class="n">M</span>   <span class="n">A</span>   <span class="n">A</span>     <span class="n">X</span> <span class="n">X</span>     <span class="n">I</span>      <span class="n">T</span>     <span class="n">E</span>        <span class="n">R</span>     <span class="n">R</span>
+<span class="n">M</span>  <span class="n">M</span>  <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>     <span class="n">X</span>      <span class="n">I</span>      <span class="n">T</span>     <span class="n">EEEEE</span>    <span class="n">RRRRRR</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">AAAAAAA</span>    <span class="n">X</span> <span class="n">X</span>     <span class="n">I</span>      <span class="n">T</span>     <span class="n">E</span>        <span class="n">R</span>   <span class="n">R</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>   <span class="n">X</span>   <span class="n">X</span>    <span class="n">I</span>      <span class="n">T</span>     <span class="n">E</span>        <span class="n">R</span>    <span class="n">R</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>  <span class="n">X</span>     <span class="n">X</span>  <span class="n">III</span>     <span class="n">T</span>     <span class="n">EEEEEEE</span>  <span class="n">R</span>     <span class="n">R</span>
+</pre></div>
+</div>
+<p>cpumaxに到達した場合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">CCCCC</span>   <span class="n">PPPPPP</span>   <span class="n">U</span>     <span class="n">U</span>  <span class="n">M</span>     <span class="n">M</span>     <span class="n">A</span>     <span class="n">X</span>     <span class="n">X</span>
+<span class="n">C</span>     <span class="n">C</span>  <span class="n">P</span>     <span class="n">P</span>  <span class="n">U</span>     <span class="n">U</span>  <span class="n">MM</span>   <span class="n">MM</span>    <span class="n">A</span> <span class="n">A</span>     <span class="n">X</span>   <span class="n">X</span>
+<span class="n">C</span>        <span class="n">P</span>     <span class="n">P</span>  <span class="n">U</span>     <span class="n">U</span>  <span class="n">M</span> <span class="n">M</span> <span class="n">M</span> <span class="n">M</span>   <span class="n">A</span>   <span class="n">A</span>     <span class="n">X</span> <span class="n">X</span>
+<span class="n">C</span>        <span class="n">PPPPPP</span>   <span class="n">U</span>     <span class="n">U</span>  <span class="n">M</span>  <span class="n">M</span>  <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>     <span class="n">X</span>
+<span class="n">C</span>        <span class="n">P</span>        <span class="n">U</span>     <span class="n">U</span>  <span class="n">M</span>     <span class="n">M</span>  <span class="n">AAAAAAA</span>    <span class="n">X</span> <span class="n">X</span>
+<span class="n">C</span>     <span class="n">C</span>  <span class="n">P</span>        <span class="n">U</span>     <span class="n">U</span>  <span class="n">M</span>     <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>   <span class="n">X</span>   <span class="n">X</span>
+ <span class="n">CCCCC</span>   <span class="n">P</span>         <span class="n">UUUUU</span>   <span class="n">M</span>     <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>  <span class="n">X</span>     <span class="n">X</span>
+</pre></div>
+</div>
+<p>nfstop.dataファイルに現SCFイテレーションよりも小さな数値が記録された場合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FFFFFFF</span>       <span class="n">SSSSS</span>   <span class="n">TTTTTTT</span>  <span class="n">OOOOOOO</span>  <span class="n">PPPPPP</span>
+<span class="n">F</span>            <span class="n">S</span>     <span class="n">S</span>     <span class="n">T</span>     <span class="n">O</span>     <span class="n">O</span>  <span class="n">P</span>     <span class="n">P</span>
+<span class="n">F</span>            <span class="n">S</span>           <span class="n">T</span>     <span class="n">O</span>     <span class="n">O</span>  <span class="n">P</span>     <span class="n">P</span>
+<span class="n">FFFFF</span>         <span class="n">SSSSS</span>      <span class="n">T</span>     <span class="n">O</span>     <span class="n">O</span>  <span class="n">PPPPPP</span>
+<span class="n">F</span>                  <span class="n">S</span>     <span class="n">T</span>     <span class="n">O</span>     <span class="n">O</span>  <span class="n">P</span>
+<span class="n">F</span>            <span class="n">S</span>     <span class="n">S</span>     <span class="n">T</span>     <span class="n">O</span>     <span class="n">O</span>  <span class="n">P</span>
+<span class="n">F</span>     <span class="n">_____</span>   <span class="n">SSSSS</span>      <span class="n">T</span>     <span class="n">OOOOOOO</span>  <span class="n">P</span>
+</pre></div>
+</div>
+<p>max_mdstepに到達した場合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span>     <span class="n">M</span>     <span class="n">A</span>     <span class="n">X</span>     <span class="n">X</span>  <span class="n">M</span>     <span class="n">M</span>  <span class="n">DDDDDD</span>    <span class="n">SSSSS</span>   <span class="n">TTTTTTT</span>  <span class="n">PPPPPP</span>
+<span class="n">MM</span>   <span class="n">MM</span>    <span class="n">A</span> <span class="n">A</span>     <span class="n">X</span>   <span class="n">X</span>   <span class="n">MM</span>   <span class="n">MM</span>  <span class="n">D</span>     <span class="n">D</span>  <span class="n">S</span>     <span class="n">S</span>     <span class="n">T</span>     <span class="n">P</span>     <span class="n">P</span>
+<span class="n">M</span> <span class="n">M</span> <span class="n">M</span> <span class="n">M</span>   <span class="n">A</span>   <span class="n">A</span>     <span class="n">X</span> <span class="n">X</span>    <span class="n">M</span> <span class="n">M</span> <span class="n">M</span> <span class="n">M</span>  <span class="n">D</span>     <span class="n">D</span>  <span class="n">S</span>           <span class="n">T</span>     <span class="n">P</span>     <span class="n">P</span>
+<span class="n">M</span>  <span class="n">M</span>  <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>     <span class="n">X</span>     <span class="n">M</span>  <span class="n">M</span>  <span class="n">M</span>  <span class="n">D</span>     <span class="n">D</span>   <span class="n">SSSSS</span>      <span class="n">T</span>     <span class="n">PPPPPP</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">AAAAAAA</span>    <span class="n">X</span> <span class="n">X</span>    <span class="n">M</span>     <span class="n">M</span>  <span class="n">D</span>     <span class="n">D</span>        <span class="n">S</span>     <span class="n">T</span>     <span class="n">P</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>   <span class="n">X</span>   <span class="n">X</span>   <span class="n">M</span>     <span class="n">M</span>  <span class="n">D</span>     <span class="n">D</span>  <span class="n">S</span>     <span class="n">S</span>     <span class="n">T</span>     <span class="n">P</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>  <span class="n">X</span>     <span class="n">X</span>  <span class="n">M</span>     <span class="n">M</span>  <span class="n">DDDDDD</span>    <span class="n">SSSSS</span>      <span class="n">T</span>     <span class="n">P</span>
+</pre></div>
+</div>
+<p>力が収束した場合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FFFFFFF</span>  <span class="n">OOOOOOO</span>  <span class="n">RRRRRR</span>    <span class="n">CCCCC</span>     <span class="n">CCCCC</span>   <span class="n">OOOOOOO</span>  <span class="n">N</span>     <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">F</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">R</span>     <span class="n">R</span>  <span class="n">C</span>     <span class="n">C</span>   <span class="n">C</span>     <span class="n">C</span>  <span class="n">O</span>     <span class="n">O</span>  <span class="n">NN</span>    <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">F</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">R</span>     <span class="n">R</span>  <span class="n">C</span>         <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span> <span class="n">N</span>   <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">FFFFF</span>    <span class="n">O</span>     <span class="n">O</span>  <span class="n">RRRRRR</span>   <span class="n">C</span>         <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">F</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">R</span>   <span class="n">R</span>    <span class="n">C</span>         <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>   <span class="n">N</span> <span class="n">N</span>   <span class="n">V</span>   <span class="n">V</span>
+<span class="n">F</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">R</span>    <span class="n">R</span>   <span class="n">C</span>     <span class="n">C</span>   <span class="n">C</span>     <span class="n">C</span>  <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>    <span class="n">NN</span>    <span class="n">V</span> <span class="n">V</span>
+<span class="n">F</span>        <span class="n">OOOOOOO</span>  <span class="n">R</span>     <span class="n">R</span>   <span class="n">CCCCC</span>     <span class="n">CCCCC</span>   <span class="n">OOOOOOO</span>  <span class="n">N</span>     <span class="n">N</span>     <span class="n">V</span>
+</pre></div>
+</div>
+<p>格子最適化において、ストレステンソルが収束した場合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">SSSSS</span>   <span class="n">TTTTTTT</span>  <span class="n">RRRRRR</span>    <span class="n">SSSSS</span>     <span class="n">CCCCC</span>   <span class="n">OOOOOOO</span>  <span class="n">N</span>     <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">S</span>     <span class="n">S</span>     <span class="n">T</span>     <span class="n">R</span>     <span class="n">R</span>  <span class="n">S</span>     <span class="n">S</span>   <span class="n">C</span>     <span class="n">C</span>  <span class="n">O</span>     <span class="n">O</span>  <span class="n">NN</span>    <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">S</span>           <span class="n">T</span>     <span class="n">R</span>     <span class="n">R</span>  <span class="n">S</span>         <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span> <span class="n">N</span>   <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+ <span class="n">SSSSS</span>      <span class="n">T</span>     <span class="n">RRRRRR</span>    <span class="n">SSSSS</span>    <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+      <span class="n">S</span>     <span class="n">T</span>     <span class="n">R</span>   <span class="n">R</span>          <span class="n">S</span>   <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>   <span class="n">N</span> <span class="n">N</span>   <span class="n">V</span>   <span class="n">V</span>
+<span class="n">S</span>     <span class="n">S</span>     <span class="n">T</span>     <span class="n">R</span>    <span class="n">R</span>   <span class="n">S</span>     <span class="n">S</span>   <span class="n">C</span>     <span class="n">C</span>  <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>    <span class="n">NN</span>    <span class="n">V</span> <span class="n">V</span>
+ <span class="n">SSSSS</span>      <span class="n">T</span>     <span class="n">R</span>     <span class="n">R</span>   <span class="n">SSSSS</span>     <span class="n">CCCCC</span>   <span class="n">OOOOOOO</span>  <span class="n">N</span>     <span class="n">N</span>     <span class="n">V</span>
+</pre></div>
+</div>
+<p>振動解析において力計算がすべて終了した場合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span>     <span class="n">M</span>     <span class="n">A</span>     <span class="n">X</span>     <span class="n">X</span>  <span class="n">PPPPPP</span>   <span class="n">H</span>     <span class="n">H</span>   <span class="n">SSSSS</span>   <span class="n">TTTTTTT</span>  <span class="n">PPPPPP</span>
+<span class="n">MM</span>   <span class="n">MM</span>    <span class="n">A</span> <span class="n">A</span>     <span class="n">X</span>   <span class="n">X</span>   <span class="n">P</span>     <span class="n">P</span>  <span class="n">H</span>     <span class="n">H</span>  <span class="n">S</span>     <span class="n">S</span>     <span class="n">T</span>     <span class="n">P</span>     <span class="n">P</span>
+<span class="n">M</span> <span class="n">M</span> <span class="n">M</span> <span class="n">M</span>   <span class="n">A</span>   <span class="n">A</span>     <span class="n">X</span> <span class="n">X</span>    <span class="n">P</span>     <span class="n">P</span>  <span class="n">H</span>     <span class="n">H</span>  <span class="n">S</span>           <span class="n">T</span>     <span class="n">P</span>     <span class="n">P</span>
+<span class="n">M</span>  <span class="n">M</span>  <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>     <span class="n">X</span>     <span class="n">PPPPPP</span>   <span class="n">HHHHHHH</span>   <span class="n">SSSSS</span>      <span class="n">T</span>     <span class="n">PPPPPP</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">AAAAAAA</span>    <span class="n">X</span> <span class="n">X</span>    <span class="n">P</span>        <span class="n">H</span>     <span class="n">H</span>        <span class="n">S</span>     <span class="n">T</span>     <span class="n">P</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>   <span class="n">X</span>   <span class="n">X</span>   <span class="n">P</span>        <span class="n">H</span>     <span class="n">H</span>  <span class="n">S</span>     <span class="n">S</span>     <span class="n">T</span>     <span class="n">P</span>
+<span class="n">M</span>     <span class="n">M</span>  <span class="n">A</span>     <span class="n">A</span>  <span class="n">X</span>     <span class="n">X</span>  <span class="n">P</span>        <span class="n">H</span>     <span class="n">H</span>   <span class="n">SSSSS</span>      <span class="n">T</span>     <span class="n">P</span>
+</pre></div>
+</div>
+<p>固定電荷計算が収束した場合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">W</span>     <span class="n">W</span>  <span class="n">FFFFFFF</span>    <span class="n">CCCCC</span>   <span class="n">OOOOOOO</span>  <span class="n">N</span>     <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>  <span class="n">F</span>         <span class="n">C</span>     <span class="n">C</span>  <span class="n">O</span>     <span class="n">O</span>  <span class="n">NN</span>    <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>  <span class="n">F</span>         <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span> <span class="n">N</span>   <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>  <span class="n">FFFFF</span>     <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>  <span class="n">F</span>         <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>   <span class="n">N</span> <span class="n">N</span>   <span class="n">V</span>   <span class="n">V</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>  <span class="n">F</span>         <span class="n">C</span>     <span class="n">C</span>  <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>    <span class="n">NN</span>    <span class="n">V</span> <span class="n">V</span>
+ <span class="n">WW</span> <span class="n">WW</span>   <span class="n">F</span>          <span class="n">CCCCC</span>   <span class="n">OOOOOOO</span>  <span class="n">N</span>     <span class="n">N</span>     <span class="n">V</span>
+</pre></div>
+</div>
+<p>終了時一度もSCFが得られていない状態の場合に出力される警告</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">W</span>     <span class="n">W</span>     <span class="n">A</span>     <span class="n">RRRRRR</span>   <span class="n">N</span>     <span class="n">N</span>  <span class="n">III</span>  <span class="n">N</span>     <span class="n">N</span>   <span class="n">GGGGG</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>    <span class="n">A</span> <span class="n">A</span>    <span class="n">R</span>     <span class="n">R</span>  <span class="n">NN</span>    <span class="n">N</span>   <span class="n">I</span>   <span class="n">NN</span>    <span class="n">N</span>  <span class="n">G</span>     <span class="n">G</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>   <span class="n">A</span>   <span class="n">A</span>   <span class="n">R</span>     <span class="n">R</span>  <span class="n">N</span> <span class="n">N</span>   <span class="n">N</span>   <span class="n">I</span>   <span class="n">N</span> <span class="n">N</span>   <span class="n">N</span>  <span class="n">G</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>  <span class="n">A</span>     <span class="n">A</span>  <span class="n">RRRRRR</span>   <span class="n">N</span>  <span class="n">N</span>  <span class="n">N</span>   <span class="n">I</span>   <span class="n">N</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">G</span>  <span class="n">GGGG</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>  <span class="n">AAAAAAA</span>  <span class="n">R</span>   <span class="n">R</span>    <span class="n">N</span>   <span class="n">N</span> <span class="n">N</span>   <span class="n">I</span>   <span class="n">N</span>   <span class="n">N</span> <span class="n">N</span>  <span class="n">G</span>     <span class="n">G</span>
+<span class="n">W</span>  <span class="n">W</span>  <span class="n">W</span>  <span class="n">A</span>     <span class="n">A</span>  <span class="n">R</span>    <span class="n">R</span>   <span class="n">N</span>    <span class="n">NN</span>   <span class="n">I</span>   <span class="n">N</span>    <span class="n">NN</span>  <span class="n">G</span>     <span class="n">G</span>
+ <span class="n">WW</span> <span class="n">WW</span>   <span class="n">A</span>     <span class="n">A</span>  <span class="n">R</span>     <span class="n">R</span>  <span class="n">N</span>     <span class="n">N</span>  <span class="n">III</span>  <span class="n">N</span>     <span class="n">N</span>   <span class="n">GGGGG</span>
+ <span class="n">CCCCC</span>   <span class="n">H</span>     <span class="n">H</span>    <span class="n">GGGGG</span>    <span class="n">U</span>     <span class="n">U</span>   <span class="n">CCCCC</span>   <span class="n">OOOOOOO</span>  <span class="n">N</span>     <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">C</span>     <span class="n">C</span>  <span class="n">H</span>     <span class="n">H</span>   <span class="n">G</span>     <span class="n">G</span>   <span class="n">U</span>     <span class="n">U</span>  <span class="n">C</span>     <span class="n">C</span>  <span class="n">O</span>     <span class="n">O</span>  <span class="n">NN</span>    <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">C</span>        <span class="n">H</span>     <span class="n">H</span>   <span class="n">G</span>         <span class="n">U</span>     <span class="n">U</span>  <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span> <span class="n">N</span>   <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">C</span>        <span class="n">HHHHHHH</span>   <span class="n">G</span>  <span class="n">GGGG</span>   <span class="n">U</span>     <span class="n">U</span>  <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">N</span>  <span class="n">V</span>     <span class="n">V</span>
+<span class="n">C</span>        <span class="n">H</span>     <span class="n">H</span>   <span class="n">G</span>     <span class="n">G</span>   <span class="n">U</span>     <span class="n">U</span>  <span class="n">C</span>        <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>   <span class="n">N</span> <span class="n">N</span>   <span class="n">V</span>   <span class="n">V</span>
+<span class="n">C</span>     <span class="n">C</span>  <span class="n">H</span>     <span class="n">H</span>   <span class="n">G</span>     <span class="n">G</span>   <span class="n">U</span>     <span class="n">U</span>  <span class="n">C</span>     <span class="n">C</span>  <span class="n">O</span>     <span class="n">O</span>  <span class="n">N</span>    <span class="n">NN</span>    <span class="n">V</span> <span class="n">V</span>
+ <span class="n">CCCCC</span>   <span class="n">H</span>     <span class="n">H</span>    <span class="n">GGGGG</span>     <span class="n">UUUUU</span>    <span class="n">CCCCC</span>   <span class="n">OOOOOOO</span>  <span class="n">N</span>     <span class="n">N</span>     <span class="n">V</span>
+</pre></div>
+</div>
+</section>
+<section id="scf">
+<h3><span class="section-number">3.4.4. </span>SCF計算、構造緩和計算の収束状況の確認<a class="headerlink" href="#scf" title="この見出しへのパーマリンク"></a></h3>
+<p>PHASEの計算が正常に終了した場合でも、ユーザーが必要とする計算が終了したことにはなりません。PHASEがどのような状況で終了したかは、計算終了後に出力される「continue.data」というファイルの最後から８行目（ハイライト部分）の「convergence」の下に出力されている数によって収束状態を知ることが出来ます。2の場合には、SCF計算が無事収束した後、力の計算を行い、その力の大きさが入力パラメータファイルで指定した力の閾値（delta_total_energy）より小さくなっていることを意味します。つまり、構造緩和計算が終了したことを意味します。2以外の場合には構造緩和計算が終了していないため、継続計算をしてください。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> iteration, iteration_ionic, iteration_electronic
+ 11 1 11
+ Ionic System
+ (natm)
+ 2
+ (pos)
+ 0.1250000000000000D+00 0.1250000000000000D+00 0.1250000000000000D+00
+ -0.1250000000000000D+00 -0.1250000000000000D+00 -0.1250000000000000D+00
+ (cps)
+ 0.1290824363824501D+01 0.1290824363824501D+01 0.1290824363824501D+01
+ -0.1290824363824501D+01 -0.1290824363824501D+01 -0.1290824363824501D+01
+ (cpd)
+ 0.0000000000000000D+00 0.0000000000000000D+00 0.0000000000000000D+00
+ 0.0000000000000000D+00 0.0000000000000000D+00 0.0000000000000000D+00
+ (cpo( 1))
+ 0.0000000000000000D+00 0.0000000000000000D+00 0.0000000000000000D+00
+ 0.0000000000000000D+00 0.0000000000000000D+00 0.0000000000000000D+00
+ (cpo( 2))
+ 0.0000000000000000D+00 0.0000000000000000D+00 0.0000000000000000D+00
+ 0.0000000000000000D+00 0.0000000000000000D+00 0.0000000000000000D+00
+ (cpo( 3))
+ 0.0000000000000000D+00 0.0000000000000000D+00 0.0000000000000000D+00
+ 0.0000000000000000D+00 0.0000000000000000D+00 0.0000000000000000D+00
+ forcmx_constraint_quench
+ 0.1000000000000000D+03
+ Total Energy
+ -0.7878566524513241D+01 -0.7878566524513241D+01
+ isolver
+ 5
+<span class="hll"> convergence
+</span><span class="hll"> 2
+</span> edelta_ontheway
+ 0.1000000000000000D-09
+ corecharge_cntnbin
+ 0
+ neg
+ 8
+</pre></div>
+</div>
+</section>
+<section id="output000-jobstatus000">
+<h3><span class="section-number">3.4.5. </span>計算状況の確認（ログファイルoutput000 およびjobstatus000 )<a class="headerlink" href="#output000-jobstatus000" title="この見出しへのパーマリンク"></a></h3>
+<p>計算実行のログファイルはoutput000 というファイル名で出力されます。000
+の部分は同じディレクトリにおいて計算を実施した回数に応じて001, 002, ...
+と増えていきます。</p>
+<p>このファイルには、様々な情報、物理量が出力されます。中でも参照することの多い情報について説明します。</p>
+<section id="id43">
+<h4><span class="section-number">3.4.5.1. </span>サンプリング<strong>k</strong>点<a class="headerlink" href="#id43" title="この見出しへのパーマリンク"></a></h4>
+<p><strong>k</strong>点は対称性を考慮している場合は入力の設定から予想しづらい場合があります。そこで、最終的に利用するk
+点の数を調べたい場合があります。これは、ログファイル中でkv3
+という文字列を検索すると調べられます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!kp kv3 =     8 nspin =     1
+</pre></div>
+</div>
+<p>kv3 =のあとの8 がk 点の数です。nspin =のあとの1 は、スピン自由度を考慮していないことに相当します。スピン自由度を考慮している場合、この数値は2 になります。</p>
+</section>
+<section id="id44">
+<h4><span class="section-number">3.4.5.2. </span>全エネルギー<a class="headerlink" href="#id44" title="この見出しへのパーマリンク"></a></h4>
+<p>全エネルギーは、ログファイルに以下のように出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>TOTAL ENERGY FOR     3 -TH ITER=    -96.599326435116 EDEL =  -0.146892D+02 : SOLVER = SUBMAT + PKOSUGI : Charge-Mixing = PULAY
+KI=     46.023403222593 HA=    606.151411038413 XC=    -34.069470797108 LO=  -1236.374498916071
+NL=      6.055068705209 EW=    515.614760311849 PC=  0.000000000000D+00 EN=      0.000000000000
+</pre></div>
+</div>
+<p>TOTAL ENERGY FOR ... に全エネルギーが、edel =のあとに1 回前のイタレーションとの差が出力されます。次の行とその次の行には全エネルギーを構成する各項のエネルギーの値が記録されます。KI は運動エネルギー、HA はHartree エネルギー、XCは相関交換エネルギー、LO は局所エネルギー、NL は非局所エネルギー、EW はEwald エネルギー、PC はコア補正エネルギー、 EN はエントロピーを表します。これらの総和が全エネルギーになります。</p>
+<p>PHYSICALLY CORRECT ENERGYのあとには、スメアリングを行っている場合に“0 Kへ補外した全エネルギー” が記録されます。</p>
+</section>
+<section id="id45">
+<h4><span class="section-number">3.4.5.3. </span>スピン状態<a class="headerlink" href="#id45" title="この見出しへのパーマリンク"></a></h4>
+<p>スピンを考慮した計算を実行している場合、下記のように各SCF イタレーションにおける多数派スピン状態および少数派スピン状態の数が記録されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>!OLD total charge (UP, DOWN, SUM) = 4.53623488 (+) 3.46376512 (=) 8.00000000
+!NEW total charge (UP, DOWN, SUM) = 4.64907433 (+) 3.35092567 (=) 8.00000000
+</pre></div>
+</div>
+<p>!OLD から始まる行には1 回前のイタレーションにおける電荷の情報が、!NEW から始まる行には現在のイタレーションの電荷の情報が出力されます</p>
+</section>
+<section id="id46">
+<h4><span class="section-number">3.4.5.4. </span>固有値および占有数<a class="headerlink" href="#id46" title="この見出しへのパーマリンク"></a></h4>
+<p>各k 点におけるフェルミエネルギー近傍の固有値は、計算終了直前に以下のように出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> EFermi = 0.10922262
+
+====== Energy Eigen Values in the vicinity of the Fermi energy level (Range= 1 : 12) =====
+
+ik = 1 -0.198857 0.025583 0.025583 0.025583 0.073053 0.073053
+        1.213861 1.213861 1.299925 1.299925 1.299925 1.636396
+ik = 2 -0.196917 0.104776 0.104776 0.104776 0.174253 0.174253
+        1.217079 1.217079 1.325796 1.325796 1.325796 1.689134
+...
+...
+</pre></div>
+</div>
+<p>続けて、占有数が次のように出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>====== Occupations in the vicinity of the Fermi energy level (Range= 1 : 12) =====
+
+ik = 1 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+       0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+ik = 2 1.000000 0.884668 0.884668 0.884668 0.000000 0.000000
+       0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+...
+...
+</pre></div>
+</div>
+<p>占有数は一般には0～1 の間の値をとるので、例えば、スピンを考えない計算の場合、1.0 は電子2 個に占有されることを表します。
+対称性によりｋ点の縮約がある場合には、占有数は縮約に応じて変わりますので、その点にも注意する必要があります（バルクの計算のように小さい系でｋ点数を多数取る場合にこのようなことが起こります）。</p>
+</section>
+<section id="id47">
+<h4><span class="section-number">3.4.5.5. </span>SCF 計算あたりの計算時間<a class="headerlink" href="#id47" title="この見出しへのパーマリンク"></a></h4>
+<p>計算時間は、printoutlevel のbase が1 以上の場合、SCFイタレーションごとに以下のように出力されます。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>no  id            subroutine name          time(sec)  r(%)
+ 1  20  evolve_WFs_in_subspace (davidson  115.74820 71.17
+ 2  13                 m_ES_Vnonlocal_W    10.78620  6.63
+ 3   8                    betar_dot_WFs     7.33490  4.51
+ 4  16                    m_CD_softpart     2.53880  1.56
+ 5   7               m_XC_cal_potential     0.97520  0.60
+ 6  17                    m_CD_hardpart     0.28100  0.17
+ 7  10            m_ES_Vlocal_in_Rspace     0.02990  0.02
+ 8  19                   m_CD_mix_pulay     0.00670  0.00
+ 9  18           m_CD_convergence_check     0.00230  0.00
+Total cputime of (    2 )-th iteration    162.64080 /221.651 (sec.)
+</pre></div>
+</div>
+<p>上記のように、各ルーチンにおける計算時間が出力されます。この情報は、1 つ前のイタレーションとの時間の差が5 % 以下の場合は出力されません。</p>
+</section>
+<section id="jobstatus000">
+<h4><span class="section-number">3.4.5.6. </span>計算の進捗状況（jobstatus000）<a class="headerlink" href="#jobstatus000" title="この見出しへのパーマリンク"></a></h4>
+<p>jobstatus000 ファイルは、計算の進捗をまとめたファイルです。000 の部分は、output000 と同様に計算を繰り返し行うと001, 002, ...  となります。その内容は、以下のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>status       =    FINISHED
+iteration    =         674
+iter_ionic   =          21
+iter_elec    =          23
+elapsed_time =  51648.7582
+</pre></div>
+</div>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>status</p></td>
+<td><p>FINISHED (計算終了), ITERATIVE (繰り返し計算中),START (初期化中)</p></td>
+</tr>
+<tr class="row-even"><td><p>iteration</p></td>
+<td><p>電子状態の繰り返し計算回数が表示されます。</p></td>
+</tr>
+<tr class="row-odd"><td><p>iter_ionic</p></td>
+<td><p>原子座標の更新回数が表示されます。</p></td>
+</tr>
+<tr class="row-even"><td><p>iter_elec</p></td>
+<td><p>現在の原子配置における電子状態の繰り返し計算回数が表示されます。</p></td>
+</tr>
+<tr class="row-odd"><td><p>elapsed_time</p></td>
+<td><p>経過時間が秒単位で表示されます。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="id48">
+<h2><span class="section-number">3.5. </span>計算結果の解析、可視化<a class="headerlink" href="#id48" title="この見出しへのパーマリンク"></a></h2>
+<section id="nfefn-data">
+<h3><span class="section-number">3.5.1. </span>全エネルギー、原子に働く力の最大値（エネルギー履歴ファイル nfefn.data)<a class="headerlink" href="#nfefn-data" title="この見出しへのパーマリンク"></a></h3>
+<p>ファイルnfefn.data（またはfile_names.dataファイルにおいてF_ENF によって指定されるファイル）には, 系の全エネルギーや原子に働く力の最大値, さらに分子動力学シミュレーションを行った場合はイオンの運動エネルギーや保存量なども記述されます.</p>
+<p>構造緩和を行った場合と分子動力学シミュレーションを行った場合とで出力内容が異なるので, それぞれについて説明します。</p>
+<section id="id49">
+<h4><span class="section-number">3.5.1.1. </span>構造緩和計算<a class="headerlink" href="#id49" title="この見出しへのパーマリンク"></a></h4>
+<p>典型的な構造緩和を行った後のnfefn.dataの例を示します。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>iter_ion, iter_total, etotal, forcmx
+    1      24     -108.4397629733        0.0086160410
+    2      40     -108.4401764388        0.0076051917
+    3      56     -108.4405310817        0.0068758156
+    4      73     -108.4410640011        0.0065717365
+    5      94     -108.4414256084        0.0099533097
+    6     113     -108.4414317178        0.0094159378
+                 ........
+                 ........
+                 ........
+</pre></div>
+</div>
+<p>各列は各々次のような量に対応します。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>iter_ion</p></td>
+<td><p>イオンの更新回数です。</p></td>
+</tr>
+<tr class="row-even"><td><p>iter_total</p></td>
+<td><p>SCF ループの更新回数です.</p>
+<p>この数字は通算の値が記述されます。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>etotal</p></td>
+<td><p>全エネルギーを, ハートリー単位で出力します。</p></td>
+</tr>
+<tr class="row-even"><td><p>forcmx</p></td>
+<td><p>原子に働く力の最大値を原子単位(hartree/bohr)で記述します。この値が入力ファイルにて与えた構造緩和の収束判定を満たすまで計算は実行されます。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id50">
+<h4><span class="section-number">3.5.1.2. </span>分子動力学法計算<a class="headerlink" href="#id50" title="この見出しへのパーマリンク"></a></h4>
+<p>分子動力学法計算の場合, 下記のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>iter_ion, iter_total, etotal, ekina, econst, forcmx
+1 18  -7.8953179624  0.0000000000  -7.8953179624  0.0186964345
+2 30  -7.8953851218  0.0000665502  -7.8953185716  0.0183575425
+3 43  -7.8955768901  0.0002565396  -7.8953203505  0.0173392067
+                       ........
+                       ........
+                       ........
+</pre></div>
+</div>
+<p>構造緩和の場合とほぼ同様ですが, 新たな列が追加されます。</p>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>ekina</p></td>
+<td><p>系の運動エネルギー,</p></td>
+</tr>
+<tr class="row-even"><td><p>econst</p></td>
+<td><p>系の保存量,</p>
+<p>すなわちエネルギー一定の分子動力学シミュレーションの場合系の全エネルギー,温度一定の分子動力学シミュレーションの場合系の全エネルギーに熱浴のエネルギーを加えた量です。</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id51">
+<h4><span class="section-number">3.5.1.3. </span>格子最適化計算<a class="headerlink" href="#id51" title="この見出しへのパーマリンク"></a></h4>
+<p>格子の最適化を行った場合、下記のようになります。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>iter_unitcell, iter_ion, iter_total, etotal, forcmx, stressmx
+1 1  47 -108.4707677506 0.0000000000 0.0001005608
+2 1  63 -108.4709554009 0.0000000000 0.0002931296
+3 1  79 -108.4710086729 0.0000000000 0.0002875926
+4 1  95 -108.4712228279 0.0000000000 0.0002809388
+5 1 110 -108.4746445482 0.0000000000 0.0000341462
+    ...
+    ...
+</pre></div>
+</div>
+<p>通常の構造最適化のケースに加え、以下の列が加えられます。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>iter_unitcell</p></th>
+<th class="head"><p>格子の更新回数</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>stressmx</p></td>
+<td><p>ストレステンソルの最大値</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="nfdynm-data">
+<h3><span class="section-number">3.5.2. </span>原子座標（原子座標履歴ファイルnfdynm.data)<a class="headerlink" href="#nfdynm-data" title="この見出しへのパーマリンク"></a></h3>
+<p>ファイルnfdynm.data（またはfile_names.dataファイルにおいてF_DYNMによって指定されるファイル）には,各原子の座標とそれに働く力が記述されます.
+構造緩和や分子動力学シミュレーションを行った場合はイオンの更新の回数分だけデータが書き込まれます.
+典型的なnfdynm.dataの中身を以下に記述します。なお, このファイルにおいて利用される単位系はすべて原子単位系です.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#
+#   a_vector =         9.2863024980        0.0000000000        0.0000000000
+#   b_vector =        -4.6431512490        8.0421738710        0.0000000000 (a)
+#   c_vector =         0.0000000000        0.0000000000       10.2158587136
+#   ntyp =        2 natm =        9 (b)
+# (natm-&gt;type)     1    1    1    1    1    1    2    2    2 (c)
+# (speciesname)     1 :   O (d)
+# (speciesname)     2 :   Si
+#
+ cps and forc at (iter_ion, iter_total =     1      24 ) (e)
+    1    3.161057370    1.169332082    1.214972077   -0.004058   -0.005565   -0.004966 (f)
+    2    6.693102525    2.152889944    4.620258315    0.006945   -0.001028   -0.004994
+    3    4.075293851    4.719951845    8.025544553   -0.002872    0.006394   -0.004796
+    4   -1.482093879    6.872841789    5.595600399   -0.004362    0.005502    0.004993
+    5   -0.567857398    3.322222026    9.000886637   -0.002792   -0.006296    0.004965
+    6    2.049951276    5.889283925    2.190314161    0.006974    0.000708    0.004795
+    7    4.921740324    0.000000000    3.405282833    0.001436    0.000122    0.000068
+    8   -2.460870162    4.262352150    6.810569070   -0.000612    0.001305   -0.000066
+    9    2.182281087    3.779821719   10.215855308   -0.000660   -0.001143    0.000001
+ cps and forc at (iter_ion, iter_total =     2      40 )
+    1    3.156999743    1.163767576    1.210005993   -0.002904   -0.005755   -0.003892
+    2    6.700048015    2.151861938    4.615264365    0.006567    0.000186   -0.003832
+    3    4.072421499    4.726345880    8.020748072   -0.003503    0.005487   -0.003829
+    4   -1.486455954    6.878343743    5.600593135   -0.003122    0.005780    0.003831
+    5   -0.570648922    3.315925959    9.005851266   -0.003532   -0.005392    0.003892
+    6    2.056925355    5.889992076    2.195109289    0.006503   -0.000290    0.003828
+    7    4.923176344    0.000121757    3.405351146    0.000397   -0.000013    0.000018
+    8   -2.461482612    4.263656762    6.810503226   -0.000210    0.000337   -0.000017
+    9    2.181621403    3.778679157   10.215856638   -0.000197   -0.000341    0.000000
+                                        ........
+                                        ........
+                                        ........
+                                        ........
+                                        ........
+</pre></div>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><ol class="loweralpha simple">
+<li></li>
+</ol>
+</td>
+<td><p>セルベクトルが書かれています。a_vector, b_vector, c_vectorにそれぞれa 軸, b 軸, c 軸のベクトルが記述されています。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p>ntyp =
+の後には使用されている原子種の数が記述されています。この例では2です。また, natm =
+の後には原子数が書かれています。この例では9 です。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p>(natom-&gt;type) の後には, 原子と原子種のマッピングが書かれています。この例だと, 1
+番目から6 番目の原子の原子種は1, 7 番目から9 番目の原子種は2という元素に対応します。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p>(speciesname) の後には, 原子種とIDのマッピングが書かれています。この例では, 1という原子種はO(酸素), 2 という原子種はSi(珪素) に相当する,ということになります。</p></td>
+</tr>
+<tr class="row-odd"><td><ol class="loweralpha simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p>各ステップでの情報が記述されています。この例では,イオンの更新回数が1 回, SCF の更新回数が24 回となります。</p></td>
+</tr>
+<tr class="row-even"><td><ol class="loweralpha simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p>実際の原子の場所とその原子に働いている力が記述されています。1番目の列は原子のID, 2 番目から4 番目の列が原子の場所のx,y,z座標, 5 番目から7 番目の列が原子に働く力のx,y,z座標となります。もし、入力ファイルにおいてprintlevelブロックのvelocity 変数を2 に設定していた場合、8 番目から10
+番目の列に速度が原子単位で出力されます。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nfchr-cube">
+<h3><span class="section-number">3.5.3. </span>電荷密度（電荷密度ファイルnfchr.cube)<a class="headerlink" href="#nfchr-cube" title="この見出しへのパーマリンク"></a></h3>
+<p>ファイルnfchr.cube（またはfile_names.dataファイルにおいてF_CHR によって指定されるファイル）には、Gaussian CUBE形式の電荷密度分布が出力されます。</p>
+<p>PHASE Viewerや、Gaussian CUBE形式の可視化に対応している可視化ソフトウェアを利用して、原子構造、電荷密度を可視化してください。</p>
+</section>
+<section id="dos-data">
+<h3><span class="section-number">3.5.4. </span>状態密度（状態密度ファイルdos.data)<a class="headerlink" href="#dos-data" title="この見出しへのパーマリンク"></a></h3>
+<p>ファイルdos.data（またはfile_names.dataファイルにおいてF_DOS
+によって指定されるファイル）には、状態密度が出力されます。</p>
+<p>状態密度のグラフを作成するには、次のようにツールdos.pl を実行します。
+”phase0_2024.01/bin/” は、PHASEがインストールされているディレクトリです。ツールdos.plは、Perlスクリプトです。実行後、状態密度のグラフのEPS形式の画像ファイルdensity_of_states.epsが作成されます。</p>
+<pre class="literal-block">% ../../phase0_2024.01/tools/bin/dos.pl dos.data -erange=-15,10 -with_fermi -color</pre>
+<table class="longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>dos.data</p></td>
+<td><p>状態密度の出力ファイル</p></td>
+</tr>
+<tr class="row-even"><td><p>-erange</p></td>
+<td><p>表示するエネルギーの範囲を指定します。</p>
+<p>-15,10は-15eVから10eVの範囲を指定しています。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>-with_fermi</p></td>
+<td><p>フェルミエネルギーを表示します。</p></td>
+</tr>
+<tr class="row-even"><td><p>-color</p></td>
+<td><p>カラー出力を行います。</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id53">
+<a class="reference internal image-reference" href="../_images/firststep_dos.svg"><img alt="../_images/firststep_dos.svg" src="../_images/firststep_dos.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 3.2 </span><span class="caption-text">状態密度 可視化例 （Si ダイヤモンド構造のバンド構造）</span><a class="headerlink" href="#id53" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="nfenergy-data">
+<h3><span class="section-number">3.5.5. </span>バンド構造（固有値データファイルnfenergy.data)<a class="headerlink" href="#nfenergy-data" title="この見出しへのパーマリンク"></a></h3>
+<p>ファイルnfenergy.data（またはfile_names.dataファイルにおいてF_ENERG によって指定されるファイル）には、サンプリング<strong>k</strong>点における固有値が出力されます。</p>
+<p>バンド構造のグラフを作成するには、次のようにツールband.pl を実行します。
+&quot;phase0_2024.01/bin/&quot; は、PHASEがインストールされているディレクトリです。
+ツールdos.plは、Perlスクリプトです。実行後、状態密度のグラフのEPS形式の画像ファイルband_structure.epsが作成されます。</p>
+<pre class="literal-block">% ../../phase0_2024.01/tools/bin/ band.pl nfenergy.data bandkpt.in -erange=-15,10 -with_fermi -color</pre>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>nfenergy.data</p></td>
+<td><p>サンプリング<strong>k</strong>点における固有値の出力ファイル</p></td>
+</tr>
+<tr class="row-even"><td><p>bandkpt.in</p></td>
+<td><p>サンプリング<strong>k</strong>点に関するファイル</p></td>
+</tr>
+<tr class="row-odd"><td><p>-erange</p></td>
+<td><p>表示するエネルギーの範囲を指定します。-15,10は-15eVから10eVの範囲を指定しています。</p></td>
+</tr>
+<tr class="row-even"><td><p>-with_fermi</p></td>
+<td><p>フェルミエネルギーを表示します。</p></td>
+</tr>
+<tr class="row-odd"><td><p>-color</p></td>
+<td><p>カラー出力を行います。</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id54">
+<a class="reference internal image-reference" href="../_images/firststep_band.svg"><img alt="../_images/firststep_band.svg" src="../_images/firststep_band.svg" width="480px" /></a>
+<figcaption>
+<p><span class="caption-number">図 3.3 </span><span class="caption-text">バンド構造 可視化例 （Si ダイヤモンド構造のバンド構造）</span><a class="headerlink" href="#id54" title="この画像へのパーマリンク"></a></p>
+</figcaption>
+</figure>
+<p><strong>参考文献</strong></p>
+<div role="list" class="citation-list">
+<div class="citation" id="monkhorst76" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">Monkhorst76</a><span class="fn-bracket">]</span></span>
+<p>H. J. Monkhorst and J. D. Pack, Phys. Rev. B 13, 5188 (1976).</p>
+</div>
+<div class="citation" id="pulay80" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">Pulay80</a><span class="fn-bracket">]</span></span>
+<p>P. Pulay, Chem. Phys. Lett. 73, 393 (1980).</p>
+</div>
+<div class="citation" id="broyden65" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">Broyden65</a><span class="fn-bracket">]</span></span>
+<p>C.G. Broyden, Math. Comput. 19, 577, (1965).</p>
+</div>
+<div class="citation" id="blochl94" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Blöchl94<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id13">2</a>)</span>
+<p>P.E. Blöchl, Phys. Rev. B 50, 17953 (1994).</p>
+</div>
+<div class="citation" id="troullier91" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Troullier91<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id17">2</a>)</span>
+<p>N. Troullier and J.L. Martins, Phys. Rev. B<strong>43,</strong> 1993 (1991).</p>
+</div>
+<div class="citation" id="vanderbilt90" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Vanderbilt90<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id12">1</a>,<a role="doc-backlink" href="#id19">2</a>)</span>
+<p>D. Vanderbilt, Phys. Rev. B<strong>41</strong> 7892 (1990).</p>
+</div>
+<div class="citation" id="kresse99" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">Kresse99</a><span class="fn-bracket">]</span></span>
+<p>G. Kresse and D. Joubert, Phys. Rev. B59, 1758, (1999).</p>
+</div>
+<div class="citation" id="perdew96" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">Perdew96</a><span class="fn-bracket">]</span></span>
+<p>J. P. Perdew, K. Burke, and M. Ernzerhof, Phys. Rev. Lett. <strong>77</strong>, 3865 (1996).</p>
+</div>
+<div class="citation" id="perdew92" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">Perdew92</a><span class="fn-bracket">]</span></span>
+<p>J. P. Perdew and Y. Wang, Phys. Rev. B <strong>45</strong>, 13244 (1992).</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../install/install.html" class="btn btn-neutral float-left" title="2. PHASE/0のインストール" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../input_parameters/input_parameters.html" class="btn btn-neutral float-right" title="4. 入力パラメータファイル：nfinp.data（詳細版）" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, PHASEシステム研究会.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

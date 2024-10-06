@@ -1,0 +1,123 @@
+.SUFFIXES:
+.SUFFIXES: .o .F .f .F90 .f90 .c .mod
+
+# Platform    : macOS (Apple Silicon)
+# Prog. model : MPI parallel
+# Compiler    : GNU compiler collection (gfortran)
+# BLAS/LAPACK : ScaLAPACK (homebrew)
+# FFT         : FFTW3 library (homebrew)
+###########################################################################
+###<< PLEASE CHANGE THE VARIABLES BELOW ACCORDING TO YOUR ENVIRONMENT >>###
+###########################################################################
+F90 = mpifort -fallow-argument-mismatch
+CC  = gcc
+CPP = 
+AR  = ar -vq
+LINK = mpifort
+F90FLAGS = -O2 -ffree-form
+F77FLAGS = -O2 -ffixed-form -ffixed-line-length-72 -std=legacy
+CFLAGS = -DINTEL
+
+ESM = yes
+ifdef ESM
+CPPESM=-DENABLE_ESM_PACK
+LESM=-lesm
+else
+CPPESM=
+endif
+
+CPPFLAGS = -DLinux  -DFFTW3 -D_MPIFFT_ -D_USE_DATE_AND_TIME_ -D_POT_SMOOTHING_ -DTRANSPOSE -DGGA_ATOMIC_WITH_NEW_GNCPP -DREMOVE_PC_FROM_FORCE -D_USE_LAPACK_ -D_USE_SCALAPACK_ -D_POSITRON_ -D_FAST_WAY_ -DUSE_NONBLK_COMM -D_HEAP_SORT_ -DFFT_ALLTOALL -DPOST3D -DRMM_NONLOCAL_NEW -D__EDA__ -DLIBRARY_BUILD -DRMM_NONLOCAL_NEW ${CPPESM}
+LFLAGS = 
+F90FLAGS_FIXED = -ffixed-form
+F90FLAGS_FREE = -ffree-form
+MKLHOME=/
+INCLUDE=-I/opt/homebrew/opt/fftw/include
+#LIBS = -L./ ${LESM}  -L/ -Wl,--start-group ${MKLHOME}/libmkl_scalapack_lp64.a ${MKLHOME}/libmkl_blacs_openmpi_lp64.a ${MKLHOME}/libmkl_intel_lp64.a  ${MKLHOME}/libmkl_sequential.a  ${MKLHOME}/libmkl_core.a -Wl,--end-group -Bdynamic -L/ -lfftw3  -lpthread
+LIBS = -L./ ${LESM} -L/opt/homebrew/opt/scalapack/lib -lscalapack -L/opt/homebrew/opt/fftw/lib -lfftw3
+
+LIBXC=
+ifdef LIBXC
+  LIBXC_PATH=/home/app/FREESOFT/libxc/5.1.7
+  LIBXC_INC=-I${LIBXC_PATH}/include
+  LIBXC_LIB=-L${LIBXC_PATH}/lib -lxcf03 -lxc
+  CPPFLAGS += -DLIBXC
+  F90FLAGS += $(LIBXC_INC)
+  F77FLAGS += $(LIBXC_INC)
+  LIBS += $(LIBXC_LIB)
+endif
+
+###########################################################################
+###<< PLEASE CHANGE THE VARIABLES ABOVE ACCORDING TO YOUR ENVIRONMENT >>###
+###########################################################################
+
+ifdef ESM
+ESM_LIB = libesm.a
+else
+ESM_LIB =
+endif
+LAPACK = 
+FFTOBJECT =  mpifft.o
+OBJ_INPUTPARSE = input_parse.o
+
+include Makefile.tmpl
+
+PHASE_OBJECTS = $(PHASE_LOWER_MODULES) $(FFTOBJECT) $(PHASE_UPPER_MODULES) $(PHASE_F_SUBROUTINES) $(PHASE_F_OTHERSUBS) $(PHASE_OBJECTSF77) $(OBJ_INPUTPARSE) $(EXT_XC_OBJ)
+
+EKCAL_OBJECTS = $(EKCAL_LOWER_MODULES) $(FFTOBJECT) $(EKCAL_UPPER_MODULES) $(EKCAL_F_SUBROUTINES) $(EKCAL_F_OTHERSUBS) $(EKCAL_OBJECTSF77) $(OBJ_INPUTPARSE) $(EXT_XC_OBJ)
+
+EPS_OBJECTS = $(EPS_LOWER_MODULES) $(FFTOBJECT) $(EPS_UPPER_MODULES) $(EPS_F_SUBROUTINES) $(EPS_F_OTHERSUBS) $(EPS_OBJECTSF77) $(OBJ_INPUTPARSE) $(EXT_XC_OBJ)
+
+TDLR_OBJECTS = $(TDLR_LOWER_MODULES) $(FFTOBJECT) $(TDLR_UPPER_MODULES) $(TDLR_F_SUBROUTINES) $(TDLR_F_OTHERSUBS) $(TDLR_OBJECTSF77) $(OBJ_INPUTPARSE) $(EXT_XC_OBJ)
+
+PHASE_LIB_OBJECTS = $(PHASE_OBJECTS) $(PHASE_INTERFACE)
+
+all : phase epsmain
+
+libphase.a : $(ESM_LIB) $(LAPACK) $(PHASE_LIB_OBJECTS)
+	$(AR) $@ $?
+
+phase : $(ESM_LIB) $(LAPACK) $(PHASE_OBJECTS)
+	$(LINK) $(PHASE_OBJECTS) $(LFLAGS) $(LIBS) -o $@
+
+ekcal : $(LAPACK) $(EKCAL_OBJECTS)
+	$(LINK) $(EKCAL_OBJECTS) $(LFLAGS) $(LIBS) -o $@
+
+epsmain : $(LAPACK) $(EPS_OBJECTS)
+	$(LINK) $(EPS_OBJECTS) $(LFLAGS) $(LIBS) -o $@
+
+tdlrmain : $(LAPACK) $(TDLR_OBJECTS)
+	$(LINK) $(TDLR_OBJECTS) $(LFLAGS) $(LIBS) -o $@
+
+libesm.a:
+	make -C EsmPack INCLUDE="$(INCLUDE)" FORTRAN="$(F90)" LIBFLAG="$(LIBS)" MPIFLAG="-D__MPI__" AR="$(AR)"
+
+liblapack.a:
+	make -C LAPACK F77="$(F90)" F77FLAGS="$(F77FLAGS)" AR="$(AR)"
+
+libblas.a:
+	make -C BLAS F77="$(F90)" F77FLAGS="$(F77FLAGS)" AR="$(AR)"
+
+$(OBJ_INPUTPARSE):$(@:.o=.c) $(@:.o=.h)
+	$(CC) -c $(CFLAGS) $(@:.o=.c)
+
+.f.o:
+	$(F90) -c $(F77FLAGS) $*.f
+
+.f90.o:
+	$(F90) -c $(F90FLAGS) $*.f90
+
+.F.o:
+	$(F90) -c $(F77FLAGS) $(CPPFLAGS) $*.F
+
+.F90.o:
+	$(F90) -c $(F90FLAGS) $(CPPFLAGS) $*.F90
+
+clean:
+	rm -f *.o *.mod *.a *.lib *.L *.list phase epsmain
+	make -C LAPACK clean
+	make -C BLAS clean
+	make -C EsmPack clean
+
+install: phase epsmain 
+	mv -f phase ../bin/phase.3d
+	mv -f epsmain ../bin/epsmain.3d

@@ -1,0 +1,6 @@
+# Elastic constants of hcp zirconium
+# E. S. Fisher and C. J. Renken, Phys. Rev. 135, A482 (1964).
+elastic Voigt
+155.4 155.4 172.5  #C11 C22 C33
+ 64.6  64.6  68.2  #C23 C31 C12
+ 36.3  36.3  44.1  #C44 C55 C66

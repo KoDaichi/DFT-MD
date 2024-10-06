@@ -1,0 +1,78 @@
+Control{
+    cpumax = 23 hour
+    max_iteration = 100000 
+    condition = initial
+}
+accuracy{
+    cutoff_wf = 25.00 rydberg
+    cutoff_cd = 225.00 rydberg
+    num_bands = 30
+
+    ksampling{
+        method = monk
+        mesh{  
+           n1 = 8, n2 =  8, n3 =  8
+        }
+    }
+    smearing{
+                method = parabolic ! {parabolic|tetrahedral}
+                width  = 0.002 hartree
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+        succession = 3
+    }
+!    initial_wavefunctions = atomic_orbitals 
+    initial_charge_density = atomic_charge_density 
+
+    hubbard{
+        sw_hubbard = on
+        dftu_type = AMF
+        projectors{
+            #units eV
+            #tag no ueff
+             1  6.0
+        }
+    }
+    projector_list{
+        projectors{
+            #tag group l radius
+             1  2   2.3
+        }
+    }
+    paw = on
+}
+structure{
+    unit_cell_type = primitive
+    unit_cell{
+         #units angstrom
+  a_vector =   2.91  0.00  0.00
+  b_vector =   0.00  2.91  0.00
+  c_vector =   0.00  0.00  2.91
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+    }
+! --
+    magnetic_state = ferro
+    atom_list{
+        coordinate_system = internal ! {internal|cartesian}
+        atoms{
+            #tag element rx ry rz     proj_group
+                 Fe  0.00  0.00  0.00    1
+                 Al  0.50  0.50  0.50  
+        }
+    }
+    element_list{
+        #tag element atomicnumber moment 
+         Fe  26 2.0 
+         Al  13 0.0
+    }
+}
+printlevel{
+  magmom = 2
+  gap = 2
+}

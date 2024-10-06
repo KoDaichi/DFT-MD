@@ -1,0 +1,4 @@
+&fnames
+F_POT(1) = '../../../../pp/C_ggapbe_paw_us_01.pp'
+F_DFTD3PAR='../../dftd3par.data'
+/

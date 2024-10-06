@@ -1,0 +1,92 @@
+Control{
+    cpumax = 1 hour
+}
+accuracy{
+    cutoff_wf =  20.0 rydberg
+    cutoff_cd =  80.0 rydberg
+    num_bands = 5
+    ksampling{
+        method = gamma
+    }
+    smearing{
+        method = parabolic
+        width = 0.001 hartree
+    }
+    hybrid_functional{
+        sw_hybrid_functional = OFF
+        sw_screened_exchange = OFF
+        alpha = 0.25
+        omega = 0.106
+    }
+    scf_convergence{
+        delta_total_energy = 1.e-8 hartree
+        succession = 2
+    }
+    force_convergence{
+        delta_force = 1.0e-03
+    }
+    initial_wavefunctions = atomic_orbitals
+    initial_charge_density = atomic_charge_density
+}
+structure{
+    unit_cell{
+        #units bohr degree
+        a = 20
+        b = 20
+        c = 20
+        alpha = 90.0
+        beta = 90.0
+        gamma = 90.0
+    }
+    symmetry{
+      method = automatic
+        sw_inversion = off
+    }
+    magnetic_state = para
+    atom_list{
+        coordinate_system = cartesian
+        atoms{
+            #tag element rx ry rz        mobile
+                 H       0  0  0.713266741  off
+                 H       0  0 -0.713266741  off
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass
+             H       1            1.00794
+    }
+}
+structure_evolution{
+    method = cg
+    dt = 1 fs
+}
+wavefunction_solver{
+    solvers{
+        #tag sol    till_n dts  dte itr cmix submat
+             lm+MSD      5 0.1  *   *   1    on
+             RMM3       -1 0.1  *   *   1    on
+    }
+    line_minimization{
+        dt_lower_critical = 0.1
+        dt_upper_critical = 3.0
+    }
+    rmm{
+        edelta_change_to_rmm = 1.0e-3
+    }
+}
+charge_mixing{
+    mixing_methods{
+        #tag no method  rmxs rmxe itr prec istr nbmix update
+             1 broyden2 0.10 0.50 40  yes  5   15     renew
+    }
+}
+
+Postprocessing{
+    dos{
+        sw_dos = OFF
+    }
+}
+printoutlevel{
+    base = 1
+}

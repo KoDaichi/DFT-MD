@@ -1,0 +1,79 @@
+control{
+    condition = initial 
+}
+accuracy{
+    cutoff_wf = 25 Rydberg
+    cutoff_cd = 225 Rydberg
+
+    ksampling{
+        method = monk 
+        mesh{
+            nx = 4
+            ny = 4 
+            nz = 6
+        }
+        kshift{
+             k1 = 0.5, k2 = 0.5, k3 = 0.5
+        }
+    }
+    num_bands = 14
+    scf_convergence{
+        delta_total_energy = 1.0E-8 Hartree
+    }
+    force_convergence{
+        max_force = 2.0E-5 Hartree/Bohr
+    }
+    smearing{
+           method = parabolic ! {parabolic|tetrahedral}
+           width  = 0.05 eV
+    }
+    paw = on
+    initial_wavefunctions = atomic_orbital
+    initial_charge_density = atomic_charge
+
+}
+structure{
+    atom_list{
+        coordinate_system = cartesian
+        atoms{
+            #units angstrom
+            #default mobile=yes
+            #tag element rx ry rz key
+ Si     -0.000000000000      0.000000000000      0.000000000000 0
+ Si      4.104456000000      1.934859000000      0.000000000000 0
+ Si      1.368152000000      0.000000000000      1.934859000000 0
+ Si      2.736304000000      1.934859000000      1.934859000000 0
+        }
+    }
+    element_list{
+        #units atomic_mass
+        #tag element atomicnumber mass
+                Si       14       28.085
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+            #units angstrom
+         a =  5.472608000000 , b = 3.869718000000 , c = 3.869718000000
+        alpha = 90,         beta  = 90,         gamma = 90
+    }
+    symmetry{
+        method = automatic
+        tspace{
+            lattice_system = primitive
+        }
+    }
+}
+Phonon{
+    sw_phonon = on
+    sw_vibrational_modes = on
+    sw_calc_force = on
+    displacement = 0.05
+
+    lattice{
+        l1 = 2
+        l2 = 2
+        l3 = 2
+    }
+    method = band
+    use_qpoint_data_file = yes
+}

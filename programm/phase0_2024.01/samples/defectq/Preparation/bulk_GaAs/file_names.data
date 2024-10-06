@@ -1,0 +1,14 @@
+ &fnames
+ F_INP    = './nfinp1.data'
+ F_POT(1) = '../../../pp/Ga_ggapbe_paw_us_01m.pp'
+ F_POT(2) = '../../../pp/As_ggapbe_paw_nc_01m.pp'
+ F_KPOINT = './kpoint.data'
+ F_DYNM   = './nfdynm.data'
+ F_CHGT   = './nfchgt.data'
+ F_CNST   = './nfinp.cnst.data'
+ F_ENF    = './nfefn.data'
+ F_ENERG  = './nfenergy.data'
+ F_CNTN   = './continue.data'
+ F_ZAJ    = '/dev/null'
+ F_BERRY  = './berry.data'
+ /

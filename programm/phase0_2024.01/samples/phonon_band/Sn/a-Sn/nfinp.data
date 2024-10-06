@@ -1,0 +1,63 @@
+Control{
+        cpumax = 10 day
+        condition = initial
+}
+
+accuracy{
+        paw = off
+	cutoff_wf =   36 rydberg
+	cutoff_cd =  324 rydberg
+	num_bands = 15
+        ksampling{
+           mesh{  nx = 2, ny =  2, nz =  2   }
+        }
+}
+
+structure{
+    unit_cell{
+       #units angstrom
+       a = 6.6555
+       b = 6.6555
+       c = 6.6555
+       alpha=90
+       beta=90
+       gamma=90
+    }
+    symmetry{
+       method = automatic
+       tspace{
+           lattice_system = facecentered
+       }
+    }
+    atom_list{
+         atoms{
+         #tag  rx       ry         rz     element
+             0.125     0.125     0.125     Sn
+            -0.125    -0.125    -0.125     Sn
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass
+         Sn 50 216393.767
+    }
+}
+Phonon{
+    displacement = 0.1
+    sw_vibrational_modes = on
+    lattice{
+        l1 = 2
+        l2 = 2
+        l3 = 2
+    }
+    dos{
+        mesh{
+            nx = 10
+            ny = 10
+            nz = 10
+        }
+    }
+    sw_calc_force = on
+    method = dos
+    sw_phonon = on
+}
+

@@ -1,0 +1,57 @@
+control{
+    condition = initial 
+    sw_vdw_correction = on
+}
+structure{
+    atom_list{
+        atoms{
+            #units angstrom
+            #tag element rx ry rz vdw 
+             C 0.00 0.00 0.25  C
+             C 0.00 0.00 0.75 C
+             C 0.3333333333333 0.6666666667 0.25 C
+             C 0.6666666666667 0.3333333333 0.75 C
+        }
+    }
+    element_list{
+        #tag element atomicnumber mass zeta deviation
+         C 6 21894.5796 0.0 1.83
+    }
+    unit_cell_type = Bravais 
+    unit_cell{
+        #units angstrom
+        a = 2.480
+        b = 2.480
+        c = __C__
+        alpha = 90
+        beta = 90
+        gamma = 120
+    }
+    symmetry{
+        method = automatic 
+    }
+}
+accuracy{
+    ksampling{
+        mesh{
+            nx = 8 
+            ny = 8 
+            nz = 2 
+        }
+        method = monk 
+    }
+    scf_convergence{
+        delta_total_energy = 1.0E-9 Hartree
+    }
+    force_convergence{
+        max_force = 5.0E-4 Hartree/Bohr
+    }
+    cutoff_wf = 36 Rydberg
+    cutoff_cd = 324 Rydberg
+    num_bands = 12 
+    vdw_method = dft-d3
+}
+printoutlevel{
+    base = 1 
+    parallel_debug = 0 
+}

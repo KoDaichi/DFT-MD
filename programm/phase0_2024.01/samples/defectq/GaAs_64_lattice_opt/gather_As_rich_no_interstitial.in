@@ -1,0 +1,12 @@
+#
+# title   filename ( excluding ".min" )
+#
+
+&List
+Vac_Ga    Vacancy_Ga/result-As-rich
+Vac_As    Vacancy_As/result-As-rich
+Ga_As     Ga_for_As/result-As-rich
+As_Ga     As_for_Ga/result-As-rich
+
+&band_gap        #(eV)
+1.424
